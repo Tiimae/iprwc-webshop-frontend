@@ -80,7 +80,8 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "iprwc-webshop:build"
+            "browserTarget": "iprwc-webshop:build",
+            "proxyConfig": "src/proxy.conf.json"
           }
         },
         "test": {
