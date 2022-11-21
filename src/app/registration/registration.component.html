@@ -1,1 +1,36 @@
-<p>registration works!</p>
+<section class="bg-white lg:w-4/12 md:6/12 w-10/12 m-auto my-10 shadow-md">
+  <section class="py-8 px-8 rounded-xl">
+    <h1 class="font-medium text-2xl mt-3 text-center">Register</h1>
+    <form action="" class="mt-6 registerForm">
+      <section class="input-field mb-10">
+        <input [(ngModel)]="firstNameField" type="text" autofocus name="firstname" id="firstname" required />
+        <label for="firstname">First name</label>
+      </section>
+      <section class="input-field mb-10">
+        <input [(ngModel)]="middleNameField" type="text" autofocus name="middlename" id="middlename" />
+        <label for="middlename">Middle name</label>
+      </section>
+      <section class="input-field mb-10">
+        <input [(ngModel)]="lastNameField" type="text" autofocus name="lastname" id="lastname" required />
+        <label for="lastname">Last name</label>
+      </section>
+
+
+      <section class="input-field mb-10">
+        <input [(ngModel)]="emailField" type="text" autofocus name="email" id="email" required />
+        <label for="email">Email</label>
+      </section>
+      <section class="input-field mb-10">
+        <input [(ngModel)]="passwordField" name="password" type="password" id="password" required />
+        <label for="password">Password</label>
+      </section>
+      <section class="input-field mb-10">
+        <input [(ngModel)]="passwordRepeatField" name="passwordRepeat" type="password" id="passwordRepeat" required />
+        <label for="passwordRepeat" >Password</label>
+      </section>
+
+      <button class="block text-center text-white bg-gray-800 p-3 duration-300 rounded-sm hover:bg-black w-full" >Register</button>
+    </form>
+
+  </section>
+</section>
