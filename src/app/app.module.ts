@@ -11,6 +11,7 @@ import { SearchbarComponent } from './navigation/searchbar/searchbar.component';
 import { NavitemsComponent } from './navigation/navitems/navitems.component';
 import { FormsModule } from "@angular/forms";
 import {HttpClientModule} from "@angular/common/http";
+import { HomeComponent } from './home/home.component';
 
 @NgModule({
   declarations: [
@@ -19,7 +20,8 @@ import {HttpClientModule} from "@angular/common/http";
     LoginComponent,
     RegistrationComponent,
     SearchbarComponent,
-    NavitemsComponent
+    NavitemsComponent,
+    HomeComponent
   ],
   imports: [
     BrowserModule,
