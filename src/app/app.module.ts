@@ -12,6 +12,7 @@ import { NavitemsComponent } from './navigation/navitems/navitems.component';
 import { FormsModule } from "@angular/forms";
 import {HttpClientModule} from "@angular/common/http";
 import { HomeComponent } from './home/home.component';
+import { UserComponent } from './user/user.component';
 
 @NgModule({
   declarations: [
@@ -21,7 +22,8 @@ import { HomeComponent } from './home/home.component';
     RegistrationComponent,
     SearchbarComponent,
     NavitemsComponent,
-    HomeComponent
+    HomeComponent,
+    UserComponent
   ],
   imports: [
     BrowserModule,

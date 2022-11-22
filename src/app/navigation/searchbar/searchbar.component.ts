@@ -13,7 +13,7 @@ export class SearchbarComponent implements OnInit {
   faShoppingCart = faShoppingCart;
   faUser = faUser;
 
-  username = ''
+  username: string = ''
 
   constructor() { }
 
@@ -33,10 +33,6 @@ export class SearchbarComponent implements OnInit {
 
   public ifItemIsInLocalStorage(): boolean {
     return ApiConnectorService.getInstance().authenticated();
-  }
-
-  public getUserName() {
-
   }
 
 }
