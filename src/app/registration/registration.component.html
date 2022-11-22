@@ -1,35 +1,134 @@
 <section class="bg-white lg:w-4/12 md:6/12 w-10/12 m-auto my-10 shadow-md">
   <section class="py-8 px-8 rounded-xl">
     <h1 class="font-medium text-2xl mt-3 text-center">Register</h1>
-    <form action="" class="mt-6 registerForm">
-      <section class="input-field mb-10">
-        <input [(ngModel)]="firstNameField" type="text" autofocus name="firstname" id="firstname" required />
+
+    <form (ngSubmit)="onSubmit()" #f="ngForm" class="mt-6 registerForm">
+      <section class="input-field mb-6">
         <label for="firstname">First name</label>
+        <section class="relative">
+          <section class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none ">
+            <fa-icon [icon]="faUser" class="w-5 h-5 text-white dark:text-white" aria-hidden="true"></fa-icon>
+          </section>
+          <input
+            class="text-white bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            type="text"
+            autofocus
+            name="firstname"
+            id="firstname"
+            required
+            ngModel
+            #firstname="ngModel"
+          />
+        </section>
+        <p class="text-red-600" *ngIf="!firstname.valid && firstname.touched">Please enter a valid first name!</p>
+
       </section>
-      <section class="input-field mb-10">
-        <input [(ngModel)]="middleNameField" type="text" autofocus name="middlename" id="middlename" />
+      <section class="input-field mb-6">
         <label for="middlename">Middle name</label>
+        <section class="relative">
+          <section class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none text-white">
+            <fa-icon [icon]="faUser" class="w-5 h-5 text-white dark:text-white"></fa-icon>
+          </section>
+          <input
+            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            type="text"
+            autofocus
+            name="middlename"
+            id="middlename"
+            ngModel
+          />
+        </section>
       </section>
-      <section class="input-field mb-10">
-        <input [(ngModel)]="lastNameField" type="text" autofocus name="lastname" id="lastname" required />
+      <section class="input-field mb-6">
         <label for="lastname">Last name</label>
+        <section class="relative">
+          <section class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none text-white">
+            <fa-icon [icon]="faUser" class="w-5 h-5 text-white dark:text-white"></fa-icon>
+          </section>
+          <input
+            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            type="text"
+            autofocus
+            name="lastname"
+            id="lastname"
+            ngModel
+            required
+            #lastname="ngModel"
+          />
+        </section>
+        <p class="text-red-600" *ngIf="!lastname.valid && lastname.touched">Please enter a valid last name!</p>
       </section>
-
-
-      <section class="input-field mb-10">
-        <input [(ngModel)]="emailField" type="text" autofocus name="email" id="email" required />
+      <hr>
+      <section class="input-field mb-6">
         <label for="email">Email</label>
+        <section class="relative">
+          <section class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none text-white">
+            <fa-icon [icon]="faEnvelope" class="w-5 h-5 text-white dark:text-white"></fa-icon>
+          </section>
+          <input
+            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            type="text"
+            autofocus
+            name="email"
+            id="email"
+            ngModel
+            required
+            email
+            #email="ngModel"
+          />
+
+        </section>
+        <p class="text-red-600" *ngIf="!email.valid && email.touched">Please enter a valid email!</p>
       </section>
-      <section class="input-field mb-10">
-        <input [(ngModel)]="passwordField" name="password" type="password" id="password" required />
+      <section class="input-field mb-6">
         <label for="password">Password</label>
+        <section class="relative">
+          <section class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none text-white">
+            <fa-icon [icon]="faKey" class="w-5 h-5 text-white dark:text-white"></fa-icon>
+          </section>
+          <input
+            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            type="password"
+            autofocus
+            name="password"
+            id="password"
+            ngModel
+            required
+            #password="ngModel"
+          />
+        </section>
+        <p class="text-red-600" *ngIf="!password.valid && password.touched">Please enter a password!</p>
+        <p class="text-red-600" *ngIf="password.value != passwordRepeat.value && passwordRepeat.touched ">Passwords
+        doesnt match</p>
       </section>
-      <section class="input-field mb-10">
-        <input [(ngModel)]="passwordRepeatField" name="passwordRepeat" type="password" id="passwordRepeat" required />
-        <label for="passwordRepeat" >Password</label>
+      <section class="input-field mb-6">
+        <label for="passwordRepeat">Password</label>
+        <section class="relative">
+          <section class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none text-white">
+            <fa-icon [icon]="faKey" class="w-5 h-5 text-white dark:text-white"></fa-icon>
+          </section>
+          <input
+            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            type="password"
+            autofocus
+            name="passwordRepeat"
+            id="passwordRepeat"
+            ngModel
+            required
+            #passwordRepeat="ngModel"
+          />
+        </section>
+        <p class="text-red-600" *ngIf="!passwordRepeat.valid && passwordRepeat.touched">Please enter a password!</p>
+        <p class="text-red-600" *ngIf="password.value != passwordRepeat.value && passwordRepeat.touched">Passwords doesnt match!</p>
       </section>
 
-      <button class="block text-center text-white bg-gray-800 p-3 duration-300 rounded-sm hover:bg-black w-full" >Register</button>
+      <button
+        class="block text-center text-white bg-gray-800 p-3 duration-300 rounded-sm hover:bg-black w-full"
+        type="submit"
+        [disabled]="f?.invalid"
+      >
+        Register
+      </button>
     </form>
 
   </section>

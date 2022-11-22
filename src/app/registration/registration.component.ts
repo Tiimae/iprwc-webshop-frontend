@@ -1,4 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
+import {Router} from "@angular/router";
+
+import {faKey, faEnvelope, faUser} from "@fortawesome/free-solid-svg-icons";
+import {NgForm} from "@angular/forms";
+import {ApiConnectorService} from "../service/api-connector.service";
+import {AuthService} from '../service/auth.service';
 
 @Component({
   selector: 'app-registration',
@@ -7,17 +13,33 @@ import { Component, OnInit } from '@angular/core';
 })
 export class RegistrationComponent implements OnInit {
 
-  firstNameField: string = '';
-  middleNameField: string = '';
-  lastNameField: string = '';
+  faKey = faKey;
+  faEnvelope = faEnvelope;
+  faUser = faUser;
 
-  emailField: string = '';
-  passwordField: string = '';
-  passwordRepeatField: string = ''
+  @ViewChild('f') signupForm: NgForm | undefined;
 
-  constructor() { }
+  constructor(private router: Router) {
+  }
 
   ngOnInit(): void {
+  }
+
+  public onSubmit() {
+    new AuthService().register(
+      this.signupForm?.form.controls['firstname'].value,
+      this.signupForm?.form.controls['middlename'].value,
+      this.signupForm?.form.controls['lastname'].value,
+      this.signupForm?.form.controls['email'].value,
+      this.signupForm?.form.controls['password'].value
+    ).then(r => {
+      if (r.data.payload.jwtToken != null && r.data.payload.userId != null) {
+        ApiConnectorService.getInstance().storeJwtToken(r.data.payload.jwtToken);
+        ApiConnectorService.getInstance().storeUserId(r.data.payload.userId);
+
+        this.router.navigate(['/'])
+      }
+    });
   }
 
 }

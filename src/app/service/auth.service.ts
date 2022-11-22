@@ -15,11 +15,16 @@ export class AuthService {
     return ApiConnectorService.getInstance().noAuth().post('auth/login', {"email": email, "password": password})
   }
 
-  public async register(name: string, email: string, password: string) {
-    const response = await ApiConnectorService.getInstance().noAuth().post('/auth/register', {
-      name,
-      email,
-      password,
+  public async register(firstName: string, middleName: string, lastName: string, email: string, password: string): Promise<AxiosResponse> {
+    return ApiConnectorService.getInstance().noAuth().post('/auth/register', {
+      "firstName": firstName,
+      "middleName": middleName,
+      "lastName": lastName,
+      "email": email,
+      "password": password,
+      "orderIds": [],
+      "roleIds": [],
+      "userAddressIds": []
     });
   }
 
