@@ -10,8 +10,6 @@ export class AuthService {
   constructor() { }
 
   public login(email: string, password: string): Promise<AxiosResponse> {
-    // console.log(ApiConnectorService.getInstance().noAuth().post('auth/login', {"email": email, "password": password}))
-
     return ApiConnectorService.getInstance().noAuth().post('auth/login', {"email": email, "password": password})
   }
 

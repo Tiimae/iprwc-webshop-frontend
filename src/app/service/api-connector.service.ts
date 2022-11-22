@@ -41,6 +41,7 @@ export class ApiConnectorService {
     return axios.create({
       baseURL: ApiConnectorService.apiUrl,
       headers: {
+        'Access-Control-Allow-Origin': '*',
         Authorization: this.jwtToken,
       },
     });
@@ -60,7 +61,7 @@ export class ApiConnectorService {
     localStorage.setItem('jwt-token', jwtToken);
   }
 
-  private getUserIdFromStore(): null | string {
+  public getUserIdFromStore(): null | string {
     return localStorage.getItem('user-id');
   }
 

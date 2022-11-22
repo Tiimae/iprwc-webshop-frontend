@@ -11,7 +11,6 @@
         <section class="flex border-b-2 border-slate-50 py-2">
           <input class="appearance-none bg-transparent border-none w-full text-slate-50 mr-3 py-1 px-2 leading-tight placeholder-gray-500 focus:outline-none" type="text" placeholder="Search" name="search" aria-label="Full name">
           <button class="flex-shrink-0 bg-teal-500 hover:bg-teal-700 border-white-500 hover:border-teal-700 text-sm border-4 text-white py-1 px-2 rounded" type="button">
-<!--            <i class="fa fa-search"></i>-->
             <fa-icon [icon]="faSearch"></fa-icon>
           </button>
         </section>
@@ -23,8 +22,11 @@
       <fa-icon [icon]="faShoppingCart" class="fblock mt-4 lg:inline-block lg:mt-0 text-teal-200 hover:text-white mr-4"></fa-icon>
     </a>
     <span class="block mt-4 lg:inline-block lg:mt-0 text-teal-200 pr-4">|</span>
-    <a href="/login" class="block mt-4 lg:inline-block lg:mt-0 text-teal-200 hover:text-white mr-4">Login</a>
-    <span class="block mt-4 lg:inline-block lg:mt-0 text-teal-200 pr-4">|</span>
-    <a href="/register" class="block mt-4 lg:inline-block lg:mt-0 text-teal-200 hover:text-white mr-4">Register</a>
+    <a href="/login" class="block mt-4 lg:inline-block lg:mt-0 text-teal-200 hover:text-white mr-4" *ngIf="!ifItemIsInLocalStorage()">Login</a>
+    <span class="block mt-4 lg:inline-block lg:mt-0 text-teal-200 pr-4" *ngIf="!ifItemIsInLocalStorage()">|</span>
+    <a href="/register" class="block mt-4 lg:inline-block lg:mt-0 text-teal-200 hover:text-white mr-4" *ngIf="!ifItemIsInLocalStorage()">Register</a>
+    <a href="#" class="block mt-4 lg:inline-block lg:mt-0 text-teal-200 hover:text-white mr-4" *ngIf="ifItemIsInLocalStorage()">
+      <fa-icon [icon]="faUser"></fa-icon> &nbsp; {{ username }}
+    </a>
   </section>
 </section>

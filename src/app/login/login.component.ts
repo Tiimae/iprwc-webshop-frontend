@@ -13,9 +13,6 @@ import {NgForm} from "@angular/forms";
 })
 export class LoginComponent implements OnInit {
 
-  // emailField = 'de.kok.ac@gmail.com';
-  // passwordField = 'Test123';
-
   faKey = faKey;
   faEnvelope = faEnvelope;
 
@@ -35,10 +32,11 @@ export class LoginComponent implements OnInit {
         ApiConnectorService.getInstance().storeJwtToken(r.data.payload.jwtToken);
         ApiConnectorService.getInstance().storeUserId(r.data.payload.userId);
 
-        this.router.navigate(['/'])
+
+        this.router.navigate(['/']).then(r => {
+          window.location.reload();
+        })
       }
-
-
     });
   }
 

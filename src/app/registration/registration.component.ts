@@ -37,7 +37,9 @@ export class RegistrationComponent implements OnInit {
         ApiConnectorService.getInstance().storeJwtToken(r.data.payload.jwtToken);
         ApiConnectorService.getInstance().storeUserId(r.data.payload.userId);
 
-        this.router.navigate(['/'])
+        this.router.navigate(['/']).then(r => {
+          window.location.reload();
+        })
       }
     });
   }
