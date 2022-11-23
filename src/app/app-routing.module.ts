@@ -17,7 +17,10 @@ const routes: Routes = [
     component:UserComponent,
     canActivate: [IsAuthenticatedGuard, HasRoleGuard],
     data: {
-      role: 'Creator'
+      roles: [
+        'Creator',
+        'Admin'
+      ]
     }
   },
   { path: '404', pathMatch: 'full',

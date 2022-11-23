@@ -14,8 +14,16 @@ export class HasRoleGuard implements CanActivate {
   canActivate(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
+    let isAuthorized = false
+
     // @ts-ignore
-    const isAuthorized = ApiConnectorService.getInstance().user.roles.includes(route.data.role);
+    for (let i = 1; i < route.data.roles.length; i++) {
+      // @ts-ignore
+      if (ApiConnectorService.getInstance().user.roles.includes(route.data.roles[i])) {
+        isAuthorized = true;
+        break;
+      }
+    }
 
     if (!isAuthorized) {
       this.router.navigate(['404'])
