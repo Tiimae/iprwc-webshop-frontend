@@ -1,6 +1,6 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
-import {AuthService} from "../service/auth.service";
-import {ApiConnectorService} from "../service/api-connector.service";
+import {AuthService} from "../_service/auth.service";
+import {ApiConnectorService} from "../_service/api-connector.service";
 import {Router} from "@angular/router";
 
 import {faKey, faEnvelope} from "@fortawesome/free-solid-svg-icons";
