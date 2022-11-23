@@ -3,7 +3,7 @@ import {AuthService} from "../_service/auth.service";
 import {ApiConnectorService} from "../_service/api-connector.service";
 import {Router} from "@angular/router";
 
-import {faKey, faEnvelope} from "@fortawesome/free-solid-svg-icons";
+import {faEnvelope, faKey} from "@fortawesome/free-solid-svg-icons";
 import {NgForm} from "@angular/forms";
 
 @Component({

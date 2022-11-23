@@ -1,6 +1,6 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { NavitemsComponent } from './navitems.component';
+import {NavitemsComponent} from './navitems.component';
 
 describe('NavitemsComponent', () => {
   let component: NavitemsComponent;

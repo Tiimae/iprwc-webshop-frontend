@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { faSearch, faShoppingCart, faUser } from "@fortawesome/free-solid-svg-icons";
+import {Component, OnInit} from '@angular/core';
+import {faSearch, faShoppingCart, faUser} from "@fortawesome/free-solid-svg-icons";
 import {ApiConnectorService} from "../../_service/api-connector.service";
 
 @Component({

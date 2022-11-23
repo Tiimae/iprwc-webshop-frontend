@@ -1,6 +1,5 @@
 import {Injectable} from '@angular/core';
 import axios, {AxiosInstance} from 'axios';
-import {HttpClient} from "@angular/common/http";
 import {UserModel} from "../_models/user.model";
 
 @Injectable({

@@ -1,6 +1,6 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 // import * as bcrypt from 'bcryptjs';
-import { AxiosResponse } from 'axios';
+import {AxiosResponse} from 'axios';
 import {ApiConnectorService} from "./api-connector.service";
 
 @Injectable({

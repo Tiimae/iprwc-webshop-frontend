@@ -1,6 +1,6 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot, UrlTree} from '@angular/router';
-import {Observable, tap} from 'rxjs';
+import {Observable} from 'rxjs';
 import {ApiConnectorService} from "../_service/api-connector.service";
 
 @Injectable({
