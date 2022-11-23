@@ -14,6 +14,7 @@ import {HttpClientModule} from "@angular/common/http";
 import {HomeComponent} from './home/home.component';
 import {PageNotFoundComponent} from './page-not-found/page-not-found.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
+import {DashboardModule} from "./dashboard/dashboard.module";
 
 @NgModule({
   declarations: [
@@ -27,13 +28,14 @@ import { DashboardComponent } from './dashboard/dashboard.component';
     PageNotFoundComponent,
     DashboardComponent
   ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    FormsModule,
-    HttpClientModule,
-    FontAwesomeModule,
-  ],
+    imports: [
+        BrowserModule,
+        AppRoutingModule,
+        FormsModule,
+        HttpClientModule,
+        FontAwesomeModule,
+        DashboardModule,
+    ],
   providers: [],
   bootstrap: [AppComponent]
 })
