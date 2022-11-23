@@ -6,6 +6,7 @@ import {HomeComponent} from "./home/home.component";
 import {UserComponent} from "./user/user.component";
 import {IsAuthenticatedGuard} from "./_guard/is-authenticated.guard";
 import {HasRoleGuard} from "./_guard/has-role.guard";
+import {PageNotFoundComponent} from "./page-not-found/page-not-found.component";
 
 const routes: Routes = [
   { path:'', component:HomeComponent },
@@ -16,9 +17,11 @@ const routes: Routes = [
     component:UserComponent,
     canActivate: [IsAuthenticatedGuard, HasRoleGuard],
     data: {
-      role: 'Admin'
+      role: 'Creator'
     }
   },
+  { path: '404', pathMatch: 'full',
+    component: PageNotFoundComponent },
 ];
 
 @NgModule({
