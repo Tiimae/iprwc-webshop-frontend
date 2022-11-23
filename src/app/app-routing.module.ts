@@ -5,6 +5,7 @@ import {RegistrationComponent} from "./registration/registration.component";
 import {HomeComponent} from "./home/home.component";
 import {UserComponent} from "./user/user.component";
 import {IsAuthenticatedGuard} from "./_guard/is-authenticated.guard";
+import {HasRoleGuard} from "./_guard/has-role.guard";
 
 const routes: Routes = [
   { path:'', component:HomeComponent },
@@ -13,7 +14,10 @@ const routes: Routes = [
   {
     path:'user',
     component:UserComponent,
-    canActivate: [IsAuthenticatedGuard]
+    canActivate: [IsAuthenticatedGuard, HasRoleGuard],
+    data: {
+      role: 'Admin'
+    }
   },
 ];
 

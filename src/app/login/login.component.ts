@@ -31,7 +31,7 @@ export class LoginComponent implements OnInit {
       if (r.data.payload.jwtToken != null && r.data.payload.userId != null) {
         ApiConnectorService.getInstance().storeJwtToken(r.data.payload.jwtToken);
         ApiConnectorService.getInstance().storeUserId(r.data.payload.userId);
-
+        ApiConnectorService.getInstance().getUser(r.data.payload.jwtToken)
 
         this.router.navigate(['/']).then(r => {
           window.location.reload();
