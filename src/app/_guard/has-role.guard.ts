@@ -25,10 +25,6 @@ export class HasRoleGuard implements CanActivate {
       }
     }
 
-    if (!isAuthorized) {
-      this.router.navigate(['404'])
-    }
-
     return isAuthorized;
   }
 

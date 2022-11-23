@@ -25,7 +25,7 @@
     <a routerLink="/login" class="block mt-4 lg:inline-block lg:mt-0 text-teal-200 hover:text-white mr-4" *ngIf="!ifItemIsInLocalStorage()">Login</a>
     <span class="block mt-4 lg:inline-block lg:mt-0 text-teal-200 pr-4" *ngIf="!ifItemIsInLocalStorage()">|</span>
     <a routerLink="/register" class="block mt-4 lg:inline-block lg:mt-0 text-teal-200 hover:text-white mr-4" *ngIf="!ifItemIsInLocalStorage()">Register</a>
-    <a routerLink="/user" class="block mt-4 lg:inline-block lg:mt-0 text-teal-200 hover:text-white mr-4" *ngIf="ifItemIsInLocalStorage()">
+    <a routerLink="/dashboard" class="block mt-4 lg:inline-block lg:mt-0 text-teal-200 hover:text-white mr-4" *ngIf="ifItemIsInLocalStorage()">
       <fa-icon [icon]="faUser"></fa-icon> &nbsp; {{ username }}
     </a>
   </section>

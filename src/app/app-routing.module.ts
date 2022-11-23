@@ -3,27 +3,29 @@ import {RouterModule, Routes} from '@angular/router';
 import {LoginComponent} from "./login/login.component";
 import {RegistrationComponent} from "./registration/registration.component";
 import {HomeComponent} from "./home/home.component";
-import {UserComponent} from "./user/user.component";
 import {IsAuthenticatedGuard} from "./_guard/is-authenticated.guard";
 import {HasRoleGuard} from "./_guard/has-role.guard";
 import {PageNotFoundComponent} from "./page-not-found/page-not-found.component";
+import {DashboardComponent} from "./dashboard/dashboard.component";
 
 const routes: Routes = [
   { path:'', component:HomeComponent },
   { path:'login', component:LoginComponent },
   { path:'register', component:RegistrationComponent },
   {
-    path:'user',
-    component:UserComponent,
+    path:'dashboard',
+    component: DashboardComponent,
+    loadChildren: () => import('./dashboard/dashboard-routing.module').then(m => m.DashboardRoutingModule),
     canActivate: [IsAuthenticatedGuard, HasRoleGuard],
     data: {
       roles: [
-        'Creator',
-        'Admin'
+        'Owner',
+        'Admin',
+        'User'
       ]
     }
   },
-  { path: '404', pathMatch: 'full',
+  { path: '**', pathMatch: 'full',
     component: PageNotFoundComponent },
 ];
 

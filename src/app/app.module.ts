@@ -12,8 +12,8 @@ import {NavitemsComponent} from './navigation/navitems/navitems.component';
 import {FormsModule} from "@angular/forms";
 import {HttpClientModule} from "@angular/common/http";
 import {HomeComponent} from './home/home.component';
-import {UserComponent} from './user/user.component';
 import {PageNotFoundComponent} from './page-not-found/page-not-found.component';
+import { DashboardComponent } from './dashboard/dashboard.component';
 
 @NgModule({
   declarations: [
@@ -24,15 +24,15 @@ import {PageNotFoundComponent} from './page-not-found/page-not-found.component';
     SearchbarComponent,
     NavitemsComponent,
     HomeComponent,
-    UserComponent,
-    PageNotFoundComponent
+    PageNotFoundComponent,
+    DashboardComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     FormsModule,
     HttpClientModule,
-    FontAwesomeModule
+    FontAwesomeModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
