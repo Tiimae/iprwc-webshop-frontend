@@ -1,6 +1,7 @@
 import {Injectable} from '@angular/core';
 import axios, {AxiosInstance} from 'axios';
 import {UserModel} from "../_models/user.model";
+import * as http from "http";
 
 @Injectable({
   providedIn: 'root'
@@ -31,7 +32,7 @@ export class ApiConnectorService {
     return axios.create({
       baseURL: ApiConnectorService.apiUrl,
       headers: {
-        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Origin': ApiConnectorService.apiUrl,
       },
     });
   }
@@ -48,7 +49,7 @@ export class ApiConnectorService {
     return axios.create({
       baseURL: ApiConnectorService.apiUrl,
       headers: {
-        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Origin': ApiConnectorService.apiUrl,
         Authorization: this.jwtToken,
       },
     });

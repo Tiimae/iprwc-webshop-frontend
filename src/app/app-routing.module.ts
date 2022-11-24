@@ -1,17 +1,21 @@
 import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
-import {LoginComponent} from "./login/login.component";
-import {RegistrationComponent} from "./registration/registration.component";
+import {LoginComponent} from "./auth/login/login.component";
+import {RegistrationComponent} from "./auth/registration/registration.component";
 import {HomeComponent} from "./home/home.component";
 import {IsAuthenticatedGuard} from "./_guard/is-authenticated.guard";
 import {HasRoleGuard} from "./_guard/has-role.guard";
 import {PageNotFoundComponent} from "./page-not-found/page-not-found.component";
 import {DashboardComponent} from "./dashboard/dashboard.component";
+import {AuthComponent} from "./auth/auth.component";
 
 const routes: Routes = [
   { path:'', component:HomeComponent },
-  { path:'login', component:LoginComponent },
-  { path:'register', component:RegistrationComponent },
+  {
+    path: 'auth',
+    component:AuthComponent,
+    loadChildren: () => import('./auth/auth-routing.module').then(m => m.AuthRoutingModule),
+  },
   {
     path:'dashboard',
     component: DashboardComponent,

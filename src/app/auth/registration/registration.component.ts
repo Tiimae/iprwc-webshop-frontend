@@ -3,8 +3,8 @@ import {Router} from "@angular/router";
 
 import {faEnvelope, faKey, faUser} from "@fortawesome/free-solid-svg-icons";
 import {NgForm} from "@angular/forms";
-import {ApiConnectorService} from "../_service/api-connector.service";
-import {AuthService} from '../_service/auth.service';
+import {ApiConnectorService} from "../../_service/api-connector.service";
+import {AuthService} from '../../_service/auth.service';
 
 @Component({
   selector: 'app-registration',

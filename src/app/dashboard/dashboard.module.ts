@@ -13,6 +13,10 @@ import { SuppliersComponent } from './suppliers/suppliers.component';
 import { BrandsComponent } from './brands/brands.component';
 import { AccountComponent } from './account/account.component';
 import {FormsModule} from "@angular/forms";
+import {ProductModule} from "./products/product.module";
+import {SuppliersModule} from "./suppliers/suppliers.module";
+import {CategoriesModule} from "./categories/categories.module";
+import {BrandModule} from "./brands/brand.module";
 
 
 @NgModule({
@@ -35,6 +39,10 @@ import {FormsModule} from "@angular/forms";
     DashboardRoutingModule,
     FontAwesomeModule,
     FormsModule,
+    ProductModule,
+    SuppliersModule,
+    CategoriesModule,
+    BrandModule
   ]
 })
 
