@@ -7,6 +7,8 @@ import { AllUsersComponent } from './all-users/all-users.component';
 import { UserComponent } from './all-users/user/user.component';
 import { UserRolesComponent } from './all-users/user/user-roles/user-roles.component';
 import { UserEmailComponent } from './all-users/user/user-email/user-email.component';
+import { UpdateUserComponent } from './update-user/update-user.component';
+import { CreateUserComponent } from './create-user/create-user.component';
 
 
 @NgModule({
@@ -15,7 +17,9 @@ import { UserEmailComponent } from './all-users/user/user-email/user-email.compo
     AllUsersComponent,
     UserComponent,
     UserRolesComponent,
-    UserEmailComponent
+    UserEmailComponent,
+    UpdateUserComponent,
+    CreateUserComponent
   ],
   imports: [
     CommonModule,

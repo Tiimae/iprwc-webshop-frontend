@@ -10,16 +10,17 @@ export class UserComponent implements OnInit {
 
   @Input() user: UserModel | undefined;
 
-  constructor() { }
+  constructor() {
+  }
 
   ngOnInit(): void {
   }
 
-  public createUserName() : string {
+  public createUserName(): string {
     let fullName = "";
 
     if (this.user?.middleName == '') {
-      fullName = this.user?.firstName + ' ' +this.user?.lastName
+      fullName = this.user?.firstName + ' ' + this.user?.lastName
     } else {
       fullName = this.user?.firstName + ' ' + this.user?.middleName + ' ' + this.user?.lastName
     }
@@ -27,6 +28,17 @@ export class UserComponent implements OnInit {
     return fullName;
   }
 
+  public removeUser(): void {
 
+  }
+
+  public checkIfIdIsUndefined(): string {
+    // @ts-ignore
+    if (this.user == undefined) {
+      return "";
+    }
+
+    return this.user.id
+  }
 
 }
