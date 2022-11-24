@@ -12,6 +12,7 @@ import { CategoriesComponent } from './categories/categories.component';
 import { SuppliersComponent } from './suppliers/suppliers.component';
 import { BrandsComponent } from './brands/brands.component';
 import { AccountComponent } from './account/account.component';
+import {FormsModule} from "@angular/forms";
 
 
 @NgModule({
@@ -32,7 +33,8 @@ import { AccountComponent } from './account/account.component';
   imports: [
     CommonModule,
     DashboardRoutingModule,
-    FontAwesomeModule
+    FontAwesomeModule,
+    FormsModule,
   ]
 })
 
