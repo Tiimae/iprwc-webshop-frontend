@@ -4,7 +4,6 @@ import { OrdersComponent } from './orders/orders.component';
 import {AccountComponent} from "./account/account.component";
 import {AddressesComponent} from "./addresses/addresses.component";
 import {InvoicesComponent} from "./invoices/invoices.component";
-import {IsAuthenticatedGuard} from "../_guard/is-authenticated.guard";
 import {HasRoleGuard} from "../_guard/has-role.guard";
 import {ProductsComponent} from "./products/products.component";
 import {CategoriesComponent} from "./categories/categories.component";
@@ -20,6 +19,7 @@ const routes: Routes = [
     path: 'products',
     component: ProductsComponent,
     canActivate: [HasRoleGuard],
+    loadChildren: () => import('./products/product-routing.module').then(m => m.ProductRoutingModule),
     data: {
       roles: [
         'Owner',
@@ -31,6 +31,7 @@ const routes: Routes = [
     path: 'categories',
     component: CategoriesComponent,
     canActivate: [HasRoleGuard],
+    loadChildren: () => import('./categories/categories-routing.module').then(m => m.CategoriesRoutingModule),
     data: {
       roles: [
         'Owner',
@@ -42,6 +43,7 @@ const routes: Routes = [
     path: 'suppliers',
     component: SuppliersComponent,
     canActivate: [HasRoleGuard],
+    loadChildren: () => import('./suppliers/suppliers-routing.module').then(m => m.SuppliersRoutingModule),
     data: {
       roles: [
         'Owner',
@@ -53,6 +55,7 @@ const routes: Routes = [
     path: 'brands',
     component: BrandsComponent,
     canActivate: [HasRoleGuard],
+    loadChildren: () => import('./brands/brand-routing.module').then(m => m.BrandRoutingModule),
     data: {
       roles: [
         'Owner',
