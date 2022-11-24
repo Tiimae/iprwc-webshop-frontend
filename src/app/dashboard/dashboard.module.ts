@@ -17,6 +17,7 @@ import {ProductModule} from "./products/product.module";
 import {SuppliersModule} from "./suppliers/suppliers.module";
 import {CategoriesModule} from "./categories/categories.module";
 import {BrandModule} from "./brands/brand.module";
+import {UsersModule} from "./users/users.module";
 
 
 @NgModule({
@@ -42,7 +43,8 @@ import {BrandModule} from "./brands/brand.module";
     ProductModule,
     SuppliersModule,
     CategoriesModule,
-    BrandModule
+    BrandModule,
+    UsersModule
   ]
 })
 

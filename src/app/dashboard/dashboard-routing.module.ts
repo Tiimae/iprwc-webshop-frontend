@@ -9,6 +9,7 @@ import {ProductsComponent} from "./products/products.component";
 import {CategoriesComponent} from "./categories/categories.component";
 import {SuppliersComponent} from "./suppliers/suppliers.component";
 import {BrandsComponent} from "./brands/brands.component";
+import { UsersComponent } from './users/users.component';
 
 const routes: Routes = [
   {path: 'orders', component: OrdersComponent},
@@ -56,6 +57,18 @@ const routes: Routes = [
     component: BrandsComponent,
     canActivate: [HasRoleGuard],
     loadChildren: () => import('./brands/brand-routing.module').then(m => m.BrandRoutingModule),
+    data: {
+      roles: [
+        'Owner',
+        'Admin'
+      ]
+    }
+  },
+  {
+    path: 'users',
+    component: UsersComponent,
+    canActivate: [HasRoleGuard],
+    loadChildren: () => import('./users/users-routing.module').then(m => m.UsersRoutingModule),
     data: {
       roles: [
         'Owner',
