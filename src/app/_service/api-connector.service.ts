@@ -2,6 +2,7 @@ import {Injectable} from '@angular/core';
 import axios, {AxiosInstance} from 'axios';
 import {UserModel} from "../_models/user.model";
 import * as http from "http";
+import {LoggedUserModel} from "../_models/loggedUser.model";
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +11,7 @@ export class ApiConnectorService {
   private static apiUrl = 'http://127.0.0.1:8080/api/v1.0/';
   private jwtToken: string | null = null;
   private static instance: ApiConnectorService | null = null;
-  public user: UserModel | null = null;
+  public user: LoggedUserModel | null = null;
 
   constructor() {
     if (this.authenticated()) {
@@ -77,8 +78,8 @@ export class ApiConnectorService {
     localStorage.setItem('user-id', userId);
   }
 
-  public getUser(token: string | null): UserModel {
+  public getUser(token: string | null): LoggedUserModel {
     // @ts-ignore
-    return JSON.parse(atob(token.split('.')[1])) as UserModel;
+    return JSON.parse(atob(token.split('.')[1])) as LoggedUserModel;
   }
 }

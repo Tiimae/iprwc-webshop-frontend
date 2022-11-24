@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
+import {UserModel} from "../../../../_models/user.model";
 
 @Component({
   selector: 'app-user',
@@ -7,9 +8,25 @@ import { Component, OnInit } from '@angular/core';
 })
 export class UserComponent implements OnInit {
 
+  @Input() user: UserModel | undefined;
+
   constructor() { }
 
   ngOnInit(): void {
   }
+
+  public createUserName() : string {
+    let fullName = "";
+
+    if (this.user?.middleName == '') {
+      fullName = this.user?.firstName + ' ' +this.user?.lastName
+    } else {
+      fullName = this.user?.firstName + ' ' + this.user?.middleName + ' ' + this.user?.lastName
+    }
+
+    return fullName;
+  }
+
+
 
 }

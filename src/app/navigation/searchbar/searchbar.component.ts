@@ -22,7 +22,7 @@ export class SearchbarComponent implements OnInit {
 
     if(userIdFromStore != null) {
       ApiConnectorService.getInstance().auth().get("user/" + userIdFromStore).then(r => {
-        if (r.data.payload.firstName == '') {
+        if (r.data.payload.middleName == '') {
           this.username = r.data.payload.firstName + ' ' + r.data.payload.lastName
         } else {
           this.username = r.data.payload.firstName + ' ' + r.data.payload.middleName + ' ' + r.data.payload.lastName
