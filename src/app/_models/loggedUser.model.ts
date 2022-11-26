@@ -1,5 +1,5 @@
 export interface LoggedUserModel {
-  userid: string;
-  emial: string;
+  userId: string;
+  email: string;
   roles: string[];
 }

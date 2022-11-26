@@ -18,17 +18,17 @@ export class SearchbarComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
-    var userIdFromStore = ApiConnectorService.getInstance().getUserIdFromStore();
-
-    if(userIdFromStore != null) {
-      ApiConnectorService.getInstance().auth().get("user/" + userIdFromStore).then(r => {
-        if (r.data.payload.middleName == '') {
-          this.username = r.data.payload.firstName + ' ' + r.data.payload.lastName
-        } else {
-          this.username = r.data.payload.firstName + ' ' + r.data.payload.middleName + ' ' + r.data.payload.lastName
-        }
-      });
-    }
+    ApiConnectorService.getInstance().getJwtPayload().then(jwt => {
+      if (jwt?.userId != undefined) {
+        ApiConnectorService.getInstance().auth().get("user/" + jwt?.userId).then(r => {
+          if (r.data.payload.middleName == '') {
+            this.username = r.data.payload.firstName + ' ' + r.data.payload.lastName
+          } else {
+            this.username = r.data.payload.firstName + ' ' + r.data.payload.middleName + ' ' + r.data.payload.lastName
+          }
+        })
+      }
+    })
   }
 
   public ifItemIsInLocalStorage(): boolean {

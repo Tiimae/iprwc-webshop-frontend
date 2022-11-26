@@ -16,7 +16,7 @@ export class IsAuthenticatedGuard implements CanActivate {
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
     let auth = ApiConnectorService.getInstance().authenticated()
      if (!auth) {
-       return this.router.navigate(['login'])
+       return this.router.navigate(['auth', 'login'])
      }
 
      return auth;

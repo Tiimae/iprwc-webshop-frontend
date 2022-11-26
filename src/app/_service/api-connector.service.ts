@@ -3,23 +3,19 @@ import axios, {AxiosInstance} from 'axios';
 import {UserModel} from "../_models/user.model";
 import * as http from "http";
 import {LoggedUserModel} from "../_models/loggedUser.model";
+import * as CryptoJs from 'crypto-js';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ApiConnectorService {
-  private static apiUrl = 'http://127.0.0.1:8080/api/v1.0/';
+  public static apiUrl = 'http://localhost:8080/api/v1.0/';
   private jwtToken: string | null = null;
   private static instance: ApiConnectorService | null = null;
   public user: LoggedUserModel | null = null;
+  private decryptKey: string | null = null;
 
-  constructor() {
-    if (this.authenticated()) {
-      if (this.getTokenFromStore() != null) {
-        this.user = this.getUser(this.getTokenFromStore())
-      }
-    }
-  }
+  constructor() { }
 
   public static getInstance(): ApiConnectorService {
     if (this.instance == null) {
@@ -30,12 +26,17 @@ export class ApiConnectorService {
   }
 
   public noAuth(): AxiosInstance {
-    return axios.create({
+    const instance = axios.create({
       baseURL: ApiConnectorService.apiUrl,
       headers: {
         'Access-Control-Allow-Origin': ApiConnectorService.apiUrl,
+        Accept: 'application/json',
       },
     });
+
+    instance.defaults.headers.common['Content-Type'] = 'application/json';
+
+    return instance;
   }
 
   public auth(): AxiosInstance {
@@ -66,20 +67,36 @@ export class ApiConnectorService {
     return localStorage.getItem('jwt-token');
   }
 
-  public storeJwtToken(jwtToken: string): void {
-    localStorage.setItem('jwt-token', jwtToken);
+  public storeJwtToken(jwtToken: string, secret: string): void {
+    localStorage.setItem(
+      'jwt-token',
+      CryptoJs.Rabbit.encrypt(jwtToken, secret).toString()
+    );
   }
 
-  public getUserIdFromStore(): null | string {
-    return localStorage.getItem('user-id');
+  private async getDecryptKey(): Promise<string> {
+
+    if (this.decryptKey === null) {
+      const result = await this.noAuth().get('/auth/secret', {
+        withCredentials: true,
+      });
+      this.decryptKey = result.data['message'];
+    }
+
+    return this.decryptKey ?? 'cant happen';
   }
 
-  public storeUserId(userId: string): void {
-    localStorage.setItem('user-id', userId);
-  }
+  public async getJwtPayload(): Promise<LoggedUserModel | undefined> {
+    let tokenFromStorage = this.getTokenFromStore();
+    if (tokenFromStorage === null) {
+      return undefined;
+    }
 
-  public getUser(token: string | null): LoggedUserModel {
-    // @ts-ignore
-    return JSON.parse(atob(token.split('.')[1])) as LoggedUserModel;
+    tokenFromStorage = CryptoJs.Rabbit.decrypt(
+      tokenFromStorage,
+      await this.getDecryptKey()
+    ).toString(CryptoJs.enc.Utf8);
+
+    return JSON.parse(atob(tokenFromStorage.split('.')[1])) as LoggedUserModel;
   }
 }

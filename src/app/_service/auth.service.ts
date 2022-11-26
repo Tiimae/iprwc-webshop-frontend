@@ -9,7 +9,7 @@ import {ApiConnectorService} from "./api-connector.service";
 export class AuthService {
   constructor() { }
 
-  public login(email: string, password: string): Promise<AxiosResponse> {
+  public login(email: string, password: string) {
     return ApiConnectorService.getInstance().noAuth().post('auth/login', {"email": email, "password": password})
   }
 
@@ -25,6 +25,12 @@ export class AuthService {
       "userAddressIds": []
     });
   }
+
+  public getSecret() {
+    return ApiConnectorService.getInstance().noAuth().get('/auth/secret', { withCredentials: true });
+  }
+
+
 
   // public hashText(plainText: string) {
   //   return bcrypt.hashSync(plainText);

@@ -17,32 +17,63 @@ export class RegistrationComponent implements OnInit {
   faEnvelope = faEnvelope;
   faUser = faUser;
 
+  isLoading = true;
+  submitForm = false;
+
   @ViewChild('f') signupForm: NgForm | undefined;
 
-  constructor(private router: Router) {
+  constructor(private router: Router, private authService: AuthService) {
   }
 
-  ngOnInit(): void {
+  async ngOnInit() {
+    const jwtToken = localStorage.getItem('blank-token');
+
+    if (localStorage.getItem('blank-token') !== null) {
+      try {
+        const secret = await this.authService.getSecret();
+
+        localStorage.clear();
+
+        ApiConnectorService.getInstance().storeJwtToken(
+          jwtToken ?? '',
+          secret.data['message']
+        );
+      } catch (error) {
+        localStorage.clear();
+      }
+    }
+
+    if (localStorage.getItem('jwt-token')) {
+      try {
+        const tokenPayload = await ApiConnectorService.getInstance().getJwtPayload();
+        if (tokenPayload !== undefined) {
+          this.router.navigate(['/']);
+        }
+      } catch (err) {
+        this.isLoading = false;
+      }
+    }
+
+    this.isLoading = false;
   }
 
-  public onSubmit() {
-    new AuthService().register(
+  async onSubmit() {
+    this.isLoading = true;
+    this.submitForm = true;
+
+    const response = await this.authService.register(
       this.signupForm?.form.controls['firstname'].value,
       this.signupForm?.form.controls['middlename'].value,
       this.signupForm?.form.controls['lastname'].value,
       this.signupForm?.form.controls['email'].value,
       this.signupForm?.form.controls['password'].value
-    ).then(r => {
-      if (r.data.payload.jwtToken != null && r.data.payload.userId != null) {
-        ApiConnectorService.getInstance().storeJwtToken(r.data.payload.jwtToken);
-        ApiConnectorService.getInstance().storeUserId(r.data.payload.userId);
-        ApiConnectorService.getInstance().getUser(r.data.payload.jwtToken)
+    );
 
-        this.router.navigate(['/']).then(r => {
-          window.location.reload();
-        })
-      }
-    });
+    localStorage.setItem('blank-token', response.data['payload']['jwt-token']);
+    window.location.href =
+      ApiConnectorService.apiUrl + response.data['payload']['destination'];
+
+    this.isLoading = false;
   }
 
 }

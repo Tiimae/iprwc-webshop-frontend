@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {ApiConnectorService} from "../../_service/api-connector.service";
 import {faUser, faAddressCard, faShippingFast, faFileInvoice, faSignOut, faBox, faListAlt, faIndustry, faFire} from "@fortawesome/free-solid-svg-icons";
 import {Router} from "@angular/router";
+import {LoggedUserModel} from "../../_models/loggedUser.model";
 
 @Component({
   selector: 'app-sidebar',
@@ -20,19 +21,25 @@ export class SidebarComponent implements OnInit {
   faIndustry = faIndustry
   faFire = faFire
 
+  private jwtPayload: LoggedUserModel | undefined = undefined
+
   constructor(private router: Router) { }
 
   ngOnInit(): void {
+    ApiConnectorService.getInstance().getJwtPayload().then(r => {
+      this.jwtPayload = r;
+    })
   }
 
   public hasRole(): boolean {
+
     // @ts-ignore
-    return ApiConnectorService.getInstance().user.roles.includes("Admin") || ApiConnectorService.getInstance().user.roles.includes("Owner");
+    return this.jwtPayload?.roles.includes("Admin") || this.jwtPayload?.roles.includes("Owner");
+
   }
 
   public LogOut() {
     localStorage.removeItem("jwt-token");
-    localStorage.removeItem("user-id");
 
     this.router.navigate([''])
   }
