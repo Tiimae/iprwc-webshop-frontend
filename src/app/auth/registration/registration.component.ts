@@ -17,9 +17,6 @@ export class RegistrationComponent implements OnInit {
   faEnvelope = faEnvelope;
   faUser = faUser;
 
-  isLoading = true;
-  submitForm = false;
-
   @ViewChild('f') signupForm: NgForm | undefined;
 
   constructor(private router: Router, private authService: AuthService) {
@@ -50,30 +47,22 @@ export class RegistrationComponent implements OnInit {
           this.router.navigate(['/']);
         }
       } catch (err) {
-        this.isLoading = false;
       }
     }
-
-    this.isLoading = false;
   }
 
   async onSubmit() {
-    this.isLoading = true;
-    this.submitForm = true;
 
-    const response = await this.authService.register(
+    await this.authService.register(
       this.signupForm?.form.controls['firstname'].value,
       this.signupForm?.form.controls['middlename'].value,
       this.signupForm?.form.controls['lastname'].value,
       this.signupForm?.form.controls['email'].value,
       this.signupForm?.form.controls['password'].value
-    );
+    ).then(r => {
+      this.router.navigate(['login'])
+    });
 
-    localStorage.setItem('blank-token', response.data['payload']['jwt-token']);
-    window.location.href =
-      ApiConnectorService.apiUrl + response.data['payload']['destination'];
-
-    this.isLoading = false;
   }
 
 }

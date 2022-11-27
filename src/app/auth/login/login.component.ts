@@ -18,8 +18,6 @@ export class LoginComponent implements OnInit {
   faEnvelope = faEnvelope;
 
   @ViewChild('f') loginForm: NgForm | undefined;
-  isLoading = true;
-  submitForm = false;
 
   constructor(private router: Router, private authService: AuthService) { }
 
@@ -43,38 +41,29 @@ export class LoginComponent implements OnInit {
 
     if (localStorage.getItem('jwt-token')) {
       try {
-        const tokenPayload = await ApiConnectorService.getInstance().getJwtPayload();
+        const tokenPayload = await ApiConnectorService.getInstance().user;
         if (tokenPayload !== undefined) {
           this.router.navigate(['/']);
         }
       } catch (err) {
-        this.isLoading = false;
+        console.log(err);
       }
     }
 
-    this.isLoading = false;
   }
 
   public async onSubmit() {
-    this.isLoading = true;
-    this.submitForm = true;
 
     await this.authService.login(this.loginForm?.form.controls['email'].value, this.loginForm?.form.controls['password'].value).then(r => {
-      console.log(r.data?.payload?.jwtToken)
       localStorage.setItem('blank-token', r.data?.payload?.jwtToken);
 
       window.location.href =
         ApiConnectorService.apiUrl + r.data['payload']['destination'];
     });
 
-    // console.log(response.data['payload']['jwt-token'])
-
-    // localStorage.setItem('blank-token', response.data['payload']['jwt-token']);
-    // window.location.href =
-    //   ApiConnectorService.apiUrl + response.data['payload']['destination'];
-
     await this.router.navigate([''])
-    this.isLoading = false;
+    window.location.reload();
+
   }
 
 }

@@ -1,6 +1,16 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {ApiConnectorService} from "../../_service/api-connector.service";
-import {faUser, faAddressCard, faShippingFast, faFileInvoice, faSignOut, faBox, faListAlt, faIndustry, faFire} from "@fortawesome/free-solid-svg-icons";
+import {
+  faUser,
+  faAddressCard,
+  faShippingFast,
+  faFileInvoice,
+  faSignOut,
+  faBox,
+  faListAlt,
+  faIndustry,
+  faFire
+} from "@fortawesome/free-solid-svg-icons";
 import {Router} from "@angular/router";
 import {LoggedUserModel} from "../../_models/loggedUser.model";
 
@@ -23,18 +33,19 @@ export class SidebarComponent implements OnInit {
 
   private jwtPayload: LoggedUserModel | undefined = undefined
 
-  constructor(private router: Router) { }
+  constructor(private router: Router) {
+  }
 
   ngOnInit(): void {
-    ApiConnectorService.getInstance().getJwtPayload().then(r => {
-      this.jwtPayload = r;
-    })
+    // ApiConnectorService.getInstance().getJwtPayload().then(r => {
+    //   this.jwtPayload = r;
+    // })
   }
 
   public hasRole(): boolean {
 
     // @ts-ignore
-    return this.jwtPayload?.roles.includes("Admin") || this.jwtPayload?.roles.includes("Owner");
+    return ApiConnectorService.getInstance().user?.roles.includes("Admin") || ApiConnectorService.getInstance().user?.roles.includes("Owner");
 
   }
 

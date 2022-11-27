@@ -20,13 +20,12 @@ export class AccountComponent implements OnInit {
 
   ngOnInit(): void {
 
-    ApiConnectorService.getInstance().getJwtPayload().then(r => {
-      if (r?.userId != undefined) {
-        ApiConnectorService.getInstance().auth().get('user/' + r?.userId).then(apiResponse => {
-          this.accountForm?.form.controls['firstname'].setValue(apiResponse.data.payload.firstName);
-        })
-      }
-    })
+    const user = ApiConnectorService.getInstance().user;
+    if (user?.userId != undefined) {
+      ApiConnectorService.getInstance().auth().get('user/' + user?.userId).then(apiResponse => {
+        this.accountForm?.form.controls['firstname'].setValue(apiResponse.data.payload.firstName);
+      })
+    }
   }
 
 }

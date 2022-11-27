@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {faSearch, faShoppingCart, faUser} from "@fortawesome/free-solid-svg-icons";
 import {ApiConnectorService} from "../../_service/api-connector.service";
+import {LoggedUserModel} from "../../_models/loggedUser.model";
 
 @Component({
   selector: 'app-searchbar',
@@ -12,10 +13,12 @@ export class SearchbarComponent implements OnInit {
   faSearch = faSearch;
   faShoppingCart = faShoppingCart;
   faUser = faUser;
+  user: LoggedUserModel | undefined;
 
   username: string = ''
 
-  constructor() { }
+  constructor() {
+  }
 
   ngOnInit(): void {
     ApiConnectorService.getInstance().getJwtPayload().then(jwt => {
@@ -28,11 +31,15 @@ export class SearchbarComponent implements OnInit {
           }
         })
       }
-    })
+    });
   }
 
   public ifItemIsInLocalStorage(): boolean {
     return ApiConnectorService.getInstance().authenticated();
+  }
+
+  setUsername(): void {
+
   }
 
 }
