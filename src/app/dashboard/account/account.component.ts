@@ -3,6 +3,7 @@ import {faUser, faEnvelope} from "@fortawesome/free-solid-svg-icons";
 import {NgForm} from "@angular/forms";
 import {AuthService} from "../../_service/auth.service";
 import {ApiConnectorService} from "../../_service/api-connector.service";
+import {ApiMethodsService} from "../../_service/api-methods.service";
 
 @Component({
   selector: 'app-account',
@@ -15,6 +16,7 @@ export class AccountComponent implements OnInit {
   faEnvelope = faEnvelope;
   @ViewChild('f') accountForm: NgForm | undefined;
 
+
   constructor() {
   }
 
@@ -22,7 +24,7 @@ export class AccountComponent implements OnInit {
 
     const user = ApiConnectorService.getInstance().user;
     if (user?.userId != undefined) {
-      ApiConnectorService.getInstance().auth().get('user/' + user?.userId).then(apiResponse => {
+      ApiMethodsService.getInstance().get('user/' + user?.userId).then(apiResponse => {
         this.accountForm?.form.controls['firstname'].setValue(apiResponse.data.payload.firstName);
       })
     }

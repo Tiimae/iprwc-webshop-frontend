@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {UserModel} from "../../../_models/user.model";
 import {ApiConnectorService} from "../../../_service/api-connector.service";
+import {ApiMethodsService} from "../../../_service/api-methods.service";
 
 @Component({
   selector: 'app-all-users',
@@ -18,7 +19,7 @@ export class AllUsersComponent implements OnInit {
   }
 
   public getAllUsers() : void {
-    ApiConnectorService.getInstance().auth().get('user/roles').then(r => {
+    ApiMethodsService.getInstance().get('user/roles').then(r => {
       r.data.payload.forEach((user: UserModel) => {
         this.allUsers.push(user);
       });
