@@ -1,4 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
+import {ApiMethodsService} from "../../../_service/api-methods.service";
+import {NgForm} from "@angular/forms";
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-create-category',
@@ -7,9 +10,24 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CreateCategoryComponent implements OnInit {
 
-  constructor() { }
+  @ViewChild('f') createForm: NgForm | undefined;
+
+  constructor(private router: Router) { }
 
   ngOnInit(): void {
+  }
+
+  onSubmit(): void {
+
+    const payload = {
+      categoryName: this.createForm?.form.controls['catname'].value,
+      productIds: []
+    }
+
+    ApiMethodsService.getInstance().post('category', payload, true).then(r => {
+      alert("category created")
+      this.router.navigate(['dashboard', 'categories'])
+    })
   }
 
 }
