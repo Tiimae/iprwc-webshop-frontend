@@ -11,11 +11,11 @@ import {SearchbarComponent} from './navigation/searchbar/searchbar.component';
 import {NavitemsComponent} from './navigation/navitems/navitems.component';
 import {FormsModule} from "@angular/forms";
 import {HttpClientModule} from "@angular/common/http";
-import {HomeComponent} from './home/home.component';
 import {PageNotFoundComponent} from './page-not-found/page-not-found.component';
-import { DashboardComponent } from './dashboard/dashboard.component';
+import {DashboardComponent} from './dashboard/dashboard.component';
 import {DashboardModule} from "./dashboard/dashboard.module";
 import {AuthModule} from "./auth/auth.module";
+import {WebshopModule} from "./webshop/webshop.module";
 
 @NgModule({
   declarations: [
@@ -23,20 +23,21 @@ import {AuthModule} from "./auth/auth.module";
     NavigationComponent,
     SearchbarComponent,
     NavitemsComponent,
-    HomeComponent,
     PageNotFoundComponent,
     DashboardComponent
   ],
-    imports: [
-        BrowserModule,
-        AppRoutingModule,
-        FormsModule,
-        HttpClientModule,
-        FontAwesomeModule,
-        DashboardModule,
-        AuthModule
-    ],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    FormsModule,
+    HttpClientModule,
+    FontAwesomeModule,
+    DashboardModule,
+    AuthModule,
+    WebshopModule
+  ],
   providers: [],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+}
