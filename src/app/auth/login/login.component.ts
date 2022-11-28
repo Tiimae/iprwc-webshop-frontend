@@ -6,6 +6,7 @@ import {Router} from "@angular/router";
 import {faEnvelope, faKey} from "@fortawesome/free-solid-svg-icons";
 import {NgForm} from "@angular/forms";
 import {publish} from "rxjs";
+import {ApiMethodsService} from "../../_service/api-methods.service";
 
 @Component({
   selector: 'app-login',
@@ -19,36 +20,10 @@ export class LoginComponent implements OnInit {
 
   @ViewChild('f') loginForm: NgForm | undefined;
 
-  constructor(private router: Router, private authService: AuthService) { }
+  constructor(private router: Router, private authService: AuthService) {
+  }
 
   async ngOnInit() {
-    const jwtToken = localStorage.getItem('blank-token');
-
-    if (localStorage.getItem('blank-token') !== null) {
-      try {
-        const secret = await this.authService.getSecret();
-
-        localStorage.clear();
-
-        ApiConnectorService.getInstance().storeJwtToken(
-          jwtToken ?? '',
-          secret.data['message']
-        );
-      } catch (error) {
-        localStorage.clear();
-      }
-    }
-
-    if (localStorage.getItem('jwt-token')) {
-      try {
-        const tokenPayload = await ApiConnectorService.getInstance().user;
-        if (tokenPayload !== undefined) {
-          this.router.navigate(['/']);
-        }
-      } catch (err) {
-        console.log(err);
-      }
-    }
 
   }
 
@@ -57,13 +32,8 @@ export class LoginComponent implements OnInit {
     await this.authService.login(this.loginForm?.form.controls['email'].value, this.loginForm?.form.controls['password'].value).then(r => {
       localStorage.setItem('blank-token', r.data?.payload?.jwtToken);
 
-      window.location.href =
-        ApiConnectorService.apiUrl + r.data['payload']['destination'];
+      window.location.href = ApiConnectorService.apiUrl + r.data['payload']['destination'];
     });
-
-    await this.router.navigate([''])
-    window.location.reload();
-
   }
 
 }

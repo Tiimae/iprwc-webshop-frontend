@@ -19,7 +19,7 @@ export class AllUsersComponent implements OnInit {
   }
 
   public getAllUsers() : void {
-    ApiMethodsService.getInstance().get('user/roles').then(r => {
+    ApiMethodsService.getInstance().get('user/roles', true).then(r => {
       r.data.payload.forEach((user: UserModel) => {
         this.allUsers.push(user);
       });
