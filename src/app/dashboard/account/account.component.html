@@ -1,93 +1,72 @@
-<section class="bg-white lg:w-4/12 md:6/12 w-10/12 m-auto my-10 shadow-md">
-  <section class="py-8 px-8 rounded-xl">
-    <h1 class="font-medium text-2xl mt-3 text-center">Register</h1>
-
-    <form #f="ngForm" class="mt-6 registerForm">
-      <section class="input-field mb-6">
-        <label for="firstname">First name</label>
-        <section class="relative">
-          <section class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none ">
-            <fa-icon [icon]="faUser" class="w-5 h-5 text-white dark:text-white" aria-hidden="true"></fa-icon>
-          </section>
-          <input
-            class="text-white bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-            type="text"
-            autofocus
-            name="firstname"
-            id="firstname"
-            required
-            ngModel
-            #firstname="ngModel"
-          />
-        </section>
-        <p class="text-red-600" *ngIf="!firstname.valid && firstname.touched">Please enter a valid first name!</p>
+<section class="w-full flex items-center justify-center">
+  <form class="w-full max-w-lg" (ngSubmit)="onSubmit()" #f="ngForm">
+    <h2 class="block uppercase tracking-wide text-gray-700 text-xl font-bold mb-2">
+      User details
+    </h2>
+    <section class="flex flex-wrap -mx-3 mb-6">
+      <section class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+        <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="firstname">
+          First Name
+        </label>
+        <input
+          class="appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
+          name="firstname"
+          id="firstname"
+          ngModel
+          required
+          firstname
+          #firstname="ngModel"
+        >
       </section>
-      <section class="input-field mb-6">
-        <label for="middlename">Middle name</label>
-        <section class="relative">
-          <section class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none text-white">
-            <fa-icon [icon]="faUser" class="w-5 h-5 text-white dark:text-white"></fa-icon>
-          </section>
-          <input
-            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-            type="text"
-            autofocus
-            name="middlename"
-            id="middlename"
-            ngModel
-          />
-        </section>
+      <section class="w-full md:w-1/2 px-3">
+        <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="middlename">
+          middle name
+        </label>
+        <input
+          class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+          name="middlename"
+          id="middlename"
+          ngModel
+          required
+          middlename
+          #middlename="ngModel"
+        >
       </section>
-      <section class="input-field mb-6">
-        <label for="lastname">Last name</label>
-        <section class="relative">
-          <section class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none text-white">
-            <fa-icon [icon]="faUser" class="w-5 h-5 text-white dark:text-white"></fa-icon>
-          </section>
-          <input
-            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-            type="text"
-            autofocus
-            name="lastname"
-            id="lastname"
-            ngModel
-            required
-            #lastname="ngModel"
-          />
-        </section>
-        <p class="text-red-600" *ngIf="!lastname.valid && lastname.touched">Please enter a valid last name!</p>
+    </section>
+    <section class="flex flex-wrap -mx-3 mb-6">
+      <section class="w-full px-3">
+        <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="lastname">
+          Last name
+        </label>
+        <input
+          class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+          name="lastname"
+          id="lastname"
+          ngModel
+          required
+          lastname
+          #lastname="ngModel">
       </section>
-      <hr>
-      <section class="input-field mb-6">
-        <label for="email">Email</label>
-        <section class="relative">
-          <section class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none text-white">
-            <fa-icon [icon]="faEnvelope" class="w-5 h-5 text-white dark:text-white"></fa-icon>
-          </section>
-          <input
-            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-            type="text"
-            autofocus
-            name="email"
-            id="email"
-            ngModel
-            required
-            email
-            #email="ngModel"
-          />
-
-        </section>
-        <p class="text-red-600" *ngIf="!email.valid && email.touched">Please enter a valid email!</p>
+    </section>
+    <section class="flex flex-wrap -mx-3 mb-6">
+      <section class="w-full px-3">
+        <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="email">
+          Email address
+        </label>
+        <input
+          class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+          name="email"
+          id="email"
+          ngModel
+          required
+          email
+          #email="ngModel">
       </section>
-      <button
-        class="block text-center text-white bg-gray-800 p-3 duration-300 rounded-sm hover:bg-black w-full"
-        type="submit"
-        [disabled]="f?.invalid"
-      >
-        Register
-      </button>
+    </section>
 
-    </form>
-
-  </section>
+    <button class="mr-1 items-center justify-right bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+            type="submit">
+      Submit
+    </button>
+  </form>
 </section>

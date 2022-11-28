@@ -18,6 +18,7 @@ export class SearchbarComponent implements OnInit {
   user: LoggedUserModel | undefined;
 
   username: string = ''
+  amountItems = 0
 
   constructor(private router: Router, private authService: AuthService) {
   }

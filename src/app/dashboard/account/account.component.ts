@@ -24,10 +24,17 @@ export class AccountComponent implements OnInit {
 
     const user = ApiConnectorService.getInstance().user;
     if (user?.userId != undefined) {
-      ApiMethodsService.getInstance().get('user/' + user?.userId, true).then(apiResponse => {
+      ApiMethodsService.getInstance().get('user/' + user?.userId + "/roles", true).then(apiResponse => {
         this.accountForm?.form.controls['firstname'].setValue(apiResponse.data.payload.firstName);
+        this.accountForm?.form.controls['middlename'].setValue(apiResponse.data.payload.middleName);
+        this.accountForm?.form.controls['lastname'].setValue(apiResponse.data.payload.lastName);
+        this.accountForm?.form.controls['email'].setValue(apiResponse.data.payload.email);
       })
     }
+  }
+
+  public onSubmit() : void {
+
   }
 
 }
