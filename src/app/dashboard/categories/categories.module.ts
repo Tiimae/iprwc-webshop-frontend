@@ -6,6 +6,7 @@ import { AllCategoriesComponent } from './all-categories/all-categories.componen
 import { CreateCategoryComponent } from './create-category/create-category.component';
 import { UpdateCategoryComponent } from './update-category/update-category.component';
 import { CategoryComponent } from './all-categories/category/category.component';
+import { FormsModule } from '@angular/forms';
 
 
 @NgModule({
@@ -17,7 +18,8 @@ import { CategoryComponent } from './all-categories/category/category.component'
   ],
   imports: [
     CommonModule,
-    CategoriesRoutingModule
+    CategoriesRoutingModule,
+    FormsModule
   ]
 })
 export class CategoriesModule { }

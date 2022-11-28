@@ -15,9 +15,9 @@ const routes: Routes = [
     component: CreateCategoryComponent
   },
   {
-    path: ":category",
+    path: ":categoryId",
     component: UpdateCategoryComponent
-  }
+  },
 ];
 
 @NgModule({

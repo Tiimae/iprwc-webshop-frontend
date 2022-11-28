@@ -48,7 +48,7 @@ export class UpdateUserComponent implements OnInit {
 
   public setFormData(): void {
     this.updateForm?.form.controls['firstname'].setValue(this.user?.firstName);
-    this.updateForm?.form.controls['middlename'].setValue(this.user?.middleName);
+    this.updateForm?.form.controls['middleware'].setValue(this.user?.middleName);
     this.updateForm?.form.controls['lastname'].setValue(this.user?.lastName);
     this.updateForm?.form.controls['email'].setValue(this.user?.email);
   }
