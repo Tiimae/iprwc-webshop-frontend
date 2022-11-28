@@ -26,4 +26,12 @@ export class AllUsersComponent implements OnInit {
     });
   }
 
+  public removeUserOutArray(user: UserModel): void {
+    this.allUsers.forEach((currentUser, index) => {
+      if (currentUser.id == user.id) {
+        this.allUsers.splice(index, 1)
+      }
+    })
+  }
+
 }

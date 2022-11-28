@@ -11,6 +11,7 @@ import { UpdateUserComponent } from './update-user/update-user.component';
 import { CreateUserComponent } from './create-user/create-user.component';
 import {FormsModule} from "@angular/forms";
 import { UpdateUserRolesComponent } from './update-user/update-user-roles/update-user-roles.component';
+import { CreateUserRolesComponent } from './create-user/create-user-roles/create-user-roles.component';
 
 
 @NgModule({
@@ -23,6 +24,7 @@ import { UpdateUserRolesComponent } from './update-user/update-user-roles/update
     UpdateUserComponent,
     CreateUserComponent,
     UpdateUserRolesComponent,
+    CreateUserRolesComponent,
 
   ],
   imports: [

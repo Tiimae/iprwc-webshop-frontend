@@ -1,7 +1,10 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {UserModel} from "../../../../_models/user.model";
 import {ApiConnectorService} from "../../../../_service/api-connector.service";
 import * as CryptoJs from 'crypto-js';
+import {ApiMethodsService} from "../../../../_service/api-methods.service";
+import {Router} from "@angular/router";
+import {RoleModel} from "../../../../_models/role.model";
 
 @Component({
   selector: 'app-user',
@@ -14,7 +17,9 @@ export class UserComponent implements OnInit {
 
   userId: string | undefined;
 
-  constructor() {
+  @Output() delete: EventEmitter<RoleModel> = new EventEmitter();
+
+  constructor(private router: Router) {
   }
 
   ngOnInit(): void {
@@ -34,7 +39,12 @@ export class UserComponent implements OnInit {
   }
 
   public removeUser(): void {
-
+    ApiMethodsService.getInstance().delete("user/" + this.user?.id, true).then(r => {
+      alert("User has been deleted")
+      this.router.navigate(["dashboard", "users"])
+      // @ts-ignore
+      this.delete.emit(this.user);
+    })
   }
 
   public checkIfIdIsUndefined(): void {
