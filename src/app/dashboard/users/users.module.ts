@@ -9,6 +9,8 @@ import { UserRolesComponent } from './all-users/user/user-roles/user-roles.compo
 import { UserEmailComponent } from './all-users/user/user-email/user-email.component';
 import { UpdateUserComponent } from './update-user/update-user.component';
 import { CreateUserComponent } from './create-user/create-user.component';
+import {FormsModule} from "@angular/forms";
+import { UpdateUserRolesComponent } from './update-user/update-user-roles/update-user-roles.component';
 
 
 @NgModule({
@@ -19,11 +21,14 @@ import { CreateUserComponent } from './create-user/create-user.component';
     UserRolesComponent,
     UserEmailComponent,
     UpdateUserComponent,
-    CreateUserComponent
+    CreateUserComponent,
+    UpdateUserRolesComponent,
+
   ],
   imports: [
     CommonModule,
-    UsersRoutingModule
+    UsersRoutingModule,
+    FormsModule
   ]
 })
 export class UsersModule { }

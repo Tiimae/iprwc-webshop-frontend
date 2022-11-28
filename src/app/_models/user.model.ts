@@ -6,7 +6,7 @@ export class UserModel {
   private readonly _middleName: string;
   private readonly _lastName: string;
   private readonly _email: string;
-  private readonly _roles: RoleModel[];
+  private readonly _roles: RoleModel[] = [];
 
 
   constructor(id: string, firstName: string, middleName: string, lastName: string, email: string, roles: RoleModel[]) {

@@ -13,7 +13,7 @@ export class ApiConnectorService {
   private jwtToken: string | null = null;
   private static instance: ApiConnectorService | null = null;
   public user: LoggedUserModel | undefined = undefined;
-  private decryptKey: string | null = null;
+  public decryptKey: string | null = null;
 
   constructor() {
 
@@ -89,7 +89,7 @@ export class ApiConnectorService {
     });
   }
 
-  private async getDecryptKey(): Promise<string> {
+  public async getDecryptKey(): Promise<string> {
 
     if (this.decryptKey === null) {
       const result = await this.noAuth().get('/auth/secret', {
