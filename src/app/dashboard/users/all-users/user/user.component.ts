@@ -44,8 +44,8 @@ export class UserComponent implements OnInit {
     }
 
     // @ts-ignore
-    let encryptedId = CryptoJs.Rabbit.encrypt(this.user.id, ApiConnectorService.getInstance().decryptKey)
-    this.userId = encryptedId.toString().replace("/", "*");
+    let encryptedId: string = CryptoJs.Rabbit.encrypt(this.user.id, ApiConnectorService.getInstance().decryptKey)
+    this.userId = encryptedId.toString().replace(new RegExp("/", "g"), "*");
   }
 
 }

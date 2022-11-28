@@ -16,6 +16,7 @@ export class UpdateUserComponent implements OnInit {
 
   userId: string | null = null;
   user: UserModel | undefined = undefined;
+  roles: RoleModel[] = []
 
   @ViewChild('f') updateForm: NgForm | undefined;
 
@@ -25,15 +26,21 @@ export class UpdateUserComponent implements OnInit {
   ngOnInit(): void {
     this.route.params.subscribe((params) => {
       if (ApiConnectorService.getInstance().decryptKey != null) {
-        const currentUserId = params['userId'].replace("*", "/");
+        const currentUserId = params['userId'].replaceAll("*", "/");
         // @ts-ignore
-        this.userId = CryptoJs.Rabbit.decrypt(currentUserId, ApiConnectorService.getInstance().decryptKey).toString(CryptoJs.enc.Utf8);
+        this.userId = CryptoJs.Rabbit.decrypt(currentUserId, ApiConnectorService.getInstance().decryptKey).toString(CryptoJs.enc.Utf8)
       }
     });
 
     ApiMethodsService.getInstance().get("user/" + this.userId + "/roles", true).then(r => {
       this.user = r.data?.payload as UserModel;
       this.setFormData();
+    });
+
+    ApiMethodsService.getInstance().get("role", true).then(r => {
+      r.data.payload.forEach((role: RoleModel) => {
+        this.roles.push(role as RoleModel)
+      });
     });
 
     this.setFormData()
@@ -81,6 +88,24 @@ export class UpdateUserComponent implements OnInit {
         this.user?.roles.splice(index, 1)
       }
     })
+  }
+
+  public addRole(): void {
+    let alreadyHasRole = false;
+
+    this.user?.roles.forEach(currentRole => {
+      if (currentRole.name == this.updateForm?.form.controls["role"].value) {
+        alreadyHasRole = true
+      }
+    });
+
+    if (!alreadyHasRole) {
+      this.roles.forEach(currentRole => {
+        if (currentRole.name == this.updateForm?.form.controls["role"].value) {
+          this.user?.roles.push(currentRole)
+        }
+      });
+    }
   }
 
 }
