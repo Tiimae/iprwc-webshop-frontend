@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
-import { CategoryModel } from 'src/app/_models/category.model';
-import { ApiMethodsService } from 'src/app/_service/api-methods.service';
+import {Component, OnInit} from '@angular/core';
+import {CategoryModel} from 'src/app/_models/category.model';
+import {ApiMethodsService} from 'src/app/_service/api-methods.service';
 
 @Component({
   selector: 'app-all-categories',

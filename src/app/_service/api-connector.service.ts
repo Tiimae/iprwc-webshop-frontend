@@ -1,7 +1,5 @@
 import {Injectable} from '@angular/core';
 import axios, {AxiosInstance} from 'axios';
-import {UserModel} from "../_models/user.model";
-import * as http from "http";
 import {LoggedUserModel} from "../_models/loggedUser.model";
 import * as CryptoJs from 'crypto-js';
 

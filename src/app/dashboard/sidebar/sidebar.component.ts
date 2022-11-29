@@ -1,15 +1,15 @@
 import {Component, OnInit} from '@angular/core';
 import {ApiConnectorService} from "../../_service/api-connector.service";
 import {
-  faUser,
   faAddressCard,
-  faShippingFast,
-  faFileInvoice,
-  faSignOut,
   faBox,
-  faListAlt,
+  faFileInvoice,
+  faFire,
   faIndustry,
-  faFire
+  faListAlt,
+  faShippingFast,
+  faSignOut,
+  faUser
 } from "@fortawesome/free-solid-svg-icons";
 import {Router} from "@angular/router";
 import {LoggedUserModel} from "../../_models/loggedUser.model";

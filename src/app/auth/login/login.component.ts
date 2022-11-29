@@ -5,8 +5,6 @@ import {Router} from "@angular/router";
 
 import {faEnvelope, faKey} from "@fortawesome/free-solid-svg-icons";
 import {NgForm} from "@angular/forms";
-import {publish} from "rxjs";
-import {ApiMethodsService} from "../../_service/api-methods.service";
 
 @Component({
   selector: 'app-login',

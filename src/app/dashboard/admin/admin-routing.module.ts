@@ -1,7 +1,6 @@
-import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
+import {NgModule} from '@angular/core';
+import {RouterModule, Routes} from '@angular/router';
 import {ProductsComponent} from "./products/products.component";
-import {HasRoleGuard} from "../../_guard/has-role.guard";
 import {CategoriesComponent} from "./categories/categories.component";
 import {SuppliersComponent} from "./suppliers/suppliers.component";
 import {BrandsComponent} from "./brands/brands.component";

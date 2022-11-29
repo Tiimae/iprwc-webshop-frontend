@@ -1,6 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {UserModel} from "../../../../_models/user.model";
-import {ApiConnectorService} from "../../../../_service/api-connector.service";
 import {ApiMethodsService} from "../../../../_service/api-methods.service";
 
 @Component({

@@ -1,5 +1,4 @@
 import {Component, OnInit} from '@angular/core';
-import {ApiConnectorService} from "../../_service/api-connector.service";
 
 @Component({
   selector: 'app-home',

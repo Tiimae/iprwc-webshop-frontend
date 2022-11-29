@@ -1,7 +1,7 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {ApiMethodsService} from "../../../../_service/api-methods.service";
 import {NgForm} from "@angular/forms";
-import { Router } from '@angular/router';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-create-category',
@@ -26,7 +26,7 @@ export class CreateCategoryComponent implements OnInit {
 
     ApiMethodsService.getInstance().post('category', payload, true).then(r => {
       alert("category created")
-      this.router.navigate(['dashboard', 'categories'])
+      this.router.navigate(['dashboard', 'admin', 'categories'])
     })
   }
 

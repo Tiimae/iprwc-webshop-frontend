@@ -1,8 +1,7 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import {NgModule} from '@angular/core';
+import {CommonModule} from '@angular/common';
 
-import { UserRoutingModule } from './user-routing.module';
-import { UserComponent } from './user.component';
+import {UserRoutingModule} from './user-routing.module';
 import {AccountComponent} from "./account/account.component";
 import {AddressesComponent} from "./addresses/addresses.component";
 import {InvoicesComponent} from "./invoices/invoices.component";

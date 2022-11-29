@@ -1,6 +1,6 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { CreateBrandComponent } from './create-brand.component';
+import {CreateBrandComponent} from './create-brand.component';
 
 describe('CreateBrandComponent', () => {
   let component: CreateBrandComponent;

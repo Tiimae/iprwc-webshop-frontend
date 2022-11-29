@@ -1,4 +1,4 @@
-import { RoleModel } from "./role.model";
+import {RoleModel} from "./role.model";
 
 export class UserModel {
   private readonly _id: string;

@@ -73,7 +73,7 @@ export class UpdateUserComponent implements OnInit {
 
     ApiMethodsService.getInstance().put("/user/" + this.userId, payload, true).then(r => {
       alert("User has been updated");
-      this.router.navigate(["dashboard", "users"]);
+      this.router.navigate(["dashboard", 'admin', "users"]);
     });
 
   }

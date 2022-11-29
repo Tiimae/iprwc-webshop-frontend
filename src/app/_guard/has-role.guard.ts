@@ -2,7 +2,6 @@ import {Injectable} from '@angular/core';
 import {ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot, UrlTree} from '@angular/router';
 import {Observable} from 'rxjs';
 import {ApiConnectorService} from "../_service/api-connector.service";
-import {LoggedUserModel} from "../_models/loggedUser.model";
 
 @Injectable({
   providedIn: 'root'

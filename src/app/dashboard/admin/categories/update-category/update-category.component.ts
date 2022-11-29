@@ -43,7 +43,7 @@ export class UpdateCategoryComponent implements OnInit {
 
     ApiMethodsService.getInstance().put("category/" + this.categoryId, payload, true).then(r => {
       alert("Category has been updated");
-      this.router.navigate(["dashboard", "categories"]);
+      this.router.navigate(["dashboard", 'admin', "categories"]);
     })
   }
 
