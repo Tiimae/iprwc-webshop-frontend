@@ -28,7 +28,7 @@ export class ApiMethodsService {
     return ApiConnectorService.getInstance().noAuth().get(path);
   }
 
-  public post(path: string, payload: JsonObject, auth: boolean) : Promise<AxiosResponse> {
+  public post(path: string, payload: any, auth: boolean) : Promise<AxiosResponse> {
     if (auth) {
       return ApiConnectorService.getInstance().auth().post(path, payload);
     }
