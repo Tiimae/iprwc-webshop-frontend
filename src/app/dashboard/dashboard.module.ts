@@ -2,35 +2,20 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { DashboardRoutingModule } from './dashboard-routing.module';
-import { OrdersComponent } from './orders/orders.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
-import {FontAwesomeModule} from "@fortawesome/angular-fontawesome";
-import { AddressesComponent } from './addresses/addresses.component';
-import { InvoicesComponent } from './invoices/invoices.component';
-import { ProductsComponent } from './products/products.component';
-import { CategoriesComponent } from './categories/categories.component';
-import { SuppliersComponent } from './suppliers/suppliers.component';
-import { BrandsComponent } from './brands/brands.component';
-import { AccountComponent } from './account/account.component';
-import {FormsModule} from "@angular/forms";
-import {ProductModule} from "./products/product.module";
-import {SuppliersModule} from "./suppliers/suppliers.module";
-import {CategoriesModule} from "./categories/categories.module";
-import {BrandModule} from "./brands/brand.module";
-import {UsersModule} from "./users/users.module";
+import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
+import { FormsModule } from "@angular/forms";
+import {UserModule} from "./user/user.module";
+import {AdminModule} from "./admin/admin.module";
+import {UserComponent} from "./user/user.component";
+import {AdminComponent} from "./admin/admin.component";
 
 
 @NgModule({
   declarations: [
-    OrdersComponent,
     SidebarComponent,
-    AddressesComponent,
-    InvoicesComponent,
-    ProductsComponent,
-    CategoriesComponent,
-    SuppliersComponent,
-    BrandsComponent,
-    AccountComponent
+    UserComponent,
+    AdminComponent
   ],
   exports: [
     SidebarComponent
@@ -40,11 +25,8 @@ import {UsersModule} from "./users/users.module";
     DashboardRoutingModule,
     FontAwesomeModule,
     FormsModule,
-    ProductModule,
-    SuppliersModule,
-    CategoriesModule,
-    BrandModule,
-    UsersModule
+    UserModule,
+    AdminModule
   ]
 })
 

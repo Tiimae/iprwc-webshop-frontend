@@ -2,7 +2,7 @@
   <section class="overflow-y-auto py-4 px-3 rounded bg-teal-500 h-auto">
     <ul class="space-y-2">
       <li>
-        <a routerLink="/dashboard/account"
+        <a routerLink="/dashboard/user/account"
            class="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 ">
           <fa-icon
             class="w-6 h-6 text-white transition duration-75 dark:text-white group-hover:text-gray-900 dark:group-hover:text-white pl-1"
@@ -11,7 +11,7 @@
         </a>
       </li>
       <li>
-        <a routerLink="/dashboard/addresses"
+        <a routerLink="/dashboard/user/addresses"
            class="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
           <fa-icon
             class="w-6 h-6 text-white transition duration-75 dark:text-white group-hover:text-gray-900 dark:group-hover:text-white pl-1"
@@ -20,7 +20,7 @@
         </a>
       </li>
       <li>
-        <a routerLink="/dashboard/orders"
+        <a routerLink="/dashboard/user/orders"
            class="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
           <fa-icon
             class="w-6 h-6 text-white transition duration-75 dark:text-white group-hover:text-gray-900 dark:group-hover:text-white pl-1"
@@ -29,7 +29,7 @@
         </a>
       </li>
       <li>
-        <a routerLink="/dashboard/invoices"
+        <a routerLink="/dashboard/user/invoices"
            class="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
           <fa-icon
             class="w-6 h-6 text-white transition duration-75 dark:text-white group-hover:text-gray-900 dark:group-hover:text-white pl-1"
@@ -51,7 +51,7 @@
     </ul>
     <ul class="pt-4 mt-4 space-y-2 border-t border-gray-200 dark:border-gray-700" *ngIf="hasRole()">
       <li>
-        <a routerLink="/dashboard/products"
+        <a routerLink="/dashboard/admin/products"
            class="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg transition duration-75 hover:bg-gray-100 dark:hover:bg-gray-700 dark:text-white group">
           <fa-icon
             class="w-6 h-6 text-white transition duration-75 dark:text-white group-hover:text-gray-900 dark:group-hover:text-white pl-1"
@@ -60,7 +60,7 @@
         </a>
       </li>
       <li>
-        <a routerLink="/dashboard/categories"
+        <a routerLink="/dashboard/admin/categories"
            class="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg transition duration-75 hover:bg-gray-100 dark:hover:bg-gray-700 dark:text-white group">
           <fa-icon
             class="w-6 h-6 text-white transition duration-75 dark:text-white group-hover:text-gray-900 dark:group-hover:text-white pl-1"
@@ -69,7 +69,7 @@
         </a>
       </li>
       <li>
-        <a routerLink="/dashboard/suppliers"
+        <a routerLink="/dashboard/admin/suppliers"
            class="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg transition duration-75 hover:bg-gray-100 dark:hover:bg-gray-700 dark:text-white group">
           <fa-icon
             class="w-6 h-6 text-white transition duration-75 dark:text-white group-hover:text-gray-900 dark:group-hover:text-white pl-1"
@@ -78,7 +78,7 @@
         </a>
       </li>
       <li>
-        <a routerLink="/dashboard/brands"
+        <a routerLink="/dashboard/admin/brands"
            class="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg transition duration-75 hover:bg-gray-100 dark:hover:bg-gray-700 dark:text-white group">
           <fa-icon
             class="w-6 h-6 text-white transition duration-75 dark:text-white group-hover:text-gray-900 dark:group-hover:text-white pl-1"
@@ -87,7 +87,7 @@
         </a>
       </li>
       <li>
-        <a routerLink="/dashboard/users"
+        <a routerLink="/dashboard/admin/users"
            class="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg transition duration-75 hover:bg-gray-100 dark:hover:bg-gray-700 dark:text-white group">
           <fa-icon
             class="w-6 h-6 text-white transition duration-75 dark:text-white group-hover:text-gray-900 dark:group-hover:text-white pl-1"
