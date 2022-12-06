@@ -13,14 +13,11 @@ import {RoleModel} from "../../../../../_models/role.model";
 })
 export class UserComponent implements OnInit {
 
-  @Input() user: UserModel | undefined;
+  @Input() user!: UserModel;
 
   userId: string | undefined;
 
-  @Output() delete: EventEmitter<RoleModel> = new EventEmitter();
-
-  constructor(private router: Router) {
-  }
+  @Output() delete: EventEmitter<UserModel> = new EventEmitter();
 
   ngOnInit(): void {
     this.checkIfIdIsUndefined();
@@ -39,23 +36,12 @@ export class UserComponent implements OnInit {
   }
 
   public removeUser(): void {
-    ApiMethodsService.getInstance().delete("user/" + this.user?.id, true).then(r => {
-      alert("User has been deleted")
-      this.router.navigate(["dashboard", "users"])
-      // @ts-ignore
       this.delete.emit(this.user);
-    })
   }
 
-  public checkIfIdIsUndefined(): void {
-    // @ts-ignore
-    if (this.user == undefined) {
-      return;
-    }
-
-    // @ts-ignore
-    let encryptedId: string = CryptoJs.Rabbit.encrypt(this.user.id, ApiConnectorService.getInstance().decryptKey)
-    this.userId = encryptedId.toString().replace(new RegExp("/", "g"), "*");
+  public async checkIfIdIsUndefined(): Promise<void> {
+    let encryptedId: string = CryptoJs.Rabbit.encrypt(this.user.id, await ApiConnectorService.getInstance().getDecryptKey()).toString()
+    this.userId = encryptedId.replace(new RegExp("/", "g"), "*");
   }
 
 }

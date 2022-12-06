@@ -7,31 +7,25 @@ import {ApiConnectorService} from "../_service/api-connector.service";
   providedIn: 'root'
 })
 export class HasRoleGuard implements CanActivate {
-
-  // private jwtData : Promise<LoggedUserModel | undefined>
-
-  constructor(
-    private router: Router
-              ) {
-
-  }
-
   canActivate(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-    let isAuthorized = false
-    // this.jwtData = ApiConnectorService.getInstance().getJwtPayload();
-    // @ts-ignore
-    isAuthorized = ApiConnectorService.getInstance().getJwtPayload().then((r): boolean =>  {
-      for (let i = 1; i < route.data['roles'].length; i++) {
-        // @ts-ignore
-        if (r.roles.includes(route.data['roles'][i])) {
-          return true;
-        }
-      }
-    });
+    return new ApiConnectorService().getJwtPayload().then((res): boolean => {
+      const rolesOnRoute: null | Array<string> = route.data['roles'];
+      let hasRole = false;
+      if (res != undefined) {
+        rolesOnRoute?.filter((role: string) => {
 
-    return isAuthorized;
+          const rolesOnJwt: string[] = res.roles;
+
+          if (rolesOnJwt.includes(role)) {
+            hasRole = true;
+          }
+        });
+      }
+
+      return hasRole;
+    });
   }
 
 }

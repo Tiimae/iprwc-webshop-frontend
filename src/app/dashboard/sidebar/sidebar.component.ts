@@ -11,8 +11,9 @@ import {
   faSignOut,
   faUser
 } from "@fortawesome/free-solid-svg-icons";
-import {Router} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 import {LoggedUserModel} from "../../_models/loggedUser.model";
+import {HasRoleGuard} from "../../_guard/has-role.guard";
 
 @Component({
   selector: 'app-sidebar',
@@ -30,24 +31,24 @@ export class SidebarComponent implements OnInit {
   faListAlt = faListAlt
   faIndustry = faIndustry
   faFire = faFire
+  hasRole: boolean = false;
 
   private jwtPayload: LoggedUserModel | undefined = undefined
 
-  constructor(private router: Router) {
+  constructor(private router: Router, private route: ActivatedRoute) {
   }
 
-  ngOnInit(): void {
-    // ApiConnectorService.getInstance().getJwtPayload().then(r => {
-    //   this.jwtPayload = r;
-    // })
-  }
-
-  public hasRole(): boolean {
-
+  async ngOnInit(): Promise<void> {
     // @ts-ignore
-    return ApiConnectorService.getInstance().user?.roles.includes("Admin") || ApiConnectorService.getInstance().user?.roles.includes("Owner");
-
+    this.hasRole = await ApiConnectorService.getInstance().getJwtPayload().then((r: LoggedUserModel): boolean => {
+      return r.roles.includes("Admin") || r.roles.includes("Owner");
+    })
   }
+
+  // public async hasRole(): Promise<boolean> {
+  //   // @ts-ignore
+  //   return await ;
+  // }
 
   public LogOut() {
     localStorage.removeItem("jwt-token");

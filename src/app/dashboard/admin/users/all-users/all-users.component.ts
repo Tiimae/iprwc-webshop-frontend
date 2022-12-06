@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {UserModel} from "../../../../_models/user.model";
 import {ApiMethodsService} from "../../../../_service/api-methods.service";
+import {UserDataService} from "../../../../_service/data/userData.service";
 
 @Component({
   selector: 'app-all-users',
@@ -18,19 +19,15 @@ export class AllUsersComponent implements OnInit {
   }
 
   public getAllUsers() : void {
-    ApiMethodsService.getInstance().get('user/roles', true).then(r => {
-      r.data.payload.forEach((user: UserModel) => {
-        this.allUsers.push(user);
+    UserDataService.getInstance()
+      .getAllUsers()
+      .subscribe(r => {
+        this.allUsers = r
       });
-    });
   }
 
   public removeUserOutArray(user: UserModel): void {
-    this.allUsers.forEach((currentUser, index) => {
-      if (currentUser.id == user.id) {
-        this.allUsers.splice(index, 1)
-      }
-    })
+    UserDataService.getInstance().removeUser(user);
   }
 
 }

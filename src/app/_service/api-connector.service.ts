@@ -1,35 +1,33 @@
-import {Injectable} from '@angular/core';
+import {Injectable, OnInit} from '@angular/core';
 import axios, {AxiosInstance} from 'axios';
 import {LoggedUserModel} from "../_models/loggedUser.model";
 import * as CryptoJs from 'crypto-js';
+import {ApiMethodsService} from "./api-methods.service";
 
 @Injectable({
   providedIn: 'root'
 })
-export class ApiConnectorService {
+export class ApiConnectorService implements OnInit {
   public static apiUrl = 'http://localhost:8080/api/v1.0/';
   private jwtToken: string | null = null;
   private static instance: ApiConnectorService | null = null;
-  public user: LoggedUserModel | undefined = undefined;
+  public user!: LoggedUserModel;
   public decryptKey: string | null = null;
 
   constructor() {
 
   }
 
+  ngOnInit(): void {
+    this.getJwtPayload().then((r): void => {
+      if (r != undefined) {
+        this.user = r;
+      }
+    });
+  }
+
   public static getInstance(): ApiConnectorService {
-    if (this.instance == null) {
-      this.instance = new ApiConnectorService();
-
-      this.instance.getJwtPayload().then((r): void => {
-        if(r != undefined) {
-          // @ts-ignore
-          this.instance.user = r;
-        }
-      });
-    }
-
-    return this.instance;
+    return this.instance instanceof ApiConnectorService ? this.instance : new ApiConnectorService();
   }
 
   public noAuth(): AxiosInstance {
@@ -81,7 +79,7 @@ export class ApiConnectorService {
     );
 
     this.getJwtPayload().then((r): void => {
-      if(r != undefined) {
+      if (r != undefined) {
         this.user = r;
       }
     });
