@@ -4,7 +4,6 @@ import {IsAuthenticatedGuard} from "./_guard/is-authenticated.guard";
 import {HasRoleGuard} from "./_guard/has-role.guard";
 import {PageNotFoundComponent} from "./page-not-found/page-not-found.component";
 import {DashboardComponent} from "./dashboard/dashboard.component";
-import {AuthComponent} from "./auth/auth.component";
 import {WebshopComponent} from "./webshop/webshop.component";
 
 const routes: Routes = [
@@ -15,7 +14,6 @@ const routes: Routes = [
   },
   {
     path: 'auth',
-    component:AuthComponent,
     loadChildren: () => import('./auth/auth-routing.module').then(m => m.AuthRoutingModule),
   },
   {
