@@ -73,4 +73,35 @@ export class UserDataService {
     });
   }
 
+  public getCurrentUser(userId: string): Observable<UserModel | undefined> {
+    if (this.users.length != 0) {
+      return of(<UserModel>this.users.find(user => user.id === userId));
+    }
+
+    return of(undefined);
+  }
+
+  public updateUser(user: UserModel) {
+    let roleIds: string[] = []
+
+    user.roles.forEach(role => {
+      roleIds.push(role.id)
+    })
+
+    const payload = {
+      firstName: user.firstName,
+      middleName: user.middleName,
+      lastName: user.lastName,
+      email: user.email,
+      password: "",
+      roleIds: roleIds,
+      orderIds: [],
+      userAddressIds: []
+    }
+
+    ApiMethodsService.getInstance().put("user/" + user.id, payload, true).then(r => {
+      this.users[this.users.findIndex(currentUser => currentUser.id === user.id)] = user
+    })
+  }
+
 }

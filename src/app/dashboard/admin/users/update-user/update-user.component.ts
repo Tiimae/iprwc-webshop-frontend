@@ -4,8 +4,10 @@ import * as CryptoJs from 'crypto-js';
 import {ApiConnectorService} from "../../../../_service/api-connector.service";
 import {ApiMethodsService} from "../../../../_service/api-methods.service";
 import {UserModel} from "../../../../_models/user.model";
-import {NgForm} from "@angular/forms";
+import {FormControl, FormGroup, NgForm, Validators} from "@angular/forms";
 import {RoleModel} from "../../../../_models/role.model";
+import {UserDataService} from "../../../../_service/data/userData.service";
+import {RoleDataService} from "../../../../_service/data/roleData.service";
 
 @Component({
   selector: 'app-update-user',
@@ -14,72 +16,90 @@ import {RoleModel} from "../../../../_models/role.model";
 })
 export class UpdateUserComponent implements OnInit {
 
-  userId: string | null = null;
-  user: UserModel | undefined = undefined;
+  userId: string = "";
+  user!: UserModel | undefined;
   roles: RoleModel[] = []
+  userRoles: RoleModel[] = []
 
-  @ViewChild('f') updateForm: NgForm | undefined;
+  userEditForm = new FormGroup({
+    firstname: new FormControl('', [Validators.required]),
+    middlename: new FormControl('', [Validators.required]),
+    lastname: new FormControl('', [Validators.required]),
+    email: new FormControl('', [
+      Validators.required,
+      Validators.pattern(
+        '^(?=.{1,64}@)[A-Za-z0-9_-]+(\\.[A-Za-z0-9_-]+)*@' +
+        '[^-][A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})$'
+      ),
+    ]),
+    role: new FormControl('', [Validators.required]),
+  })
 
   constructor(private route: ActivatedRoute, private router: Router) {
   }
 
   ngOnInit(): void {
-    this.route.params.subscribe((params) => {
-      if (ApiConnectorService.getInstance().decryptKey != null) {
-        const currentUserId = params['userId'].replaceAll("*", "/");
-        // @ts-ignore
-        this.userId = CryptoJs.Rabbit.decrypt(currentUserId, ApiConnectorService.getInstance().decryptKey).toString(CryptoJs.enc.Utf8)
-      }
+    this.route.params.subscribe(async (params) => {
+      const currentUserId = params['userId'].replaceAll("*", "/");
+      this.userId = CryptoJs.Rabbit.decrypt(currentUserId, await ApiConnectorService.getInstance().getDecryptKey()).toString(CryptoJs.enc.Utf8)
+
+      UserDataService.getInstance()
+        .getCurrentUser(this.userId)
+        .subscribe(r => {
+          if (r == undefined) {
+            this.router.navigate(["dashboard", "admin", "users"])
+          }
+
+          this.user = r
+
+          if (this.user != undefined) {
+            this.userEditForm.controls.firstname.setValue(this.user.firstName);
+            this.userEditForm.controls.middlename.setValue(this.user.middleName);
+            this.userEditForm.controls.lastname.setValue(this.user.lastName);
+            this.userEditForm.controls.email.setValue(this.user.email);
+
+            if (this.user.roles.length != null) {
+              this.userRoles = this.user.roles;
+            }
+          }
+        })
     });
 
-    ApiMethodsService.getInstance().get("user/" + this.userId + "/roles", true).then(r => {
-      this.user = r.data?.payload as UserModel;
-      this.setFormData();
-    });
+    RoleDataService.getInstance()
+      .getAll()
+      .subscribe(r => {
+        this.roles = r;
+      })
 
-    ApiMethodsService.getInstance().get("role", true).then(r => {
-      r.data.payload.forEach((role: RoleModel) => {
-        this.roles.push(role as RoleModel)
-      });
-    });
-
-    this.setFormData()
-  }
-
-  public setFormData(): void {
-    this.updateForm?.form.controls['firstname'].setValue(this.user?.firstName);
-    this.updateForm?.form.controls['middleware'].setValue(this.user?.middleName);
-    this.updateForm?.form.controls['lastname'].setValue(this.user?.lastName);
-    this.updateForm?.form.controls['email'].setValue(this.user?.email);
+    this.userEditForm.controls.role.setValue(this.roles[0].name);
   }
 
   public onSubmit(): void {
-    let roleIds: string[] = [];
+    const firstname = this.userEditForm.controls.firstname.value;
+    const middlename = this.userEditForm.controls.middlename.value;
+    const lastname = this.userEditForm.controls.lastname.value;
+    const email = this.userEditForm.controls.email.value;
 
-    this.user?.roles.forEach(roles => {
-      roleIds.push(roles.id)
-    })
-
-    const payload = {
-      firstName: this.updateForm?.form.controls['firstname'].value,
-      middleName: this.updateForm?.form.controls['middlename'].value,
-      lastName: this.updateForm?.form.controls['lastname'].value,
-      email: this.updateForm?.form.controls['email'].value,
-      password: "",
-      roleIds: roleIds,
-      orderIds: [],
-      userAddressIds: []
+    if (firstname == null || middlename == null || lastname == null || email == null || this.userRoles.length == null) {
+      return
     }
 
-    ApiMethodsService.getInstance().put("/user/" + this.userId, payload, true).then(r => {
-      alert("User has been updated");
-      this.router.navigate(["dashboard", 'admin', "users"]);
-    });
+    if (!this.userEditForm.valid) {
+      return;
+    }
 
-  }
+    const user = new UserModel(
+      this.userId,
+      firstname,
+      middlename,
+      lastname,
+      email,
+      this.userRoles
+    )
 
-  public getAllUserRoles(): RoleModel[] | undefined {
-    return this.user?.roles == [] ? [] : this.user?.roles;
+    UserDataService.getInstance().updateUser(user);
+    this.router.navigate(['dashboard', 'admin', 'users'])
+
   }
 
   public removeRoleOutArray(role: RoleModel) {
@@ -93,19 +113,18 @@ export class UpdateUserComponent implements OnInit {
   public addRole(): void {
     let alreadyHasRole = false;
 
-    this.user?.roles.forEach(currentRole => {
-      if (currentRole.name == this.updateForm?.form.controls["role"].value) {
+    this.userRoles?.forEach(currentRole => {
+      if (currentRole.name == this.userEditForm.controls.role.value) {
         alreadyHasRole = true
       }
     });
 
     if (!alreadyHasRole) {
       this.roles.forEach(currentRole => {
-        if (currentRole.name == this.updateForm?.form.controls["role"].value) {
-          this.user?.roles.push(currentRole)
+        if (currentRole.name == this.userEditForm.controls.role.value) {
+          this.userRoles?.push(currentRole)
         }
       });
     }
   }
-
 }
