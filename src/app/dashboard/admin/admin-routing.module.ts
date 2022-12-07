@@ -1,14 +1,9 @@
 import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
-import {ProductsComponent} from "./products/products.component";
-import {SuppliersComponent} from "./suppliers/suppliers.component";
-import {BrandsComponent} from "./brands/brands.component";
-
 const routes: Routes = [
 
   {
     path: 'products',
-    component: ProductsComponent,
     loadChildren: () => import('./products/product-routing.module').then(m => m.ProductRoutingModule),
   },
   {
@@ -17,12 +12,10 @@ const routes: Routes = [
   },
   {
     path: 'suppliers',
-    component: SuppliersComponent,
     loadChildren: () => import('./suppliers/suppliers-routing.module').then(m => m.SuppliersRoutingModule),
   },
   {
     path: 'brands',
-    component: BrandsComponent,
     loadChildren: () => import('./brands/brand-routing.module').then(m => m.BrandRoutingModule),
   },
   {
