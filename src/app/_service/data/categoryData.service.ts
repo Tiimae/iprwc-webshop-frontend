@@ -59,4 +59,23 @@ export class CategoryDataService {
       this.categories.push(r.data.payload);
     })
   }
+
+  public getCurrentCategory(categoryId: string): Observable<CategoryModel | undefined> {
+    if (this.categories.length != 0) {
+      return of(<CategoryModel>this.categories.find(category => category.id === categoryId));
+    }
+
+    return of(undefined);
+  }
+
+  public updateCategory(category: CategoryModel): void {
+    const payload = {
+      "categoryName": category.categoryName,
+      "productIds": []
+    }
+
+    ApiMethodsService.getInstance().put("category/" + category.id, payload, true).then(r => {
+      this.categories[this.categories.findIndex(currentCategory => currentCategory.id === category.id)] = category
+    })
+  }
 }

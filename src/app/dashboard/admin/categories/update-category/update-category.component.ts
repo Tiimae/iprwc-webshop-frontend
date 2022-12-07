@@ -2,8 +2,10 @@ import {Component, OnInit, ViewChild} from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
 import {ApiConnectorService} from "../../../../_service/api-connector.service";
 import * as CryptoJs from "crypto-js";
-import {NgForm} from "@angular/forms";
+import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {ApiMethodsService} from "../../../../_service/api-methods.service";
+import {CategoryDataService} from "../../../../_service/data/categoryData.service";
+import {CategoryModel} from "../../../../_models/category.model";
 
 @Component({
   selector: 'app-update-category',
@@ -12,39 +14,54 @@ import {ApiMethodsService} from "../../../../_service/api-methods.service";
 })
 export class UpdateCategoryComponent implements OnInit {
 
-  categoryId: string | null = null
+  categoryId: string = "";
+  category: CategoryModel | undefined;
 
-  @ViewChild('f') updateForm: NgForm | undefined;
+  categoryCreateForm = new FormGroup({
+    catname: new FormControl('', [Validators.required]),
+  })
 
   constructor(private route: ActivatedRoute, private router: Router) {
   }
 
   ngOnInit(): void {
-    this.route.params.subscribe((params) => {
-      if (ApiConnectorService.getInstance().decryptKey != null) {
+    this.route.params.subscribe(async (params) => {
         const currentUserId = params['categoryId'].replaceAll("*", "/")
 
-        // @ts-ignore
-        this.categoryId = CryptoJs.Rabbit.decrypt(currentUserId, ApiConnectorService.getInstance().decryptKey).toString(CryptoJs.enc.Utf8)
-      }
+        this.categoryId = CryptoJs.Rabbit.decrypt(currentUserId, await ApiConnectorService.getInstance().getDecryptKey()).toString(CryptoJs.enc.Utf8)
 
-      ApiMethodsService.getInstance().get("category/" + this.categoryId, true).then(r => {
-        this.updateForm?.form.controls['catname'].setValue(r.data.payload.categoryName)
-      });
+      CategoryDataService.getInstance()
+      .getCurrentCategory(this.categoryId)
+      .subscribe((r) => {
+        if (r == undefined) {
+          this.router.navigate(["dashboard", "admin", "categories"])
+        }
+
+        this.category = r;
+
+        if (this.category != undefined) {
+          this.categoryCreateForm.controls.catname.setValue(this.category.categoryName);
+        }
+      })
 
     })
   }
 
   onSubmit(): void {
-    const payload = {
-      categoryName: this.updateForm?.form.controls['catname'].value,
-      productIds: []
+    const catName = this.categoryCreateForm.controls.catname.value;
+
+    if (catName == null) {
+      return
     }
 
-    ApiMethodsService.getInstance().put("category/" + this.categoryId, payload, true).then(r => {
-      alert("Category has been updated");
-      this.router.navigate(["dashboard", 'admin', "categories"]);
-    })
+    if (!this.categoryCreateForm.valid) {
+      return;
+    }
+
+    const category = new CategoryModel(this.categoryId, catName)
+
+    CategoryDataService.getInstance().updateCategory(category)
+    this.router.navigate(['dashboard', "admin", "categories"])
   }
 
 }
