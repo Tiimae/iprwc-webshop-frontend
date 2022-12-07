@@ -1,7 +1,9 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {ApiMethodsService} from "../../../../_service/api-methods.service";
-import {NgForm} from "@angular/forms";
+import {FormControl, FormGroup, NgForm, Validators} from "@angular/forms";
 import {Router} from '@angular/router';
+import {CategoryModel} from "../../../../_models/category.model";
+import {CategoryDataService} from "../../../../_service/data/categoryData.service";
 
 @Component({
   selector: 'app-create-category',
@@ -10,7 +12,9 @@ import {Router} from '@angular/router';
 })
 export class CreateCategoryComponent implements OnInit {
 
-  @ViewChild('f') createForm: NgForm | undefined;
+  categoryCreateForm = new FormGroup({
+    catname: new FormControl('', [Validators.required]),
+  })
 
   constructor(private router: Router) { }
 
@@ -19,15 +23,20 @@ export class CreateCategoryComponent implements OnInit {
 
   onSubmit(): void {
 
-    const payload = {
-      categoryName: this.createForm?.form.controls['catname'].value,
-      productIds: []
+    const catName = this.categoryCreateForm.controls.catname.value;
+
+    if (catName == null) {
+      return
     }
 
-    ApiMethodsService.getInstance().post('category', payload, true).then(r => {
-      alert("category created")
-      this.router.navigate(['dashboard', 'admin', 'categories'])
-    })
+    if (!this.categoryCreateForm.valid) {
+      return;
+    }
+
+    const category = new CategoryModel("", catName)
+
+    CategoryDataService.getInstance().createCategory(category)
+    this.router.navigate(['dashboard', "admin", "categories"])
   }
 
 }

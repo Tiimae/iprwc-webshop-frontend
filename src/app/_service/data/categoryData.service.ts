@@ -26,7 +26,7 @@ export class CategoryDataService {
   }
 
   public async setAllNewCategories(): Promise<void> {
-    this.apiMethod.get('category', true).then(r => {
+    ApiMethodsService.getInstance().get('category', true).then(r => {
       r.data.payload.forEach((category: CategoryModel) => {
         this.categories.push(category);
       });
@@ -44,8 +44,19 @@ export class CategoryDataService {
       }
     })
 
-    this.apiMethod.delete("category/" + category.id, true).then(r => {
+    ApiMethodsService.getInstance().delete("category/" + category.id, true).then(r => {
       alert("Category has been deleted")
+    })
+  }
+
+  public createCategory(category: CategoryModel) {
+    const payload = {
+      "categoryName": category.categoryName,
+      "productIds": []
+    }
+
+    ApiMethodsService.getInstance().post("category", payload, true).then(r => {
+      this.categories.push(r.data.payload);
     })
   }
 }
