@@ -1,8 +1,11 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {ApiMethodsService} from "../../../../_service/api-methods.service";
 import {RoleModel} from "../../../../_models/role.model";
-import {NgForm} from "@angular/forms";
+import {FormControl, FormGroup, NgForm, Validators} from "@angular/forms";
 import {Router} from "@angular/router";
+import {UserModel} from "../../../../_models/user.model";
+import {UserDataService} from "../../../../_service/data/userData.service";
+import {RoleDataService} from "../../../../_service/data/roleData.service";
 
 @Component({
   selector: 'app-create-user',
@@ -13,40 +16,57 @@ export class CreateUserComponent implements OnInit {
 
   roles: RoleModel[] = []
   userRoles: RoleModel[] = []
-  @ViewChild('f') createForm: NgForm | undefined;
 
-  constructor(private router: Router) { }
+  userCreateForm = new FormGroup({
+    firstname: new FormControl('', [Validators.required]),
+    middlename: new FormControl('', [Validators.required]),
+    lastname: new FormControl('', [Validators.required]),
+    email: new FormControl('', [
+      Validators.required,
+      Validators.pattern(
+        '^(?=.{1,64}@)[A-Za-z0-9_-]+(\\.[A-Za-z0-9_-]+)*@' +
+        '[^-][A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})$'
+      ),
+    ]),
+    role: new FormControl('', [Validators.required]),
+  })
+
+  constructor(private router: Router) {
+  }
 
   ngOnInit(): void {
-    ApiMethodsService.getInstance().get("role", true).then(r => {
-      r.data.payload.forEach((role: RoleModel) => {
-        this.roles.push(role as RoleModel)
-      });
-    });
+    RoleDataService.getInstance()
+      .getAll()
+      .subscribe(r => {
+        this.roles = r;
+      })
   }
 
   public onSubmit(): void {
-    let roleIds: string[] = [];
+    const firstname = this.userCreateForm.controls.firstname.value;
+    const middlename = this.userCreateForm.controls.middlename.value;
+    const lastname = this.userCreateForm.controls.lastname.value;
+    const email = this.userCreateForm.controls.email.value;
 
-    this.userRoles.forEach(roles => {
-      roleIds.push(roles.id)
-    })
-
-    const payload = {
-      firstName: this.createForm?.form.controls['firstname'].value,
-      middleName: this.createForm?.form.controls['middlename'].value,
-      lastName: this.createForm?.form.controls['lastname'].value,
-      email: this.createForm?.form.controls['email'].value,
-      password: "",
-      roleIds: roleIds,
-      orderIds: [],
-      userAddressIds: []
+    if (firstname == null || middlename == null || lastname == null || email == null || this.userRoles.length == null) {
+      return
     }
 
-    ApiMethodsService.getInstance().post("/user",  payload, true).then(r => {
-      alert("User has been updated");
-      this.router.navigate(["dashboard", 'admin', "users"]);
-    });
+    if (!this.userCreateForm.valid) {
+      return;
+    }
+
+    const user = new UserModel(
+      "",
+      firstname,
+      middlename,
+      lastname,
+      email,
+      this.userRoles
+    )
+
+    UserDataService.getInstance().createNewUser(user);
+    this.router.navigate(['dashboard', 'admin', 'users'])
   }
 
   public removeRoleOutArray(role: RoleModel) {
@@ -62,14 +82,14 @@ export class CreateUserComponent implements OnInit {
     let alreadyHasRole = false;
 
     this.userRoles?.forEach(currentRole => {
-      if (currentRole.name == this.createForm?.form.controls["role"].value) {
+      if (currentRole.name == this.userCreateForm.controls.role.value) {
         alreadyHasRole = true
       }
     });
 
     if (!alreadyHasRole) {
       this.roles.forEach(currentRole => {
-        if (currentRole.name == this.createForm?.form.controls["role"].value) {
+        if (currentRole.name == this.userCreateForm.controls.role.value) {
           this.userRoles?.push(currentRole)
         }
       });
