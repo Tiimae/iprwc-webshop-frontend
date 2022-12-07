@@ -1,10 +1,8 @@
 import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
 import {ProductsComponent} from "./products/products.component";
-import {CategoriesComponent} from "./categories/categories.component";
 import {SuppliersComponent} from "./suppliers/suppliers.component";
 import {BrandsComponent} from "./brands/brands.component";
-import {UsersComponent} from "./users/users.component";
 
 const routes: Routes = [
 
@@ -15,7 +13,6 @@ const routes: Routes = [
   },
   {
     path: 'categories',
-    component: CategoriesComponent,
     loadChildren: () => import('./categories/categories-routing.module').then(m => m.CategoriesRoutingModule),
   },
   {
@@ -30,7 +27,6 @@ const routes: Routes = [
   },
   {
     path: 'users',
-    component: UsersComponent,
     loadChildren: () => import('./users/users-routing.module').then(m => m.UsersRoutingModule),
   },
 
