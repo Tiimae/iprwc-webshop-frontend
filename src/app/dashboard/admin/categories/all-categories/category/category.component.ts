@@ -11,30 +11,20 @@ import {ApiConnectorService} from "../../../../../_service/api-connector.service
 })
 export class CategoryComponent implements OnInit {
 
-  categoryId: string | null = null
+  categoryId: string = ""
 
-  @Input() category: CategoryModel | undefined;
+  @Input() category!: CategoryModel;
 
   @Output() delete: EventEmitter<CategoryModel> = new EventEmitter();
 
   constructor() { }
 
-  ngOnInit(): void {
-    // @ts-ignore
-    let encryptedId: string = CryptoJs.Rabbit.encrypt(this.category?.id, ApiConnectorService.getInstance().decryptKey)
+  async ngOnInit(): Promise<void> {
+    let encryptedId: string = CryptoJs.Rabbit.encrypt(this.category?.id, await ApiConnectorService.getInstance().getDecryptKey()).toString()
     this.categoryId = encryptedId.toString().replace(new RegExp("/", "g"), "*");
   }
 
   removeCategory(): void {
-    ApiMethodsService.getInstance().delete("category/" + this.category?.id, true).then(r => {
-      alert("Category has been deleted")
-      // @ts-ignore
-      this.delete.emit(this.user);
-    })
+    this.delete.emit(this.category);
   }
-
-  hashCategoryId(): void {
-
-  }
-
 }

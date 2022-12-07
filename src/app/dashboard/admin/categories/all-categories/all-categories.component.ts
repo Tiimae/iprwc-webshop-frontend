@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {CategoryModel} from 'src/app/_models/category.model';
 import {ApiMethodsService} from 'src/app/_service/api-methods.service';
+import {CategoryDataService} from "../../../../_service/data/categoryData.service";
 
 @Component({
   selector: 'app-all-categories',
@@ -15,20 +16,16 @@ export class AllCategoriesComponent implements OnInit {
 
   ngOnInit(): void {
 
-    ApiMethodsService.getInstance().get("category", true).then(r => {
-      r.data.payload.forEach((category: CategoryModel) => {
-        this.allCategories.push(category as CategoryModel);
+    CategoryDataService.getInstance()
+      .getAllCategories()
+      .subscribe(r => {
+        this.allCategories = r;
       });
-    });
 
   }
 
-  removeCategoryOutArray(category: CategoryModel): void {
-    this.allCategories.forEach((currentCategory, index) => {
-      if (currentCategory.id == category.id) {
-        this.allCategories.splice(index, 1)
-      }
-    })
+  removeCategoryOutArray(event: CategoryModel): void {
+    CategoryDataService.getInstance().removeCategory(event)
   }
 
 }

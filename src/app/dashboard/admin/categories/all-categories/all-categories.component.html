@@ -10,5 +10,5 @@
 <app-category
   *ngFor="let category of allCategories"
   [category]="category"
-  (delete)="removeCategoryOutArray(category)"
+  (delete)="removeCategoryOutArray($event)"
 ></app-category>
