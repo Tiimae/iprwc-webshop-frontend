@@ -31,7 +31,10 @@ export class CreateUserComponent implements OnInit {
     role: new FormControl('', [Validators.required]),
   })
 
-  constructor(private router: Router) {
+  constructor(
+    private router: Router,
+    private userDataService: UserDataService
+    ) {
   }
 
   ngOnInit(): void {
@@ -65,7 +68,7 @@ export class CreateUserComponent implements OnInit {
       this.userRoles
     )
 
-    UserDataService.getInstance().createNewUser(user);
+    this.userDataService.createNewUser(user);
     this.router.navigate(['dashboard', 'admin', 'users'])
   }
 

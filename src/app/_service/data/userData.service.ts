@@ -10,32 +10,18 @@ export class UserDataService {
 
   users: UserModel[] = [];
 
-  private static instance: UserDataService;
 
   constructor(
     private apiMethod: ApiMethodsService
   ) {
-    this.setAllNewUsers();
   }
 
-  public static getInstance(): UserDataService  {
-    if (UserDataService.instance == undefined) {
-      UserDataService.instance = new UserDataService(new ApiMethodsService());
-    }
-
-    return UserDataService.instance;
-  }
-
-  public async setAllNewUsers(): Promise<void> {
-    this.apiMethod.get('user/roles', true).then(r => {
-      r.data.payload.forEach((user: UserModel) => {
-        this.users.push(user);
-      });
+  public async getAllUsers(): Promise<Observable<UserModel[]>> {
+    return await this.apiMethod.get('user/roles', true).then(r => {
+      this.users = r.data.payload
+      return of(this.users);
     });
-  }
 
-  public getAllUsers(): Observable<UserModel[]> {
-    return of(this.users);
   }
 
   public removeUser(user: UserModel) {
@@ -68,7 +54,7 @@ export class UserDataService {
       userAddressIds: []
     }
 
-    ApiMethodsService.getInstance().post("user",  payload, true).then(r => {
+    ApiMethodsService.getInstance().post("user", payload, true).then(r => {
       this.users.push(r.data.payload)
     });
   }

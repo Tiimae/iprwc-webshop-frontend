@@ -12,22 +12,18 @@ export class AllUsersComponent implements OnInit {
 
   allUsers : UserModel[] = [];
 
-  constructor() { }
+  constructor(private userDataService: UserDataService) { }
 
-  ngOnInit(): void {
-    this.getAllUsers();
-  }
-
-  public getAllUsers() : void {
-    UserDataService.getInstance()
-      .getAllUsers()
+  async ngOnInit(): Promise<void> {
+    (await this.userDataService
+      .getAllUsers())
       .subscribe(r => {
         this.allUsers = r
       });
   }
 
   public removeUserOutArray(user: UserModel): void {
-    UserDataService.getInstance().removeUser(user);
+    this.userDataService.removeUser(user);
   }
 
 }

@@ -35,7 +35,10 @@ export class UpdateUserComponent implements OnInit {
     role: new FormControl('', [Validators.required]),
   })
 
-  constructor(private route: ActivatedRoute, private router: Router) {
+  constructor(
+    private route: ActivatedRoute,
+    private router: Router,
+    private userDataService: UserDataService) {
   }
 
   ngOnInit(): void {
@@ -43,7 +46,7 @@ export class UpdateUserComponent implements OnInit {
       const currentUserId = params['userId'].replaceAll("*", "/");
       this.userId = CryptoJs.Rabbit.decrypt(currentUserId, await ApiConnectorService.getInstance().getDecryptKey()).toString(CryptoJs.enc.Utf8)
 
-      UserDataService.getInstance()
+      this.userDataService
         .getCurrentUser(this.userId)
         .subscribe(r => {
           if (r == undefined) {
@@ -97,7 +100,7 @@ export class UpdateUserComponent implements OnInit {
       this.userRoles
     )
 
-    UserDataService.getInstance().updateUser(user);
+    this.userDataService.updateUser(user);
     this.router.navigate(['dashboard', 'admin', 'users'])
 
   }
