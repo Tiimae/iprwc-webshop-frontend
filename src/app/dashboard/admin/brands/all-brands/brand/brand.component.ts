@@ -1,4 +1,5 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
+import {BrandModel} from "../../../../../_models/brand.model";
 
 @Component({
   selector: 'app-brand',
@@ -7,9 +8,14 @@ import {Component, OnInit} from '@angular/core';
 })
 export class BrandComponent implements OnInit {
 
+  @Input() brand!: BrandModel;
   constructor() { }
 
   ngOnInit(): void {
+  }
+
+  public removeUser() : void {
+
   }
 
 }

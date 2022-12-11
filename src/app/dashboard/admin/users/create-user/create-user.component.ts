@@ -33,13 +33,14 @@ export class CreateUserComponent implements OnInit {
 
   constructor(
     private router: Router,
-    private userDataService: UserDataService
-    ) {
+    private userDataService: UserDataService,
+    private roleDataService: RoleDataService,
+  ) {
   }
 
-  ngOnInit(): void {
-    RoleDataService.getInstance()
-      .getAll()
+  async ngOnInit(): Promise<void> {
+    (await this.roleDataService
+      .getAll())
       .subscribe(r => {
         this.roles = r;
       })

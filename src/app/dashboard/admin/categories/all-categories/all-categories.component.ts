@@ -12,12 +12,14 @@ export class AllCategoriesComponent implements OnInit {
 
   allCategories: CategoryModel[] = []
 
-  constructor() { }
+  constructor(
+    private categoryDataService: CategoryDataService
+  ) { }
 
-  ngOnInit(): void {
+  async ngOnInit(): Promise<void> {
 
-    CategoryDataService.getInstance()
-      .getAllCategories()
+    (await this.categoryDataService
+      .getAllCategories())
       .subscribe(r => {
         this.allCategories = r;
       });
@@ -25,7 +27,7 @@ export class AllCategoriesComponent implements OnInit {
   }
 
   removeCategoryOutArray(event: CategoryModel): void {
-    CategoryDataService.getInstance().removeCategory(event)
+    this.categoryDataService.removeCategory(event)
   }
 
 }

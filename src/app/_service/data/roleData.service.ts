@@ -10,32 +10,21 @@ export class RoleDataService {
 
   private roles: RoleModel[] = []
 
-  private static instance: RoleDataService;
-
   constructor(
     private api: ApiMethodsService
   ) {
-    this.setAllNewRoles();
-  }
-
-  public static getInstance(): RoleDataService  {
-    if (RoleDataService.instance == undefined) {
-      RoleDataService.instance = new RoleDataService(new ApiMethodsService());
-    }
-
-    return RoleDataService.instance;
   }
 
   public setAllNewRoles(): void {
-    this.api.get('role',true).then(r => {
-      r.data.payload.forEach((role: RoleModel) => {
-        this.roles.push(role);
-      });
-    });
+
   }
 
-  public getAll(): Observable<RoleModel[]> {
-    return of(this.roles);
+  public getAll(): Promise<Observable<RoleModel[]>> {
+    return this.api.get('role', true).then(r => {
+      this.roles = r.data.payload
+      return of(this.roles);
+    });
+
   }
 
 }

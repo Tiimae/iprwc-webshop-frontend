@@ -21,7 +21,10 @@ export class UpdateCategoryComponent implements OnInit {
     catname: new FormControl('', [Validators.required]),
   })
 
-  constructor(private route: ActivatedRoute, private router: Router) {
+  constructor(
+    private route: ActivatedRoute,
+    private router: Router,
+    private categoryDataService: CategoryDataService) {
   }
 
   ngOnInit(): void {
@@ -30,7 +33,7 @@ export class UpdateCategoryComponent implements OnInit {
 
         this.categoryId = CryptoJs.Rabbit.decrypt(currentUserId, await ApiConnectorService.getInstance().getDecryptKey()).toString(CryptoJs.enc.Utf8)
 
-      CategoryDataService.getInstance()
+      this.categoryDataService
       .getCurrentCategory(this.categoryId)
       .subscribe((r) => {
         if (r == undefined) {
@@ -60,7 +63,7 @@ export class UpdateCategoryComponent implements OnInit {
 
     const category = new CategoryModel(this.categoryId, catName)
 
-    CategoryDataService.getInstance().updateCategory(category)
+    this.categoryDataService.updateCategory(category)
     this.router.navigate(['dashboard', "admin", "categories"])
   }
 

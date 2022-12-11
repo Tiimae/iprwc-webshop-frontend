@@ -38,10 +38,12 @@ export class UpdateUserComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private userDataService: UserDataService) {
+    private userDataService: UserDataService,
+    private roleDataService: RoleDataService
+    ) {
   }
 
-  ngOnInit(): void {
+  async ngOnInit(): Promise<void> {
     this.route.params.subscribe(async (params) => {
       const currentUserId = params['userId'].replaceAll("*", "/");
       this.userId = CryptoJs.Rabbit.decrypt(currentUserId, await ApiConnectorService.getInstance().getDecryptKey()).toString(CryptoJs.enc.Utf8)
@@ -68,13 +70,12 @@ export class UpdateUserComponent implements OnInit {
         })
     });
 
-    RoleDataService.getInstance()
-      .getAll()
+    (await this.roleDataService
+      .getAll())
       .subscribe(r => {
         this.roles = r;
+        this.userEditForm.controls.role.setValue(this.roles[0].name);
       })
-
-    this.userEditForm.controls.role.setValue(this.roles[0].name);
   }
 
   public onSubmit(): void {

@@ -1,6 +1,8 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {NgForm} from "@angular/forms";
 import {Router} from "@angular/router";
+import { BrandModel } from 'src/app/_models/brand.model';
+import { BrandDataService } from 'src/app/_service/data/brandData.service';
 import {ApiMethodsService} from "../../../../_service/api-methods.service";
 
 @Component({
@@ -12,9 +14,12 @@ export class CreateBrandComponent implements OnInit {
 
   @ViewChild('f') createForm: NgForm | undefined;
 
-  uploadedImage: File | undefined;
+  uploadedImage!: File;
 
-  constructor(private router: Router) { }
+  constructor(
+    private router: Router,
+    private brandDataService: BrandDataService,
+  ) { }
 
   ngOnInit(): void {
   }
@@ -26,22 +31,13 @@ export class CreateBrandComponent implements OnInit {
 
   public onSubmit(): void {
 
-    const formData = new FormData();
-    // @ts-ignore
-    formData.append('logo', this.uploadedImage)
+    const brandName = this.createForm?.form.controls['brandname'].value
+    const webPage = this.createForm?.form.controls['url'].value
 
-    const payload = {
-      "brandName": this.createForm?.form.controls['brandname'].value,
-      "webPage": this.createForm?.form.controls['url'].value,
-      "logo": "",
-      "productIds": []
-    }
+    const brand = new BrandModel("", brandName, webPage, this.uploadedImage)
+    this.brandDataService.create(brand);
+    this.router.navigate(["dashboard", "admin", "brands"])
 
-    ApiMethodsService.getInstance().post("brand", payload, true).then(r => {
-      ApiMethodsService.getInstance().post("brand/" + r.data.payload.id + '/image', formData, true).then(r => {
-        console.log(r)
-      })
-    })
   }
 
 }

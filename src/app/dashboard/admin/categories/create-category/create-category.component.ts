@@ -16,7 +16,11 @@ export class CreateCategoryComponent implements OnInit {
     catname: new FormControl('', [Validators.required]),
   })
 
-  constructor(private router: Router) { }
+  constructor(
+    private router: Router,
+    private categoryDataService: CategoryDataService
+  ) {
+  }
 
   ngOnInit(): void {
   }
@@ -35,7 +39,7 @@ export class CreateCategoryComponent implements OnInit {
 
     const category = new CategoryModel("", catName)
 
-    CategoryDataService.getInstance().createCategory(category)
+    this.categoryDataService.createCategory(category)
     this.router.navigate(['dashboard', "admin", "categories"])
   }
 

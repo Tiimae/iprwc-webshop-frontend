@@ -9,32 +9,16 @@ import {CategoryModel} from "../../_models/category.model";
 export class CategoryDataService {
   categories: CategoryModel[] = [];
 
-  private static instance: CategoryDataService;
-
   constructor(
     private apiMethod: ApiMethodsService
   ) {
-    this.setAllNewCategories();
   }
 
-  public static getInstance(): CategoryDataService  {
-    if (CategoryDataService.instance == undefined) {
-      CategoryDataService.instance = new CategoryDataService(new ApiMethodsService());
-    }
-
-    return CategoryDataService.instance;
-  }
-
-  public async setAllNewCategories(): Promise<void> {
-    ApiMethodsService.getInstance().get('category', true).then(r => {
-      r.data.payload.forEach((category: CategoryModel) => {
-        this.categories.push(category);
-      });
+  public async getAllCategories(): Promise<Observable<CategoryModel[]>> {
+    return await ApiMethodsService.getInstance().get('category', true).then(r => {
+      this.categories = r.data.payload
+      return of(this.categories);
     });
-  }
-
-  public getAllCategories(): Observable<CategoryModel[]> {
-    return of(this.categories);
   }
 
   public removeCategory(category: CategoryModel) {
