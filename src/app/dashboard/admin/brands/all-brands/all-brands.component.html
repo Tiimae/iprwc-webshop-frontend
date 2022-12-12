@@ -10,4 +10,5 @@
 <app-brand
   *ngFor="let brand of brands"
   [brand]="brand"
+  (delete)="removeUser($event)"
 ></app-brand>

@@ -30,7 +30,7 @@ export class BrandDataService {
 
   public create(brand: BrandModel) {
     const formData = new FormData();
-    formData.append('logo', brand.logoUrl, brand.logoUrl.name)
+    formData.append('logo', brand.logoUrl, brand.image.name)
     formData.append("brand", JSON.stringify({
       "brandName": brand.brandName,
       "webPage": brand.webPage,

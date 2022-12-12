@@ -35,6 +35,7 @@ export class CreateBrandComponent implements OnInit {
     const webPage = this.createForm?.form.controls['url'].value
 
     const brand = new BrandModel("", brandName, webPage, this.uploadedImage)
+    brand.image = this.uploadedImage
     this.brandDataService.create(brand);
     this.router.navigate(["dashboard", "admin", "brands"])
 

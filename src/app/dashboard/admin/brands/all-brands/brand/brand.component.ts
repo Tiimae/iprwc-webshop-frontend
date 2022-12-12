@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {BrandModel} from "../../../../../_models/brand.model";
 
 @Component({
@@ -9,13 +9,15 @@ import {BrandModel} from "../../../../../_models/brand.model";
 export class BrandComponent implements OnInit {
 
   @Input() brand!: BrandModel;
+  @Output() delete: EventEmitter<BrandModel> = new EventEmitter<BrandModel>();
+
   constructor() { }
 
   ngOnInit(): void {
   }
 
   public removeUser() : void {
-
+    this.delete.emit(this.brand)
   }
 
 }

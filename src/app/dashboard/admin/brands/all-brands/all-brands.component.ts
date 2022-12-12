@@ -22,6 +22,12 @@ export class AllBrandsComponent implements OnInit {
         this.brands = r
       })
 
+    console.log(this.brands)
+
+  }
+
+  public removeUser(event: BrandModel): void {
+
   }
 
 }
