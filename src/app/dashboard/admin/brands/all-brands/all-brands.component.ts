@@ -10,9 +10,11 @@ import {BrandDataService} from "../../../../_service/data/brandData.service";
 export class AllBrandsComponent implements OnInit {
 
   brands: BrandModel[] = []
+
   constructor(
     private brandDataService: BrandDataService
-  ) { }
+  ) {
+  }
 
   async ngOnInit(): Promise<void> {
 
@@ -21,9 +23,6 @@ export class AllBrandsComponent implements OnInit {
       .subscribe(r => {
         this.brands = r
       })
-
-    console.log(this.brands)
-
   }
 
   public removeUser(event: BrandModel): void {

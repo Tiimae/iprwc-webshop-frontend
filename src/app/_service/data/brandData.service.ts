@@ -16,7 +16,6 @@ export class BrandDataService {
 
   public async get(brandId: string): Promise<Observable<BrandModel>> {
     return await ApiMethodsService.getInstance().get('brand/' + brandId, true).then(r => {
-      console.log(r)
       return of(r.data.payload)
     });
   }
@@ -44,13 +43,19 @@ export class BrandDataService {
   }
 
   public update(brand: BrandModel): void {
-    const payload = {
-      "brandName": brand.brandName,
-      "productIds": []
+    const formData = new FormData();
+    if (brand.image != null) {
+      formData.append('logo', brand.image, brand.image.name)
     }
+    formData.append("brand", JSON.stringify({
+      "brandName": brand.brandName,
+      "webPage": brand.webPage,
+      "logo": "",
+      "productIds": []
+    }))
 
-    ApiMethodsService.getInstance().put("brand/" + brand.id, payload, true).then(r => {
-      this.brands[this.brands.findIndex(currentBrand => currentBrand.id === brand.id)] = brand
+    ApiMethodsService.getInstance().put("brand/" + brand.id, formData, true).then(r => {
+      this.brands[this.brands.findIndex(currentBrand => currentBrand.id === r.data.payload.id)] = r.data.payload
     })
   }
 
