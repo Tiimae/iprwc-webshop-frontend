@@ -27,7 +27,7 @@ export class AllBrandsComponent implements OnInit {
   }
 
   public removeUser(event: BrandModel): void {
-
+    this.brandDataService.remove(event);
   }
 
 }
