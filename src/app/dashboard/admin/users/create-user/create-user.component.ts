@@ -73,9 +73,9 @@ export class CreateUserComponent implements OnInit {
     this.router.navigate(['dashboard', 'admin', 'users'])
   }
 
-  public removeRoleOutArray(role: RoleModel) {
+  public removeRoleOutArray(event: string) {
     this.userRoles.forEach((currentRole, index) => {
-      if (currentRole.name == role.name) {
+      if (currentRole.name == event) {
         this.userRoles.splice(index, 1)
       }
     })

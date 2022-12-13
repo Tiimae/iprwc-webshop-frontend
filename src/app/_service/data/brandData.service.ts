@@ -1,17 +1,19 @@
 import {Injectable} from "@angular/core";
 import { BrandModel } from "src/app/_models/brand.model";
 import {ApiMethodsService} from "../api-methods.service";
-import {Observable, of} from "rxjs";
+import {BehaviorSubject, Observable, of, Subject} from "rxjs";
 
 @Injectable({
   providedIn: 'root',
 })
 export class BrandDataService {
   brands: BrandModel[] = []
+  brands$: Subject<BrandModel[]> = new BehaviorSubject<BrandModel[]>([]);
 
   constructor(
     private apiMethod: ApiMethodsService
   ) {
+    this.getAll()
   }
 
   public async get(brandId: string): Promise<Observable<BrandModel>> {
@@ -20,10 +22,10 @@ export class BrandDataService {
     });
   }
 
-  public async getAll(): Promise<Observable<BrandModel[]>> {
-    return await ApiMethodsService.getInstance().get('brand', true).then(r => {
+  public async getAll(): Promise<void> {
+    await ApiMethodsService.getInstance().get('brand', true).then(r => {
       this.brands = r.data.payload
-      return of(this.brands);
+      this.brands$.next(this.brands)
     });
   }
 
@@ -39,6 +41,7 @@ export class BrandDataService {
 
     ApiMethodsService.getInstance().post("brand", formData, true).then(r => {
       this.brands.push(r.data.payload);
+      this.brands$.next(this.brands)
     })
   }
 
@@ -56,6 +59,7 @@ export class BrandDataService {
 
     ApiMethodsService.getInstance().put("brand/" + brand.id, formData, true).then(r => {
       this.brands[this.brands.findIndex(currentBrand => currentBrand.id === r.data.payload.id)] = r.data.payload
+      this.brands$.next(this.brands)
     })
   }
 
@@ -68,6 +72,7 @@ export class BrandDataService {
 
     ApiMethodsService.getInstance().delete("brand/" + brand.id, true).then(r => {
       alert("brand has been deleted")
+      this.brands$.next(this.brands)
     })
   }
 }

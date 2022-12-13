@@ -7,6 +7,7 @@ import {CreateBrandComponent} from './create-brand/create-brand.component';
 import {UpdateBrandComponent} from './update-brand/update-brand.component';
 import {BrandComponent} from './all-brands/brand/brand.component';
 import {FormsModule} from "@angular/forms";
+import {SharedModule} from "../../../_shared/shared.module";
 
 
 @NgModule({
@@ -16,10 +17,11 @@ import {FormsModule} from "@angular/forms";
     UpdateBrandComponent,
     BrandComponent
   ],
-  imports: [
-    CommonModule,
-    BrandRoutingModule,
-    FormsModule
-  ]
+    imports: [
+        CommonModule,
+        BrandRoutingModule,
+        FormsModule,
+        SharedModule
+    ]
 })
 export class BrandModule { }

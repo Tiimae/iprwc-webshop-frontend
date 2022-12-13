@@ -7,6 +7,7 @@ import {SupplierComponent} from './all-suppliers/supplier/supplier.component';
 import {UpdateSupplierComponent} from './update-supplier/update-supplier.component';
 import {CreateSupplierComponent} from './create-supplier/create-supplier.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import {SharedModule} from "../../../_shared/shared.module";
 
 
 @NgModule({
@@ -19,7 +20,8 @@ import { ReactiveFormsModule } from '@angular/forms';
   imports: [
     CommonModule,
     SuppliersRoutingModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    SharedModule
   ]
 })
 export class SuppliersModule { }

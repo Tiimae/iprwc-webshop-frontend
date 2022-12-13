@@ -1,4 +1,6 @@
 import {Component, OnInit} from '@angular/core';
+import {ProductDataService} from "../../../../_service/data/productData.service";
+import {ProductModel} from "../../../../_models/product.model";
 
 @Component({
   selector: 'app-all-products',
@@ -7,9 +9,30 @@ import {Component, OnInit} from '@angular/core';
 })
 export class AllProductsComponent implements OnInit {
 
-  constructor() { }
+  allProducts: ProductModel[] = [];
+
+  constructor(
+    private productDataService: ProductDataService
+  ) { }
 
   ngOnInit(): void {
+    this.productDataService
+      .products$
+      .subscribe({
+        next: (products: ProductModel[]) => {
+          this.allProducts = products;
+        },
+        error(e: Error) {
+          throw new Error(e.message);
+        },
+        complete: () => {
+          console.log("complete")
+        }
+      })
+  }
+
+  removeProductOutArray(event: ProductModel): void {
+    this.productDataService.delete(event.id);
   }
 
 }

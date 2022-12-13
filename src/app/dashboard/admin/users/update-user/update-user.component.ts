@@ -106,9 +106,9 @@ export class UpdateUserComponent implements OnInit {
 
   }
 
-  public removeRoleOutArray(role: RoleModel) {
+  public removeRoleOutArray(role: string) {
     this.user?.roles.forEach((currentRole, index) => {
-      if (currentRole.name == role.name) {
+      if (currentRole.name == role) {
         this.user?.roles.splice(index, 1)
       }
     })

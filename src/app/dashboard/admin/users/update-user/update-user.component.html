@@ -64,8 +64,8 @@
       </h2>
       <br>
       <br>
-      <app-update-user-roles *ngFor="let role of userRoles" [role]=role
-                             (delete)="removeRoleOutArray(role)"></app-update-user-roles>
+      <app-add-entity-bar *ngFor="let role of userRoles" [name]="role.name"
+                          (delete)="removeRoleOutArray($event)"></app-add-entity-bar>
 
       <section>
         <label for="role">add Role:</label>

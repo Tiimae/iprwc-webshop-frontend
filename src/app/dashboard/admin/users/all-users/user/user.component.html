@@ -3,8 +3,12 @@
     <section class="p-5 text-lg flex-auto items-center flex-grow w-1/2">
       <h2 class="mb-1">{{ createUserName() }}</h2>
       <section class="flex">
-        <app-user-roles [roles]="user.roles"></app-user-roles>
-        <app-user-email [email]="user.email"></app-user-email>
+        <app-bubble-text
+          [key]="'Roles'"
+          [value]="getRolesRow()"></app-bubble-text>
+          <app-bubble-text
+            [key]="'Email'"
+            [value]="user.email"></app-bubble-text>
       </section>
     </section>
 

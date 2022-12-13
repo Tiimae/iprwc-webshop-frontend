@@ -1,6 +1,6 @@
 import {Injectable} from "@angular/core";
 import {ApiMethodsService} from "../api-methods.service";
-import {Observable, of} from "rxjs";
+import {BehaviorSubject, Observable, of, Subject} from "rxjs";
 import {CategoryModel} from "../../_models/category.model";
 
 @Injectable({
@@ -8,16 +8,18 @@ import {CategoryModel} from "../../_models/category.model";
 })
 export class CategoryDataService {
   categories: CategoryModel[] = [];
+  categories$: Subject<CategoryModel[]> = new BehaviorSubject<CategoryModel[]>([]);
 
   constructor(
     private apiMethod: ApiMethodsService
   ) {
+    this.getAllCategories();
   }
 
-  public async getAllCategories(): Promise<Observable<CategoryModel[]>> {
-    return await ApiMethodsService.getInstance().get('category', true).then(r => {
+  public async getAllCategories(): Promise<void> {
+    await ApiMethodsService.getInstance().get('category', true).then(r => {
       this.categories = r.data.payload
-      return of(this.categories);
+      this.categories$.next(this.categories)
     });
   }
 
@@ -30,6 +32,7 @@ export class CategoryDataService {
 
     ApiMethodsService.getInstance().delete("category/" + category.id, true).then(r => {
       alert("Category has been deleted")
+      this.categories$.next(this.categories)
     })
   }
 
@@ -41,6 +44,7 @@ export class CategoryDataService {
 
     ApiMethodsService.getInstance().post("category", payload, true).then(r => {
       this.categories.push(r.data.payload);
+      this.categories$.next(this.categories)
     })
   }
 
@@ -60,6 +64,7 @@ export class CategoryDataService {
 
     ApiMethodsService.getInstance().put("category/" + category.id, payload, true).then(r => {
       this.categories[this.categories.findIndex(currentCategory => currentCategory.id === category.id)] = category
+      this.categories$.next(this.categories)
     })
   }
 }

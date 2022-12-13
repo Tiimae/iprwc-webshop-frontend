@@ -3,9 +3,26 @@
     <section class="p-5 text-lg flex-auto items-center flex-grow w-1/2">
       <h2 class="mb-1">{{ supplier.name }}</h2>
       <section class="flex">
-<!--        <app-supplier-roles [roles]="supplier.roles"></app-supplier-roles>-->
-<!--        <app-supplier-email [email]="supplier.email"></app-supplier-email>-->
-      </section>
+        <app-bubble-text
+          [key]="'Address'"
+          [value]="supplier.address"
+        ></app-bubble-text>
+
+        <app-bubble-text
+          [key]="'Zipcode'"
+          [value]="supplier.zipcode"
+        ></app-bubble-text>
+
+        <app-bubble-text
+          [key]="'City'"
+          [value]="supplier.city"
+        ></app-bubble-text>
+
+        <app-bubble-text
+          [key]="'Country'"
+          [value]="supplier.country"
+        ></app-bubble-text>
+    </section>
     </section>
 
     <section class="flex-auto ">

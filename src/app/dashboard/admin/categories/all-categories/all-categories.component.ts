@@ -18,8 +18,8 @@ export class AllCategoriesComponent implements OnInit {
 
   async ngOnInit(): Promise<void> {
 
-    (await this.categoryDataService
-      .getAllCategories())
+    this.categoryDataService
+      .categories$
       .subscribe(r => {
         this.allCategories = r;
       });

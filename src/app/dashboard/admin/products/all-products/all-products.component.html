@@ -1,7 +1,14 @@
-<section>
-  <a routerLink="/dashboard/products/create" class="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 ">
-    <span>
-      Create
-    </span>
+<section class="flex mb-5">
+  <h1 class="text-lg flex-auto items-center flex-grow w-1/2">All Products</h1>
+  <a routerLink="/dashboard/admin/products/create">
+    <button class="mr-1 items-center justify-right bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+      Create product
+    </button>
   </a>
 </section>
+
+<app-product
+  *ngFor="let product of allProducts"
+  [product]="product"
+  (delete)="removeProductOutArray($event)"
+></app-product>

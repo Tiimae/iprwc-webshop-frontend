@@ -4,31 +4,25 @@ import {CommonModule} from '@angular/common';
 import {UsersRoutingModule} from './users-routing.module';
 import {AllUsersComponent} from './all-users/all-users.component';
 import {UserComponent} from './all-users/user/user.component';
-import {UserRolesComponent} from './all-users/user/user-roles/user-roles.component';
-import {UserEmailComponent} from './all-users/user/user-email/user-email.component';
 import {UpdateUserComponent} from './update-user/update-user.component';
 import {CreateUserComponent} from './create-user/create-user.component';
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
-import {UpdateUserRolesComponent} from './update-user/update-user-roles/update-user-roles.component';
-import {CreateUserRolesComponent} from './create-user/create-user-roles/create-user-roles.component';
+import {SharedModule} from "../../../_shared/shared.module";
 
 
 @NgModule({
   declarations: [
     AllUsersComponent,
     UserComponent,
-    UserRolesComponent,
-    UserEmailComponent,
     UpdateUserComponent,
     CreateUserComponent,
-    UpdateUserRolesComponent,
-    CreateUserRolesComponent,
   ],
   imports: [
     CommonModule,
     UsersRoutingModule,
     FormsModule,
     ReactiveFormsModule,
+    SharedModule
   ]
 })
 export class UsersModule { }

@@ -10,13 +10,10 @@ export class RoleDataService {
 
   private roles: RoleModel[] = []
 
+
   constructor(
     private api: ApiMethodsService
   ) {
-  }
-
-  public setAllNewRoles(): void {
-
   }
 
   public getAll(): Promise<Observable<RoleModel[]>> {
