@@ -21,7 +21,6 @@ export class UserDataService {
       this.users = r.data.payload
       return of(this.users);
     });
-
   }
 
   public removeUser(user: UserModel) {
