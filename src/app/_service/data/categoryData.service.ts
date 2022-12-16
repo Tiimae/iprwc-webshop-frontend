@@ -2,6 +2,7 @@ import {Injectable} from "@angular/core";
 import {ApiMethodsService} from "../api-methods.service";
 import {BehaviorSubject, Observable, of, Subject} from "rxjs";
 import {CategoryModel} from "../../_models/category.model";
+import {ToastrService} from "ngx-toastr";
 
 @Injectable({
   providedIn: 'root',
@@ -11,7 +12,8 @@ export class CategoryDataService {
   categories$: Subject<CategoryModel[]> = new BehaviorSubject<CategoryModel[]>([]);
 
   constructor(
-    private apiMethod: ApiMethodsService
+    private apiMethod: ApiMethodsService,
+    private toastr: ToastrService
   ) {
     this.getAllCategories();
   }
@@ -35,7 +37,20 @@ export class CategoryDataService {
     })
   }
 
-  public createCategory(category: CategoryModel) {
+  public createCategory(category: CategoryModel): boolean {
+    let check = true
+
+    this.categories.forEach((currentCategory: CategoryModel) => {
+      if (category.categoryName === currentCategory.categoryName) {
+        this.toastr.error('Category name is already in user.', 'Failed');
+        check = false;
+      }
+    })
+
+    if (!check) {
+      return check;
+    }
+
     const payload = {
       "categoryName": category.categoryName,
       "productIds": []
@@ -45,6 +60,8 @@ export class CategoryDataService {
       this.categories.push(r.data.payload);
       this.categories$.next(this.categories)
     })
+
+    return check;
   }
 
   public getCurrentCategory(categoryId: string): Observable<CategoryModel | undefined> {
@@ -55,7 +72,20 @@ export class CategoryDataService {
     return of(undefined);
   }
 
-  public updateCategory(category: CategoryModel): void {
+  public updateCategory(category: CategoryModel): boolean {
+    let check = true
+
+    this.categories.forEach((currentCategory: CategoryModel) => {
+      if (category.categoryName === currentCategory.categoryName) {
+        this.toastr.error('Category name is already in user.', 'Failed');
+        check = false;
+      }
+    })
+
+    if (!check) {
+      return check;
+    }
+
     const payload = {
       "categoryName": category.categoryName,
       "productIds": []
@@ -65,5 +95,6 @@ export class CategoryDataService {
       this.categories[this.categories.findIndex(currentCategory => currentCategory.id === category.id)] = category
       this.categories$.next(this.categories)
     })
+    return check;
   }
 }

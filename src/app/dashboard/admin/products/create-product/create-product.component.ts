@@ -9,6 +9,7 @@ import {BrandModel} from "../../../../_models/brand.model";
 import {SupplierModel} from "../../../../_models/supplier.model";
 import {CategoryModel} from 'src/app/_models/category.model';
 import {ProductModel} from "../../../../_models/product.model";
+import {ToastrService} from "ngx-toastr";
 
 @Component({
   selector: 'app-create-product',
@@ -43,7 +44,8 @@ export class CreateProductComponent implements OnInit {
     private brandDataService: BrandDataService,
     private categoryDataService: CategoryDataService,
     private productDataService: ProductDataService,
-    private router: Router
+    private router: Router,
+    private toastr: ToastrService
   ) {
   }
 
@@ -95,10 +97,12 @@ export class CreateProductComponent implements OnInit {
     const description = this.productCreateForm.controls.description.value;
 
     if (name == null || price == null || description == null || this.currentSupplier == undefined || this.currentBrand == undefined || this.currentCategory == undefined || this.images.length == 0) {
+      this.toastr.error('Something is wrong!', 'Failed');
       return;
     }
 
     if (!this.productCreateForm.valid) {
+      this.toastr.error('Something is wrong!', 'Failed');
       return;
     }
 
@@ -113,8 +117,12 @@ export class CreateProductComponent implements OnInit {
       []
     );
 
-    this.productDataService.post(product, this.images);
-    this.router.navigate(["dashboard", "admin", "products"]);
+    const request: boolean = this.productDataService.post(product, this.images);
+
+    if (request) {
+      this.toastr.success("Brand Has been created successfully!", "Created")
+      this.router.navigate(["dashboard", "admin", "products"]);
+    }
 
   }
 

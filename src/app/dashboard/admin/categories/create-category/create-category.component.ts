@@ -3,6 +3,7 @@ import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {Router} from '@angular/router';
 import {CategoryModel} from "../../../../_models/category.model";
 import {CategoryDataService} from "../../../../_service/data/categoryData.service";
+import {ToastrService} from "ngx-toastr";
 
 @Component({
   selector: 'app-create-category',
@@ -17,7 +18,8 @@ export class CreateCategoryComponent implements OnInit {
 
   constructor(
     private router: Router,
-    private categoryDataService: CategoryDataService
+    private categoryDataService: CategoryDataService,
+    private toastr: ToastrService
   ) {
   }
 
@@ -29,17 +31,23 @@ export class CreateCategoryComponent implements OnInit {
     const catName = this.categoryCreateForm.controls.catname.value;
 
     if (catName == null) {
+      this.toastr.error('Something is wrong!', 'Failed');
       return
     }
 
     if (!this.categoryCreateForm.valid) {
+      this.toastr.error('Something is wrong!', 'Failed');
       return;
     }
 
     const category = new CategoryModel("", catName)
 
-    this.categoryDataService.createCategory(category)
-    this.router.navigate(['dashboard', "admin", "categories"])
+    const request: boolean = this.categoryDataService.createCategory(category)
+
+    if (request) {
+      this.toastr.success("Brand Has been created successfully!", "Created")
+      this.router.navigate(['dashboard', "admin", "categories"])
+    }
   }
 
 }

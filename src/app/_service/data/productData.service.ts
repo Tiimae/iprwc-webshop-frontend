@@ -4,6 +4,8 @@ import {BehaviorSubject, Observable, of, Subject} from "rxjs";
 import {ApiMethodsService} from "../api-methods.service";
 import {v4 as uuid} from 'uuid';
 import {ProductImageModel} from "../../_models/productImage.model";
+import {CategoryModel} from "../../_models/category.model";
+import {ToastrService} from "ngx-toastr";
 
 @Injectable({
   providedIn: 'root',
@@ -12,7 +14,9 @@ export class ProductDataService {
   private products: ProductModel[] = [];
   products$: Subject<ProductModel[]> = new BehaviorSubject<ProductModel[]>([]);
 
-  constructor() {
+  constructor(
+    private toastr: ToastrService
+  ) {
     this.getAll();
   }
 
@@ -31,7 +35,20 @@ export class ProductDataService {
     })
   }
 
-  post(product: ProductModel, images: File[]): void {
+  post(product: ProductModel, images: File[]): boolean {
+    let check = true
+
+    this.products.forEach((currentProduct: ProductModel) => {
+      if (product.productName === currentProduct.productName) {
+        this.toastr.error('Product name is already in user.', 'Failed');
+        check = false;
+      }
+    })
+
+    if (!check) {
+      return check;
+    }
+
     const fd = new FormData()
     images.forEach(image => {
       const extension =  image.type.split("/")[1]
@@ -52,9 +69,24 @@ export class ProductDataService {
       this.products$.next(this.products)
     })
 
+    return check;
+
   }
 
-  update(product: ProductModel, deletedImages: ProductImageModel[], newImages: File[]): void {
+  update(product: ProductModel, deletedImages: ProductImageModel[], newImages: File[]): boolean {
+    let check = true
+
+    this.products.forEach((currentProduct: ProductModel) => {
+      if (product.productName === currentProduct.productName) {
+        this.toastr.error('Product name is already in user.', 'Failed');
+        check = false;
+      }
+    })
+
+    if (!check) {
+      return check;
+    }
+
     const fd = new FormData()
     deletedImages.forEach(image => {
       fd.append("deletedImages", image.imagePath)
@@ -77,6 +109,8 @@ export class ProductDataService {
       this.products[this.products.findIndex(currentProduct => currentProduct.id === product.id)] = res.data.payload
       this.products$.next(this.products)
     })
+
+    return check;
   }
 
   delete(productId: string): void {

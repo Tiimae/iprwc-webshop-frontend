@@ -12,6 +12,7 @@ import * as CryptoJs from "crypto-js";
 import {ApiConnectorService} from "../../../../_service/api-connector.service";
 import {ProductModel} from 'src/app/_models/product.model';
 import {ProductImageModel} from "../../../../_models/productImage.model";
+import {ToastrService} from "ngx-toastr";
 
 @Component({
   selector: 'app-update-product',
@@ -53,6 +54,7 @@ export class UpdateProductComponent implements OnInit {
     private productDataService: ProductDataService,
     private router: Router,
     private route: ActivatedRoute,
+    private toastr: ToastrService
   ) { }
 
   ngOnInit(): void {
@@ -141,10 +143,12 @@ export class UpdateProductComponent implements OnInit {
     const description = this.productCreateForm.controls.description.value;
 
     if (name == null || price == null || description == null || this.currentSupplier == undefined || this.currentBrand == undefined || this.currentCategory == undefined || this.images.length == 0) {
+      this.toastr.error('Something is wrong!', 'Failed');
       return;
     }
 
     if (!this.productCreateForm.valid) {
+      this.toastr.error('Something is wrong!', 'Failed');
       return;
     }
 
@@ -159,8 +163,12 @@ export class UpdateProductComponent implements OnInit {
       []
     );
 
-    this.productDataService.update(product, this.deleteImages, this.addedImages);
-    this.router.navigate(["dashboard", "admin", "products"]);
+    const request: boolean = this.productDataService.update(product, this.deleteImages, this.addedImages);
+
+    if (request) {
+      this.toastr.success("Brand Has been updated successfully!", "Updated")
+      this.router.navigate(["dashboard", "admin", "products"]);
+    }
   }
 
   addImage(event: any): void {

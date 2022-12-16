@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {ProductDataService} from "../../../../_service/data/productData.service";
 import {ProductModel} from "../../../../_models/product.model";
+import {ToastrService} from "ngx-toastr";
 
 @Component({
   selector: 'app-all-products',
@@ -12,7 +13,8 @@ export class AllProductsComponent implements OnInit {
   allProducts: ProductModel[] = [];
 
   constructor(
-    private productDataService: ProductDataService
+    private productDataService: ProductDataService,
+    private toastr: ToastrService
   ) { }
 
   ngOnInit(): void {
@@ -33,6 +35,7 @@ export class AllProductsComponent implements OnInit {
 
   removeProductOutArray(event: ProductModel): void {
     this.productDataService.delete(event.id);
+    this.toastr.success("Product has been deleted successfully!", "Deleted")
   }
 
 }
