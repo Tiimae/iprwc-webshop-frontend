@@ -1,5 +1,4 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {UserModel} from "../../../../../_models/user.model";
 import {SupplierModel} from "../../../../../_models/supplier.model";
 import * as CryptoJs from "crypto-js";
 import {ApiConnectorService} from "../../../../../_service/api-connector.service";

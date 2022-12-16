@@ -1,9 +1,8 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
 import {ApiConnectorService} from "../../../../_service/api-connector.service";
 import * as CryptoJs from "crypto-js";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
-import {ApiMethodsService} from "../../../../_service/api-methods.service";
 import {CategoryDataService} from "../../../../_service/data/categoryData.service";
 import {CategoryModel} from "../../../../_models/category.model";
 

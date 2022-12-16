@@ -2,7 +2,7 @@ import {Injectable} from "@angular/core";
 import {ProductModel} from "../../_models/product.model";
 import {BehaviorSubject, Observable, of, Subject} from "rxjs";
 import {ApiMethodsService} from "../api-methods.service";
-import { v4 as uuid } from 'uuid';
+import {v4 as uuid} from 'uuid';
 import {ProductImageModel} from "../../_models/productImage.model";
 
 @Injectable({

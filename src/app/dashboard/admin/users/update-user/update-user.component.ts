@@ -1,10 +1,9 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
 import * as CryptoJs from 'crypto-js';
 import {ApiConnectorService} from "../../../../_service/api-connector.service";
-import {ApiMethodsService} from "../../../../_service/api-methods.service";
 import {UserModel} from "../../../../_models/user.model";
-import {FormControl, FormGroup, NgForm, Validators} from "@angular/forms";
+import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {RoleModel} from "../../../../_models/role.model";
 import {UserDataService} from "../../../../_service/data/userData.service";
 import {RoleDataService} from "../../../../_service/data/roleData.service";

@@ -8,7 +8,6 @@ import {UpdateBrandComponent} from './update-brand/update-brand.component';
 import {BrandComponent} from './all-brands/brand/brand.component';
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {SharedModule} from "../../../_shared/shared.module";
-import {ToastrModule} from "ngx-toastr";
 
 
 @NgModule({

@@ -1,7 +1,6 @@
 import {Injectable} from '@angular/core';
 import {ApiConnectorService} from "./api-connector.service";
 import {AxiosResponse} from "axios";
-import {JsonObject} from "@angular/compiler-cli/ngcc/src/utils";
 
 @Injectable({
   providedIn: 'root'

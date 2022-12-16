@@ -13,7 +13,6 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import {ActivatedRoute, Router} from "@angular/router";
 import {LoggedUserModel} from "../../_models/loggedUser.model";
-import {HasRoleGuard} from "../../_guard/has-role.guard";
 
 @Component({
   selector: 'app-sidebar',

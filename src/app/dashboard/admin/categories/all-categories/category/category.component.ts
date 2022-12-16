@@ -1,6 +1,5 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {CategoryModel} from 'src/app/_models/category.model';
-import {ApiMethodsService} from "../../../../../_service/api-methods.service";
 import * as CryptoJs from "crypto-js";
 import {ApiConnectorService} from "../../../../../_service/api-connector.service";
 

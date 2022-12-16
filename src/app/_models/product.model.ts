@@ -1,6 +1,6 @@
 import {CategoryModel} from "./category.model";
 import {BrandModel} from "./brand.model";
-import { SupplierModel } from "./supplier.model";
+import {SupplierModel} from "./supplier.model";
 import {ProductImageModel} from "./productImage.model";
 
 export class ProductModel {

@@ -2,7 +2,6 @@ import {Injectable, OnInit} from '@angular/core';
 import axios, {AxiosInstance} from 'axios';
 import {LoggedUserModel} from "../_models/loggedUser.model";
 import * as CryptoJs from 'crypto-js';
-import {ApiMethodsService} from "./api-methods.service";
 
 @Injectable({
   providedIn: 'root'

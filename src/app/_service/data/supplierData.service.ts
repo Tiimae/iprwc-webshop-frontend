@@ -2,7 +2,6 @@ import {Injectable} from "@angular/core";
 import {BehaviorSubject, Observable, of, Subject} from "rxjs";
 import {SupplierModel} from "../../_models/supplier.model";
 import {ApiMethodsService} from "../api-methods.service";
-import {UserModel} from "../../_models/user.model";
 
 @Injectable({
   providedIn: 'root',

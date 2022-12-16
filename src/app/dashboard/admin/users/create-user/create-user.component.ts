@@ -1,7 +1,6 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
-import {ApiMethodsService} from "../../../../_service/api-methods.service";
+import {Component, OnInit} from '@angular/core';
 import {RoleModel} from "../../../../_models/role.model";
-import {FormControl, FormGroup, NgForm, Validators} from "@angular/forms";
+import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {Router} from "@angular/router";
 import {UserModel} from "../../../../_models/user.model";
 import {UserDataService} from "../../../../_service/data/userData.service";

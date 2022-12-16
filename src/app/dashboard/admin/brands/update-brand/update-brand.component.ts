@@ -1,10 +1,10 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {BrandDataService} from "../../../../_service/data/brandData.service";
 import * as CryptoJs from "crypto-js";
 import {ApiConnectorService} from "../../../../_service/api-connector.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {BrandModel} from "../../../../_models/brand.model";
-import {FormControl, FormGroup, NgForm, Validators} from "@angular/forms";
+import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {ToastrService} from "ngx-toastr";
 
 @Component({

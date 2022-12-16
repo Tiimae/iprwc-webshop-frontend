@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {CategoryModel} from 'src/app/_models/category.model';
-import {ApiMethodsService} from 'src/app/_service/api-methods.service';
 import {CategoryDataService} from "../../../../_service/data/categoryData.service";
+import {ToastrService} from "ngx-toastr";
 
 @Component({
   selector: 'app-all-categories',
@@ -13,7 +13,8 @@ export class AllCategoriesComponent implements OnInit {
   allCategories: CategoryModel[] = []
 
   constructor(
-    private categoryDataService: CategoryDataService
+    private categoryDataService: CategoryDataService,
+    private toastr: ToastrService
   ) { }
 
   async ngOnInit(): Promise<void> {
@@ -28,6 +29,7 @@ export class AllCategoriesComponent implements OnInit {
 
   removeCategoryOutArray(event: CategoryModel): void {
     this.categoryDataService.removeCategory(event)
+    this.toastr.success("Category has been deleted successfully!", "Deleted")
   }
 
 }

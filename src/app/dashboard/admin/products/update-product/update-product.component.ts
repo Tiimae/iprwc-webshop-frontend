@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {BrandModel} from "../../../../_models/brand.model";
 import {SupplierModel} from "../../../../_models/supplier.model";
@@ -10,7 +10,7 @@ import {ProductDataService} from "../../../../_service/data/productData.service"
 import {ActivatedRoute, Router} from "@angular/router";
 import * as CryptoJs from "crypto-js";
 import {ApiConnectorService} from "../../../../_service/api-connector.service";
-import { ProductModel } from 'src/app/_models/product.model';
+import {ProductModel} from 'src/app/_models/product.model';
 import {ProductImageModel} from "../../../../_models/productImage.model";
 
 @Component({

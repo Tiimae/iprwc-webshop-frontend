@@ -1,5 +1,4 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import { CategoryModel } from 'src/app/_models/category.model';
 
 @Component({
   selector: 'app-add-entity-bar',
