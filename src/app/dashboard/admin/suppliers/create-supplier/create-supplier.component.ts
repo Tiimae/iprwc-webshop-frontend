@@ -3,6 +3,7 @@ import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {SupplierModel} from 'src/app/_models/supplier.model';
 import {SupplierDataService} from "../../../../_service/data/supplierData.service";
 import {Router} from "@angular/router";
+import {ToastrService} from "ngx-toastr";
 
 @Component({
   selector: 'app-create-supplier',
@@ -22,6 +23,7 @@ export class CreateSupplierComponent implements OnInit {
   constructor(
     private supplierDataService: SupplierDataService,
     private router: Router,
+    private toastr: ToastrService,
   ) { }
 
   ngOnInit(): void {
@@ -35,10 +37,12 @@ export class CreateSupplierComponent implements OnInit {
     const country = this.supplierCreateForm.controls.country.value;
 
     if (name == null || address == null || zipcode == null || city == null || country == null) {
+      this.toastr.error('Something is wrong!', 'Failed');
       return
     }
 
     if (!this.supplierCreateForm.valid) {
+      this.toastr.error('Something is wrong!', 'Failed');
       return;
     }
 
@@ -51,8 +55,12 @@ export class CreateSupplierComponent implements OnInit {
       country
     );
 
-    this.supplierDataService.post(supplier);
-    this.router.navigate(['dashboard', 'admin', 'suppliers'])
+    const request: boolean = this.supplierDataService.post(supplier);
+
+    if (request) {
+      this.toastr.success("Supplier has been created successfully!", "Created")
+      this.router.navigate(['dashboard', 'admin', 'suppliers'])
+    }
   }
 
 }

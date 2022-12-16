@@ -2,6 +2,7 @@ import {Injectable} from "@angular/core";
 import {UserModel} from "../../_models/user.model";
 import {BehaviorSubject, Observable, of, Subject} from "rxjs";
 import {ApiMethodsService} from "../api-methods.service";
+import {ToastrService} from "ngx-toastr";
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +14,8 @@ export class UserDataService {
 
 
   constructor(
-    private apiMethod: ApiMethodsService
+    private apiMethod: ApiMethodsService,
+    private toastr: ToastrService
   ) {
     this.getAllUsers();
   }
@@ -37,7 +39,20 @@ export class UserDataService {
     })
   }
 
-  public createNewUser(user: UserModel): void {
+  public createNewUser(user: UserModel): boolean {
+    let check = true
+
+    this.users.forEach((currentUser: UserModel) => {
+      if (user.email === currentUser.email) {
+        this.toastr.error('Supplier name is already in user.', 'Failed');
+        check = false;
+      }
+    })
+
+    if (!check) {
+      return check;
+    }
+
     let roleIds: string[] = [];
 
     user.roles.forEach(roles => {
@@ -59,6 +74,8 @@ export class UserDataService {
       this.users.push(r.data.payload)
       this.users$.next(this.users);
     });
+
+    return check;
   }
 
   public getCurrentUser(userId: string): Observable<UserModel | undefined> {
@@ -69,7 +86,20 @@ export class UserDataService {
     return of(undefined);
   }
 
-  public updateUser(user: UserModel) {
+  public updateUser(user: UserModel): boolean {
+    let check = true
+
+    this.users.forEach((currentUser: UserModel) => {
+      if (user.email === currentUser.email) {
+        this.toastr.error('Supplier name is already in user.', 'Failed');
+        check = false;
+      }
+    })
+
+    if (!check) {
+      return check;
+    }
+
     let roleIds: string[] = []
 
     user.roles.forEach(role => {
@@ -91,6 +121,8 @@ export class UserDataService {
       this.users[this.users.findIndex(currentUser => currentUser.id === user.id)] = user
       this.users$.next(this.users);
     })
+
+    return check;
   }
 
 }

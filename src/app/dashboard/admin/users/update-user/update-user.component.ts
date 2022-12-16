@@ -7,6 +7,7 @@ import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {RoleModel} from "../../../../_models/role.model";
 import {UserDataService} from "../../../../_service/data/userData.service";
 import {RoleDataService} from "../../../../_service/data/roleData.service";
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-update-user',
@@ -38,7 +39,8 @@ export class UpdateUserComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private userDataService: UserDataService,
-    private roleDataService: RoleDataService
+    private roleDataService: RoleDataService,
+    private toastr: ToastrService
     ) {
   }
 
@@ -84,10 +86,12 @@ export class UpdateUserComponent implements OnInit {
     const email = this.userEditForm.controls.email.value;
 
     if (firstname == null || middlename == null || lastname == null || email == null || this.userRoles.length == null) {
+      this.toastr.error('Something is wrong!', 'Failed');
       return
     }
 
     if (!this.userEditForm.valid) {
+      this.toastr.error('Something is wrong!', 'Failed');
       return;
     }
 
@@ -100,8 +104,12 @@ export class UpdateUserComponent implements OnInit {
       this.userRoles
     )
 
-    this.userDataService.updateUser(user);
-    this.router.navigate(['dashboard', 'admin', 'users'])
+    const request: boolean = this.userDataService.updateUser(user);
+
+    if(request) {
+      this.toastr.success("Supplier has been updated successfully!", "Updated");
+      this.router.navigate(['dashboard', 'admin', 'users'])
+    }
 
   }
 

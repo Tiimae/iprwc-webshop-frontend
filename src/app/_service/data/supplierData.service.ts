@@ -1,4 +1,5 @@
 import {Injectable} from "@angular/core";
+import {ToastrService} from "ngx-toastr";
 import {BehaviorSubject, Observable, of, Subject} from "rxjs";
 import {SupplierModel} from "../../_models/supplier.model";
 import {ApiMethodsService} from "../api-methods.service";
@@ -11,7 +12,8 @@ export class SupplierDataService {
   suppliers$: Subject<SupplierModel[]> = new BehaviorSubject<SupplierModel[]>([]);
 
     constructor(
-      private apiMethod: ApiMethodsService
+      private apiMethod: ApiMethodsService,
+      private toastr: ToastrService
     ) {
       this.getAll();
     }
@@ -31,7 +33,20 @@ export class SupplierDataService {
     return of(undefined);
   }
 
-  public post(supplier: SupplierModel): void {
+  public post(supplier: SupplierModel): boolean {
+    let check = true
+
+    this.suppliers.forEach((currentSupplier: SupplierModel) => {
+      if (supplier.name === currentSupplier.name) {
+        this.toastr.error('Supplier name is already in user.', 'Failed');
+        check = false;
+      }
+    })
+
+    if (!check) {
+      return check;
+    }
+
       const payload = {
         name: supplier.name,
         address: supplier.address,
@@ -45,9 +60,24 @@ export class SupplierDataService {
       this.suppliers.push(r.data.payload);
       this.suppliers$.next(this.suppliers);
     });
+
+    return check;
   }
 
-  public put(supplier: SupplierModel): void {
+  public put(supplier: SupplierModel): boolean {
+    let check = true
+
+    this.suppliers.forEach((currentSupplier: SupplierModel) => {
+      if (supplier.name === currentSupplier.name) {
+        this.toastr.error('Supplier name is already in user.', 'Failed');
+        check = false;
+      }
+    })
+
+    if (!check) {
+      return check;
+    }
+
     const payload = {
       name: supplier.name,
       address: supplier.address,
@@ -59,6 +89,8 @@ export class SupplierDataService {
     ApiMethodsService.getInstance().put("supplier/" + supplier.id, payload, true).then(r => {
       this.suppliers[this.suppliers.findIndex(currentSupplier => currentSupplier.id === supplier.id)] = r.data.payload
     })
+
+    return check
   }
 
   public remove(supplier: SupplierModel): void {

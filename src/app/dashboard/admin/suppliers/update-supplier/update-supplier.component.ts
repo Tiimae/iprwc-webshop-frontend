@@ -5,6 +5,7 @@ import {ActivatedRoute, Router} from "@angular/router";
 import {SupplierModel} from "../../../../_models/supplier.model";
 import * as CryptoJs from "crypto-js";
 import {ApiConnectorService} from "../../../../_service/api-connector.service";
+import {ToastrService} from "ngx-toastr";
 
 @Component({
   selector: 'app-update-supplier',
@@ -28,6 +29,7 @@ export class UpdateSupplierComponent implements OnInit {
     private supplierDataService: SupplierDataService,
     private router: Router,
     private route: ActivatedRoute,
+    private toastr: ToastrService
   ) { }
 
   ngOnInit(): void {
@@ -70,10 +72,12 @@ export class UpdateSupplierComponent implements OnInit {
     const country = this.supplierUpdateForm.controls.country.value;
 
     if (name == null || address == null || zipcode == null || city == null || country == null) {
+      this.toastr.error('Something is wrong!', 'Failed');
       return
     }
 
     if (!this.supplierUpdateForm.valid) {
+      this.toastr.error('Something is wrong!', 'Failed');
       return;
     }
 
@@ -86,8 +90,12 @@ export class UpdateSupplierComponent implements OnInit {
       country
     );
 
-    this.supplierDataService.put(supplier);
-    this.router.navigate(['dashboard', 'admin', 'suppliers'])
+    const request: boolean = this.supplierDataService.put(supplier);
+
+    if (request) {
+      this.toastr.success("Supplier has been updated successfully!", "Updated")
+      this.router.navigate(['dashboard', 'admin', 'suppliers'])
+    }
   }
 
 }
