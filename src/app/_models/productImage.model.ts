@@ -2,12 +2,12 @@ import {ProductModel} from "./product.model";
 
 export class ProductImageModel {
   private readonly _id: string;
-  private readonly _image_path: string
+  private readonly _imagePath: string
   private readonly _product: ProductModel;
 
-  constructor(id: string, image_path: string, product: ProductModel) {
+  constructor(id: string, imagePath: string, product: ProductModel) {
     this._id = id;
-    this._image_path = image_path;
+    this._imagePath = imagePath;
     this._product = product;
   }
 
@@ -16,8 +16,8 @@ export class ProductImageModel {
     return this._id;
   }
 
-  get image_path(): string {
-    return this._image_path;
+  get imagePath(): string {
+    return this._imagePath;
   }
 
   get product(): ProductModel {

@@ -2,6 +2,7 @@ import {Injectable} from "@angular/core";
 import { BrandModel } from "src/app/_models/brand.model";
 import {ApiMethodsService} from "../api-methods.service";
 import {BehaviorSubject, Observable, of, Subject} from "rxjs";
+import {v4 as uuid} from "uuid";
 
 @Injectable({
   providedIn: 'root',
@@ -31,7 +32,8 @@ export class BrandDataService {
 
   public create(brand: BrandModel) {
     const formData = new FormData();
-    formData.append('logo', brand.logoUrl, brand.image.name)
+    const extension =  brand.image.type.split("/")[1]
+    formData.append('logo', brand.logoUrl, uuid() + "." + extension)
     formData.append("brand", JSON.stringify({
       "brandName": brand.brandName,
       "webPage": brand.webPage,

@@ -2,6 +2,11 @@
   <section class="flex flex-row">
     <section class="p-5 text-lg flex-auto items-center flex-grow w-1/2">
       <h2 class="mb-1">{{ product.productName }}</h2>
+      <section class="flex">
+        <app-bubble-text
+          [key]="'Price'"
+          [value]="product.price"></app-bubble-text>
+      </section>
     </section>
 
     <section class="flex-auto ">

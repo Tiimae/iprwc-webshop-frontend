@@ -3,6 +3,7 @@ import {ProductModel} from "../../_models/product.model";
 import {BehaviorSubject, Observable, of, Subject} from "rxjs";
 import {ApiMethodsService} from "../api-methods.service";
 import { v4 as uuid } from 'uuid';
+import {ProductImageModel} from "../../_models/productImage.model";
 
 @Injectable({
   providedIn: 'root',
@@ -53,13 +54,14 @@ export class ProductDataService {
 
   }
 
-  update(product: ProductModel, deletedImages: string[], newImages: File[]): void {
+  update(product: ProductModel, deletedImages: ProductImageModel[], newImages: File[]): void {
     const fd = new FormData()
     deletedImages.forEach(image => {
-      fd.append("deletedImages", image)
+      fd.append("deletedImages", image.imagePath)
     })
     newImages.forEach(image => {
-      fd.append("newImages", image, uuid())
+      const extension =  image.type.split("/")[1]
+      fd.append("newImages", image, uuid() + "." + extension)
     })
     fd.append("product", JSON.stringify({
         "productName": product.productName,
@@ -84,7 +86,7 @@ export class ProductDataService {
       }
     })
 
-    ApiMethodsService.getInstance().delete("user/" + productId, true).then(r => {
+    ApiMethodsService.getInstance().delete("product/" + productId, true).then(r => {
       alert("User has been deleted")
       this.products$.next(this.products);
     })
