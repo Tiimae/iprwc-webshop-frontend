@@ -1,6 +1,6 @@
 import {Injectable} from "@angular/core";
 import {UserModel} from "../../_models/user.model";
-import {Observable, of} from "rxjs";
+import {BehaviorSubject, Observable, of, Subject} from "rxjs";
 import {ApiMethodsService} from "../api-methods.service";
 
 @Injectable({
@@ -9,17 +9,19 @@ import {ApiMethodsService} from "../api-methods.service";
 export class UserDataService {
 
   users: UserModel[] = [];
+  users$: Subject<UserModel[]> = new BehaviorSubject<UserModel[]>([]);
 
 
   constructor(
     private apiMethod: ApiMethodsService
   ) {
+    this.getAllUsers();
   }
 
-  public async getAllUsers(): Promise<Observable<UserModel[]>> {
+  public async getAllUsers(): Promise<void> {
     return await this.apiMethod.get('user/roles', true).then(r => {
       this.users = r.data.payload
-      return of(this.users);
+      this.users$.next(this.users);
     });
   }
 
@@ -31,7 +33,7 @@ export class UserDataService {
     })
 
     this.apiMethod.delete("user/" + user.id, true).then(r => {
-      alert("User has been deleted")
+      this.users$.next(this.users);
     })
   }
 
@@ -55,6 +57,7 @@ export class UserDataService {
 
     ApiMethodsService.getInstance().post("user", payload, true).then(r => {
       this.users.push(r.data.payload)
+      this.users$.next(this.users);
     });
   }
 
@@ -86,6 +89,7 @@ export class UserDataService {
 
     ApiMethodsService.getInstance().put("user/" + user.id, payload, true).then(r => {
       this.users[this.users.findIndex(currentUser => currentUser.id === user.id)] = user
+      this.users$.next(this.users);
     })
   }
 

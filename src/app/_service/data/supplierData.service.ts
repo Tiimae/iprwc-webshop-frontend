@@ -70,7 +70,6 @@ export class SupplierDataService {
     })
 
     this.apiMethod.delete("supplier/" + supplier.id, true).then(r => {
-      alert("Supplier has been deleted")
       this.suppliers$.next(this.suppliers)
     })
   }

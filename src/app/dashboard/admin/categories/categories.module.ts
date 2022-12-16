@@ -16,11 +16,12 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
     UpdateCategoryComponent,
     CategoryComponent
   ],
-    imports: [
-        CommonModule,
-        CategoriesRoutingModule,
-        FormsModule,
-        ReactiveFormsModule
-    ]
+  imports: [
+    CommonModule,
+    CategoriesRoutingModule,
+    FormsModule,
+    ReactiveFormsModule
+  ]
 })
-export class CategoriesModule { }
+export class CategoriesModule {
+}

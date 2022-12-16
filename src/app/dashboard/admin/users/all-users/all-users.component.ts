@@ -16,7 +16,7 @@ export class AllUsersComponent implements OnInit {
 
   async ngOnInit(): Promise<void> {
     (await this.userDataService
-      .getAllUsers())
+      .users$)
       .subscribe(r => {
         this.allUsers = r
       });

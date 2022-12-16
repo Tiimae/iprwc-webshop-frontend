@@ -14,6 +14,8 @@ import {DashboardComponent} from './dashboard/dashboard.component';
 import {DashboardModule} from "./dashboard/dashboard.module";
 import {AuthModule} from "./auth/auth.module";
 import {WebshopModule} from "./webshop/webshop.module";
+import {ToastrModule} from "ngx-toastr";
+import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 
 @NgModule({
   declarations: [
@@ -32,7 +34,9 @@ import {WebshopModule} from "./webshop/webshop.module";
     FontAwesomeModule,
     DashboardModule,
     AuthModule,
-    WebshopModule
+    WebshopModule,
+    BrowserAnimationsModule,
+    ToastrModule.forRoot(),
   ],
   providers: [],
   bootstrap: [AppComponent]

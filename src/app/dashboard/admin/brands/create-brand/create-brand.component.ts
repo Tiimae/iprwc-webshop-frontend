@@ -1,9 +1,9 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
-import {NgForm} from "@angular/forms";
+import {Component, OnInit} from '@angular/core';
+import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {Router} from "@angular/router";
 import { BrandModel } from 'src/app/_models/brand.model';
 import { BrandDataService } from 'src/app/_service/data/brandData.service';
-import {ApiMethodsService} from "../../../../_service/api-methods.service";
+import {ToastrService} from "ngx-toastr";
 
 @Component({
   selector: 'app-create-brand',
@@ -12,13 +12,18 @@ import {ApiMethodsService} from "../../../../_service/api-methods.service";
 })
 export class CreateBrandComponent implements OnInit {
 
-  @ViewChild('f') createForm: NgForm | undefined;
+  brandCreateForm = new FormGroup({
+    brandName: new FormControl('', [Validators.required]),
+    url: new FormControl('', [Validators.required]),
+    logo: new FormControl('', [Validators.required]),
+  })
 
   uploadedImage!: File;
 
   constructor(
     private router: Router,
     private brandDataService: BrandDataService,
+    private toastr: ToastrService
   ) { }
 
   ngOnInit(): void {
@@ -31,13 +36,27 @@ export class CreateBrandComponent implements OnInit {
 
   public onSubmit(): void {
 
-    const brandName = this.createForm?.form.controls['brandname'].value
-    const webPage = this.createForm?.form.controls['url'].value
+    const brandName = this.brandCreateForm.controls.brandName.value
+    const webPage = this.brandCreateForm.controls.url.value
+
+    if (brandName == null || webPage == null) {
+      this.toastr.error('Something is wrong!', 'Failed');
+      return;
+    }
+
+    if (!this.brandCreateForm.valid) {
+      this.toastr.error('Something is wrong!', 'Failed');
+      return;
+    }
 
     const brand = new BrandModel("", brandName, webPage, this.uploadedImage)
     brand.image = this.uploadedImage
-    this.brandDataService.create(brand);
-    this.router.navigate(["dashboard", "admin", "brands"])
+    const request: boolean = this.brandDataService.create(brand);
+
+    if (request) {
+      this.toastr.success("Brand Has been created successfully!", "Created")
+      this.router.navigate(["dashboard", "admin", "brands"])
+    }
 
   }
 

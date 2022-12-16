@@ -3,6 +3,7 @@ import { BrandModel } from "src/app/_models/brand.model";
 import {ApiMethodsService} from "../api-methods.service";
 import {BehaviorSubject, Observable, of, Subject} from "rxjs";
 import {v4 as uuid} from "uuid";
+import {ToastrService} from "ngx-toastr";
 
 @Injectable({
   providedIn: 'root',
@@ -12,7 +13,8 @@ export class BrandDataService {
   brands$: Subject<BrandModel[]> = new BehaviorSubject<BrandModel[]>([]);
 
   constructor(
-    private apiMethod: ApiMethodsService
+    private apiMethod: ApiMethodsService,
+    private toastr: ToastrService
   ) {
     this.getAll()
   }
@@ -30,7 +32,20 @@ export class BrandDataService {
     });
   }
 
-  public create(brand: BrandModel) {
+  public create(brand: BrandModel): boolean {
+    let check = true
+
+    this.brands.forEach((currentBrand: BrandModel) => {
+      if (brand.brandName === currentBrand.brandName) {
+        this.toastr.error('Brand name is already in user.', 'Failed');
+        check = false;
+      }
+    })
+
+    if (!check) {
+      return check;
+    }
+
     const formData = new FormData();
     const extension =  brand.image.type.split("/")[1]
     formData.append('logo', brand.logoUrl, uuid() + "." + extension)
@@ -45,9 +60,24 @@ export class BrandDataService {
       this.brands.push(r.data.payload);
       this.brands$.next(this.brands)
     })
+
+    return check;
   }
 
-  public update(brand: BrandModel): void {
+  public update(brand: BrandModel): boolean {
+    let check = true
+
+    this.brands.forEach((currentBrand: BrandModel) => {
+      if (brand.brandName === currentBrand.brandName) {
+        this.toastr.error('Brand name is already in user.', 'Failed');
+        check = false;
+      }
+    })
+
+    if (!check) {
+      return check;
+    }
+
     const formData = new FormData();
     if (brand.image != null) {
       formData.append('logo', brand.image, brand.image.name)
@@ -63,6 +93,8 @@ export class BrandDataService {
       this.brands[this.brands.findIndex(currentBrand => currentBrand.id === r.data.payload.id)] = r.data.payload
       this.brands$.next(this.brands)
     })
+
+    return check;
   }
 
   public remove(brand: BrandModel) {
@@ -73,7 +105,6 @@ export class BrandDataService {
     })
 
     ApiMethodsService.getInstance().delete("brand/" + brand.id, true).then(r => {
-      alert("brand has been deleted")
       this.brands$.next(this.brands)
     })
   }

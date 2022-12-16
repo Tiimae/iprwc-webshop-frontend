@@ -31,7 +31,6 @@ export class CategoryDataService {
     })
 
     ApiMethodsService.getInstance().delete("category/" + category.id, true).then(r => {
-      alert("Category has been deleted")
       this.categories$.next(this.categories)
     })
   }

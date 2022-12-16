@@ -87,7 +87,6 @@ export class ProductDataService {
     })
 
     ApiMethodsService.getInstance().delete("product/" + productId, true).then(r => {
-      alert("User has been deleted")
       this.products$.next(this.products);
     })
   }

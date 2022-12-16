@@ -4,7 +4,8 @@ import * as CryptoJs from "crypto-js";
 import {ApiConnectorService} from "../../../../_service/api-connector.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {BrandModel} from "../../../../_models/brand.model";
-import {NgForm} from "@angular/forms";
+import {FormControl, FormGroup, NgForm, Validators} from "@angular/forms";
+import {ToastrService} from "ngx-toastr";
 
 @Component({
   selector: 'app-update-brand',
@@ -13,8 +14,11 @@ import {NgForm} from "@angular/forms";
 })
 export class UpdateBrandComponent implements OnInit {
 
-  @ViewChild('f') createForm: NgForm | undefined;
-
+  brandCreateForm = new FormGroup({
+    brandName: new FormControl('', [Validators.required]),
+    url: new FormControl('', [Validators.required]),
+    logo: new FormControl(''),
+  })
   uploadedImage!: File;
   brandId: string = "";
   brand!: BrandModel;
@@ -23,6 +27,7 @@ export class UpdateBrandComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     private brandDataService: BrandDataService,
+    private toastr: ToastrService
   ) { }
 
   ngOnInit(): void {
@@ -37,8 +42,8 @@ export class UpdateBrandComponent implements OnInit {
           this.brand = r;
         })
 
-      this.createForm?.form.controls['brandname'].setValue(this.brand.brandName)
-      this.createForm?.form.controls['url'].setValue(this.brand.webPage)
+      this.brandCreateForm.controls.brandName.setValue(this.brand.brandName)
+      this.brandCreateForm.controls.url.setValue(this.brand.webPage)
     })
   }
 
@@ -47,13 +52,28 @@ export class UpdateBrandComponent implements OnInit {
   }
 
   onSubmit(): void {
-    const brandName = this.createForm?.form.controls['brandname'].value
-    const webPage = this.createForm?.form.controls['url'].value
+    const brandName = this.brandCreateForm.controls.brandName.value
+    const webPage = this.brandCreateForm.controls.url.value
+
+    if (brandName == null || webPage == null) {
+      this.toastr.error('Something is wrong!', 'Failed');
+      return;
+    }
+
+    if (!this.brandCreateForm.valid) {
+      this.toastr.error('Something is wrong!', 'Failed');
+      return;
+    }
 
     const brand = new BrandModel(this.brandId, brandName, webPage, this.brand.logoUrl)
     brand.image = this.uploadedImage
-    this.brandDataService.update(brand);
-    this.router.navigate(["dashboard", "admin", "brands"])
+
+    const request: boolean = this.brandDataService.update(brand);
+
+    if (request) {
+      this.toastr.success("Brand Has been updated successfully!", "Updated!")
+      this.router.navigate(["dashboard", "admin", "brands"])
+    }
   }
 
 }

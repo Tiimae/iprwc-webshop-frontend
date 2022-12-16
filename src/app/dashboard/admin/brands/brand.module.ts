@@ -6,8 +6,9 @@ import {AllBrandsComponent} from './all-brands/all-brands.component';
 import {CreateBrandComponent} from './create-brand/create-brand.component';
 import {UpdateBrandComponent} from './update-brand/update-brand.component';
 import {BrandComponent} from './all-brands/brand/brand.component';
-import {FormsModule} from "@angular/forms";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {SharedModule} from "../../../_shared/shared.module";
+import {ToastrModule} from "ngx-toastr";
 
 
 @NgModule({
@@ -17,11 +18,13 @@ import {SharedModule} from "../../../_shared/shared.module";
     UpdateBrandComponent,
     BrandComponent
   ],
-    imports: [
-        CommonModule,
-        BrandRoutingModule,
-        FormsModule,
-        SharedModule
-    ]
+  imports: [
+    CommonModule,
+    BrandRoutingModule,
+    FormsModule,
+    SharedModule,
+    ReactiveFormsModule
+  ]
 })
-export class BrandModule { }
+export class BrandModule {
+}

@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {BrandModel} from "../../../../_models/brand.model";
 import {BrandDataService} from "../../../../_service/data/brandData.service";
+import {ToastrService} from "ngx-toastr";
 
 @Component({
   selector: 'app-all-brands',
@@ -12,7 +13,8 @@ export class AllBrandsComponent implements OnInit {
   brands: BrandModel[] = []
 
   constructor(
-    private brandDataService: BrandDataService
+    private brandDataService: BrandDataService,
+    private toastr: ToastrService
   ) {
   }
 
@@ -27,6 +29,7 @@ export class AllBrandsComponent implements OnInit {
 
   public removeUser(event: BrandModel): void {
     this.brandDataService.remove(event);
+    this.toastr.success("Brand Has been created successfully!", "Created")
   }
 
 }
