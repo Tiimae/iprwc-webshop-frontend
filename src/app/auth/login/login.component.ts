@@ -5,6 +5,7 @@ import {Router} from "@angular/router";
 
 import {faEnvelope, faKey} from "@fortawesome/free-solid-svg-icons";
 import {NgForm} from "@angular/forms";
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-login',
@@ -18,7 +19,11 @@ export class LoginComponent implements OnInit {
 
   @ViewChild('f') loginForm: NgForm | undefined;
 
-  constructor(private router: Router, private authService: AuthService) {
+  constructor(
+    private router: Router,
+    private authService: AuthService,
+    private toastr: ToastrService
+  ) {
   }
 
   async ngOnInit() {
@@ -28,10 +33,13 @@ export class LoginComponent implements OnInit {
   public async onSubmit() {
 
     await this.authService.login(this.loginForm?.form.controls['email'].value, this.loginForm?.form.controls['password'].value).then(r => {
-      localStorage.setItem('blank-token', r.data?.payload?.jwtToken);
-
-      window.location.href = ApiConnectorService.apiUrl + r.data['payload']['destination'];
-    });
+      if (r.data.code == 202) {
+        localStorage.setItem('blank-token', r.data?.payload?.jwtToken);
+        window.location.href = ApiConnectorService.apiUrl + r.data['payload']['destination'];
+        this.toastr.success("You are Logged in successfully!", r.data.message);
+      } else {
+        this.toastr.error("Credentials doesnt match!", r.data.message);
+      }
+    })
   }
-
 }

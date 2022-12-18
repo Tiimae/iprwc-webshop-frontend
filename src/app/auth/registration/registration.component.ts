@@ -5,6 +5,7 @@ import {faEnvelope, faKey, faUser} from "@fortawesome/free-solid-svg-icons";
 import {NgForm} from "@angular/forms";
 import {ApiConnectorService} from "../../_service/api-connector.service";
 import {AuthService} from '../../_service/auth.service';
+import {ToastrService} from "ngx-toastr";
 
 @Component({
   selector: 'app-registration',
@@ -19,7 +20,11 @@ export class RegistrationComponent implements OnInit {
 
   @ViewChild('f') signupForm: NgForm | undefined;
 
-  constructor(private router: Router, private authService: AuthService) {
+  constructor(
+    private router: Router,
+    private authService: AuthService,
+    private toastr: ToastrService
+  ) {
   }
 
   async ngOnInit() {
@@ -52,15 +57,29 @@ export class RegistrationComponent implements OnInit {
   }
 
   async onSubmit() {
+    const firstName = this.signupForm?.form.controls['firstname'].value
+    const middleName =this.signupForm?.form.controls['middlename'].value
+    const lastName = this.signupForm?.form.controls['lastname'].value
+    const email = this.signupForm?.form.controls['email'].value
+    const password = this.signupForm?.form.controls['password'].value
+
+    if (firstName == null || lastName == null || email == null || password == null) {
+      return;
+    }
 
     await this.authService.register(
-      this.signupForm?.form.controls['firstname'].value,
-      this.signupForm?.form.controls['middlename'].value,
-      this.signupForm?.form.controls['lastname'].value,
-      this.signupForm?.form.controls['email'].value,
-      this.signupForm?.form.controls['password'].value
+      firstName,
+      middleName,
+      lastName,
+      email,
+      password
     ).then(r => {
-      this.router.navigate(['login'])
+      if (r.data.code == 201) {
+        this.router.navigate(['login'])
+        this.toastr.success("User has been created successfully!", r.data.message);
+      } else {
+        this.toastr.error(r.data.payload, r.data.message);
+      }
     });
 
   }

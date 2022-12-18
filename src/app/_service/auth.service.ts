@@ -30,8 +30,6 @@ export class AuthService {
     return ApiConnectorService.getInstance().noAuth().get('/auth/secret', { withCredentials: true });
   }
 
-
-
   // public hashText(plainText: string) {
   //   return bcrypt.hashSync(plainText);
   // }
