@@ -1,0 +1,36 @@
+.item {
+  min-width: 300px;
+  position: relative;
+  height: 400px;
+  box-shadow: 0 10px 20px 0 rgba(0, 0, 0, 0.5);
+  cursor: pointer;
+  transition: all 0.3s linear;
+
+  .item-images {
+    position: relative;
+
+    .item-image {
+      position: absolute;
+      top: 0;
+      padding: 10px;
+    }
+  }
+
+  .item-info {
+    position: absolute;
+    bottom: 0;
+    margin-bottom: 15px;
+    display: block;
+    margin-left: 30px;
+
+    h2 {
+      font-size: 180%;
+      font-weight: 300;
+      text-shadow: 2px 3px 5px rgba(0,0,0,0.29);
+    }
+
+    p {
+      font-size: 120%;
+    }
+  }
+}
