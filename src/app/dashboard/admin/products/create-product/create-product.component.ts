@@ -93,11 +93,16 @@ export class CreateProductComponent implements OnInit {
 
   onSubmit(): void {
     const name = this.productCreateForm.controls.name.value;
-    const price = this.productCreateForm.controls.price.value;
+    const price: number = Number(this.productCreateForm.controls.price.value);
     const description = this.productCreateForm.controls.description.value;
 
     if (name == null || price == null || description == null || this.currentSupplier == undefined || this.currentBrand == undefined || this.currentCategory == undefined || this.images.length == 0) {
       this.toastr.error('Something is wrong!', 'Failed');
+      return;
+    }
+
+    if (price < 0) {
+      this.toastr.error('Price is to low', 'Failed');
       return;
     }
 

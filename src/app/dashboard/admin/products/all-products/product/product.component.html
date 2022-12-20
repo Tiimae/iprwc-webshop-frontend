@@ -5,7 +5,7 @@
       <section class="flex">
         <app-bubble-text
           [key]="'Price'"
-          [value]="product.price"></app-bubble-text>
+          [value]="product.price | currency:'EUR'"></app-bubble-text>
       </section>
     </section>
 

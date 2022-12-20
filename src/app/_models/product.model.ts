@@ -7,14 +7,14 @@ export class ProductModel {
   private readonly _id: string;
   private readonly _productName: string;
   private readonly _description: string;
-  private readonly _price: string;
+  private readonly _price: number;
   private readonly _category: CategoryModel;
   private readonly _brand: BrandModel;
   private readonly _supplier: SupplierModel;
   private readonly _productImages: ProductImageModel[];
 
 
-  constructor(id: string, productName: string, description: string, price: string, category: CategoryModel, brand: BrandModel, supplier: SupplierModel, productImages: ProductImageModel[]) {
+  constructor(id: string, productName: string, description: string, price: number, category: CategoryModel, brand: BrandModel, supplier: SupplierModel, productImages: ProductImageModel[]) {
     this._id = id;
     this._productName = productName;
     this._description = description;
@@ -38,7 +38,7 @@ export class ProductModel {
     return this._description;
   }
 
-  get price(): string {
+  get price(): number {
     return this._price;
   }
 

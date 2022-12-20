@@ -12,8 +12,8 @@ import {Component, Input, OnInit} from '@angular/core';
 })
 export class BubbleTextComponent implements OnInit {
 
-  @Input() key!: string
-  @Input() value!: string
+  @Input() key!: any
+  @Input() value!: any
   constructor() { }
 
   ngOnInit(): void {
