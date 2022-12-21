@@ -5,6 +5,7 @@ import {ActivatedRoute, Router} from "@angular/router";
 import {ProductDataService} from "../../_service/data/productData.service";
 import {ProductModel} from "../../_models/product.model";
 import {faStar, faCheck} from "@fortawesome/free-solid-svg-icons";
+import { CartDataService } from 'src/app/_service/data/cartData.service';
 // import {faInstagram} from "@fortawesome/fontawesome-svg-core"
 
 @Component({
@@ -25,7 +26,8 @@ export class ProductDetailComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private productDataService: ProductDataService
+    private productDataService: ProductDataService,
+    private cartDataService: CartDataService
   ) { }
 
   ngOnInit(): void {
@@ -59,5 +61,9 @@ export class ProductDetailComponent implements OnInit {
 
     // @ts-ignore
     document.querySelector('.img-showcase').style.transform = `translateX(${- (this.imgId - 1) * width}px)`;
+  }
+
+  addToCart() {
+    this.cartDataService.createProduct(this.product, 1)
   }
 }

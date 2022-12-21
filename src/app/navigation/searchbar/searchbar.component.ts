@@ -4,6 +4,8 @@ import {ApiConnectorService} from "../../_service/api-connector.service";
 import {LoggedUserModel} from "../../_models/loggedUser.model";
 import {AuthService} from "../../_service/auth.service";
 import {Router} from "@angular/router";
+import { ProductModel } from 'src/app/_models/product.model';
+import { CartDataService } from 'src/app/_service/data/cartData.service';
 
 @Component({
   selector: 'app-searchbar',
@@ -16,11 +18,15 @@ export class SearchbarComponent implements OnInit {
   faShoppingCart = faShoppingCart;
   faUser = faUser;
   user: LoggedUserModel | undefined;
+  products!: ProductModel[];
 
   username: string = ''
-  amountItems = 0
 
-  constructor(private router: Router, private authService: AuthService) {
+  constructor(
+    private router: Router,
+    private authService: AuthService,
+    private cartDataService: CartDataService
+  ) {
   }
 
   async ngOnInit(): Promise<void> {
@@ -65,6 +71,12 @@ export class SearchbarComponent implements OnInit {
         })
       }
     });
+
+    this.cartDataService
+      .products$
+      .subscribe(res => {
+        this.products = res
+      })
   }
 
   public ifItemIsInLocalStorage(): boolean {
