@@ -22,7 +22,6 @@ export class HomeComponent implements OnInit {
       .products$
       .subscribe({
         next: (products: ProductModel[]) => {
-          console.log(products)
           this.products = products;
         },
         error(e: Error) {

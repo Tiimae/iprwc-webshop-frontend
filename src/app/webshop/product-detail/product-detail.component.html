@@ -1,1 +1,77 @@
-<p>product-detail works!</p>
+<main class="container">
+  <section class="card-wrapper">
+    <section class="card">
+      <!-- card left -->
+      <section class="product-imgs">
+        <section class="img-display">
+          <section class="img-showcase">
+            <img *ngFor="let img of product.productImages" src="{{ img.imagePath }}" alt="{{ product.productName }}">
+          </section>
+        </section>
+
+        <section class="img-select">
+          <section class="img-item" *ngFor="let img of product.productImages; let i = index">
+            <button (click)="slideImage(i + 1)"  data-id="{{ i + 1 }}">
+              <img src="{{ img.imagePath }}" alt="{{ product.productName }}">
+            </button>
+          </section>
+        </section>
+      </section>
+      <!-- card right -->
+      <section class="product-content">
+        <h2 class="product-title">{{ product.productName }}</h2>
+        <a href="{{ product.brand.webPage }}" target="blank" class="product-link">visit {{ product.brand.brandName }}
+          store</a>
+        <section class="product-rating">
+          <i class="fas fa-star"></i>
+          <i class="fas fa-star"></i>
+          <i class="fas fa-star"></i>
+          <i class="fas fa-star"></i>
+          <i class="fas fa-star-half-alt"></i>
+          <span>4.7(21)</span>
+        </section>
+
+        <section class="product-price">
+          <p class="new-price">Price: <span>{{ product.price | currency:'EUR' }}</span></p>
+        </section>
+
+        <section class="product-detail">
+          <h2>about this item: </h2>
+          <p>{{ product.description }}</p>
+          <ul>
+            <li>Available: <span>in stock</span></li>
+            <li>Category: <span>{{ product.category.categoryName }}</span></li>
+            <li>Shipping Area: <span>All over the world</span></li>
+            <li>Shipping Fee: <span>Free</span></li>
+          </ul>
+        </section>
+
+        <section class="purchase-info">
+          <input type="number" min="0" value="1">
+          <button type="button" class="btn">
+            Add to Cart <i class="fas fa-shopping-cart"></i>
+          </button>
+        </section>
+
+        <section class="social-links">
+          <p>Share At: </p>
+          <a href="#">
+            <i class="fab fa-facebook-f"></i>
+          </a>
+          <a href="#">
+            <i class="fab fa-twitter"></i>
+          </a>
+          <a href="#">
+            <i class="fab fa-instagram"></i>
+          </a>
+          <a href="#">
+            <i class="fab fa-whatsapp"></i>
+          </a>
+          <a href="#">
+            <i class="fab fa-pinterest"></i>
+          </a>
+        </section>
+      </section>
+    </section>
+  </section>
+</main>

@@ -1,4 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import * as CryptoJs from "crypto-js";
+import {ApiConnectorService} from "../../_service/api-connector.service";
+import {ActivatedRoute, Router} from "@angular/router";
+import {ProductDataService} from "../../_service/data/productData.service";
+import {ProductModel} from "../../_models/product.model";
 
 @Component({
   selector: 'app-product-detail',
@@ -7,9 +12,47 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ProductDetailComponent implements OnInit {
 
-  constructor() { }
+  productId!: string;
+  product!: ProductModel
+
+  imgId: number = 1
+
+  constructor(
+    private route: ActivatedRoute,
+    private router: Router,
+    private productDataService: ProductDataService
+  ) { }
 
   ngOnInit(): void {
+    this.route.params.subscribe(async (params) => {
+      const currentProductId = params['productId'].replaceAll("*", "/");
+      this.productId = CryptoJs.Rabbit.decrypt(currentProductId, await ApiConnectorService.getInstance().getDecryptKey()).toString(CryptoJs.enc.Utf8)
+
+      this.productDataService
+        .get(this.productId)
+        .subscribe(res => {
+          if (res == undefined) {
+            this.router.navigate([""])
+            return;
+          }
+
+          this.product = res;
+        })
+    })
   }
 
+  slideImage(id: number): void {
+    this.imgId = id;
+
+    const displayWidth = document.querySelector('.img-showcase img:first-child');
+
+    if (displayWidth == null) {
+      return;
+    }
+
+    const width = displayWidth.clientWidth;
+
+    // @ts-ignore
+    document.querySelector('.img-showcase').style.transform = `translateX(${- (this.imgId - 1) * width}px)`;
+  }
 }

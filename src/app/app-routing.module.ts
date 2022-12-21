@@ -4,12 +4,10 @@ import {IsAuthenticatedGuard} from "./_guard/is-authenticated.guard";
 import {HasRoleGuard} from "./_guard/has-role.guard";
 import {PageNotFoundComponent} from "./page-not-found/page-not-found.component";
 import {DashboardComponent} from "./dashboard/dashboard.component";
-import {WebshopComponent} from "./webshop/webshop.component";
 
 const routes: Routes = [
   {
     path:'',
-    component:WebshopComponent,
     loadChildren: () => import('./webshop/webshop-routing.module').then(m => m.WebshopRoutingModule)
   },
   {
