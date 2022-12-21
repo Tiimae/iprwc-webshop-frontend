@@ -4,6 +4,8 @@ import {ApiConnectorService} from "../../_service/api-connector.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {ProductDataService} from "../../_service/data/productData.service";
 import {ProductModel} from "../../_models/product.model";
+import {faStar, faCheck} from "@fortawesome/free-solid-svg-icons";
+// import {faInstagram} from "@fortawesome/fontawesome-svg-core"
 
 @Component({
   selector: 'app-product-detail',
@@ -16,6 +18,9 @@ export class ProductDetailComponent implements OnInit {
   product!: ProductModel
 
   imgId: number = 1
+
+  faStar = faStar
+  faCheck = faCheck
 
   constructor(
     private route: ActivatedRoute,

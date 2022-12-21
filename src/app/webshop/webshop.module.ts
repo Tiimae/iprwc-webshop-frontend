@@ -5,6 +5,7 @@ import {WebshopRoutingModule} from './webshop-routing.module';
 import {HomeComponent} from "./home/home.component";
 import { ProductComponent } from './home/product/product.component';
 import { ProductDetailComponent } from './product-detail/product-detail.component';
+import {FontAwesomeModule} from "@fortawesome/angular-fontawesome";
 
 
 @NgModule({
@@ -15,7 +16,8 @@ import { ProductDetailComponent } from './product-detail/product-detail.componen
   ],
   imports: [
     CommonModule,
-    WebshopRoutingModule
+    WebshopRoutingModule,
+    FontAwesomeModule
   ]
 })
 export class WebshopModule { }

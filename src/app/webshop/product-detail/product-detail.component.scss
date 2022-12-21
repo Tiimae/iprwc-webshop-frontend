@@ -126,12 +126,18 @@ img {
             li {
               margin: 0;
               list-style: none;
-              //background: url(shoes_images/checked.png) left center no-repeat;
               background-size: 18px;
               padding-left: 1.7rem;
               margin: 0.4rem 0;
               font-weight: 600;
               opacity: 0.9;
+              font-size: 120%;
+
+              fa-icon {
+                margin-right: 1rem;
+                color: green;
+                font-weight: 500;
+              }
 
               span {
                 font-weight: 400;
@@ -162,11 +168,11 @@ img {
             color: #fff;
 
             &:first-of-type {
-              background: #256eff;
+              background: #e10600 !important;;
             }
 
             &:last-of-type {
-              background: #f64749;
+              background: #e10600 !important;;
             }
 
             &:hover {
@@ -194,9 +200,13 @@ img {
             transition: all 0.5s ease;
 
             &:hover {
-              background: #000;
+              background: #e10600 !important;
               border-color: transparent;
               color: #fff;
+            }
+
+            svg {
+              height: 80%;
             }
           }
         }
