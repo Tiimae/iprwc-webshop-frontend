@@ -1,6 +1,8 @@
 import {Injectable} from "@angular/core";
 import {BehaviorSubject, Subject} from "rxjs";
 import {ProductModel} from "src/app/_models/product.model";
+import { ProductDataService } from "./productData.service";
+import {SupplierModel} from "../../_models/supplier.model";
 
 @Injectable({
   providedIn: 'root',
@@ -9,7 +11,45 @@ export class CartDataService {
   products: ProductModel[] = [];
   products$: Subject<ProductModel[]> = new BehaviorSubject<ProductModel[]>([]);
 
-  constructor() {
+  constructor(
+    private productDataService: ProductDataService
+  ) {
+    if (localStorage.getItem("cart") !== null) {
+      this.getAllProductsInCart()
+    } else {
+      localStorage.setItem("cart", JSON.stringify([]))
+    }
+  }
+
+  private getAllProductsInCart(): void {
+    let items = localStorage.getItem("cart");
+
+    if (items == null) {
+      return;
+    }
+    setTimeout(() => {
+      if (items != null) {
+        JSON.parse(items).forEach((item: any) => {
+          this.productDataService
+            .get(JSON.parse(item).id)
+            .subscribe({
+              next: (product: ProductModel | undefined): void => {
+                if (product == undefined) {
+                  return;
+                }
+
+                this.products.push(product)
+              },
+              error(e: Error) {
+                console.log(e.message)
+              },
+              complete: () => {
+              }
+            })
+        })
+      }
+      this.products$.next(this.products);
+    }, 200)
   }
 
   createProduct(product: ProductModel, amount: number): void {

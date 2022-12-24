@@ -59,14 +59,10 @@
             type="text"
             formControlName="brand"
             required
+            (change)="addBrand()"
           >
             <option *ngFor="let brand of brands" value="{{ brand.brandName }}">{{ brand.brandName }}</option>
           </select>
-          <button class="w-full items-center justify-right bg-blue-500 bg-blue-700 text-white font-bold rounded ml-5"
-                  (click)="addBrand()"
-                  type="button">
-            Add Brand
-          </button>
         </section>
       </section>
     </section>
@@ -91,15 +87,11 @@
             type="text"
             formControlName="category"
             required
+            (change)="addCategory()"
           >
             <option *ngFor="let category of categories"
                     value="{{ category.categoryName }}">{{ category.categoryName  }}</option>
           </select>
-          <button class="w-full items-center justify-right bg-blue-500 bg-blue-700 text-white font-bold rounded ml-5"
-                  (click)="addCategory()"
-                  type="button">
-            Add Category
-          </button>
         </section>
       </section>
     </section>
@@ -125,14 +117,10 @@
             type="text"
             formControlName="supplier"
             required
+            (change)="addSupplier()"
           >
             <option *ngFor="let supplier of suppliers" value="{{ supplier.name }}">{{ supplier.name }}</option>
           </select>
-          <button class="w-full items-center justify-right bg-blue-500 bg-blue-700 text-white font-bold rounded ml-5"
-                  (click)="addSupplier()"
-                  type="button">
-            Add Supplier
-          </button>
         </section>
       </section>
     </section>

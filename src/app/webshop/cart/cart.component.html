@@ -1,0 +1,54 @@
+<main class="container">
+
+  <section class="shopping-cart">
+
+    <section class="column-labels">
+      <label class="product-image">Image</label>
+      <label class="product-details">Product</label>
+      <label class="product-price">Price</label>
+      <label class="product-quantity">Quantity</label>
+      <label class="product-removal">Remove</label>
+      <label class="product-line-price">Total</label>
+    </section>
+
+    <section *ngIf="cartProducts">
+      <section class="product" *ngFor="let product of cartProducts">
+        <section class="product-image">
+          <img src="{{ product.productImages[0].imagePath }}">
+        </section>
+        <section class="product-details">
+          <section class="product-title">{{ product.productName }}</section>
+        </section>
+        <section class="product-price">{{ product.price | currency:'EUR' }}</section>
+        <section class="product-quantity">
+          <input type="number" value="2" min="1">
+        </section>
+        <section class="product-removal">
+          <button class="remove-product">
+            Remove
+          </button>
+        </section>
+        <section class="product-line-price">{{ product.price | currency:'EUR' }}</section>
+      </section>
+    </section>
+
+    <section class="totals">
+      <section class="totals-item">
+        <label>Subtotal</label>
+        <section class="totals-value" id="cart-subtotal">71.97</section>
+      </section>
+      <section class="totals-item">
+        <label>Tax (5%)</label>
+        <section class="totals-value" id="cart-tax">3.60</section>
+      </section>
+      <section class="totals-item totals-item-total">
+        <label>Grand Total</label>
+        <section class="totals-value" id="cart-total">90.57</section>
+      </section>
+    </section>
+
+    <button class="checkout">Checkout</button>
+
+  </section>
+
+</main>

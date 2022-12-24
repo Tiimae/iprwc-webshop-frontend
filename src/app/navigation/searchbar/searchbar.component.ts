@@ -18,9 +18,10 @@ export class SearchbarComponent implements OnInit {
   faShoppingCart = faShoppingCart;
   faUser = faUser;
   user: LoggedUserModel | undefined;
-  products!: ProductModel[];
 
   username: string = ''
+
+  cartLength: number = 0;
 
   constructor(
     private router: Router,
@@ -75,7 +76,8 @@ export class SearchbarComponent implements OnInit {
     this.cartDataService
       .products$
       .subscribe(res => {
-        this.products = res
+        this.cartLength = res.length;
+
       })
   }
 

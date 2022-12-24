@@ -6,6 +6,7 @@ import {HomeComponent} from "./home/home.component";
 import { ProductComponent } from './home/product/product.component';
 import { ProductDetailComponent } from './product-detail/product-detail.component';
 import {FontAwesomeModule} from "@fortawesome/angular-fontawesome";
+import { CartComponent } from './cart/cart.component';
 
 
 @NgModule({
@@ -13,6 +14,7 @@ import {FontAwesomeModule} from "@fortawesome/angular-fontawesome";
     HomeComponent,
     ProductComponent,
     ProductDetailComponent,
+    CartComponent,
   ],
   imports: [
     CommonModule,

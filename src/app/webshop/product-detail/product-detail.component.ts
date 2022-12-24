@@ -6,6 +6,7 @@ import {ProductDataService} from "../../_service/data/productData.service";
 import {ProductModel} from "../../_models/product.model";
 import {faStar, faCheck} from "@fortawesome/free-solid-svg-icons";
 import { CartDataService } from 'src/app/_service/data/cartData.service';
+import {ToastrService} from "ngx-toastr";
 // import {faInstagram} from "@fortawesome/fontawesome-svg-core"
 
 @Component({
@@ -27,7 +28,8 @@ export class ProductDetailComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private productDataService: ProductDataService,
-    private cartDataService: CartDataService
+    private cartDataService: CartDataService,
+    private toastr: ToastrService
   ) { }
 
   ngOnInit(): void {
@@ -64,6 +66,13 @@ export class ProductDetailComponent implements OnInit {
   }
 
   addToCart() {
-    this.cartDataService.createProduct(this.product, 1)
+    const input = (<HTMLInputElement>document.getElementById("amount"))
+
+    if (input != null) {
+      this.cartDataService.createProduct(this.product, Number(input.value))
+    } else {
+      this.cartDataService.createProduct(this.product, 1)
+    }
+    this.toastr.success("Item added successfully to your Cart!", "Added!")
   }
 }

@@ -40,7 +40,7 @@ export class ProductDataService {
 
     this.products.forEach((currentProduct: ProductModel) => {
       if (product.productName === currentProduct.productName) {
-        this.toastr.error('Product name is already in user.', 'Failed');
+        this.toastr.error('Product name is already in products.', 'Failed');
         check = false;
       }
     })
@@ -77,8 +77,8 @@ export class ProductDataService {
     let check = true
 
     this.products.forEach((currentProduct: ProductModel) => {
-      if (product.productName === currentProduct.productName) {
-        this.toastr.error('Product name is already in user.', 'Failed');
+      if (product.productName === currentProduct.productName && product.id !== currentProduct.id) {
+        this.toastr.error('Product name is already in products.', 'Failed');
         check = false;
       }
     })
