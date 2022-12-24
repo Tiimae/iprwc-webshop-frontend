@@ -15,10 +15,10 @@ export class ProductComponent implements OnInit {
 
   @Output() delete: EventEmitter<ProductModel> = new EventEmitter()
 
-  constructor() { }
+  constructor(private api: ApiConnectorService) { }
 
   async ngOnInit(): Promise<void> {
-    let encryptedId: string = CryptoJs.Rabbit.encrypt(this.product.id, await ApiConnectorService.getInstance().getDecryptKey()).toString()
+    let encryptedId: string = CryptoJs.Rabbit.encrypt(this.product.id, await this.api.getDecryptKey()).toString()
     this.productId = encryptedId.toString().replace(new RegExp("/", "g"), "*");
   }
 

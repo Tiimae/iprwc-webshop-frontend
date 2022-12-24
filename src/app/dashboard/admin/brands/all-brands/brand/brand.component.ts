@@ -15,7 +15,9 @@ export class BrandComponent implements OnInit {
 
   brandId!: string;
 
-  constructor() { }
+  constructor(
+    private api: ApiConnectorService
+  ) { }
 
   ngOnInit(): void {
     this.checkIfIdIsUndefined();
@@ -26,7 +28,7 @@ export class BrandComponent implements OnInit {
   }
 
   public async checkIfIdIsUndefined(): Promise<void> {
-    let encryptedId: string = CryptoJs.Rabbit.encrypt(this.brand.id, await ApiConnectorService.getInstance().getDecryptKey()).toString()
+    let encryptedId: string = CryptoJs.Rabbit.encrypt(this.brand.id, await this.api.getDecryptKey()).toString()
     this.brandId = encryptedId.replace(new RegExp("/", "g"), "*");
   }
 

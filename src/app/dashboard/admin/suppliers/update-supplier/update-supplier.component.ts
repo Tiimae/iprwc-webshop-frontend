@@ -29,14 +29,15 @@ export class UpdateSupplierComponent implements OnInit {
     private supplierDataService: SupplierDataService,
     private router: Router,
     private route: ActivatedRoute,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private api: ApiConnectorService
   ) { }
 
   ngOnInit(): void {
 
     this.route.params.subscribe(async (params) => {
       const currentSupplierId = params['supplierId'].replaceAll("*", "/");
-      this.supplierId = CryptoJs.Rabbit.decrypt(currentSupplierId, await ApiConnectorService.getInstance().getDecryptKey()).toString(CryptoJs.enc.Utf8)
+      this.supplierId = CryptoJs.Rabbit.decrypt(currentSupplierId, await this.api.getDecryptKey()).toString(CryptoJs.enc.Utf8)
 
       this.supplierDataService
         .get(this.supplierId)

@@ -13,14 +13,16 @@ export class ProductComponent implements OnInit {
   @Input() product!: ProductModel;
   productId!: string
 
-  constructor() { }
+  constructor(
+    private api: ApiConnectorService
+  ) { }
 
   ngOnInit(): void {
     this.checkIfIdIsUndefined()
   }
 
   public async checkIfIdIsUndefined(): Promise<void> {
-    let encryptedId: string = CryptoJs.Rabbit.encrypt(this.product.id, await ApiConnectorService.getInstance().getDecryptKey()).toString()
+    let encryptedId: string = CryptoJs.Rabbit.encrypt(this.product.id, await this.api.getDecryptKey()).toString()
     this.productId = encryptedId.replace(new RegExp("/", "g"), "*");
   }
 

@@ -19,13 +19,15 @@ export class SearchbarComponent implements OnInit {
   faUser = faUser;
   user: LoggedUserModel | undefined;
   products!: ProductModel[];
+  loggedIn: boolean = false;
 
   username: string = ''
 
   constructor(
     private router: Router,
     private authService: AuthService,
-    private cartDataService: CartDataService
+    private cartDataService: CartDataService,
+    private api: ApiConnectorService
   ) {
   }
 
@@ -35,10 +37,11 @@ export class SearchbarComponent implements OnInit {
     if (localStorage.getItem('blank-token') !== null) {
       try {
         const secret = await this.authService.getSecret();
+        console.log(secret)
 
         localStorage.clear();
 
-        ApiConnectorService.getInstance().storeJwtToken(
+        this.api.storeJwtToken(
           jwtToken ?? '',
           secret.data['message']
         );
@@ -49,20 +52,19 @@ export class SearchbarComponent implements OnInit {
 
     if (localStorage.getItem('jwt-token')) {
       try {
-        const tokenPayload = await ApiConnectorService.getInstance().user;
-        if (tokenPayload !== undefined) {
+        const tokenPayload = await this.api.getJwtPayload();
+        if (tokenPayload !== '') {
           this.router.navigate(['/']);
         }
       } catch (err) {
-        console.log(err);
+        console.log(err)
       }
     }
 
-
-    ApiConnectorService.getInstance().getJwtPayload().then(jwt => {
+    this.api.getJwtPayload().then(async jwt => {
       // console.log(jwt)
       if (jwt?.userId != undefined) {
-        ApiConnectorService.getInstance().auth().get("user/" + jwt?.userId).then(r => {
+        (await this.api.auth()).get("user/" + jwt?.userId).then(r => {
           if (r.data.payload.middleName == '') {
             this.username = r.data.payload.firstName + ' ' + r.data.payload.lastName
           } else {
@@ -77,14 +79,12 @@ export class SearchbarComponent implements OnInit {
       .subscribe(res => {
         this.products = res
       })
+
+    this.ifItemIsInLocalStorage();
   }
 
-  public ifItemIsInLocalStorage(): boolean {
-    return ApiConnectorService.getInstance().authenticated();
-  }
-
-  setUsername(): void {
-
+  public async ifItemIsInLocalStorage(): Promise<void> {
+    this.loggedIn = await this.api.authenticated();
   }
 
 }

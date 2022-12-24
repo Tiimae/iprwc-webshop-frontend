@@ -34,12 +34,16 @@ export class SidebarComponent implements OnInit {
 
   private jwtPayload: LoggedUserModel | undefined = undefined
 
-  constructor(private router: Router, private route: ActivatedRoute) {
+  constructor(
+    private router: Router,
+    private route: ActivatedRoute,
+    private api: ApiConnectorService
+    ) {
   }
 
   async ngOnInit(): Promise<void> {
     // @ts-ignore
-    this.hasRole = await ApiConnectorService.getInstance().getJwtPayload().then((r: LoggedUserModel): boolean => {
+    this.hasRole = await this.api.getJwtPayload().then((r: LoggedUserModel): boolean => {
       return r.roles.includes("Admin") || r.roles.includes("Owner");
     })
   }

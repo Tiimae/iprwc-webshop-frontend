@@ -27,14 +27,15 @@ export class UpdateBrandComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     private brandDataService: BrandDataService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private api: ApiConnectorService
   ) { }
 
   ngOnInit(): void {
 
     this.route.params.subscribe(async (params) => {
       const currentBrandId = params['brandId'].replaceAll("*", "/");
-      this.brandId = CryptoJs.Rabbit.decrypt(currentBrandId, await ApiConnectorService.getInstance().getDecryptKey()).toString(CryptoJs.enc.Utf8);
+      this.brandId = CryptoJs.Rabbit.decrypt(currentBrandId, await this.api.getDecryptKey()).toString(CryptoJs.enc.Utf8);
 
       (await this.brandDataService
         .get(this.brandId))

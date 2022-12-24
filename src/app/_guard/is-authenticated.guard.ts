@@ -8,13 +8,13 @@ import {ApiConnectorService} from "../_service/api-connector.service";
 })
 export class IsAuthenticatedGuard implements CanActivate {
 
-  constructor(private router: Router) {
+  constructor(private router: Router, private api: ApiConnectorService) {
   }
 
   canActivate(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-    let auth = ApiConnectorService.getInstance().authenticated()
+    let auth = this.api.authenticated()
      if (!auth) {
        return this.router.navigate(['auth', 'login'])
      }

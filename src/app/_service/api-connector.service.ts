@@ -2,38 +2,24 @@ import {Injectable, OnInit} from '@angular/core';
 import axios, {AxiosInstance} from 'axios';
 import {LoggedUserModel} from "../_models/loggedUser.model";
 import * as CryptoJs from 'crypto-js';
+import {environment} from "../../environments/environment";
+import {AuthService} from "./auth.service";
 
 @Injectable({
   providedIn: 'root'
 })
-export class ApiConnectorService implements OnInit {
-  public static apiUrl = 'http://localhost:8080/api/v1.0/';
+export class ApiConnectorService {
+
+  public static apiUrl = environment.apiUrl;
   private jwtToken: string | null = null;
-  private static instance: ApiConnectorService | null = null;
-  public user!: LoggedUserModel;
-  public decryptKey: string | null = null;
+  private decryptKey: string | null = null;
 
-  constructor() {
-
-  }
-
-  ngOnInit(): void {
-    this.getJwtPayload().then((r): void => {
-      if (r != undefined) {
-        this.user = r;
-      }
-    });
-  }
-
-  public static getInstance(): ApiConnectorService {
-    return this.instance instanceof ApiConnectorService ? this.instance : new ApiConnectorService();
-  }
+  constructor() {}
 
   public noAuth(): AxiosInstance {
     const instance = axios.create({
       baseURL: ApiConnectorService.apiUrl,
       headers: {
-        'Access-Control-Allow-Origin': ApiConnectorService.apiUrl,
         Accept: 'application/json',
       },
     });
@@ -43,28 +29,45 @@ export class ApiConnectorService implements OnInit {
     return instance;
   }
 
-  public auth(): AxiosInstance {
-    if (!this.authenticated) {
+  public async auth(): Promise<AxiosInstance> {
+    const loggedIn = await this.authenticated();
+
+    if (!loggedIn) {
       throw new Error('not logged in');
     }
 
     if (this.jwtToken === null || !this.jwtToken.length) {
-      this.jwtToken = this.getTokenFromStore();
+      this.jwtToken = await this.decryptJwtFromStorage();
     }
 
     return axios.create({
       baseURL: ApiConnectorService.apiUrl,
       headers: {
-        'Access-Control-Allow-Origin': ApiConnectorService.apiUrl,
-        Authorization: this.jwtToken,
+        Authorization: 'Bearer ' + this.jwtToken,
       },
     });
   }
 
-  public authenticated() {
+  public async authenticated() {
     let result = this.getTokenFromStore();
 
-    return result !== null && result.length > 0;
+    if (result !== null && result.length > 0) {
+      const key = await this.getDecryptKey();
+
+      return key !== '';
+    }
+    return false;
+  }
+
+  public async verified(){
+    const auth = new AuthService(this);
+    const profile = await auth.getProfile();
+
+    if(profile.data.payload.verified){
+      return true;
+    }
+    return false;
+
   }
 
   private getTokenFromStore(): null | string {
@@ -72,41 +75,47 @@ export class ApiConnectorService implements OnInit {
   }
 
   public storeJwtToken(jwtToken: string, secret: string): void {
+    console.log(jwtToken)
+    console.log(CryptoJs.Rabbit.encrypt(jwtToken, secret))
     localStorage.setItem(
       'jwt-token',
       CryptoJs.Rabbit.encrypt(jwtToken, secret).toString()
     );
-
-    this.getJwtPayload().then((r): void => {
-      if (r != undefined) {
-        this.user = r;
-      }
-    });
   }
 
-  public async getDecryptKey(): Promise<string> {
+  public async getJwtPayload(): Promise<any> {
+    const tokenFromStorage = await this.decryptJwtFromStorage();
 
+    return JSON.parse(atob(tokenFromStorage.split('.')[1]));
+  }
+
+  async getDecryptKey(): Promise<string> {
     if (this.decryptKey === null) {
-      const result = await this.noAuth().get('/auth/secret', {
-        withCredentials: true,
-      });
-      this.decryptKey = result.data['message'];
+      try {
+        const result = await this.noAuth().get('/auth/secret', {
+          withCredentials: true,
+        });
+
+        this.decryptKey = result.data['message'];
+        return this.decryptKey ?? 'cant happen';
+      } catch (error) {
+        return '';
+      }
     }
 
-    return this.decryptKey ?? 'cant happen';
+    return this.decryptKey;
   }
 
-  public async getJwtPayload(): Promise<LoggedUserModel | undefined> {
+  public async decryptJwtFromStorage(): Promise<string> {
     let tokenFromStorage = this.getTokenFromStore();
+
     if (tokenFromStorage === null) {
-      return undefined;
+      return '';
     }
 
-    tokenFromStorage = CryptoJs.Rabbit.decrypt(
+    return CryptoJs.Rabbit.decrypt(
       tokenFromStorage,
       await this.getDecryptKey()
     ).toString(CryptoJs.enc.Utf8);
-
-    return JSON.parse(atob(tokenFromStorage.split('.')[1])) as LoggedUserModel;
   }
 }

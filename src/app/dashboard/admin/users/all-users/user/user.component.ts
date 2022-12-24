@@ -16,6 +16,9 @@ export class UserComponent implements OnInit {
 
   @Output() delete: EventEmitter<UserModel> = new EventEmitter();
 
+  constructor(
+    private api: ApiConnectorService
+  ) { }
   ngOnInit(): void {
     this.checkIfIdIsUndefined();
   }
@@ -37,7 +40,7 @@ export class UserComponent implements OnInit {
   }
 
   public async checkIfIdIsUndefined(): Promise<void> {
-    let encryptedId: string = CryptoJs.Rabbit.encrypt(this.user.id, await ApiConnectorService.getInstance().getDecryptKey()).toString()
+    let encryptedId: string = CryptoJs.Rabbit.encrypt(this.user.id, await this.api.getDecryptKey()).toString()
     this.userId = encryptedId.replace(new RegExp("/", "g"), "*");
   }
 
