@@ -22,10 +22,10 @@
       Shopping Cart ({{ cartLength }})
     </a>
     <span class="block mt-4 lg:inline-block text-white lg:mt-0 pr-4">|</span>
-    <a routerLink="/auth/login" class="block mt-4 lg:inline-block lg:mt-0 text-white mr-4" *ngIf="!ifItemIsInLocalStorage()">Login</a>
-    <span class="block mt-4 lg:inline-block lg:mt-0 text-white pr-4" *ngIf="!ifItemIsInLocalStorage()">|</span>
-    <a routerLink="/auth/register" class="block mt-4 lg:inline-block lg:mt-0 text-white mr-4" *ngIf="!ifItemIsInLocalStorage()">Register</a>
-    <a routerLink="/dashboard/user/account" class="block mt-4 lg:inline-block lg:mt-0 text-white mr-4" *ngIf="ifItemIsInLocalStorage()">
+    <a routerLink="/auth/login" class="block mt-4 lg:inline-block lg:mt-0 text-white mr-4" *ngIf="!loggedIn">Login</a>
+    <span class="block mt-4 lg:inline-block lg:mt-0 text-white pr-4" *ngIf="!loggedIn">|</span>
+    <a routerLink="/auth/register" class="block mt-4 lg:inline-block lg:mt-0 text-white mr-4" *ngIf="!loggedIn">Register</a>
+    <a routerLink="/dashboard/user/account" class="block mt-4 lg:inline-block lg:mt-0 text-white mr-4" *ngIf="loggedIn">
       <fa-icon [icon]="faUser"></fa-icon> &nbsp; {{ username }}
     </a>
   </section>

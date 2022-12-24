@@ -30,12 +30,13 @@ export class ProductDetailComponent implements OnInit {
     private productDataService: ProductDataService,
     private cartDataService: CartDataService,
     private toastr: ToastrService
+    private api: ApiConnectorService
   ) { }
 
   ngOnInit(): void {
     this.route.params.subscribe(async (params) => {
       const currentProductId = params['productId'].replaceAll("*", "/");
-      this.productId = CryptoJs.Rabbit.decrypt(currentProductId, await ApiConnectorService.getInstance().getDecryptKey()).toString(CryptoJs.enc.Utf8)
+      this.productId = CryptoJs.Rabbit.decrypt(currentProductId, await this.api.getDecryptKey()).toString(CryptoJs.enc.Utf8)
 
       this.productDataService
         .get(this.productId)

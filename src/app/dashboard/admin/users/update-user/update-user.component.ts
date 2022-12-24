@@ -40,14 +40,15 @@ export class UpdateUserComponent implements OnInit {
     private router: Router,
     private userDataService: UserDataService,
     private roleDataService: RoleDataService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private api: ApiConnectorService
     ) {
   }
 
   async ngOnInit(): Promise<void> {
     this.route.params.subscribe(async (params) => {
       const currentUserId = params['userId'].replaceAll("*", "/");
-      this.userId = CryptoJs.Rabbit.decrypt(currentUserId, await ApiConnectorService.getInstance().getDecryptKey()).toString(CryptoJs.enc.Utf8)
+      this.userId = CryptoJs.Rabbit.decrypt(currentUserId, await this.api.getDecryptKey()).toString(CryptoJs.enc.Utf8)
 
       this.userDataService
         .getCurrentUser(this.userId)

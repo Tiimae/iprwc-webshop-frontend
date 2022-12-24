@@ -9,46 +9,48 @@ export class ApiMethodsService {
 
   public static instance: ApiMethodsService | null = null;
 
-  constructor() { }
+  constructor(
+    private api: ApiConnectorService
+  ) { }
 
   public static getInstance(): ApiMethodsService {
     if (this.instance == null) {
-      this.instance = new ApiMethodsService();
+      this.instance = new ApiMethodsService(new ApiConnectorService());
     }
 
     return this.instance;
   }
 
-  public get(path: string, auth: boolean): Promise<AxiosResponse> {
+  public async get(path: string, auth: boolean): Promise<AxiosResponse> {
     if (auth) {
-      return ApiConnectorService.getInstance().auth().get(path);
+      return (await this.api.auth()).get(path);
     }
 
-    return ApiConnectorService.getInstance().noAuth().get(path);
+    return this.api.noAuth().get(path);
   }
 
-  public post(path: string, payload: any, auth: boolean) : Promise<AxiosResponse> {
+  public async post(path: string, payload: any, auth: boolean): Promise<AxiosResponse> {
     if (auth) {
-      return ApiConnectorService.getInstance().auth().post(path, payload);
+      return (await this.api.auth()).post(path, payload);
     }
 
-    return ApiConnectorService.getInstance().noAuth().post(path, payload);
+    return this.api.noAuth().post(path, payload);
   }
 
-  public put(path: string, payload: any, auth: boolean) : Promise<AxiosResponse> {
+  public async put(path: string, payload: any, auth: boolean): Promise<AxiosResponse> {
     if (auth) {
-      return ApiConnectorService.getInstance().auth().put(path, payload);
+      return (await this.api.auth()).put(path, payload);
     }
 
-    return ApiConnectorService.getInstance().noAuth().put(path, payload);
+    return this.api.noAuth().put(path, payload);
   }
 
-  public delete(path: string, auth: boolean) : Promise<AxiosResponse> {
+  public async delete(path: string, auth: boolean): Promise<AxiosResponse> {
     if (auth) {
-      return ApiConnectorService.getInstance().auth().delete(path);
+      return (await this.api.auth()).delete(path);
     }
 
-    return ApiConnectorService.getInstance().noAuth().delete(path)
+    return this.api.noAuth().delete(path)
   }
 
 }

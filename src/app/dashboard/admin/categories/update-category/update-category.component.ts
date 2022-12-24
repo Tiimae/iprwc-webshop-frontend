@@ -25,7 +25,8 @@ export class UpdateCategoryComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private categoryDataService: CategoryDataService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private api: ApiConnectorService
   ) {
   }
 
@@ -33,7 +34,7 @@ export class UpdateCategoryComponent implements OnInit {
     this.route.params.subscribe(async (params) => {
       const currentUserId = params['categoryId'].replaceAll("*", "/")
 
-      this.categoryId = CryptoJs.Rabbit.decrypt(currentUserId, await ApiConnectorService.getInstance().getDecryptKey()).toString(CryptoJs.enc.Utf8)
+      this.categoryId = CryptoJs.Rabbit.decrypt(currentUserId, await this.api.getDecryptKey()).toString(CryptoJs.enc.Utf8)
 
       this.categoryDataService
         .getCurrentCategory(this.categoryId)

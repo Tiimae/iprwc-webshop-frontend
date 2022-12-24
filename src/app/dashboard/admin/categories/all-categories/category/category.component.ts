@@ -16,10 +16,12 @@ export class CategoryComponent implements OnInit {
 
   @Output() delete: EventEmitter<CategoryModel> = new EventEmitter();
 
-  constructor() { }
+  constructor(
+    private api: ApiConnectorService
+  ) { }
 
   async ngOnInit(): Promise<void> {
-    let encryptedId: string = CryptoJs.Rabbit.encrypt(this.category?.id, await ApiConnectorService.getInstance().getDecryptKey()).toString()
+    let encryptedId: string = CryptoJs.Rabbit.encrypt(this.category?.id, await this.api.getDecryptKey()).toString()
     this.categoryId = encryptedId.toString().replace(new RegExp("/", "g"), "*");
   }
 

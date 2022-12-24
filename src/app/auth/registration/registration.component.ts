@@ -23,7 +23,8 @@ export class RegistrationComponent implements OnInit {
   constructor(
     private router: Router,
     private authService: AuthService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private api: ApiConnectorService
   ) {
   }
 
@@ -36,7 +37,7 @@ export class RegistrationComponent implements OnInit {
 
         localStorage.clear();
 
-        ApiConnectorService.getInstance().storeJwtToken(
+        this.api.storeJwtToken(
           jwtToken ?? '',
           secret.data['message']
         );
@@ -47,7 +48,7 @@ export class RegistrationComponent implements OnInit {
 
     if (localStorage.getItem('jwt-token')) {
       try {
-        const tokenPayload = await ApiConnectorService.getInstance().getJwtPayload();
+        const tokenPayload = await this.api.getJwtPayload();
         if (tokenPayload !== undefined) {
           this.router.navigate(['/']);
         }
@@ -74,8 +75,9 @@ export class RegistrationComponent implements OnInit {
       email,
       password
     ).then(r => {
-      if (r.data.code == 201) {
-        this.router.navigate(['login'])
+      if (r.data.code == 202) {
+        localStorage.setItem('blank-token', r.data?.payload?.jwtToken);
+        window.location.href = ApiConnectorService.apiUrl + r.data['payload']['destination'];
         this.toastr.success("User has been created successfully!", r.data.message);
       } else {
         this.toastr.error(r.data.payload, r.data.message);

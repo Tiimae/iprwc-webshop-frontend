@@ -22,19 +22,50 @@ export class LoginComponent implements OnInit {
   constructor(
     private router: Router,
     private authService: AuthService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private api: ApiConnectorService
   ) {
   }
 
   async ngOnInit() {
+    const jwtToken = localStorage.getItem('blank-token');
 
+    if (localStorage.getItem('blank-token') !== null) {
+      try {
+        const secret = await this.authService.getSecret();
+
+        localStorage.clear();
+
+        this.api.storeJwtToken(
+          jwtToken ?? '',
+          secret.data['message']
+        );
+      } catch (error) {
+        localStorage.clear();
+      }
+    }
+
+    if (localStorage.getItem('jwt-token')) {
+      try {
+        const tokenPayload = await this.api.getJwtPayload();
+        if (tokenPayload !== undefined) {
+          this.router.navigate(['/']);
+        }
+      } catch (err) {
+      }
+    }
   }
 
   public async onSubmit() {
 
-    await this.authService.login(this.loginForm?.form.controls['email'].value, this.loginForm?.form.controls['password'].value).then(r => {
+    await this.authService.login(
+      this.loginForm?.form.controls['email'].value,
+      this.loginForm?.form.controls['password'].value
+    ).then(r => {
+      console.log(r.data.payload.jwtToken)
       if (r.data.code == 202) {
-        localStorage.setItem('blank-token', r.data?.payload?.jwtToken);
+        console.log(r)
+        localStorage.setItem('blank-token', r.data.payload?.jwtToken);
         window.location.href = ApiConnectorService.apiUrl + r.data['payload']['destination'];
         this.toastr.success("You are Logged in successfully!", r.data.message);
       } else {

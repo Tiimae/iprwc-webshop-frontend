@@ -16,7 +16,7 @@ export class SupplierComponent implements OnInit {
 
   @Output() delete: EventEmitter<SupplierModel> = new EventEmitter();
 
-  constructor() {
+  constructor(private api: ApiConnectorService) {
   }
 
   ngOnInit(): void {
@@ -24,7 +24,7 @@ export class SupplierComponent implements OnInit {
   }
 
   async checkIfIdIsUndefined() {
-    let encryptedId: string = CryptoJs.Rabbit.encrypt(this.supplier.id, await ApiConnectorService.getInstance().getDecryptKey()).toString()
+    let encryptedId: string = CryptoJs.Rabbit.encrypt(this.supplier.id, await this.api.getDecryptKey()).toString()
     this.supplierId = encryptedId.replace(new RegExp("/", "g"), "*");
   }
 
