@@ -7,7 +7,7 @@ import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {RoleModel} from "../../../../_models/role.model";
 import {UserDataService} from "../../../../_service/data/userData.service";
 import {RoleDataService} from "../../../../_service/data/roleData.service";
-import { ToastrService } from 'ngx-toastr';
+import {ToastrService} from 'ngx-toastr';
 
 @Component({
   selector: 'app-update-user',
@@ -42,7 +42,7 @@ export class UpdateUserComponent implements OnInit {
     private roleDataService: RoleDataService,
     private toastr: ToastrService,
     private api: ApiConnectorService
-    ) {
+  ) {
   }
 
   async ngOnInit(): Promise<void> {
@@ -96,20 +96,23 @@ export class UpdateUserComponent implements OnInit {
       return;
     }
 
-    const user = new UserModel(
-      this.userId,
-      firstname,
-      middlename,
-      lastname,
-      email,
-      this.userRoles
-    )
+    if (this.user != undefined) {
+      const user = new UserModel(
+        this.userId,
+        firstname,
+        middlename,
+        lastname,
+        email,
+        this.userRoles,
+        this.user.userAddresses
+      )
 
-    const request: boolean = this.userDataService.updateUser(user);
+      const request: boolean = this.userDataService.updateUser(user);
 
-    if(request) {
-      this.toastr.success("Supplier has been updated successfully!", "Updated");
-      this.router.navigate(['dashboard', 'admin', 'users'])
+      if (request) {
+        this.toastr.success("Supplier has been updated successfully!", "Updated");
+        this.router.navigate(['dashboard', 'admin', 'users'])
+      }
     }
 
   }

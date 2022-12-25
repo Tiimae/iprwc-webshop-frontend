@@ -69,7 +69,8 @@ export class CreateUserComponent implements OnInit {
       middlename,
       lastname,
       email,
-      this.userRoles
+      this.userRoles,
+      []
     )
 
     const request: boolean = this.userDataService.createNewUser(user);

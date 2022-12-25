@@ -45,15 +45,15 @@ export class CartComponent implements OnInit {
 
   calculateTotalProduct() {
     const allTotal = document.getElementsByClassName("product-line-price");
-    // console.log(allTotal)
     let total = 0;
 
     for (let i = 1; i < allTotal.length; i++) {
-      total += Number(allTotal[i].innerHTML.substring(1))
+      const lineTotal = allTotal[i].innerHTML.substring(1).replace(",", "")
+      total += Number(lineTotal)
     }
 
     this.totalProduct = total
-    this.tax = this.totalProduct * 0.05
+    this.tax = this.totalProduct * 0.21
     this.grandTotal = this.totalProduct + this.tax;
   }
 
