@@ -28,4 +28,5 @@ import {UserComponent} from "./user/user.component";
   ]
 })
 
-export class DashboardModule { }
+export class DashboardModule {
+}

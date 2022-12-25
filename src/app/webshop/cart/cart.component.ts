@@ -11,6 +11,8 @@ export class CartComponent implements OnInit {
 
   cartProducts!: ProductModel[];
   totalProduct: number = 0;
+  tax: number = 0;
+  grandTotal: number = 0;
 
   constructor(
     private cartDataService: CartDataService
@@ -24,12 +26,24 @@ export class CartComponent implements OnInit {
         this.cartProducts = res;
       })
 
-    console.log(this.cartProducts)
+    setTimeout(() => {
+      this.calculateTotalProduct();
+    }, 200)
 
   }
 
   calculateTotalProduct() {
+    const allTotal = document.getElementsByClassName("product-line-price");
+    let total = 0;
 
+    for (let i = 1; i < allTotal.length; i++) {
+      total += Number(allTotal[i].innerHTML.substring(1))
+    }
+
+
+    this.totalProduct = total
+    this.tax = this.totalProduct * 0.05
+    this.grandTotal = this.totalProduct + this.tax;
   }
 
 

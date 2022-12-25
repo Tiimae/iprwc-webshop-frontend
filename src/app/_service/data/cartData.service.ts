@@ -49,7 +49,7 @@ export class CartDataService {
         })
       }
       this.products$.next(this.products);
-    }, 200)
+    }, 500)
   }
 
   createProduct(product: ProductModel, amount: number): void {
@@ -66,9 +66,12 @@ export class CartDataService {
       // @ts-ignore
       let item = items.find(item => JSON.parse(item).id === product.id)
       if (item != undefined) {
+        let oldAmount: number = <number>JSON.parse(item).amount
+        oldAmount = amount;
+
         const newItem = JSON.stringify({
           "id": product.id,
-          "amount": JSON.parse(item).amount + amount
+          "amount": oldAmount
         });
         // @ts-ignore
         items[items.findIndex(item => JSON.parse(item).id === product.id)] = newItem
@@ -85,6 +88,50 @@ export class CartDataService {
         this.products.push(product)
         this.products$.next(this.products)
       }
+    }
+
+    localStorage.setItem("cart", JSON.stringify(items))
+  }
+
+  getCartItem(productId: string) {
+    let items = localStorage.getItem("cart");
+    let check = false
+
+    if (items == null) {
+      return
+    }
+
+    items = JSON.parse(items);
+
+    if (items != null) {
+      // @ts-ignore
+      let item = items.find(item => JSON.parse(item).id === productId)
+
+      if (item != undefined) {
+        return item;
+      }
+    }
+  }
+
+  removeProduct(product: ProductModel): void {
+    this.products.forEach((currentProduct, index) => {
+      if (currentProduct.id == product.id) {
+        this.products.splice(index, 1)
+      }
+    })
+
+    let items = localStorage.getItem("cart");
+    let check = false
+
+    if (items == null) {
+      return
+    }
+
+    items = JSON.parse(items);
+
+    if (items != null) {
+        // @ts-ignore
+        items.splice(items.findIndex(item => JSON.parse(item).id === product.id), 1);
     }
 
     localStorage.setItem("cart", JSON.stringify(items))

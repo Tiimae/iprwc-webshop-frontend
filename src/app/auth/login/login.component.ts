@@ -62,9 +62,7 @@ export class LoginComponent implements OnInit {
       this.loginForm?.form.controls['email'].value,
       this.loginForm?.form.controls['password'].value
     ).then(r => {
-      console.log(r.data.payload.jwtToken)
       if (r.data.code == 202) {
-        console.log(r)
         localStorage.setItem('blank-token', r.data.payload?.jwtToken);
         window.location.href = ApiConnectorService.apiUrl + r.data['payload']['destination'];
         this.toastr.success("You are Logged in successfully!", r.data.message);

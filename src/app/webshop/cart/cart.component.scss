@@ -67,45 +67,6 @@ label {
   margin-bottom: 20px;
   padding-bottom: 10px;
   border-bottom: 1px solid $color-border;
-
-  .product-image {
-    text-align: center;
-    img {
-      width: 100px;
-    }
-  }
-
-  .product-details {
-    .product-title {
-      margin-right: 20px;
-      font-family: $font-bold;
-    }
-    .product-description {
-      margin: 5px 20px 5px 0;
-      line-height: 1.4em;
-    }
-  }
-
-  .product-quantity {
-    input {
-      width: 40px;
-
-    }
-  }
-
-  .remove-product {
-    border: 0;
-    padding: 4px 8px;
-    background-color: #c66;
-    color: #fff;
-    font-family: $font-bold;
-    font-size: 12px;
-    border-radius: 3px;
-  }
-
-  .remove-product:hover {
-    background-color: #a44;
-  }
 }
 
 

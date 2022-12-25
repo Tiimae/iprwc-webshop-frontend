@@ -1,0 +1,16 @@
+<section class="product-image">
+  <img src="{{ product.productImages[0].imagePath }}">
+</section>
+<section class="product-details">
+  <section class="product-title">{{ product.productName }}</section>
+</section>
+<section class="product-price">{{ product.price | currency:'EUR' }}</section>
+<section class="product-quantity">
+  <input type="number" value="{{ amount }}" min="1" (change)="changePrice($event)">
+</section>
+<section class="product-removal">
+  <button class="remove-product" (click)="deleteProduct()">
+    Remove
+  </button>
+</section>
+<section class="product-line-price">{{ totalPrice | currency:'EUR' }}</section>

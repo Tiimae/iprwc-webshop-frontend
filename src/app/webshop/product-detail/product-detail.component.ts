@@ -29,7 +29,7 @@ export class ProductDetailComponent implements OnInit {
     private router: Router,
     private productDataService: ProductDataService,
     private cartDataService: CartDataService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
     private api: ApiConnectorService
   ) { }
 
@@ -70,7 +70,14 @@ export class ProductDetailComponent implements OnInit {
     const input = (<HTMLInputElement>document.getElementById("amount"))
 
     if (input != null) {
-      this.cartDataService.createProduct(this.product, Number(input.value))
+      let newAmount = Number(input.value)
+
+      const localStorageItem = this.cartDataService.getCartItem(this.product.id);
+      if (localStorageItem != undefined) {
+        newAmount = Number(JSON.parse(localStorageItem).amount) + Number(input.value)
+      }
+
+      this.cartDataService.createProduct(this.product, newAmount)
     } else {
       this.cartDataService.createProduct(this.product, 1)
     }
