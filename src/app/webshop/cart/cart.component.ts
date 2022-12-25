@@ -1,6 +1,8 @@
-import { Component, OnInit } from '@angular/core';
-import { CartDataService } from 'src/app/_service/data/cartData.service';
+import {Component, OnInit} from '@angular/core';
+import {CartDataService} from 'src/app/_service/data/cartData.service';
 import {ProductModel} from "../../_models/product.model";
+import {Router} from "@angular/router";
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-cart',
@@ -15,37 +17,53 @@ export class CartComponent implements OnInit {
   grandTotal: number = 0;
 
   constructor(
-    private cartDataService: CartDataService
-  ) { }
+    private cartDataService: CartDataService,
+    private router: Router,
+    private toastr: ToastrService
+  ) {
+  }
 
   ngOnInit(): void {
 
     this.cartDataService
       .products$
-      .subscribe(res => {
-        this.cartProducts = res;
+      .subscribe({
+        next: (products: ProductModel[]) => {
+          this.cartProducts = products;
+          setTimeout(() => {
+            this.calculateTotalProduct();
+          }, 200)
+        },
+        error(e: Error) {
+          throw new Error(e.message);
+        },
+        complete: () => {
+          console.log("complete")
+        }
       })
-
-    setTimeout(() => {
-      this.calculateTotalProduct();
-    }, 200)
-
   }
 
   calculateTotalProduct() {
     const allTotal = document.getElementsByClassName("product-line-price");
+    // console.log(allTotal)
     let total = 0;
 
     for (let i = 1; i < allTotal.length; i++) {
       total += Number(allTotal[i].innerHTML.substring(1))
     }
 
-
     this.totalProduct = total
     this.tax = this.totalProduct * 0.05
     this.grandTotal = this.totalProduct + this.tax;
   }
 
+  toCheckout(): void {
+    if (this.cartProducts.length == 0) {
+      this.toastr.error("Your cart cannot be empty to go to checkout!", "Failed")
+      return;
+    }
 
+    this.router.navigate(['checkout', 'address'])
+  }
 
 }

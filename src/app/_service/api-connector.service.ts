@@ -86,7 +86,9 @@ export class ApiConnectorService {
   public async getJwtPayload(): Promise<any> {
     const tokenFromStorage = await this.decryptJwtFromStorage();
 
-    return JSON.parse(atob(tokenFromStorage.split('.')[1]));
+    if (tokenFromStorage !== '') {
+      return JSON.parse(atob(tokenFromStorage.split('.')[1]));
+    }
   }
 
   async getDecryptKey(): Promise<string> {

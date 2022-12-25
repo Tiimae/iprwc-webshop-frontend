@@ -29,7 +29,7 @@ export class ProductDataService {
   }
 
   getAll(): void {
-    ApiMethodsService.getInstance().get("product", true).then(res => {
+    ApiMethodsService.getInstance().get("product", false).then(res => {
       this.products = res.data.payload;
       this.products$.next(this.products);
     })

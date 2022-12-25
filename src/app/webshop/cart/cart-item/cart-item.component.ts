@@ -13,7 +13,6 @@ export class CartItemComponent implements OnInit {
   amount!: number;
   totalPrice!: number;
 
-  @Output() delete: EventEmitter<ProductModel> = new EventEmitter
   @Output() change: EventEmitter<void> = new EventEmitter
 
   constructor(
@@ -45,9 +44,7 @@ export class CartItemComponent implements OnInit {
   }
 
   deleteProduct() {
-    this.cartDataService.removeProduct(this.product)
-
-    // this.delete.emit(this.product);
+    this.cartDataService.removeProduct(this.product);
   }
 
 }

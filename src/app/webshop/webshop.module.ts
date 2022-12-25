@@ -8,6 +8,7 @@ import { ProductDetailComponent } from './product-detail/product-detail.componen
 import {FontAwesomeModule} from "@fortawesome/angular-fontawesome";
 import { CartComponent } from './cart/cart.component';
 import { CartItemComponent } from './cart/cart-item/cart-item.component';
+import {CheckoutModule} from "./checkout/checkout.module";
 
 
 @NgModule({
@@ -21,7 +22,8 @@ import { CartItemComponent } from './cart/cart-item/cart-item.component';
   imports: [
     CommonModule,
     WebshopRoutingModule,
-    FontAwesomeModule
+    FontAwesomeModule,
+    CheckoutModule
   ]
 })
 export class WebshopModule { }

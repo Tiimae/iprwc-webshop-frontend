@@ -135,6 +135,8 @@ export class CartDataService {
     }
 
     localStorage.setItem("cart", JSON.stringify(items))
+
+    this.products$.next(this.products)
   }
 
 }
