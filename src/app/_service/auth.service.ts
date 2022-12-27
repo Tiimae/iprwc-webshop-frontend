@@ -7,7 +7,8 @@ import {environment} from "../../environments/environment";
   providedIn: 'root',
 })
 export class AuthService {
-  constructor(private api: ApiConnectorService) {}
+  constructor(private api: ApiConnectorService) {
+  }
 
   private static sharedDecryptKey: string = environment.sharedSecret;
   private static cipherOptions = {
@@ -23,11 +24,11 @@ export class AuthService {
         email,
         password: encryptedPassword,
       },
-      { params: { encrypted: true } }
+      {params: {encrypted: true}}
     );
   }
 
-  public logout(){
+  public logout() {
     // Clear secret cookie aswell?
     localStorage.clear();
   }
@@ -44,35 +45,37 @@ export class AuthService {
         email,
         password: encryptedPassword,
       },
-      { params: { encrypted: true } }
+      {params: {encrypted: true}}
     );
   }
 
-  public async getProfile(){
+  public async getProfile() {
     return await (await this.api.auth()).get('auth/profile');
   }
 
-  public async verifyEmail(token: string){
-    return await (await this.api.auth()).post('auth/verify-email?token='+token);
+  public async verifyEmail(token: string) {
+    return await (await this.api.auth()).post('auth/verify-email?token=' + token);
   }
 
-  public async sendVerifyEmail(){
+  public async sendVerifyEmail() {
     return (await this.api.auth()).get('auth/send-verify-email/');
   }
 
-  public async forgotPassword(email: string){
-    return this.api.noAuth().post('auth/forgot-password?email='+email);
+  public async forgotPassword(email: string) {
+    return this.api.noAuth().post('auth/forgot-password?email=' + email);
   }
 
-  public async setNewPassword(token: string, email: string, password: string){
-    return await this.api.noAuth().post('auth/set-new-password?token='+token, {
-      email,
-      password
-    });
+  public async setNewPassword(token: string, email: string, password: string) {
+    const encryptedPassword: string = AuthService.encryptText(password);
+    return await this.api.noAuth().post('auth/set-new-password?token=' + token, {
+        "email": email,
+        "password": encryptedPassword
+      },
+      {params: {encrypted: true}});
   }
 
   public getSecret() {
-    return this.api.noAuth().get('auth/secret', { withCredentials: true });
+    return this.api.noAuth().get('auth/secret', {withCredentials: true});
   }
 
   public static encryptText(plainText: string) {
