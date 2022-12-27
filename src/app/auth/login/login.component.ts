@@ -4,8 +4,8 @@ import {ApiConnectorService} from "../../_service/api-connector.service";
 import {Router} from "@angular/router";
 
 import {faEnvelope, faKey} from "@fortawesome/free-solid-svg-icons";
-import {NgForm} from "@angular/forms";
-import { ToastrService } from 'ngx-toastr';
+import {FormControl, FormGroup, NgForm, Validators} from "@angular/forms";
+import {ToastrService} from 'ngx-toastr';
 
 @Component({
   selector: 'app-login',
@@ -17,7 +17,16 @@ export class LoginComponent implements OnInit {
   faKey = faKey;
   faEnvelope = faEnvelope;
 
-  @ViewChild('f') loginForm: NgForm | undefined;
+  loginForm = new FormGroup({
+    email: new FormControl('', [
+      Validators.required,
+      Validators.pattern(
+        '^(?=.{1,64}@)[A-Za-z0-9_-]+(\\.[A-Za-z0-9_-]+)*@' +
+        '[^-][A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})$'
+      ),
+    ]),
+    password: new FormControl('', [Validators.required]),
+  })
 
   constructor(
     private router: Router,
@@ -58,9 +67,24 @@ export class LoginComponent implements OnInit {
 
   public async onSubmit() {
 
+    const email = this.loginForm.controls.email.value
+    const password = this.loginForm.controls.password.value
+
+    if (email == null || password == null) {
+      this.toastr.error("Something went wrong!", "Failed");
+      return;
+    }
+
+    if (!this.loginForm.value) {
+      this.toastr.error("Something went wrong!", "Failed");
+      return;
+    }
+
+    console.log(password)
+
     await this.authService.login(
-      this.loginForm?.form.controls['email'].value,
-      this.loginForm?.form.controls['password'].value
+      email,
+      password
     ).then(r => {
       if (r.data.code == 202) {
         localStorage.setItem('blank-token', r.data.payload?.jwtToken);

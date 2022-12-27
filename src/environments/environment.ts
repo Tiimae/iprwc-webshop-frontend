@@ -5,7 +5,7 @@
 export const environment = {
   production: false,
   apiUrl: 'http://localhost:8080/api/v1.0/',
-  sharedSecret: 'sharedsecretvalue',
+  sharedSecret: '5qwex6rc7t8v968fgt7yb7t58d47sed5c8tv9yb0nT9V0878TVUBYIPNJpyihk',
 };
 
 /*
