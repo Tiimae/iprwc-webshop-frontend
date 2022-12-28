@@ -2,6 +2,7 @@ import {Injectable} from "@angular/core";
 import { UserAddressesModel } from "src/app/_models/userAddresses.model";
 import {BehaviorSubject, Observable, of, Subject} from "rxjs";
 import {ApiConnectorService} from "../api-connector.service";
+import {ApiMethodsService} from "../api-methods.service";
 
 @Injectable({
   providedIn: 'root',
@@ -11,11 +12,16 @@ export class UserAddressesDataService {
   userAddresses$: Subject<UserAddressesModel[]> = new BehaviorSubject<UserAddressesModel[]>([]);
 
   constructor(
-    private api: ApiConnectorService
+    private api: ApiMethodsService
   ) {
+    this.getAll();
   }
 
-  getAll(): void {
+  async getAll(): Promise<void> {
+    return await this.api.get('role', true).then(r => {
+      this.userAddresses = r.data.payload
+      this.userAddresses$.next(this.userAddresses)
+    });
 
   }
 

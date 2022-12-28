@@ -75,8 +75,6 @@ export class ApiConnectorService {
   }
 
   public storeJwtToken(jwtToken: string, secret: string): void {
-    console.log(jwtToken)
-    console.log(CryptoJs.Rabbit.encrypt(jwtToken, secret))
     localStorage.setItem(
       'jwt-token',
       CryptoJs.Rabbit.encrypt(jwtToken, secret).toString()

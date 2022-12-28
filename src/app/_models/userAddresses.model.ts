@@ -2,7 +2,7 @@ import {UserModel} from "./user.model";
 
 export class UserAddressesModel {
   private readonly _id: string;
-  private readonly _streest: string;
+  private readonly _street: string;
   private readonly _houseNumber: number;
   private readonly _addition: string;
   private readonly _zipcode: string;
@@ -12,9 +12,9 @@ export class UserAddressesModel {
   private readonly _user: UserModel;
 
 
-  constructor(id: string, streest: string, houseNumber: number, addition: string, zipcode: string, city: string, country: string, type: string, user: UserModel) {
+  constructor(id: string, street: string, houseNumber: number, addition: string, zipcode: string, city: string, country: string, type: string, user: UserModel) {
     this._id = id;
-    this._streest = streest;
+    this._street = street;
     this._houseNumber = houseNumber;
     this._addition = addition;
     this._zipcode = zipcode;
@@ -28,8 +28,8 @@ export class UserAddressesModel {
     return this._id;
   }
 
-  get streest(): string {
-    return this._streest;
+  get street(): string {
+    return this._street;
   }
 
   get houseNumber(): number {
