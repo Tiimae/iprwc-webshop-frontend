@@ -1,0 +1,12 @@
+<section class="container">
+  <section>
+    <h1>Choose your delivery address</h1>
+  </section>
+  <section class="flex mt-10">
+    <app-user-address
+      *ngFor="let address of deliveryAddresses"
+      [address]="address" class="ml-4"
+      (select)="changeSeclectedAddress($event)"
+      id="{{ address.street.replace(' ', '') + address.houseNumber }}"></app-user-address>
+  </section>
+</section>

@@ -8,17 +8,17 @@ export class UserModel {
   private readonly _lastName: string;
   private readonly _email: string;
   private readonly _roles: RoleModel[] = [];
-  private readonly _userAddresses: UserAddressesModel[] = []
+  private readonly _addresses: UserAddressesModel[] = []
 
 
-  constructor(id: string, firstName: string, middleName: string, lastName: string, email: string, roles: RoleModel[], userAddresses: UserAddressesModel[]) {
+  constructor(id: string, firstName: string, middleName: string, lastName: string, email: string, roles: RoleModel[], addresses: UserAddressesModel[]) {
     this._id = id;
     this._firstName = firstName;
     this._middleName = middleName;
     this._lastName = lastName;
     this._email = email;
     this._roles = roles;
-    this._userAddresses = userAddresses;
+    this._addresses = addresses;
   }
 
   get id(): string {
@@ -45,7 +45,7 @@ export class UserModel {
     return this._roles;
   }
 
-  get userAddresses(): UserAddressesModel[] {
-    return this._userAddresses;
+  get addresses(): UserAddressesModel[] {
+    return this._addresses;
   }
 }

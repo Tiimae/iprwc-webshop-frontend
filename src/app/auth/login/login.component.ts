@@ -80,8 +80,6 @@ export class LoginComponent implements OnInit {
       return;
     }
 
-    console.log(password)
-
     await this.authService.login(
       email,
       password

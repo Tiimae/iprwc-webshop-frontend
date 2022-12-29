@@ -104,7 +104,7 @@ export class UpdateUserComponent implements OnInit {
         lastname,
         email,
         this.userRoles,
-        this.user.userAddresses
+        this.user.addresses
       )
 
       const request: boolean = this.userDataService.updateUser(user);

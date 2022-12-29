@@ -101,9 +101,14 @@ export class UserDataService {
     }
 
     let roleIds: string[] = []
+    let userAddressesId: string[] = []
 
     user.roles.forEach(role => {
       roleIds.push(role.id)
+    })
+
+    user.addresses.forEach(address => {
+      userAddressesId.push(address.id)
     })
 
     const payload = {
@@ -114,7 +119,7 @@ export class UserDataService {
       password: "",
       roleIds: roleIds,
       orderIds: [],
-      userAddressIds: []
+      userAddressIds: userAddressesId
     }
 
     ApiMethodsService.getInstance().put("user/" + user.id, payload, true).then(r => {

@@ -3,7 +3,7 @@
   <form [formGroup]="addressForm" (ngSubmit)="onSubmit()">
 
     <div>
-      <input type="checkbox" id="checker" name="scales" (change)="changeChecker()" checked>
+      <input type="checkbox" id="checker" name="scales" (change)="changeChecker()" [checked]="invoiceChecker">
       <label for="checker">Invoice address as same as delivery address</label>
     </div>
 
@@ -72,6 +72,19 @@
           required
         >
       </section>
+    </section>
+
+    <section class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+      <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="country">
+        Country
+      </label>
+      <input
+        class="appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
+        id="country"
+        type="text"
+        formControlName="country"
+        required
+      >
     </section>
 
     <button class="mr-1 items-center justify-right bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
@@ -153,6 +166,19 @@
             required
           >
         </section>
+      </section>
+
+      <section class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+        <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="country-invoice">
+          Country
+        </label>
+        <input
+          class="appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
+          id="country-invoice"
+          type="text"
+          formControlName="country"
+          required
+        >
       </section>
 
       <button class="mr-1 items-center justify-right bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
