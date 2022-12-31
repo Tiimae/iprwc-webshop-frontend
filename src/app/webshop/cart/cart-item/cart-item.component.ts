@@ -10,6 +10,7 @@ import {ProductModel} from "../../../_models/product.model";
 export class CartItemComponent implements OnInit {
 
   @Input() product!: ProductModel;
+  @Input() overview!: boolean;
   amount!: number;
   totalPrice!: number;
 

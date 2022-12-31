@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {CartDataService} from 'src/app/_service/data/cartData.service';
 import {ProductModel} from "../../_models/product.model";
 import {Router} from "@angular/router";
@@ -15,6 +15,8 @@ export class CartComponent implements OnInit {
   totalProduct: number = 0;
   tax: number = 0;
   grandTotal: number = 0;
+
+  @Input() overview: boolean = false
 
   constructor(
     private cartDataService: CartDataService,
@@ -63,7 +65,7 @@ export class CartComponent implements OnInit {
       return;
     }
 
-    this.router.navigate(['checkout', 'address'])
+    this.router.navigate(['checkout', 'pay'])
   }
 
 }

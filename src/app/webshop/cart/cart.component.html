@@ -7,13 +7,13 @@
       <label class="product-details">Product</label>
       <label class="product-price">Price</label>
       <label class="product-quantity">Quantity</label>
-      <label class="product-removal">Remove</label>
+      <label class="product-removal" *ngIf="!overview">Remove</label>
       <label class="product-line-price">Total</label>
     </section>
 
     <section *ngIf="cartProducts">
       <section class="product" *ngFor="let product of cartProducts">
-        <app-cart-item [product]="product" (change)="calculateTotalProduct()"></app-cart-item>
+        <app-cart-item [overview]="overview" [product]="product" (change)="calculateTotalProduct()"></app-cart-item>
       </section>
     </section>
 

@@ -2,14 +2,16 @@ import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
 import {OrdersComponent} from "./orders/orders.component";
 import {AccountComponent} from "./account/account.component";
-import {AddressesComponent} from "./addresses/addresses.component";
 import {InvoicesComponent} from "./invoices/invoices.component";
 
 const routes: Routes = [
 
   {path: 'orders', component: OrdersComponent},
   {path: 'account', component: AccountComponent},
-  {path: 'addresses', component: AddressesComponent},
+  {
+    path: 'addresses',
+    loadChildren: () => import('./addresses/addresses-routing.module').then(m => m.AddressesRoutingModule),
+  },
   {path: 'invoices', component: InvoicesComponent},
 
 ];

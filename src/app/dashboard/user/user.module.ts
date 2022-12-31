@@ -3,23 +3,23 @@ import {CommonModule} from '@angular/common';
 
 import {UserRoutingModule} from './user-routing.module';
 import {AccountComponent} from "./account/account.component";
-import {AddressesComponent} from "./addresses/addresses.component";
 import {InvoicesComponent} from "./invoices/invoices.component";
 import {OrdersComponent} from "./orders/orders.component";
-import {FormsModule} from "@angular/forms";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
+import {AddressesModule} from "./addresses/addresses.module";
 
 
 @NgModule({
   declarations: [
     AccountComponent,
-    AddressesComponent,
     InvoicesComponent,
-    OrdersComponent
+    OrdersComponent,
   ],
   imports: [
     CommonModule,
     UserRoutingModule,
-    FormsModule
+    AddressesModule,
+    FormsModule,
   ]
 })
 export class UserModule { }

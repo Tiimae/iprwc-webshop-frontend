@@ -2,4 +2,13 @@
   margin-left: auto;
   margin-right: auto;
   display: block;
+
+  section {
+    .addresses, .cart {
+      height: 300px;
+      overflow-y: scroll;
+    }
+  }
 }
+
+

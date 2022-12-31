@@ -2,12 +2,10 @@ import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
 import {IsAuthenticatedGuard} from "../_guard/is-authenticated.guard";
 import {HasRoleGuard} from "../_guard/has-role.guard";
-import {UserComponent} from "./user/user.component";
 
 const routes: Routes = [
   {
     path:'user',
-    component: UserComponent,
     loadChildren: () => import('./user/user-routing.module').then(m => m.UserRoutingModule),
     canActivate: [IsAuthenticatedGuard],
   },

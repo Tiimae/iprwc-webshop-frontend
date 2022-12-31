@@ -9,6 +9,7 @@ import {FontAwesomeModule} from "@fortawesome/angular-fontawesome";
 import { CartComponent } from './cart/cart.component';
 import { CartItemComponent } from './cart/cart-item/cart-item.component';
 import {CheckoutModule} from "./checkout/checkout.module";
+import {CartModule} from "./cart/cart.module";
 
 
 @NgModule({
@@ -16,14 +17,15 @@ import {CheckoutModule} from "./checkout/checkout.module";
     HomeComponent,
     ProductComponent,
     ProductDetailComponent,
-    CartComponent,
-    CartItemComponent,
+    // CartComponent,
+    // CartItemComponent,
   ],
   imports: [
     CommonModule,
     WebshopRoutingModule,
     FontAwesomeModule,
-    CheckoutModule
+    CheckoutModule,
+    CartModule
   ]
 })
 export class WebshopModule { }

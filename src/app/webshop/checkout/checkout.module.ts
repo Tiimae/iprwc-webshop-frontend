@@ -1,21 +1,22 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import {CustomerAddressesComponent} from "./customer-addresses/customer-addresses.component";
 import { ReactiveFormsModule } from '@angular/forms';
 import { PayComponent } from './pay/pay.component';
 import { UserAddressComponent } from './pay/user-address/user-address.component';
+import {CartComponent} from "../cart/cart.component";
+import {CartModule} from "../cart/cart.module";
 
 
 
 @NgModule({
   declarations: [
-    CustomerAddressesComponent,
     PayComponent,
-    UserAddressComponent
+    UserAddressComponent,
   ],
   imports: [
     CommonModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    CartModule
   ]
 })
 export class CheckoutModule { }

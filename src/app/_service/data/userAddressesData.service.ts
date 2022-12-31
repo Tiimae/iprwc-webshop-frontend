@@ -16,16 +16,7 @@ export class UserAddressesDataService {
     private api: ApiMethodsService,
     private userDataService: UserDataService,
   ) {
-    // this.getAll();
   }
-
-  // async getAll(): Promise<void> {
-  //   return await this.api.get('role', true).then(r => {
-  //     this.userAddresses = r.data.payload
-  //     this.userAddresses$.next(this.userAddresses)
-  //   });
-  //
-  // }
 
   getByUserId(userId: string): Observable<UserAddressesModel[]> {
     let userAddresses: UserAddressesModel[] = []
@@ -41,8 +32,8 @@ export class UserAddressesDataService {
     return of(userAddresses)
   }
 
-  async createUserAddress(userAddress: UserAddressesModel) : Promise<void> {
-    await this.api.post("user-address", {
+  async createUserAddress(userAddress: UserAddressesModel) : Promise<UserAddressesModel> {
+    return await this.api.post("user-address", {
       "street": userAddress.street,
       "houseNumber": userAddress.houseNumber,
       "addition": userAddress.addition,
@@ -52,7 +43,7 @@ export class UserAddressesDataService {
       "type": userAddress.type,
       "userId": userAddress.user.id
     }, true).then(res => {
-      console.log(res)
+      return res.data.payload;
     })
   }
 }

@@ -7,13 +7,11 @@ import {FontAwesomeModule} from "@fortawesome/angular-fontawesome";
 import {FormsModule} from "@angular/forms";
 import {UserModule} from "./user/user.module";
 import {AdminModule} from "./admin/admin.module";
-import {UserComponent} from "./user/user.component";
 
 
 @NgModule({
   declarations: [
     SidebarComponent,
-    UserComponent,
   ],
   exports: [
     SidebarComponent

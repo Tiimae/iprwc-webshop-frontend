@@ -1,5 +1,6 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {UserAddressesModel} from "../../../../_models/userAddresses.model";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-user-address',
@@ -8,10 +9,13 @@ import {UserAddressesModel} from "../../../../_models/userAddresses.model";
 })
 export class UserAddressComponent implements OnInit {
 
-  @Input() address!: UserAddressesModel;
+  @Input() address: UserAddressesModel | undefined = undefined;
+  @Input() type: string | null = null;
   @Output() select: EventEmitter<UserAddressesModel> = new EventEmitter;
 
-  constructor() {
+  constructor(
+    private router: Router
+  ) {
   }
 
   ngOnInit(): void {
@@ -21,5 +25,15 @@ export class UserAddressComponent implements OnInit {
   selectAddress() {
     this.select.emit(this.address);
   }
+
+  createAddress(): void {
+    this.router.navigate(["dashboard", "user", "addresses", "create"], {
+      queryParams: {
+        redirectURI: "checkout/pay",
+        type: this.type,
+      }
+    })
+  }
+
 
 }

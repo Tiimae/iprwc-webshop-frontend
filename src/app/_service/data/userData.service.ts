@@ -90,8 +90,8 @@ export class UserDataService {
     let check = true
 
     this.users.forEach((currentUser: UserModel) => {
-      if (user.email === currentUser.email) {
-        this.toastr.error('Supplier name is already in user.', 'Failed');
+      if (user.email === currentUser.email && user.id != currentUser.id) {
+        this.toastr.error('Email is already in user.', 'Failed');
         check = false;
       }
     })

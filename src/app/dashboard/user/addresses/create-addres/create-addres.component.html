@@ -1,0 +1,87 @@
+<form [formGroup]="addressForm" (ngSubmit)="onSubmit()">
+  <section class="flex flex-wrap -mx-3 mb-6">
+    <section class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+      <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="street">
+        Street
+      </label>
+      <input
+        class="appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
+        id="street"
+        type="text"
+        formControlName="street"
+        required
+      >
+    </section>
+    <section class="flex">
+      <section class="w-full md:w-1/2 px-3">
+        <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="number">
+          number
+        </label>
+        <input
+          class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+          id="number"
+          type="number"
+          formControlName="number"
+          required
+        >
+      </section>
+      <section class="w-full md:w-1/2 px-3">
+        <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="additional">
+          additional
+        </label>
+        <input
+          class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+          id="additional"
+          type="text"
+          formControlName="additional"
+        >
+      </section>
+    </section>
+  </section>
+
+  <section class="flex flex-wrap -mx-3 mb-6">
+    <section class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+      <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="zipcode">
+        Zipcode
+      </label>
+      <input
+        class="appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
+        id="zipcode"
+        type="text"
+        formControlName="zipcode"
+        required
+      >
+    </section>
+    <section class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+      <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="city">
+        City
+      </label>
+      <input
+        class="appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
+        id="city"
+        type="text"
+        formControlName="city"
+        required
+      >
+    </section>
+  </section>
+
+  <section class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+    <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="country">
+      Country
+    </label>
+    <input
+      class="appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
+      id="country"
+      type="text"
+      formControlName="country"
+      required
+    >
+  </section>
+
+  <button class="mr-1 items-center justify-right bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+          type="submit"
+  >
+    Submit delivery address
+  </button>
+</form>

@@ -6,9 +6,10 @@
 </section>
 <section class="product-price">{{ product.price | currency:'EUR' }}</section>
 <section class="product-quantity">
-  <input type="number" value="{{ amount }}" min="1" (change)="changePrice($event)">
+  <input type="number" value="{{ amount }}" min="1" (change)="changePrice($event)" *ngIf="!overview">
+  <p *ngIf="overview">{{ amount}}</p>
 </section>
-<section class="product-removal">
+<section class="product-removal" ngDefaultControl *ngIf="!overview">
   <button class="remove-product" (click)="deleteProduct()">
     Remove
   </button>

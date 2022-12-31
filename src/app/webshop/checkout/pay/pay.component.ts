@@ -15,7 +15,9 @@ export class PayComponent implements OnInit {
 
   user!: UserModel;
   deliveryAddresses: UserAddressesModel[] = [];
-  currentAddress: UserAddressesModel | null = null;
+  invoiceAddresses: UserAddressesModel[] = [];
+  currentDeliveryAddress: UserAddressesModel | null = null;
+  currentInvoiceAddress: UserAddressesModel | null = null;
 
   constructor(
     private userDataService: UserDataService,
@@ -36,6 +38,8 @@ export class PayComponent implements OnInit {
           this.user.addresses.forEach(address => {
             if (address.type === AddressEnum.DELIVERY.toString()) {
               this.deliveryAddresses.push(address);
+            } else if (address.type === AddressEnum.INVOICE.toString()) {
+              this.invoiceAddresses.push(address)
             }
           })
         })
@@ -43,31 +47,62 @@ export class PayComponent implements OnInit {
     });
   }
 
-  changeSeclectedAddress(address: UserAddressesModel) {
-    if (this.currentAddress == null) {
-      const streetName = address.street.replace(" ", "") + address.houseNumber
+  changeSeclectedDeliveryAddress(address: UserAddressesModel) {
+    if (this.currentDeliveryAddress == null) {
+      const streetName = address.street.replace(" ", "") + address.houseNumber + 'delivery'
       const elementToAdd = document.getElementById(streetName)
       if (elementToAdd == null) {
         return;
       }
       elementToAdd.style.border = "1px solid blue";
+      elementToAdd.style.borderRadius = "5px"
     } else {
-      const streetNameDelete = this.currentAddress.street.replace(" ", "") + this.currentAddress.houseNumber
+      const streetNameDelete = this.currentDeliveryAddress.street.replace(" ", "") + this.currentDeliveryAddress.houseNumber + 'delivery'
       const elementToDelete = document.getElementById(streetNameDelete)
       if (elementToDelete == null) {
         return;
       }
       elementToDelete.style.border = "0px solid blue";
 
-      const streetName = address.street.replace(" ", "") + address.houseNumber
+      const streetName = address.street.replace(" ", "") + address.houseNumber + 'delivery'
       const elementToAdd = document.getElementById(streetName)
       if (elementToAdd == null) {
         return;
       }
       elementToAdd.style.border = "1px solid blue";
+      elementToAdd.style.borderRadius = "5px"
     }
 
-    this.currentAddress = address;
+    this.currentDeliveryAddress = address;
+  }
+
+  changeSeclectedInvoiceAddress(address: UserAddressesModel) {
+    if (this.currentInvoiceAddress == null) {
+      const streetName = address.street.replace(" ", "") + address.houseNumber + 'invoice'
+      const elementToAdd = document.getElementById(streetName)
+      if (elementToAdd == null) {
+        return;
+      }
+      elementToAdd.style.border = "1px solid blue";
+      elementToAdd.style.borderRadius = "5px"
+    } else {
+      const streetNameDelete = this.currentInvoiceAddress.street.replace(" ", "") + this.currentInvoiceAddress.houseNumber + 'invoice'
+      const elementToDelete = document.getElementById(streetNameDelete)
+      if (elementToDelete == null) {
+        return;
+      }
+      elementToDelete.style.border = "0px solid blue";
+
+      const streetName = address.street.replace(" ", "") + address.houseNumber + 'invoice'
+      const elementToAdd = document.getElementById(streetName)
+      if (elementToAdd == null) {
+        return;
+      }
+      elementToAdd.style.border = "1px solid blue";
+      elementToAdd.style.borderRadius = "5px"
+    }
+
+    this.currentInvoiceAddress = address;
   }
 
 }
