@@ -114,4 +114,16 @@ export class UpdateAddressComponent implements OnInit {
     })
   }
 
+  removeAddress(): void {
+    this.userAddressDataService.deleteUserAddress(this.addressId).then(res => {
+      if (this.user != undefined) {
+        this.user.addresses.splice(this.user.addresses.findIndex(currentAddress => currentAddress.id === this.addressId), 1)
+        this.userDataService.updateUser(this.user);
+      }
+
+      this.toastr.success("Addresses has been deleted successfully", "Success!");
+      this.router.navigate(['dashboard', 'user', 'addresses']);
+    })
+  }
+
 }

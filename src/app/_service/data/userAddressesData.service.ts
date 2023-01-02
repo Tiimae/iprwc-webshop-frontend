@@ -4,6 +4,7 @@ import {BehaviorSubject, Observable, of, Subject} from "rxjs";
 import {ApiConnectorService} from "../api-connector.service";
 import {ApiMethodsService} from "../api-methods.service";
 import {UserDataService} from "./userData.service";
+import {AxiosResponse} from "axios";
 
 @Injectable({
   providedIn: 'root',
@@ -70,6 +71,12 @@ export class UserAddressesDataService {
       "country": userAddress.country,
     }, true).then(res => {
       return res.data.payload;
+    })
+  }
+
+  async deleteUserAddress(id: string): Promise<AxiosResponse> {
+    return await this.api.delete("user-address/" + id, true).then(res => {
+      return res;
     })
   }
 }
