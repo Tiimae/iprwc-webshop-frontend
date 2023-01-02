@@ -5,6 +5,10 @@ import {UserModel} from "../../../_models/user.model";
 import {UserAddressesModel} from "../../../_models/userAddresses.model";
 import {AddressEnum} from "../../../_enum/address.enum";
 import {UserAddressComponent} from "./user-address/user-address.component";
+import { CartDataService } from 'src/app/_service/data/cartData.service';
+import {of} from "rxjs";
+import { OrderDataService } from 'src/app/_service/data/orderData.service';
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-pay',
@@ -21,7 +25,10 @@ export class PayComponent implements OnInit {
 
   constructor(
     private userDataService: UserDataService,
-    private api: ApiConnectorService
+    private api: ApiConnectorService,
+    private cartDataService: CartDataService,
+    private orderDataService: OrderDataService,
+    private router: Router
   ) { }
 
   ngOnInit(): void {
@@ -103,6 +110,36 @@ export class PayComponent implements OnInit {
     }
 
     this.currentInvoiceAddress = address;
+  }
+
+  createOrder(): void {
+
+    if (this.currentDeliveryAddress == null) {
+      return
+    }
+
+    if (this.currentInvoiceAddress == null) {
+      return
+    }
+    const productIds: JSON[] = []
+
+    this.cartDataService.products$.subscribe(res => {
+      res.forEach(product => {
+        productIds.push(JSON.parse(this.cartDataService.getCartItem(product.id)));
+      })
+    })
+
+    const fd = new FormData();
+    fd.append("invoice", this.currentInvoiceAddress.id)
+    fd.append("delivery", this.currentDeliveryAddress.id)
+    fd.append("userId", this.user.id)
+    fd.append("products", JSON.stringify(productIds))
+
+    this.orderDataService.create(fd).then(res => {
+      this.user.orders.push(res);
+      this.cartDataService.clearCart();
+      this.router.navigate([''])
+    })
   }
 
 }

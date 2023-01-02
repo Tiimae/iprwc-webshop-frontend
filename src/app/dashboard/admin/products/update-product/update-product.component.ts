@@ -167,6 +167,7 @@ export class UpdateProductComponent implements OnInit {
       this.currentCategory,
       this.currentBrand,
       this.currentSupplier,
+      [],
       []
     );
 

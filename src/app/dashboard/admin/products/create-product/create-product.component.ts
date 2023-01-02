@@ -119,6 +119,7 @@ export class CreateProductComponent implements OnInit {
       this.currentCategory,
       this.currentBrand,
       this.currentSupplier,
+      [],
       []
     );
 

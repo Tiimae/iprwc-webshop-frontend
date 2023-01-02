@@ -139,4 +139,10 @@ export class CartDataService {
     this.products$.next(this.products)
   }
 
+  clearCart(): void {
+    this.products = [];
+    localStorage.setItem("cart", JSON.stringify([]))
+    this.products$.next(this.products)
+  }
+
 }
