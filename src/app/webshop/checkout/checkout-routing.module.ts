@@ -7,7 +7,10 @@ const routes: Routes = [
   {
     path: "pay",
     component: PayComponent,
-    canActivate: [IsAuthenticatedGuard]
+    canActivate: [IsAuthenticatedGuard],
+    data: {
+      breadcrumb: "Pay"
+    }
   }
 ];
 

@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import {CreateAddresComponent} from "./create-addres/create-addres.component";
 import {AllAddressesComponent} from "./all-addresses/all-addresses.component";
 import {UpdateAddressComponent} from "./update-address/update-address.component";
+import {UserAddressResolverService} from "../../../_service/_resolver/userAddress-resolver.service";
 
 const routes: Routes = [
   {
@@ -11,11 +12,18 @@ const routes: Routes = [
   },
   {
     path: "create",
-    component: CreateAddresComponent
+    component: CreateAddresComponent,
+    data: {
+      breadcrumb: 'Create'
+    }
   },
   {
     path: ":addressId",
-    component: UpdateAddressComponent
+    component: UpdateAddressComponent,
+    data: {
+      breadcrumb: (data: any) => `${data.address.street} ${data.address.houseNumber}`
+    },
+    resolve: {address: UserAddressResolverService}
   }
 ];
 
