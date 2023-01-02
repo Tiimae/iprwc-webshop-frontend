@@ -40,10 +40,6 @@ export class CreateAddresComponent implements OnInit {
   }
 
   ngOnInit(): void {
-
-    // @ts-ignore
-    const redirect!: string[] = this.route.snapshot.queryParamMap.get("redirectURI").split("/")
-    console.log(redirect)
     this.api.getJwtPayload().then(payload => {
       setTimeout(() => {
         this.userDataService.getCurrentUser(payload.userId).subscribe(res => {
@@ -67,6 +63,11 @@ export class CreateAddresComponent implements OnInit {
 
     if (deliveryStreet == null || deliveryNumber == null || deliveryZipcode == null || deliveryCity == null || deliveryCountry == null || this.user == undefined) {
       this.toastr.error('Something is wrong!', 'Failed');
+      return;
+    }
+
+    if(deliveryZipcode.length > 6 || deliveryZipcode.length < 6 && deliveryZipcode.includes(' ')) {
+      this.toastr.error('Incorrect zip Code', 'Failed');
       return;
     }
 

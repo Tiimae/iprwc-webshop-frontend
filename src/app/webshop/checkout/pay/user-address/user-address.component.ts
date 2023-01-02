@@ -11,6 +11,7 @@ export class UserAddressComponent implements OnInit {
 
   @Input() address: UserAddressesModel | undefined = undefined;
   @Input() type: string | null = null;
+  @Input() redirectUrl: string | null = null;
   @Output() select: EventEmitter<UserAddressesModel> = new EventEmitter;
 
   constructor(
@@ -29,7 +30,7 @@ export class UserAddressComponent implements OnInit {
   createAddress(): void {
     this.router.navigate(["dashboard", "user", "addresses", "create"], {
       queryParams: {
-        redirectURI: "checkout/pay",
+        redirectURI: this.redirectUrl,
         type: this.type,
       }
     })

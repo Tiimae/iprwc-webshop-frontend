@@ -5,12 +5,12 @@
         <h2>Choose your delivery address</h2>
 
         <section class="flex mt-10 flex-col w-full addresses mr-4">
+          <app-user-address [type]="'delivery'" [redirectUrl]="'dashboard/user/addresses'" class="mb-4"></app-user-address>
           <app-user-address
             *ngFor="let address of deliveryAddresses"
-            [address]="address" class="mb-4"
-            (select)="changeSeclectedDeliveryAddress($event)"
+            [address]="address" class="pb-4 address"
+            (select)="changeURL($event, 'delivery')"
             id="{{ address.street.replace(' ', '') + address.houseNumber }}delivery"></app-user-address>
-          <app-user-address [type]="'delivery'" [redirectUrl]="'checkout/pay'" class="mb-4"></app-user-address>
         </section>
       </section>
 
@@ -18,19 +18,14 @@
         <h2>Choose your Invoice address</h2>
 
         <section class="flex mt-10 flex-col w-full addresses">
+          <app-user-address [type]="'invoice'" [redirectUrl]="'dashboard/user/addresses'" class="mb-4"></app-user-address>
           <app-user-address
             *ngFor="let address of invoiceAddresses"
             [address]="address" class="mb-4"
-            [redirectUrl]="'checkout/pay'"
-            (select)="changeSeclectedInvoiceAddress($event)"
+            (select)="changeURL($event, 'invoice')"
             id="{{ address.street.replace(' ', '') }}{{ address.houseNumber }}invoice"></app-user-address>
-          <app-user-address [type]="'invoice'" [redirectUrl]="'checkout/pay'" class="mb-4"></app-user-address>
         </section>
       </section>
-    </section>
-
-    <section class="min-w-[350px] grow">
-      <app-cart class="cart" [overview]="true"></app-cart>
     </section>
   </section>
 </main>

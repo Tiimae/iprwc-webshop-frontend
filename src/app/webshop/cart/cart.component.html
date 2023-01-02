@@ -32,8 +32,6 @@
       </section>
     </section>
 
-    <button class="checkout" (click)="toCheckout()">Checkout</button>
-
+    <button class="checkout" (click)="toCheckout()" *ngIf="!overview">Checkout</button>
   </section>
-
 </main>
