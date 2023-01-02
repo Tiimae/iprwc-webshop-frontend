@@ -6,6 +6,7 @@ import {AuthService} from "../../_service/auth.service";
 import {Router} from "@angular/router";
 import { ProductModel } from 'src/app/_models/product.model';
 import { CartDataService } from 'src/app/_service/data/cartData.service';
+import {environment} from "../../../environments/environment";
 
 @Component({
   selector: 'app-searchbar',
@@ -13,7 +14,7 @@ import { CartDataService } from 'src/app/_service/data/cartData.service';
   styleUrls: ['./searchbar.component.scss']
 })
 export class SearchbarComponent implements OnInit {
-
+  public apiUrl = environment.url;
   faSearch = faSearch;
   faShoppingCart = faShoppingCart;
   faUser = faUser;

@@ -8,6 +8,9 @@ const routes: Routes = [
     path:'user',
     loadChildren: () => import('./user/user-routing.module').then(m => m.UserRoutingModule),
     canActivate: [IsAuthenticatedGuard],
+    data: {
+      breadcrumb: 'User'
+    }
   },
 
   {
@@ -18,7 +21,8 @@ const routes: Routes = [
       roles: [
         'Owner',
         'Admin'
-      ]
+      ],
+      breadcrumb: 'Admin'
     }
   },
 

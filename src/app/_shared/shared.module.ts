@@ -2,19 +2,24 @@ import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {BubbleTextComponent} from './bubble-text/bubble-text.component';
 import {AddEntityBarComponent} from './add-entity-bar/add-entity-bar.component';
+import { BreadcrumbComponent } from './breadcrumb/breadcrumb.component';
+import {RouterLinkWithHref} from "@angular/router";
 
 
 @NgModule({
   declarations: [
     BubbleTextComponent,
-    AddEntityBarComponent
+    AddEntityBarComponent,
+    BreadcrumbComponent
   ],
   exports: [
     BubbleTextComponent,
-    AddEntityBarComponent
+    AddEntityBarComponent,
+    BreadcrumbComponent
   ],
   imports: [
-    CommonModule
+    CommonModule,
+    RouterLinkWithHref
   ]
 })
 export class SharedModule { }

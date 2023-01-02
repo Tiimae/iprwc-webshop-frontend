@@ -6,7 +6,6 @@ import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
 import {NavigationComponent} from './navigation/navigation.component';
 import {SearchbarComponent} from './navigation/searchbar/searchbar.component';
-import {NavitemsComponent} from './navigation/navitems/navitems.component';
 import {FormsModule} from "@angular/forms";
 import {HttpClientModule} from "@angular/common/http";
 import {PageNotFoundComponent} from './page-not-found/page-not-found.component';
@@ -16,13 +15,13 @@ import {AuthModule} from "./auth/auth.module";
 import {WebshopModule} from "./webshop/webshop.module";
 import {ToastrModule} from "ngx-toastr";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
+import {SharedModule} from "./_shared/shared.module";
 
 @NgModule({
   declarations: [
     AppComponent,
     NavigationComponent,
     SearchbarComponent,
-    NavitemsComponent,
     PageNotFoundComponent,
     DashboardComponent
   ],
@@ -36,6 +35,7 @@ import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
     AuthModule,
     WebshopModule,
     BrowserAnimationsModule,
+    SharedModule,
     ToastrModule.forRoot(),
   ],
   providers: [

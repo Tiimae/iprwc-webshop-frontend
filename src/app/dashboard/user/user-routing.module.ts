@@ -6,13 +6,33 @@ import {InvoicesComponent} from "./invoices/invoices.component";
 
 const routes: Routes = [
 
-  {path: 'orders', component: OrdersComponent},
-  {path: 'account', component: AccountComponent},
+  {
+    path: 'orders',
+    component: OrdersComponent,
+    data: {
+      breadcrumb: 'Orders'
+    }
+  },
+  {
+    path: 'account',
+    component: AccountComponent,
+    data: {
+      breadcrumb: 'Account'
+    }
+  },
   {
     path: 'addresses',
     loadChildren: () => import('./addresses/addresses-routing.module').then(m => m.AddressesRoutingModule),
+    data: {
+      breadcrumb: 'Addresses'
+    }
   },
-  {path: 'invoices', component: InvoicesComponent},
+  {
+    path: 'invoices', component: InvoicesComponent,
+    data: {
+      breadcrumb: 'Invoices'
+    }
+  },
 
 ];
 

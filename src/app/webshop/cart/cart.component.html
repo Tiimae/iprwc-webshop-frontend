@@ -1,37 +1,40 @@
 <main class="container">
+  <header *ngIf="!overview">
+    <h1>Shopping Cart</h1>
+    <ul class="breadcrumb">
+      <li>Home</li>
+      <li>Shopping Cart</li>
+    </ul>
+    <span class="count">{{ cartProducts.length }} items in the bag</span>
+  </header>
 
-  <section class="shopping-cart">
+  <section>
+    <section *ngIf="cartProducts.length != 0">
+      <ul class="products">
+        <li class="row" *ngFor="let product of cartProducts">
+          <app-cart-item [product]="product" [overview]="overview" (change)="calculateTotalProduct()"></app-cart-item>
+        </li>
+      </ul>
+    </section>
+    <section *ngIf="cartProducts.length == 0" class="empty-product">
+      <h3>There are no products in your cart.</h3>
+      <button>Shopping now</button>
+    </section>
+  </section>
 
-    <section class="column-labels">
-      <label class="product-image">Image</label>
-      <label class="product-details">Product</label>
-      <label class="product-price">Price</label>
-      <label class="product-quantity">Quantity</label>
-      <label class="product-removal" *ngIf="!overview">Remove</label>
-      <label class="product-line-price">Total</label>
+  <section class="container" *ngIf="cartProducts.length != 0">
+
+    <section class="summary">
+      <ul>
+        <li>Subtotal <span>{{ totalProduct | currency: "EUR" }}</span></li>
+        <li>Tax <span>{{ tax | currency: "EUR" }}</span></li>
+        <li class="total">Total <span>{{ grandTotal | currency: "EUR" }}</span></li>
+      </ul>
     </section>
 
-    <section *ngIf="cartProducts">
-      <section class="product" *ngFor="let product of cartProducts">
-        <app-cart-item [overview]="overview" [product]="product" (change)="calculateTotalProduct()"></app-cart-item>
-      </section>
+    <section class="checkout">
+      <button type="button" (click)="toCheckout()" *ngIf="!overview">Check Out</button>
+      <button type="button" (click)="toCheckout()" *ngIf="overview">Pay</button>
     </section>
-
-    <section class="totals">
-      <section class="totals-item">
-        <label>Subtotal</label>
-        <section class="totals-value" id="cart-subtotal">{{ totalProduct | currency: 'EUR' }}</section>
-      </section>
-      <section class="totals-item">
-        <label>Tax (21%)</label>
-        <section class="totals-value" id="cart-tax">{{ tax | currency: 'EUR' }}</section>
-      </section>
-      <section class="totals-item totals-item-total">
-        <label>Grand Total</label>
-        <section class="totals-value" id="cart-total">{{ grandTotal | currency: 'EUR' }}</section>
-      </section>
-    </section>
-
-    <button class="checkout" (click)="toCheckout()" *ngIf="!overview">Checkout</button>
   </section>
 </main>

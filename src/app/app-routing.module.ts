@@ -8,11 +8,13 @@ import {DashboardComponent} from "./dashboard/dashboard.component";
 const routes: Routes = [
   {
     path:'',
-    loadChildren: () => import('./webshop/webshop-routing.module').then(m => m.WebshopRoutingModule)
+    loadChildren: () => import('./webshop/webshop-routing.module').then(m => m.WebshopRoutingModule),
+    data: { breadcrumb: 'Home' }
   },
   {
     path: 'auth',
     loadChildren: () => import('./auth/auth-routing.module').then(m => m.AuthRoutingModule),
+    data: { breadcrumb: 'Auth' }
   },
   {
     path:'dashboard',
@@ -24,7 +26,8 @@ const routes: Routes = [
         'Owner',
         'Admin',
         'User'
-      ]
+      ],
+      breadcrumb: 'Dashboard'
     }
   },
   { path: '**', pathMatch: 'full',

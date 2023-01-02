@@ -49,7 +49,7 @@ export class CartComponent implements OnInit {
     const allTotal = document.getElementsByClassName("product-line-price");
     let total = 0;
 
-    for (let i = 1; i < allTotal.length; i++) {
+    for (let i = 0; i < allTotal.length; i++) {
       const lineTotal = allTotal[i].innerHTML.substring(1).replace(",", "")
       total += Number(lineTotal)
     }

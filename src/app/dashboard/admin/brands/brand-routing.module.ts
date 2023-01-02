@@ -3,6 +3,7 @@ import {RouterModule, Routes} from '@angular/router';
 import {AllBrandsComponent} from "./all-brands/all-brands.component";
 import {CreateBrandComponent} from "./create-brand/create-brand.component";
 import {UpdateBrandComponent} from "./update-brand/update-brand.component";
+import {BrandResolverService} from "../../../_service/_resolver/brand-resolver.service";
 
 const routes: Routes = [
   {
@@ -11,11 +12,18 @@ const routes: Routes = [
   },
   {
     path: "create",
-    component: CreateBrandComponent
+    component: CreateBrandComponent,
+    data: {
+      breadcrumb: "Create"
+    }
   },
   {
     path: ":brandId",
-    component: UpdateBrandComponent
+    component: UpdateBrandComponent,
+    data: {
+      breadcrumb: (data: any) => `${data.brand.brandName}`
+    },
+    resolve: {brand: BrandResolverService}
   },
 ];
 
