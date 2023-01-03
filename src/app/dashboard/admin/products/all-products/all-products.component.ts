@@ -11,6 +11,8 @@ import {ToastrService} from "ngx-toastr";
 export class AllProductsComponent implements OnInit {
 
   allProducts: ProductModel[] = [];
+  deletedProducts: ProductModel[] = [];
+  showDeleted: boolean = false;
 
   constructor(
     private productDataService: ProductDataService,
@@ -31,11 +33,34 @@ export class AllProductsComponent implements OnInit {
           console.log("complete")
         }
       })
+
+    this.productDataService
+      .deletedProducts$
+      .subscribe({
+        next: (products: ProductModel[]) => {
+          this.deletedProducts = products;
+        },
+        error(e: Error) {
+          throw new Error(e.message);
+        },
+        complete: () => {
+          console.log("complete")
+        }
+      })
   }
 
   removeProductOutArray(event: ProductModel): void {
     this.productDataService.delete(event.id);
     this.toastr.success("Product has been deleted successfully!", "Deleted")
+  }
+
+  changeProducts(): void {
+    this.showDeleted = !this.showDeleted;
+  }
+
+  setDeletedBack(event: ProductModel) {
+    this.productDataService.restore(event.id);
+    this.toastr.success("Product has been restored successfully!", "Deleted")
   }
 
 }

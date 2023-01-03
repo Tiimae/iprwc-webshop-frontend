@@ -46,7 +46,12 @@ export class CreateAddresComponent implements OnInit {
           this.user = res;
 
           if (this.user == undefined) {
-            this.router.navigate(['checkout', 'pay'])
+            if (this.route.snapshot.queryParamMap.has("redirectURI")) {
+              // @ts-ignore
+              const redirect!: string[] = this.route.snapshot.queryParamMap.get("redirectURI").split("/")
+
+              this.router.navigate(redirect);
+            }
           }
         })
       }, 400)
@@ -97,7 +102,7 @@ export class CreateAddresComponent implements OnInit {
       if (this.route.snapshot.queryParamMap.has("redirectURI")) {
         // @ts-ignore
         const redirect!: string[] = this.route.snapshot.queryParamMap.get("redirectURI").split("/")
-        console.log(redirect)
+
         this.router.navigate(redirect);
       }
     })

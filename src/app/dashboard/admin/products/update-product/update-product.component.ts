@@ -168,7 +168,8 @@ export class UpdateProductComponent implements OnInit {
       this.currentBrand,
       this.currentSupplier,
       [],
-      []
+      [],
+      false
     );
 
     const request: boolean = this.productDataService.update(product, this.deleteImages, this.addedImages);

@@ -13,6 +13,8 @@ import {ToastrService} from "ngx-toastr";
 export class ProductDataService {
   private products: ProductModel[] = [];
   products$: Subject<ProductModel[]> = new BehaviorSubject<ProductModel[]>([]);
+  private deletedProducts: ProductModel[] = [];
+  deletedProducts$: Subject<ProductModel[]> = new BehaviorSubject<ProductModel[]>([]);
 
   constructor(
     private toastr: ToastrService
@@ -30,8 +32,16 @@ export class ProductDataService {
 
   getAll(): void {
     ApiMethodsService.getInstance().get("product", false).then(res => {
-      this.products = res.data.payload;
+      res.data.payload.forEach((product: ProductModel) => {
+        if (product.deleted) {
+          this.deletedProducts.push(product)
+        } else {
+          this.products.push(product)
+        }
+      })
+
       this.products$.next(this.products);
+      this.deletedProducts$.next(this.deletedProducts);
     })
   }
 
@@ -51,7 +61,7 @@ export class ProductDataService {
 
     const fd = new FormData()
     images.forEach(image => {
-      const extension =  image.type.split("/")[1]
+      const extension = image.type.split("/")[1]
       fd.append("images", image, uuid() + "." + extension)
     })
     fd.append("product", JSON.stringify({
@@ -92,7 +102,7 @@ export class ProductDataService {
       fd.append("deletedImages", image.imagePath)
     })
     newImages.forEach(image => {
-      const extension =  image.type.split("/")[1]
+      const extension = image.type.split("/")[1]
       fd.append("newImages", image, uuid() + "." + extension)
     })
     fd.append("product", JSON.stringify({
@@ -114,14 +124,21 @@ export class ProductDataService {
   }
 
   delete(productId: string): void {
-    this.products.forEach((currentProduct, index) => {
-      if (currentProduct.id == productId) {
-        this.products.splice(index, 1)
-      }
-    })
-
     ApiMethodsService.getInstance().delete("product/" + productId, true).then(r => {
+      this.products.splice(this.products.findIndex(currentProduct => currentProduct.id === productId), 1)
+      this.deletedProducts.push(r.data.payload)
       this.products$.next(this.products);
+      this.deletedProducts$.next(this.products);
+    })
+  }
+
+  restore(productId: string): void {
+    ApiMethodsService.getInstance().delete("product/" + productId + "/restore", true).then(r => {
+      this.deletedProducts.splice(this.deletedProducts.findIndex(currentProduct => currentProduct.id === productId), 1)
+      this.products.push(r.data.payload)
+
+      this.products$.next(this.products);
+      this.deletedProducts$.next(this.deletedProducts);
     })
   }
 }

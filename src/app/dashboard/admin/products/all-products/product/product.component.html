@@ -20,8 +20,11 @@
             Edit product
           </button>
         </a>
-        <button class="items-center justify-right bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded" (click)="removeProduct()">
+        <button class="items-center justify-right bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded" (click)="removeProduct()" *ngIf="!deleted">
           Delete product
+        </button>
+        <button class="items-center justify-right bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded" (click)="removeProduct()" *ngIf="deleted">
+          Restore product
         </button>
       </section>
     </section>

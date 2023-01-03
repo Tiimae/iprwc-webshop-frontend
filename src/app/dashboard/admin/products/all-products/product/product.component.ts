@@ -12,6 +12,7 @@ export class ProductComponent implements OnInit {
 
   productId: string = ""
   @Input() product!: ProductModel
+  @Input() deleted!: boolean
 
   @Output() delete: EventEmitter<ProductModel> = new EventEmitter()
 

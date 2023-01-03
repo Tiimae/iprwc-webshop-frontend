@@ -120,7 +120,8 @@ export class CreateProductComponent implements OnInit {
       this.currentBrand,
       this.currentSupplier,
       [],
-      []
+      [],
+      false
     );
 
     const request: boolean = this.productDataService.post(product, this.images);

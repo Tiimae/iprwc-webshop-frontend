@@ -15,9 +15,9 @@ export class ProductModel {
   private readonly _supplier: SupplierModel;
   private readonly _productImages: ProductImageModel[];
   private readonly _ordersProducts: OrderProductModel[] = []
+  private readonly _deleted: boolean;
 
-
-  constructor(id: string, productName: string, description: string, price: number, category: CategoryModel, brand: BrandModel, supplier: SupplierModel, productImages: ProductImageModel[], ordersProducts: OrderProductModel[]) {
+  constructor(id: string, productName: string, description: string, price: number, category: CategoryModel, brand: BrandModel, supplier: SupplierModel, productImages: ProductImageModel[], ordersProducts: OrderProductModel[], deleted: boolean) {
     this._id = id;
     this._productName = productName;
     this._description = description;
@@ -27,6 +27,7 @@ export class ProductModel {
     this._supplier = supplier;
     this._productImages = productImages;
     this._ordersProducts = ordersProducts;
+    this._deleted = deleted;
   }
 
 
@@ -64,5 +65,9 @@ export class ProductModel {
 
   get ordersProducts(): OrderProductModel[] {
     return this._ordersProducts;
+  }
+
+  get deleted(): boolean {
+    return this._deleted;
   }
 }
