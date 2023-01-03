@@ -1,6 +1,5 @@
 import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
-import {OrdersComponent} from "./orders/orders.component";
 import {AccountComponent} from "./account/account.component";
 import {InvoicesComponent} from "./invoices/invoices.component";
 
@@ -8,7 +7,7 @@ const routes: Routes = [
 
   {
     path: 'orders',
-    component: OrdersComponent,
+    loadChildren: () => import('./orders/orders-routing.module').then(m => m.OrdersRoutingModule),
     data: {
       breadcrumb: 'Orders'
     }

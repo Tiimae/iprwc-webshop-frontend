@@ -7,15 +7,15 @@ export class OrderModel {
   private readonly _orderId: string;
   private readonly _orderDate: Date;
   private readonly _user: UserModel;
-  private readonly _products: OrderProductModel[];
+  private readonly _orderProducts: OrderProductModel[];
   private readonly _userAddresses: UserAddressesModel[];
 
-  constructor(id: string, orderId: string, orderDate: Date, user: UserModel, products: OrderProductModel[], userAddresses: UserAddressesModel[]) {
+  constructor(id: string, orderId: string, orderDate: Date, user: UserModel, orderProducts: OrderProductModel[], userAddresses: UserAddressesModel[]) {
     this._id = id;
     this._orderId = orderId;
     this._orderDate = orderDate;
     this._user = user;
-    this._products = products;
+    this._orderProducts = orderProducts;
     this._userAddresses = userAddresses;
   }
 
@@ -36,8 +36,8 @@ export class OrderModel {
     return this._user;
   }
 
-  get products(): OrderProductModel[] {
-    return this._products;
+  get orderProducts(): OrderProductModel[] {
+    return this._orderProducts;
   }
 
   get userAddresses(): UserAddressesModel[] {
