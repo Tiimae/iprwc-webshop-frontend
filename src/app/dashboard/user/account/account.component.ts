@@ -1,8 +1,10 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
-import {faEnvelope, faUser} from "@fortawesome/free-solid-svg-icons";
-import {NgForm} from "@angular/forms";
+import {Component, OnInit} from '@angular/core';
+import {FormControl, FormGroup, Validators} from "@angular/forms";
+import {Router} from "@angular/router";
+import {UserDataService} from "../../../_service/data/userData.service";
+import {ToastrService} from "ngx-toastr";
+import {UserModel} from "../../../_models/user.model";
 import {ApiConnectorService} from "../../../_service/api-connector.service";
-import {ApiMethodsService} from "../../../_service/api-methods.service";
 
 @Component({
   selector: 'app-account',
@@ -11,29 +13,91 @@ import {ApiMethodsService} from "../../../_service/api-methods.service";
 })
 export class AccountComponent implements OnInit {
 
-  faUser = faUser;
-  faEnvelope = faEnvelope;
-  @ViewChild('f') accountForm: NgForm | undefined;
+
+  user!: UserModel | undefined;
+  userEditForm = new FormGroup({
+    firstname: new FormControl('', [Validators.required]),
+    middlename: new FormControl('', [Validators.required]),
+    lastname: new FormControl('', [Validators.required]),
+    email: new FormControl('', [
+      Validators.required,
+      Validators.pattern(
+        '^(?=.{1,64}@)[A-Za-z0-9_-]+(\\.[A-Za-z0-9_-]+)*@' +
+        '[^-][A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})$'
+      ),
+    ]),
+  })
 
 
-  constructor() {
+  constructor(
+    private router: Router,
+    private userDataService: UserDataService,
+    private api: ApiConnectorService,
+    private toastr: ToastrService
+  ) {
   }
 
   ngOnInit(): void {
+    this.api.getJwtPayload().then(payload => {
+      setTimeout(() => {
+        this.userDataService
+          .getCurrentUser(payload.userId)
+          .subscribe(r => {
+            if (r == undefined) {
+              this.router.navigate([""])
+            }
 
-    // const user = this.api.user;
-    // if (user?.userId != undefined) {
-    //   ApiMethodsService.getInstance().get('user/' + user?.userId + "/roles", true).then(apiResponse => {
-    //     this.accountForm?.form.controls['firstname'].setValue(apiResponse.data.payload.firstName);
-    //     this.accountForm?.form.controls['middlename'].setValue(apiResponse.data.payload.middleName);
-    //     this.accountForm?.form.controls['lastname'].setValue(apiResponse.data.payload.lastName);
-    //     this.accountForm?.form.controls['email'].setValue(apiResponse.data.payload.email);
-    //   })
-    // }
+            this.user = r
+
+            if (this.user != undefined) {
+              this.userEditForm.controls.firstname.setValue(this.user.firstName);
+              this.userEditForm.controls.middlename.setValue(this.user.middleName);
+              this.userEditForm.controls.lastname.setValue(this.user.lastName);
+              this.userEditForm.controls.email.setValue(this.user.email);
+
+            }
+          })
+      }, 200)
+    });
   }
 
-  public onSubmit() : void {
+  onSubmit(): void {
+    const firstname = this.userEditForm.controls.firstname.value;
+    const middlename = this.userEditForm.controls.middlename.value;
+    const lastname = this.userEditForm.controls.lastname.value;
+    const email = this.userEditForm.controls.email.value;
 
+    if (firstname == null || middlename == null || lastname == null || email == null) {
+      this.toastr.error('Something is wrong!', 'Failed');
+      return
+    }
+
+    if (!this.userEditForm.valid) {
+      this.toastr.error('Something is wrong!', 'Failed');
+      return;
+    }
+
+    if (this.user == undefined) {
+      this.router.navigate([""])
+      return;
+    }
+
+    const user = new UserModel(
+      this.user.id,
+      firstname,
+      middlename,
+      lastname,
+      email,
+      this.user.roles,
+      this.user.addresses,
+      this.user.orders
+    )
+
+    const request: boolean = this.userDataService.updateUser(user);
+
+    if (request) {
+      this.toastr.success("User has been updated successfully!", "Created");
+    }
   }
 
 }

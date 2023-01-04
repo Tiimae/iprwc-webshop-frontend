@@ -20,6 +20,7 @@ import {AddressesModule} from "./addresses/addresses.module";
     UserRoutingModule,
     AddressesModule,
     FormsModule,
+    ReactiveFormsModule
   ]
 })
 export class UserModule { }

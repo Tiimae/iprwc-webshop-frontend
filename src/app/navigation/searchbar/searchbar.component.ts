@@ -34,37 +34,7 @@ export class SearchbarComponent implements OnInit {
   }
 
   async ngOnInit(): Promise<void> {
-    const jwtToken = localStorage.getItem('blank-token');
-
-    if (localStorage.getItem('blank-token') !== null) {
-      try {
-        const secret = await this.authService.getSecret();
-        console.log(secret)
-
-        localStorage.clear();
-
-        this.api.storeJwtToken(
-          jwtToken ?? '',
-          secret.data['message']
-        );
-      } catch (error) {
-        localStorage.clear();
-      }
-    }
-
-    if (localStorage.getItem('jwt-token')) {
-      try {
-        const tokenPayload = await this.api.getJwtPayload();
-        if (tokenPayload !== '') {
-          this.router.navigate(['/']);
-        }
-      } catch (err) {
-        console.log(err)
-      }
-    }
-
     this.api.getJwtPayload().then(async jwt => {
-      // console.log(jwt)
       if (jwt?.userId != undefined) {
         (await this.api.auth()).get("user/" + jwt?.userId).then(r => {
           if (r.data.payload.middleName == '') {
