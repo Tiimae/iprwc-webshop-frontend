@@ -4,9 +4,11 @@ import {ApiConnectorService} from "../../_service/api-connector.service";
 import {LoggedUserModel} from "../../_models/loggedUser.model";
 import {AuthService} from "../../_service/auth.service";
 import {Router} from "@angular/router";
-import { ProductModel } from 'src/app/_models/product.model';
-import { CartDataService } from 'src/app/_service/data/cartData.service';
+import {ProductModel} from 'src/app/_models/product.model';
+import {CartDataService} from 'src/app/_service/data/cartData.service';
 import {environment} from "../../../environments/environment";
+import {UserDataService} from "../../_service/data/userData.service";
+import {UserModel} from "../../_models/user.model";
 
 @Component({
   selector: 'app-searchbar',
@@ -29,18 +31,24 @@ export class SearchbarComponent implements OnInit {
     private router: Router,
     private authService: AuthService,
     private cartDataService: CartDataService,
-    private api: ApiConnectorService
+    private api: ApiConnectorService,
+    private userDataService: UserDataService
   ) {
   }
 
   async ngOnInit(): Promise<void> {
     this.api.getJwtPayload().then(async jwt => {
       if (jwt?.userId != undefined) {
-        (await this.api.auth()).get("user/" + jwt?.userId).then(r => {
-          if (r.data.payload.middleName == '') {
-            this.username = r.data.payload.firstName + ' ' + r.data.payload.lastName
+        this.userDataService.users$.subscribe(res => {
+          const user: UserModel | undefined = res.find(currentUser => currentUser.id === jwt.userId)
+          if (user == undefined) {
+            return;
+          }
+
+          if (user.middleName == '') {
+            this.username = user.firstName + ' ' + user.lastName
           } else {
-            this.username = r.data.payload.firstName + ' ' + r.data.payload.middleName + ' ' + r.data.payload.lastName
+            this.username = user.firstName + ' ' + user.middleName + ' ' + user.lastName
           }
         })
       }
