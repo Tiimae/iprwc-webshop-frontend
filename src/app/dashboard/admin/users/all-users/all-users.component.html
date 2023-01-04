@@ -1,14 +1,17 @@
 <section class="flex mb-5">
   <h1 class="text-lg flex-auto items-center flex-grow w-1/2">All users</h1>
   <a routerLink="/dashboard/admin/users/create">
-    <button class="mr-1 items-center justify-right bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+    <button
+      class="mr-1 items-center justify-right bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
       Create User
     </button>
   </a>
 </section>
 
-<app-user
-  *ngFor="let user of allUsers"
-  [user]="user"
-  (delete)="removeUserOutArray($event)"
-></app-user>
+<section class="scrolling-items-y">
+  <app-user
+    *ngFor="let user of allUsers"
+    [user]="user"
+    (delete)="removeUserOutArray($event)"
+  ></app-user>
+</section>

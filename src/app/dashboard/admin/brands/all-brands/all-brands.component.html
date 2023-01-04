@@ -7,8 +7,10 @@
   </a>
 </section>
 
-<app-brand
-  *ngFor="let brand of brands"
-  [brand]="brand"
-  (delete)="removeUser($event)"
-></app-brand>
+<section class="scrolling-items-y">
+  <app-brand
+    *ngFor="let brand of brands"
+    [brand]="brand"
+    (delete)="removeUser($event)"
+  ></app-brand>
+</section>
