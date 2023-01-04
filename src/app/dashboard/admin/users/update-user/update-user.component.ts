@@ -86,7 +86,7 @@ export class UpdateUserComponent implements OnInit {
     const lastname = this.userEditForm.controls.lastname.value;
     const email = this.userEditForm.controls.email.value;
 
-    if (firstname == null || middlename == null || lastname == null || email == null || this.userRoles.length == null) {
+    if (firstname == null || lastname == null || email == null || this.userRoles.length == null) {
       this.toastr.error('Something is wrong!', 'Failed');
       return
     }
@@ -100,7 +100,7 @@ export class UpdateUserComponent implements OnInit {
       const user = new UserModel(
         this.userId,
         firstname,
-        middlename,
+        middlename == null ? '' : middlename,
         lastname,
         email,
         this.userRoles,
@@ -111,7 +111,7 @@ export class UpdateUserComponent implements OnInit {
       const request: boolean = this.userDataService.updateUser(user);
 
       if (request) {
-        this.toastr.success("Supplier has been updated successfully!", "Updated");
+        this.toastr.success("User has been updated successfully!", "Updated");
         this.router.navigate(['dashboard', 'admin', 'users'])
       }
     }

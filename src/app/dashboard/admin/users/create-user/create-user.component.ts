@@ -53,7 +53,7 @@ export class CreateUserComponent implements OnInit {
     const lastname = this.userCreateForm.controls.lastname.value;
     const email = this.userCreateForm.controls.email.value;
 
-    if (firstname == null || middlename == null || lastname == null || email == null || this.userRoles.length == null) {
+    if (firstname == null || lastname == null || email == null || this.userRoles.length == null) {
       this.toastr.error('Something is wrong!', 'Failed');
       return
     }
@@ -66,7 +66,7 @@ export class CreateUserComponent implements OnInit {
     const user = new UserModel(
       "",
       firstname,
-      middlename,
+      middlename == null ? '' : middlename,
       lastname,
       email,
       this.userRoles,

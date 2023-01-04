@@ -13,7 +13,6 @@ import {ApiConnectorService} from "../../../_service/api-connector.service";
 })
 export class AccountComponent implements OnInit {
 
-
   user!: UserModel | undefined;
   userEditForm = new FormGroup({
     firstname: new FormControl('', [Validators.required]),
@@ -67,7 +66,7 @@ export class AccountComponent implements OnInit {
     const lastname = this.userEditForm.controls.lastname.value;
     const email = this.userEditForm.controls.email.value;
 
-    if (firstname == null || middlename == null || lastname == null || email == null) {
+    if (firstname == null || lastname == null || email == null) {
       this.toastr.error('Something is wrong!', 'Failed');
       return
     }
@@ -85,7 +84,7 @@ export class AccountComponent implements OnInit {
     const user = new UserModel(
       this.user.id,
       firstname,
-      middlename,
+      middlename == null ? '' : middlename,
       lastname,
       email,
       this.user.roles,
