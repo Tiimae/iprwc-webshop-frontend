@@ -53,7 +53,7 @@ export class LoginComponent implements OnInit {
           secret.data['message']
         );
 
-        // SearchbarComponent.loggedIn = true
+        location.reload()
       } catch (error) {
         localStorage.clear();
       }
@@ -63,7 +63,7 @@ export class LoginComponent implements OnInit {
       try {
         const tokenPayload = await this.api.getJwtPayload();
         if (tokenPayload !== undefined) {
-          this.router.navigate(['/']);
+          await this.router.navigate(['/']);
         }
       } catch (err) {
       }
