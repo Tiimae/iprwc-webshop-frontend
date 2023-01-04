@@ -25,13 +25,13 @@
       <fa-icon [icon]="faShoppingCart"></fa-icon> Shopping Cart ({{ cartLength }})
     </a>
     <span class="block mt-4 lg:inline-block text-white lg:mt-0 pr-4">|</span>
-    <a routerLink="/auth/login" class="block mt-4 lg:inline-block lg:mt-0 text-white mr-4" *ngIf="!loggedIn">Login</a>
-    <span class="block mt-4 lg:inline-block lg:mt-0 text-white pr-4" *ngIf="!loggedIn">|</span>
-    <a routerLink="/auth/register" class="block mt-4 lg:inline-block lg:mt-0 text-white mr-4" *ngIf="!loggedIn">Register</a>
-    <a routerLink="/dashboard/user/account" class="block mt-4 lg:inline-block lg:mt-0 text-white mr-4 hidden lg:block" *ngIf="loggedIn">
+    <a routerLink="/auth/login" class="block mt-4 lg:inline-block lg:mt-0 text-white mr-4" *ngIf="!getLoggedIn()">Login</a>
+    <span class="block mt-4 lg:inline-block lg:mt-0 text-white pr-4" *ngIf="!getLoggedIn()">|</span>
+    <a routerLink="/auth/register" class="block mt-4 lg:inline-block lg:mt-0 text-white mr-4" *ngIf="!getLoggedIn()">Register</a>
+    <a routerLink="/dashboard/user/account" class="block mt-4 lg:inline-block lg:mt-0 text-white mr-4 hidden lg:block" *ngIf="getLoggedIn()">
       <fa-icon [icon]="faUser"></fa-icon> &nbsp; {{ username }}
     </a>
-    <a routerLink="/dashboard/user/account" class="block mt-4 lg:inline-block lg:mt-0 text-white mr-4 block lg:hidden w-1/2" *ngIf="loggedIn">
+    <a routerLink="/dashboard/user/account" class="block mt-4 lg:inline-block lg:mt-0 text-white mr-4 block lg:hidden w-1/2" *ngIf="getLoggedIn()">
       <fa-icon [icon]="faUser"></fa-icon>
     </a>
   </section>

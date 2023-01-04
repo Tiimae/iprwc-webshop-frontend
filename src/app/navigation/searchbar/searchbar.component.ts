@@ -1,7 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {faSearch, faShoppingCart, faUser} from "@fortawesome/free-solid-svg-icons";
 import {ApiConnectorService} from "../../_service/api-connector.service";
-import {LoggedUserModel} from "../../_models/loggedUser.model";
 import {AuthService} from "../../_service/auth.service";
 import {Router} from "@angular/router";
 import {ProductModel} from 'src/app/_models/product.model';
@@ -21,7 +20,7 @@ export class SearchbarComponent implements OnInit {
   faShoppingCart = faShoppingCart;
   faUser = faUser;
   products!: ProductModel[];
-  loggedIn: boolean = false;
+  static loggedIn: boolean;
 
   username: string = ''
 
@@ -37,35 +36,38 @@ export class SearchbarComponent implements OnInit {
   }
 
   async ngOnInit(): Promise<void> {
-    this.api.getJwtPayload().then(async jwt => {
-      if (jwt?.userId != undefined) {
-        this.userDataService.users$.subscribe(res => {
-          const user: UserModel | undefined = res.find(currentUser => currentUser.id === jwt.userId)
-          if (user == undefined) {
-            return;
-          }
+    setTimeout(() => {
+      this.api.getJwtPayload().then(async jwt => {
+        // console.log(jwt)
+        if (jwt?.userId != undefined) {
+          (await this.api.auth()).get("user/" + jwt?.userId).then(r => {
+            if (r.data.payload.middleName == '') {
+              this.username = r.data.payload.firstName + ' ' + r.data.payload.lastName
+            } else {
+              this.username = r.data.payload.firstName + ' ' + r.data.payload.middleName + ' ' + r.data.payload.lastName
+            }
+          })
+        }
+      });
 
-          if (user.middleName == '') {
-            this.username = user.firstName + ' ' + user.lastName
-          } else {
-            this.username = user.firstName + ' ' + user.middleName + ' ' + user.lastName
-          }
+      this.cartDataService
+        .products$
+        .subscribe(res => {
+          this.cartLength = res.length;
+
         })
-      }
-    });
 
-    this.cartDataService
-      .products$
-      .subscribe(res => {
-        this.cartLength = res.length;
+      this.ifItemIsInLocalStorage();
 
-      })
-
-    this.ifItemIsInLocalStorage();
+    }, 100)
   }
 
   public async ifItemIsInLocalStorage(): Promise<void> {
-    this.loggedIn = await this.api.authenticated();
+    SearchbarComponent.loggedIn = await this.api.authenticated();
+  }
+
+  getLoggedIn(): boolean {
+    return SearchbarComponent.loggedIn;
   }
 
 }
