@@ -6,6 +6,9 @@ import {Router} from "@angular/router";
 import {faEnvelope, faKey} from "@fortawesome/free-solid-svg-icons";
 import {FormControl, FormGroup, NgForm, Validators} from "@angular/forms";
 import {ToastrService} from 'ngx-toastr';
+import {SearchbarComponent} from "../../navigation/searchbar/searchbar.component";
+import {CartDataService} from "../../_service/data/cartData.service";
+import {UserDataService} from "../../_service/data/userData.service";
 
 @Component({
   selector: 'app-login',
@@ -49,6 +52,8 @@ export class LoginComponent implements OnInit {
           jwtToken ?? '',
           secret.data['message']
         );
+
+        location.reload()
       } catch (error) {
         localStorage.clear();
       }
@@ -58,7 +63,7 @@ export class LoginComponent implements OnInit {
       try {
         const tokenPayload = await this.api.getJwtPayload();
         if (tokenPayload !== undefined) {
-          this.router.navigate(['/']);
+          await this.router.navigate(['/']);
         }
       } catch (err) {
       }

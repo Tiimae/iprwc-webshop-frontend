@@ -13,6 +13,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import {ActivatedRoute, Router} from "@angular/router";
 import {LoggedUserModel} from "../../_models/loggedUser.model";
+import {SearchbarComponent} from "../../navigation/searchbar/searchbar.component";
 
 @Component({
   selector: 'app-sidebar',
@@ -48,13 +49,9 @@ export class SidebarComponent implements OnInit {
     })
   }
 
-  // public async hasRole(): Promise<boolean> {
-  //   // @ts-ignore
-  //   return await ;
-  // }
-
   public LogOut() {
     localStorage.removeItem("jwt-token");
+    SearchbarComponent.loggedIn = false
 
     this.router.navigate([''])
   }

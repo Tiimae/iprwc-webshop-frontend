@@ -19,7 +19,7 @@ import {OrdersModule} from "./orders/orders.module";
     UserRoutingModule,
     AddressesModule,
     FormsModule,
-    OrdersModule
-  ]
+    OrdersModule,
+    ReactiveFormsModule
 })
 export class UserModule { }

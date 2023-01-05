@@ -1,12 +1,13 @@
 import {Component, OnInit} from '@angular/core';
 import {faSearch, faShoppingCart, faUser} from "@fortawesome/free-solid-svg-icons";
 import {ApiConnectorService} from "../../_service/api-connector.service";
-import {LoggedUserModel} from "../../_models/loggedUser.model";
 import {AuthService} from "../../_service/auth.service";
 import {Router} from "@angular/router";
-import { ProductModel } from 'src/app/_models/product.model';
-import { CartDataService } from 'src/app/_service/data/cartData.service';
+import {ProductModel} from 'src/app/_models/product.model';
+import {CartDataService} from 'src/app/_service/data/cartData.service';
 import {environment} from "../../../environments/environment";
+import {UserDataService} from "../../_service/data/userData.service";
+import {UserModel} from "../../_models/user.model";
 
 @Component({
   selector: 'app-searchbar',
@@ -19,7 +20,7 @@ export class SearchbarComponent implements OnInit {
   faShoppingCart = faShoppingCart;
   faUser = faUser;
   products!: ProductModel[];
-  loggedIn: boolean = false;
+  static loggedIn: boolean;
 
   username: string = ''
 
@@ -29,52 +30,12 @@ export class SearchbarComponent implements OnInit {
     private router: Router,
     private authService: AuthService,
     private cartDataService: CartDataService,
-    private api: ApiConnectorService
+    private api: ApiConnectorService,
+    private userDataService: UserDataService
   ) {
   }
 
   async ngOnInit(): Promise<void> {
-    const jwtToken = localStorage.getItem('blank-token');
-
-    if (localStorage.getItem('blank-token') !== null) {
-      try {
-        const secret = await this.authService.getSecret();
-        console.log(secret)
-
-        localStorage.clear();
-
-        this.api.storeJwtToken(
-          jwtToken ?? '',
-          secret.data['message']
-        );
-      } catch (error) {
-        localStorage.clear();
-      }
-    }
-
-    if (localStorage.getItem('jwt-token')) {
-      try {
-        const tokenPayload = await this.api.getJwtPayload();
-        if (tokenPayload !== '') {
-          this.router.navigate(['/']);
-        }
-      } catch (err) {
-        console.log(err)
-      }
-    }
-
-    this.api.getJwtPayload().then(async jwt => {
-      // console.log(jwt)
-      if (jwt?.userId != undefined) {
-        (await this.api.auth()).get("user/" + jwt?.userId).then(r => {
-          if (r.data.payload.middleName == '') {
-            this.username = r.data.payload.firstName + ' ' + r.data.payload.lastName
-          } else {
-            this.username = r.data.payload.firstName + ' ' + r.data.payload.middleName + ' ' + r.data.payload.lastName
-          }
-        })
-      }
-    });
 
     this.cartDataService
       .products$
@@ -83,11 +44,34 @@ export class SearchbarComponent implements OnInit {
 
       })
 
-    this.ifItemIsInLocalStorage();
+    await this.ifItemIsInLocalStorage();
+
+    setTimeout(() => {
+      this.api.getJwtPayload().then(async jwt => {
+        if (jwt?.userId != undefined) {
+          this.userDataService.users$.subscribe(res => {
+            const user: UserModel | undefined = res.find(currentUser => currentUser.id === jwt.userId)
+            if (user == undefined) {
+              return;
+            }
+
+            if (user.middleName == '') {
+              this.username = user.firstName + ' ' + user.lastName
+            } else {
+              this.username = user.firstName + ' ' + user.middleName + ' ' + user.lastName
+            }
+          })
+        }
+      });
+    }, 200)
   }
 
   public async ifItemIsInLocalStorage(): Promise<void> {
-    this.loggedIn = await this.api.authenticated();
+    SearchbarComponent.loggedIn = await this.api.authenticated();
+  }
+
+  getLoggedIn(): boolean {
+    return SearchbarComponent.loggedIn;
   }
 
 }

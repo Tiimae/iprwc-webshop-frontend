@@ -1,14 +1,17 @@
 <section class="flex mb-5">
   <h1 class="text-lg flex-auto items-center flex-grow w-1/2">All supplier</h1>
   <a routerLink="/dashboard/admin/suppliers/create">
-    <button class="mr-1 items-center justify-right bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+    <button
+      class="mr-1 items-center justify-right bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
       Create supplier
     </button>
   </a>
 </section>
 
-<app-supplier
-  *ngFor="let supplier of allSuppliers"
-  [supplier]="supplier"
-  (delete)="removeUserOutArray($event)"
-></app-supplier>
+<section class="scrolling-items-y">
+  <app-supplier
+    *ngFor="let supplier of allSuppliers"
+    [supplier]="supplier"
+    (delete)="removeUserOutArray($event)"
+  ></app-supplier>
+</section>

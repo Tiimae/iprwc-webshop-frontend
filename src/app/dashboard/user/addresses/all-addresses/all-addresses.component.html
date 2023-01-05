@@ -1,10 +1,10 @@
 <main class="container md:container">
   <section class="flex flex-wrap grow">
-    <section class="flex grow flex-wrap">
+    <section class="flex grow flex-wrap xl:overflow-y-hidden overflow-y-scroll xl:h-auto h-[65vh]">
       <section class="flex grow flex-col mr-4 min-w-[350px]">
         <h2>Choose your delivery address</h2>
 
-        <section class="flex mt-10 flex-col w-full addresses mr-4">
+        <section class="flex mt-10 flex-col w-full mr-4 lg:overflow-y-scroll overflow-y-hidden xl:h-[65vh]">
           <app-user-address [type]="'delivery'" [redirectUrl]="'dashboard/user/addresses'" class="mb-4"></app-user-address>
           <app-user-address
             *ngFor="let address of deliveryAddresses"
@@ -17,7 +17,7 @@
       <section class="min-w-[350px] grow flex flex-col">
         <h2>Choose your Invoice address</h2>
 
-        <section class="flex mt-10 flex-col w-full addresses">
+        <section class="flex mt-10 flex-col w-full lg:overflow-y-scroll overflow-y-hidden xl:h-[65vh]">
           <app-user-address [type]="'invoice'" [redirectUrl]="'dashboard/user/addresses'" class="mb-4"></app-user-address>
           <app-user-address
             *ngFor="let address of invoiceAddresses"
