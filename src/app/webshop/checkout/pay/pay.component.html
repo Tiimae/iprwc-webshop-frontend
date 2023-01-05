@@ -1,0 +1,37 @@
+<main class="container md:container">
+  <section class="flex flex-wrap grow scrolling-items-y">
+    <section class="flex grow flex-wrap">
+      <section class="flex grow flex-col mr-4 min-w-[350px]">
+        <h2>Choose your delivery address</h2>
+
+        <section class="flex mt-10 flex-col w-full addresses mr-4">
+          <app-user-address
+            *ngFor="let address of deliveryAddresses"
+            [address]="address" class="mb-4"
+            (select)="changeSeclectedDeliveryAddress($event)"
+            id="{{ address.street.replace(' ', '') + address.houseNumber }}delivery"></app-user-address>
+          <app-user-address [type]="'delivery'" [redirectUrl]="'checkout/pay'" class="mb-4"></app-user-address>
+        </section>
+      </section>
+
+      <section class="min-w-[350px] grow flex flex-col">
+        <h2>Choose your Invoice address</h2>
+
+        <section class="flex mt-10 flex-col w-full addresses">
+          <app-user-address
+            *ngFor="let address of invoiceAddresses"
+            [address]="address" class="mb-4"
+            [redirectUrl]="'checkout/pay'"
+            (select)="changeSeclectedInvoiceAddress($event)"
+            id="{{ address.street.replace(' ', '') }}{{ address.houseNumber }}invoice"></app-user-address>
+          <app-user-address [type]="'invoice'" [redirectUrl]="'checkout/pay'" class="mb-4"></app-user-address>
+        </section>
+      </section>
+    </section>
+
+    <section class="min-w-[350px] grow">
+      <app-cart class="cart" [overview]="true"></app-cart>
+      <button type="button" class="checkout" (click)="createOrder()">Pay</button>
+    </section>
+  </section>
+</main>

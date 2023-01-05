@@ -1,0 +1,7 @@
+
+<section class="flex">
+  <span class="date">{{ order.orderDate | date : 'shortDate' }}</span>
+  <span class=""><span class="">&nbsp; Order number:</span> {{ order.orderId }}</span>
+</section>
+
+<app-product-order *ngFor="let product of order.orderProducts" [orderProduct]="product"></app-product-order>

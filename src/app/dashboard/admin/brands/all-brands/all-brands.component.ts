@@ -1,0 +1,35 @@
+import {Component, OnInit} from '@angular/core';
+import {BrandModel} from "../../../../_models/brand.model";
+import {BrandDataService} from "../../../../_service/data/brandData.service";
+import {ToastrService} from "ngx-toastr";
+
+@Component({
+  selector: 'app-all-brands',
+  templateUrl: './all-brands.component.html',
+  styleUrls: ['./all-brands.component.scss']
+})
+export class AllBrandsComponent implements OnInit {
+
+  brands: BrandModel[] = []
+
+  constructor(
+    private brandDataService: BrandDataService,
+    private toastr: ToastrService
+  ) {
+  }
+
+  async ngOnInit(): Promise<void> {
+
+    this.brandDataService
+      .brands$
+      .subscribe(r => {
+        this.brands = r
+      })
+  }
+
+  public removeUser(event: BrandModel): void {
+    this.brandDataService.remove(event);
+    this.toastr.success("Brand has been deleted successfully!", "Deleted")
+  }
+
+}

@@ -1,0 +1,25 @@
+<section class="col left flex">
+  <section class="thumbnail">
+    <a href="#">
+      <img src="{{ product.productImages[0].imagePath }}"  alt="{{ product.productName }}"/>
+    </a>
+  </section>
+  <section class="detail">
+    <section class="name black">{{ product.productName }}</section>
+    <section class="description">{{ product.description }}</section>
+    <section class="price">{{ product.price | currency: "EUR" }}</section>
+  </section>
+</section>
+
+<section class="col right">
+  <section class="quantity">
+    <input type="number" class="quantity" step="1" value="{{ amount }}" (change)="changePrice($event)" *ngIf="!overview" />
+    <p *ngIf="overview">{{ amount }}</p>
+  </section>
+
+  <section class="remove" *ngIf="!overview">
+    <svg (click)="deleteProduct()"  class="close"><polygon points="38.936,23.561 36.814,21.439 30.562,27.691 24.311,21.439 22.189,23.561 28.441,29.812 22.189,36.064 24.311,38.186 30.562,31.934 36.814,38.186 38.936,36.064 32.684,29.812"></polygon></svg>
+  </section>
+
+  <section class="product-line-price hidden">{{ totalPrice | currency: "EUR"  }}</section>
+</section>

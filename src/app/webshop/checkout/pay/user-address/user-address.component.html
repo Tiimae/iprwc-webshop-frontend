@@ -1,0 +1,19 @@
+<section class="card w-full" (click)="selectAddress()" *ngIf="address">
+  <section class="street">
+    <h3>{{ address.street }} {{ address.houseNumber }}{{ address.addition }}</h3>
+  </section>
+  <section class="container">
+    <p>{{ address.zipcode }} {{ address.city }}</p>
+    <p>{{ address.country }}</p>
+  </section>
+</section>
+
+<section class="card w-full" (click)="selectAddress()" *ngIf="!address">
+  <section class="street">
+    <h3>Create new address</h3>
+  </section>
+  <section class="container">
+    <p>Click here to create one</p>
+    <a (click)="createAddress()" class="address">Create New Address</a>
+  </section>
+</section>

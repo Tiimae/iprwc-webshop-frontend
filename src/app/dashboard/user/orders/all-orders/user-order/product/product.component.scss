@@ -1,0 +1,48 @@
+.card {
+  width: 95%;
+  display: flex;
+  box-shadow: 0 10px 20px 0 rgba(0, 0, 0, 0.5);
+  margin: 0 auto;
+  cursor: pointer;
+  margin-bottom: 20px;
+
+  &:hover {
+    box-shadow: 2px 4px 8px 0 #b3b3ba,inset .25em 0 0 #e10600;
+    transition: box-shadow .15s ease-in;
+  }
+
+  .product-image {
+    width: 25%;
+    margin: 5px;
+
+    figure {
+      img {
+        margin: 0 auto;
+        height: 200px;
+      }
+    }
+  }
+
+  .product-info {
+    margin: auto 0;
+    width: 50%;
+
+    .product-name {
+      font-size: 150%;
+    }
+
+    .product-status {
+      color: lightgreen;
+    }
+  }
+
+  .arrow {
+    margin: auto;
+    width: 25%;
+
+    svg {
+      margin: auto;
+      height: 50px;
+    }
+  }
+}

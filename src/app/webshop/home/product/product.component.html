@@ -1,0 +1,24 @@
+<a routerLink="/product/{{ productId }}">
+  <section class="item">
+    <section class="item-images">
+      <figure class="item-image">
+        <img src="{{ product.productImages[0].imagePath }}" alt="{{ product.productName }}" class="item-images-front">
+      </figure>
+      <figure class="item-image">
+        <img src="{{ product.productImages[1].imagePath }}" alt="{{ product.productName }}" class="item-images-back">
+      </figure>
+    </section>
+
+    <section class="item-info">
+      <h3>
+        {{ product.productName }}
+      </h3>
+      <p>
+        {{ product.category.categoryName }}
+      </p>
+      <h2>
+        {{ product.price | currency:'EUR' }}
+      </h2>
+    </section>
+  </section>
+</a>

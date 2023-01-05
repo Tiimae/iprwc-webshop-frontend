@@ -1,0 +1,100 @@
+<aside class="w-16 lg:w-64" aria-label="Sidebar">
+  <section class="overflow-y-auto py-4 px-3 rounded h-auto">
+    <ul class="space-y-2">
+      <li>
+        <a routerLink="/dashboard/user/account"
+           class="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 ">
+          <fa-icon
+            class="w-6 h-6 text-white transition duration-75 dark:text-white group-hover:text-gray-900 dark:group-hover:text-white pl-1"
+            [icon]="faUser"></fa-icon>
+          <span class="ml-3 hidden lg:block">Account</span>
+        </a>
+      </li>
+      <li>
+        <a routerLink="/dashboard/user/addresses"
+           class="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
+          <fa-icon
+            class="w-6 h-6 text-white transition duration-75 dark:text-white group-hover:text-gray-900 dark:group-hover:text-white pl-1"
+            [icon]="faAddressCard"></fa-icon>
+          <span class="ml-3 hidden lg:block">Adres gegevens</span>
+        </a>
+      </li>
+      <li>
+        <a routerLink="/dashboard/user/orders"
+           class="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
+          <fa-icon
+            class="w-6 h-6 text-white transition duration-75 dark:text-white group-hover:text-gray-900 dark:group-hover:text-white pl-1"
+            [icon]="faShippingFast"></fa-icon>
+          <span class="ml-3 hidden lg:block">Bestellingen</span>
+        </a>
+      </li>
+      <li>
+        <a routerLink="/dashboard/user/invoices"
+           class="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
+          <fa-icon
+            class="w-6 h-6 text-white transition duration-75 dark:text-white group-hover:text-gray-900 dark:group-hover:text-white pl-1"
+            [icon]="faFileInvoice"></fa-icon>
+          <span class="ml-3 hidden lg:block">Facturen</span>
+        </a>
+      </li>
+      <li>
+        <button
+           class="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 w-full"
+          (click)="LogOut()"
+        >
+          <fa-icon
+            class="w-6 h-6 text-white transition duration-75 dark:text-white group-hover:text-gray-900 dark:group-hover:text-white"
+            [icon]="faSignOut"></fa-icon>
+          <span class="ml-3 hidden lg:block">Log Out</span>
+        </button>
+      </li>
+    </ul>
+    <ul class="pt-4 mt-4 space-y-2 border-t border-gray-200 dark:border-gray-700" *ngIf="hasRole">
+      <li>
+        <a routerLink="/dashboard/admin/products"
+           class="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg transition duration-75 hover:bg-gray-100 dark:hover:bg-gray-700 dark:text-white group">
+          <fa-icon
+            class="w-6 h-6 text-white transition duration-75 dark:text-white group-hover:text-gray-900 dark:group-hover:text-white pl-1"
+            [icon]="faBox"></fa-icon>
+          <span class="ml-4 hidden lg:block">Producten</span>
+        </a>
+      </li>
+      <li>
+        <a routerLink="/dashboard/admin/categories"
+           class="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg transition duration-75 hover:bg-gray-100 dark:hover:bg-gray-700 dark:text-white group">
+          <fa-icon
+            class="w-6 h-6 text-white transition duration-75 dark:text-white group-hover:text-gray-900 dark:group-hover:text-white pl-1"
+            [icon]="faListAlt"></fa-icon>
+          <span class="ml-4 hidden lg:block">Categoriën</span>
+        </a>
+      </li>
+      <li>
+        <a routerLink="/dashboard/admin/suppliers"
+           class="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg transition duration-75 hover:bg-gray-100 dark:hover:bg-gray-700 dark:text-white group">
+          <fa-icon
+            class="w-6 h-6 text-white transition duration-75 dark:text-white group-hover:text-gray-900 dark:group-hover:text-white pl-1"
+            [icon]="faIndustry"></fa-icon>
+          <span class="ml-4 hidden lg:block">Leveranciers</span>
+        </a>
+      </li>
+      <li>
+        <a routerLink="/dashboard/admin/brands"
+           class="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg transition duration-75 hover:bg-gray-100 dark:hover:bg-gray-700 dark:text-white group">
+          <fa-icon
+            class="w-6 h-6 text-white transition duration-75 dark:text-white group-hover:text-gray-900 dark:group-hover:text-white pl-1"
+            [icon]="faFire"></fa-icon>
+          <span class="ml-4 hidden lg:block">Merken</span>
+        </a>
+      </li>
+      <li>
+        <a routerLink="/dashboard/admin/users"
+           class="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg transition duration-75 hover:bg-gray-100 dark:hover:bg-gray-700 dark:text-white group">
+          <fa-icon
+            class="w-6 h-6 text-white transition duration-75 dark:text-white group-hover:text-gray-900 dark:group-hover:text-white pl-1"
+            [icon]="faUser"></fa-icon>
+          <span class="ml-4 hidden lg:block">Gebruikers</span>
+        </a>
+      </li>
+    </ul>
+  </section>
+</aside>

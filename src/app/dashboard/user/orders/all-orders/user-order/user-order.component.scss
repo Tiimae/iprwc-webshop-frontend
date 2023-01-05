@@ -1,0 +1,9 @@
+section {
+  margin-bottom: 5px;
+
+  .date {
+    &::after {
+      content: " | "
+    }
+  }
+}

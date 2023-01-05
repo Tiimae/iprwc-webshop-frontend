@@ -1,0 +1,32 @@
+<section class="flex mb-5">
+  <h1 class="text-lg flex-auto items-center flex-grow w-1/2" *ngIf="!showDeleted">All Products</h1>
+  <h1 class="text-lg flex-auto items-center flex-grow w-1/2" *ngIf="showDeleted">Deleted Products</h1>
+  <a routerLink="/dashboard/admin/products/create">
+    <button
+      class="mr-1 items-center justify-right bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+      Create product
+    </button>
+  </a>
+  <button class="mr-1 items-center justify-right bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
+          (click)="changeProducts()">
+    Deleted Products
+  </button>
+</section>
+
+<section *ngIf="!showDeleted" class="scrolling-items-y">
+  <app-product
+    *ngFor="let product of allProducts"
+    [product]="product"
+    [deleted]="false"
+    (delete)="removeProductOutArray($event)"
+  ></app-product>
+</section>
+
+<section *ngIf="showDeleted" class="scrolling-items-y">
+  <app-product
+    *ngFor="let product of deletedProducts"
+    [product]="product"
+    [deleted]="true"
+    (delete)="setDeletedBack($event)"
+  ></app-product>
+</section>

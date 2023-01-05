@@ -1,0 +1,12 @@
+<main class="container md:container">
+  <section class="flex grow flex-col mr-4 min-w-[350px]">
+    <h2>Your Orders</h2>
+
+    <section class="flex mt-10 flex-col w-full orders mr-4">
+      <app-user-order
+        *ngFor="let order of userOrders"
+        [order]="order"
+      ></app-user-order>
+    </section>
+  </section>
+</main>

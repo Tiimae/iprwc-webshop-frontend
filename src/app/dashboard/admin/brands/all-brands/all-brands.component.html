@@ -1,0 +1,16 @@
+<section class="flex mb-5">
+  <h1 class="text-lg flex-auto items-center flex-grow w-1/2">All brands</h1>
+  <a routerLink="/dashboard/admin/brands/create">
+    <button class="mr-1 items-center justify-right bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+      Create Brand
+    </button>
+  </a>
+</section>
+
+<section class="scrolling-items-y">
+  <app-brand
+    *ngFor="let brand of brands"
+    [brand]="brand"
+    (delete)="removeUser($event)"
+  ></app-brand>
+</section>

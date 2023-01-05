@@ -1,0 +1,168 @@
+* {
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 12px;
+}
+
+body {
+  margin: 20px 0;
+  padding: 0;
+  font-family: arial, sans-serif;
+  overflow: scroll;
+}
+
+button {
+  background-color: #16cc9b;
+  border: 2px solid #16cc9b;
+  color: #ffffff;
+  transition: all 0.25s linear;
+  cursor: pointer;
+}
+
+button::after {
+  position: relative;
+  right: 0;
+  content: " \276f";
+  transition: all 0.15s linear;
+}
+
+button:hover {
+  background-color: #f58551;
+  border-color: #f58551;
+}
+
+button:hover::after {
+  right: -5px;
+}
+
+button:focus {
+  outline: none;
+}
+
+ul {
+  padding: 0;
+  margin: 0;
+  list-style-type: none;
+}
+
+.container {
+  width: 100vw;
+  margin: 0 auto;
+  overflow: auto;
+}
+
+/* --- HEADER --- */
+header {
+  margin-bottom: 1.5rem;
+
+  .breadcrumb {
+    color: #7d7d7d;
+
+    li {
+      float: left;
+      padding: 0 6px;
+      height: 20px;
+      line-height: 20px;
+
+      &:first-child {
+        padding-left: 2px;
+      }
+
+      &:not(:last-child)::after {
+        content: " \276f";
+        padding-left: 8px;
+      }
+    }
+  }
+
+  .count {
+    float: right;
+    color: #333333;
+    height: 20px;
+    line-height: 20px;
+  }
+}
+
+/* --- PRODUCT LIST --- */
+.products {
+  border-top: 1px solid #ddd;
+
+  li {
+    padding: 1rem 0;
+    border-bottom: 1px solid #ddd;
+  }
+
+  .row {
+    position: relative;
+    overflow: auto;
+    width: 100%;
+  }
+}
+
+
+
+/* --- SUMMARY --- */
+
+.summary {
+  font-size: 1.2rem;
+  text-align: right;
+  float: left;
+  width: 100%;
+  margin-top: 1.5rem;
+
+  ul {
+    li {
+      padding: 0.5rem 0;
+
+      span {
+        display: inline-block;
+        width: 30%;
+      }
+    }
+
+    .total {
+      font-weight: bold;
+    }
+  }
+}
+
+.checkout {
+  text-align: right;
+  float: left;
+  width: 100%;
+  margin-top: 1.5rem;
+
+  button {
+    font-size: 1.2rem;
+    padding: 0.8rem 2.8rem;
+    border-radius: 1.5rem;
+  }
+}
+
+.empty-product {
+  text-align: center;
+
+  button {
+    font-size: 1.3rem;
+    padding: 10px 30px;
+    border-radius: 5px;
+  }
+}
+
+/* --- MEDIUM & LARGE SCREEN --- */
+@media all and (min-width: 600px) {
+  .summary {
+    width: 50%;
+  }
+
+  .checkout {
+    width: 100%;
+  }
+
+  .checkout,
+  .summary {
+    text-align: right;
+  }
+}
