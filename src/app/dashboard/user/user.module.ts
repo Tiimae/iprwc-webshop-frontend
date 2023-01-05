@@ -21,5 +21,7 @@ import {OrdersModule} from "./orders/orders.module";
     FormsModule,
     OrdersModule,
     ReactiveFormsModule
+  ]
 })
-export class UserModule { }
+export class UserModule {
+}

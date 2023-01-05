@@ -2,7 +2,10 @@
   <section class="item">
     <section class="item-images">
       <figure class="item-image">
-        <img src="{{ product.productImages[0].imagePath }}" alt="Polo-front" class="item-images-front">
+        <img src="{{ product.productImages[0].imagePath }}" alt="{{ product.productName }}" class="item-images-front">
+      </figure>
+      <figure class="item-image">
+        <img src="{{ product.productImages[1].imagePath }}" alt="{{ product.productName }}" class="item-images-back">
       </figure>
     </section>
 

@@ -3,10 +3,16 @@
     <section class="card">
       <!-- card left -->
       <section class="product-imgs">
-        <section class="img-display">
+        <section class="img-display flex">
+          <button (click)="slideImage(imgId - 1)" class="relative z-10">
+            <fa-icon [icon]="faArrowLeft"></fa-icon>
+          </button>
           <section class="img-showcase">
             <img *ngFor="let img of product.productImages" src="{{ img.imagePath }}" alt="{{ product.productName }}">
           </section>
+          <button (click)="slideImage(imgId + 1)" class="relative z-10">
+            <fa-icon [icon]="faArrowRight"></fa-icon>
+          </button>
         </section>
 
         <section class="img-select">
@@ -39,10 +45,18 @@
           <h2>about this item: </h2>
           <p>{{ product.description }}</p>
           <ul>
-            <li><fa-icon [icon]="faCheck"></fa-icon>Available: <span>in stock</span></li>
-            <li><fa-icon [icon]="faCheck"></fa-icon>Category: <span>{{ product.category.categoryName }}</span></li>
-            <li><fa-icon [icon]="faCheck"></fa-icon>Shipping Area: <span>All over the world</span></li>
-            <li><fa-icon [icon]="faCheck"></fa-icon>Shipping Fee: <span>Free</span></li>
+            <li>
+              <fa-icon [icon]="faCheck"></fa-icon>
+              Available: <span>in stock</span></li>
+            <li>
+              <fa-icon [icon]="faCheck"></fa-icon>
+              Category: <span>{{ product.category.categoryName }}</span></li>
+            <li>
+              <fa-icon [icon]="faCheck"></fa-icon>
+              Shipping Area: <span>All over the world</span></li>
+            <li>
+              <fa-icon [icon]="faCheck"></fa-icon>
+              Shipping Fee: <span>Free</span></li>
           </ul>
         </section>
 

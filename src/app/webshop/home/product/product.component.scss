@@ -13,6 +13,30 @@
       position: absolute;
       top: 0;
       padding: 10px;
+
+      .item-images-front {
+        opacity: 1;
+        transition: all 0.4s linear;
+      }
+
+      .item-images-back {
+        opacity: 0;
+        transition: all 0.4s linear;
+      }
+    }
+  }
+
+  &:hover {
+    .item-images {
+      .item-image {
+        .item-images-back {
+          opacity: 1;
+        }
+
+        .item-images-front {
+          opacity: 0;
+        }
+      }
     }
   }
 

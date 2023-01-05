@@ -4,7 +4,7 @@ import {ApiConnectorService} from "../../_service/api-connector.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {ProductDataService} from "../../_service/data/productData.service";
 import {ProductModel} from "../../_models/product.model";
-import {faStar, faCheck} from "@fortawesome/free-solid-svg-icons";
+import {faStar, faCheck, faArrowRight, faArrowLeft} from "@fortawesome/free-solid-svg-icons";
 import { CartDataService } from 'src/app/_service/data/cartData.service';
 import {ToastrService} from "ngx-toastr";
 // import {faInstagram} from "@fortawesome/fontawesome-svg-core"
@@ -23,6 +23,8 @@ export class ProductDetailComponent implements OnInit {
 
   faStar = faStar
   faCheck = faCheck
+  faArrowRight = faArrowRight
+  faArrowLeft = faArrowLeft
 
   constructor(
     private route: ActivatedRoute,
@@ -52,6 +54,10 @@ export class ProductDetailComponent implements OnInit {
   }
 
   slideImage(id: number): void {
+    if (id < 1 || id > this.product.productImages.length) {
+      return;
+    }
+
     this.imgId = id;
 
     const displayWidth = document.querySelector('.img-showcase img:first-child');
