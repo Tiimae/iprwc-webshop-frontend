@@ -1,7 +1,6 @@
 import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
 import {AccountComponent} from "./account/account.component";
-import {InvoicesComponent} from "./invoices/invoices.component";
 
 const routes: Routes = [
 
@@ -26,13 +25,6 @@ const routes: Routes = [
       breadcrumb: 'Addresses'
     }
   },
-  {
-    path: 'invoices', component: InvoicesComponent,
-    data: {
-      breadcrumb: 'Invoices'
-    }
-  },
-
 ];
 
 @NgModule({
