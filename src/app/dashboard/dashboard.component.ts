@@ -11,7 +11,6 @@ export class DashboardComponent implements OnInit {
   constructor(private router: Router) { }
 
   ngOnInit(): void {
-    console.log('configured routes: ', this.router.config);
   }
 
 }

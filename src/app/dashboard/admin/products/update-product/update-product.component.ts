@@ -59,7 +59,6 @@ export class UpdateProductComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    console.log(this.productCreateForm.valid)
     this.route.params.subscribe(async (params) => {
       const currentProductId = params['productId'].replaceAll("*", "/");
       this.productId = CryptoJs.Rabbit.decrypt(currentProductId, await this.api.getDecryptKey()).toString(CryptoJs.enc.Utf8)
@@ -155,7 +154,6 @@ export class UpdateProductComponent implements OnInit {
 
     if (!this.productCreateForm.valid) {
       this.toastr.error('Something is wrong!', 'Failed');
-      console.log(this.productCreateForm)
       return;
     }
 
