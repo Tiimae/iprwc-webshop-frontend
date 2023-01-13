@@ -141,4 +141,9 @@ export class ProductDataService {
       this.deletedProducts$.next(this.deletedProducts);
     })
   }
+
+  setNewReview(productId: string, product: ProductModel) {
+    this.products[this.products.findIndex(currentProduct => currentProduct.id === product.id)] = product;
+    this.products$.next(this.products);
+  }
 }

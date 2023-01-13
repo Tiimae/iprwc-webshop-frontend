@@ -46,24 +46,26 @@ export class SearchbarComponent implements OnInit {
 
     await this.ifItemIsInLocalStorage();
 
-    setTimeout(() => {
-      this.api.getJwtPayload().then(async jwt => {
-        if (jwt?.userId != undefined) {
-          this.userDataService.users$.subscribe(res => {
-            const user: UserModel | undefined = res.find(currentUser => currentUser.id === jwt.userId)
-            if (user == undefined) {
-              return;
-            }
+    if (this.getLoggedIn()) {
+      setTimeout(() => {
+        this.api.getJwtPayload().then(async jwt => {
+          if (jwt?.userId != undefined) {
+            this.userDataService.users$.subscribe(res => {
+              const user: UserModel | undefined = res.find(currentUser => currentUser.id === jwt.userId)
+              if (user == undefined) {
+                return;
+              }
 
-            if (user.middleName == '') {
-              this.username = user.firstName + ' ' + user.lastName
-            } else {
-              this.username = user.firstName + ' ' + user.middleName + ' ' + user.lastName
-            }
-          })
-        }
-      });
-    }, 200)
+              if (user.middleName == '') {
+                this.username = user.firstName + ' ' + user.lastName
+              } else {
+                this.username = user.firstName + ' ' + user.middleName + ' ' + user.lastName
+              }
+            })
+          }
+        });
+      }, 200)
+    }
   }
 
   public async ifItemIsInLocalStorage(): Promise<void> {

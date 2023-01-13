@@ -19,7 +19,7 @@ export class CategoryDataService {
   }
 
   public async getAllCategories(): Promise<void> {
-    await ApiMethodsService.getInstance().get('category', true).then(r => {
+    await ApiMethodsService.getInstance().get('category', false).then(r => {
       this.categories = r.data.payload
       this.categories$.next(this.categories)
     });

@@ -167,6 +167,7 @@ export class UpdateProductComponent implements OnInit {
       this.currentSupplier,
       [],
       [],
+      this.product.reviews,
       false
     );
 

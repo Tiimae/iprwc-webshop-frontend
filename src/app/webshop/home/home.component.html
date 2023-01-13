@@ -1,5 +1,10 @@
+<section class="flex w-full items-center justify-center bg-[#e10600] pb-4">
+    <p class="mr-4 text-white cursor-pointer" (click)="showProducts('all')" >All</p>
+    <p class="mr-4 text-white cursor-pointer" *ngFor="let category of categories" (click)="showProducts(category.categoryName)">{{ category.categoryName }}</p>
+</section>
+
 <main class="container">
   <section class="items">
-    <app-product *ngFor="let product of products" [product]="product"></app-product>
+    <app-product *ngFor="let product of productsToShow" [product]="product"></app-product>
   </section>
 </main>

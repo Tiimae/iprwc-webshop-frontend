@@ -8,6 +8,8 @@ import { ProductDetailComponent } from './product-detail/product-detail.componen
 import {FontAwesomeModule} from "@fortawesome/angular-fontawesome";
 import {CheckoutModule} from "./checkout/checkout.module";
 import {CartModule} from "./cart/cart.module";
+import { ReviewComponent } from './product-detail/review/review.component';
+import {ReactiveFormsModule} from "@angular/forms";
 
 
 @NgModule({
@@ -15,13 +17,15 @@ import {CartModule} from "./cart/cart.module";
     HomeComponent,
     ProductComponent,
     ProductDetailComponent,
+    ReviewComponent,
   ],
   imports: [
     CommonModule,
     WebshopRoutingModule,
     FontAwesomeModule,
     CheckoutModule,
-    CartModule
+    CartModule,
+    ReactiveFormsModule
   ]
 })
 export class WebshopModule { }
