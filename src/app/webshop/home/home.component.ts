@@ -76,7 +76,9 @@ export class HomeComponent implements OnInit {
       }
     })
 
-    this.productsToShow = this.products;
+    setTimeout(() => {
+      this.productsToShow = this.products;
+    }, 100)
   }
 
   showProducts(category: string): void {

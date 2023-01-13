@@ -14,9 +14,9 @@ const routes: Routes = [
     path: "product/:productId",
     component: ProductDetailComponent,
     data: {
-      breadcrumb: (data: any) => `${data.product.productName}`
+      breadcrumb: (data: any) => `${data.product.productName}`,
     },
-    resolve: {product: ProductResolverService}
+    resolve: {product: ProductResolverService},
   },
   {
     path: "cart",
