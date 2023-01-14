@@ -56,7 +56,8 @@ export class UpdateProductComponent implements OnInit {
     private route: ActivatedRoute,
     private toastr: ToastrService,
     private api: ApiConnectorService
-  ) { }
+  ) {
+  }
 
   ngOnInit(): void {
     this.route.params.subscribe(async (params) => {
@@ -142,7 +143,7 @@ export class UpdateProductComponent implements OnInit {
     const price: number = Number(this.productCreateForm.controls.price.value);
     const description = this.productCreateForm.controls.description.value;
 
-    if (name == null || price == null || description == null || this.currentSupplier == undefined || this.currentBrand == undefined || this.currentCategory == undefined || this.images.length == 0) {
+    if (name == null || price == null || description == null || this.currentSupplier == undefined || this.currentBrand == undefined || this.currentCategory == undefined || this.addedImages.length == 0) {
       this.toastr.error('Something is wrong!', 'Failed');
       return;
     }
