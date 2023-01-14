@@ -68,8 +68,8 @@ export class SupplierDataService {
     let check = true
 
     this.suppliers.forEach((currentSupplier: SupplierModel) => {
-      if (supplier.name === currentSupplier.name) {
-        this.toastr.error('Supplier name is already in user.', 'Failed');
+      if (supplier.name === currentSupplier.name && supplier.id !== currentSupplier.id) {
+        this.toastr.error('Supplier name is already in suppliers.', 'Failed');
         check = false;
       }
     })
