@@ -27,3 +27,20 @@
   transition: all .5s ease-in-out;
   opacity: 1;
 }
+
+.filter-item {
+  &::after {
+    content: '';
+    display: block;
+    width: 0;
+    height: 2px;
+    background: white;
+    transition: width .5s;
+  }
+
+  &:hover {
+   &::after {
+     width: 100%;
+   }
+  }
+}
