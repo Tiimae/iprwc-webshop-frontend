@@ -121,6 +121,7 @@ export class CreateProductComponent implements OnInit {
       this.currentSupplier,
       [],
       [],
+      [],
       false
     );
 

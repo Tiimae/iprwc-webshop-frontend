@@ -91,7 +91,7 @@ export class UserDataService {
 
     this.users.forEach((currentUser: UserModel) => {
       if (user.email === currentUser.email && user.id != currentUser.id) {
-        this.toastr.error('Email is already in user.', 'Failed');
+        this.toastr.error('Email already exists.', 'Failed');
         check = false;
       }
     })

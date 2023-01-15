@@ -4,7 +4,7 @@
       <figure class="item-image">
         <img src="{{ product.productImages[0].imagePath }}" alt="{{ product.productName }}" class="item-images-front">
       </figure>
-      <figure class="item-image">
+      <figure class="item-image" *ngIf="product.productImages[1]">
         <img src="{{ product.productImages[1].imagePath }}" alt="{{ product.productName }}" class="item-images-back">
       </figure>
     </section>

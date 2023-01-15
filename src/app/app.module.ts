@@ -6,7 +6,7 @@ import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
 import {NavigationComponent} from './navigation/navigation.component';
 import {SearchbarComponent} from './navigation/searchbar/searchbar.component';
-import {FormsModule} from "@angular/forms";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {HttpClientModule} from "@angular/common/http";
 import {PageNotFoundComponent} from './page-not-found/page-not-found.component';
 import {DashboardComponent} from './dashboard/dashboard.component';
@@ -29,6 +29,7 @@ import {SharedModule} from "./_shared/shared.module";
     BrowserModule,
     AppRoutingModule,
     FormsModule,
+    ReactiveFormsModule,
     HttpClientModule,
     FontAwesomeModule,
     DashboardModule,

@@ -11,12 +11,15 @@ const routes: Routes = [
     path: "", component: HomeComponent
   },
   {
+    path: "search", component: HomeComponent
+  },
+  {
     path: "product/:productId",
     component: ProductDetailComponent,
     data: {
-      breadcrumb: (data: any) => `${data.product.productName}`
+      breadcrumb: (data: any) => `${data.product.productName}`,
     },
-    resolve: {product: ProductResolverService}
+    resolve: {product: ProductResolverService},
   },
   {
     path: "cart",

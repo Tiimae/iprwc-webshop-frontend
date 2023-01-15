@@ -11,13 +11,14 @@ export class HasRoleGuard implements CanActivate {
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
     return new ApiConnectorService().getJwtPayload().then((res): boolean => {
-      const rolesOnRoute: null | Array<string> = route.data['roles'];
+      let matchingRoles: string[] | undefined;
+        const rolesOnRoute: null | Array<string> = route.data['roles'];
 
-      const matchingRoles = rolesOnRoute?.filter((role: string) => {
-        const rolesOnJwt: Array<string> = res['roles'];
+        matchingRoles = rolesOnRoute?.filter((role: string) => {
+          const rolesOnJwt: Array<string> = res['roles'];
 
-        return rolesOnJwt.includes(role);
-      });
+          return rolesOnJwt.includes(role);
+        });
 
       return (matchingRoles?.length ?? 0) !== 0;
     });

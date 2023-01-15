@@ -7,6 +7,7 @@ import {ProductModel} from "../../_models/product.model";
 import {faStar, faCheck, faArrowRight, faArrowLeft} from "@fortawesome/free-solid-svg-icons";
 import { CartDataService } from 'src/app/_service/data/cartData.service';
 import {ToastrService} from "ngx-toastr";
+import {ReviewModel} from "../../_models/review.model";
 // import {faInstagram} from "@fortawesome/fontawesome-svg-core"
 
 @Component({
@@ -18,6 +19,7 @@ export class ProductDetailComponent implements OnInit {
 
   productId!: string;
   product!: ProductModel
+  stars: number = 0;
 
   imgId: number = 1
 
@@ -35,8 +37,8 @@ export class ProductDetailComponent implements OnInit {
     private api: ApiConnectorService
   ) { }
 
-  ngOnInit(): void {
-    this.route.params.subscribe(async (params) => {
+  async ngOnInit(): Promise<void> {
+    await this.route.params.subscribe(async (params) => {
       const currentProductId = params['productId'].replaceAll("*", "/");
       this.productId = CryptoJs.Rabbit.decrypt(currentProductId, await this.api.getDecryptKey()).toString(CryptoJs.enc.Utf8)
 
@@ -49,8 +51,24 @@ export class ProductDetailComponent implements OnInit {
           }
 
           this.product = res;
+
+          this.calculateStars();
         })
     })
+  }
+
+  calculateStars(): void {
+    let stars: number = 0;
+
+    if (this.product.reviews.length === 0) {
+      return;
+    }
+
+    this.product.reviews.forEach(review => {
+      stars += review.stars;
+    })
+
+    this.stars = Math.round(stars / this.product.reviews.length * 10) / 10;
   }
 
   slideImage(id: number): void {
@@ -88,5 +106,11 @@ export class ProductDetailComponent implements OnInit {
       this.cartDataService.createProduct(this.product, 1)
     }
     this.toastr.success("Item added successfully to your Cart!", "Added!")
+  }
+
+  addReviewToProduct(event: ReviewModel): void {
+    this.product.reviews.push(event);
+    this.productDataService.setNewReview(this.productId, this.product);
+    this.calculateStars();
   }
 }

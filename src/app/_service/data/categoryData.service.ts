@@ -19,7 +19,7 @@ export class CategoryDataService {
   }
 
   public async getAllCategories(): Promise<void> {
-    await ApiMethodsService.getInstance().get('category', true).then(r => {
+    await ApiMethodsService.getInstance().get('category', false).then(r => {
       this.categories = r.data.payload
       this.categories$.next(this.categories)
     });
@@ -76,8 +76,8 @@ export class CategoryDataService {
     let check = true
 
     this.categories.forEach((currentCategory: CategoryModel) => {
-      if (category.categoryName === currentCategory.categoryName) {
-        this.toastr.error('Category name is already in user.', 'Failed');
+      if (category.categoryName === currentCategory.categoryName && currentCategory.id !== category.id) {
+        this.toastr.error('Category name is already in categories.', 'Failed');
         check = false;
       }
     })

@@ -26,7 +26,7 @@ export class BrandDataService {
   }
 
   public async getAll(): Promise<void> {
-    await ApiMethodsService.getInstance().get('brand', true).then(r => {
+    await ApiMethodsService.getInstance().get('brand', false).then(r => {
       this.brands = r.data.payload
       this.brands$.next(this.brands)
     });

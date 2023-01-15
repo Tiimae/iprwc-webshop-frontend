@@ -28,13 +28,13 @@
         <h2 class="product-title">{{ product.productName }}</h2>
         <a href="{{ product.brand.webPage }}" target="blank" class="product-link">visit {{ product.brand.brandName }}
           store</a>
-        <section class="product-rating">
-          <fa-icon [icon]="faStar"></fa-icon>
-          <fa-icon [icon]="faStar"></fa-icon>
-          <fa-icon [icon]="faStar"></fa-icon>
-          <fa-icon [icon]="faStar"></fa-icon>
-          <fa-icon [icon]="faStar"></fa-icon>
-          <span>4.7(21)</span>
+        <section>
+          <fa-icon [icon]="faStar" class="{{ stars >= 1 ? 'product-rating' : '' }}"></fa-icon>
+          <fa-icon [icon]="faStar" class="{{ stars >= 2 ? 'product-rating' : '' }}"></fa-icon>
+          <fa-icon [icon]="faStar" class="{{ stars >= 3 ? 'product-rating' : '' }}"></fa-icon>
+          <fa-icon [icon]="faStar" class="{{ stars >= 4 ? 'product-rating' : '' }}"></fa-icon>
+          <fa-icon [icon]="faStar" class="{{ stars >= 5 ? 'product-rating' : '' }}"></fa-icon>
+          <span>{{ stars }}({{ product.reviews.length }})</span>
         </section>
 
         <section class="product-price">
@@ -103,4 +103,6 @@
       </section>
     </section>
   </section>
+
+  <app-review [reviews]="product  != undefined ? product.reviews : []" [productId]="productId" (addReview)="addReviewToProduct($event)"></app-review>
 </main>

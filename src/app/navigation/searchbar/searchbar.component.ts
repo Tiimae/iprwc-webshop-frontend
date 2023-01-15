@@ -8,6 +8,7 @@ import {CartDataService} from 'src/app/_service/data/cartData.service';
 import {environment} from "../../../environments/environment";
 import {UserDataService} from "../../_service/data/userData.service";
 import {UserModel} from "../../_models/user.model";
+import {FormControl, FormGroup} from "@angular/forms";
 
 @Component({
   selector: 'app-searchbar',
@@ -26,12 +27,16 @@ export class SearchbarComponent implements OnInit {
 
   cartLength: number = 0;
 
+  searchGroup = new FormGroup({
+    search: new FormControl('')
+  })
+
   constructor(
     private router: Router,
     private authService: AuthService,
     private cartDataService: CartDataService,
     private api: ApiConnectorService,
-    private userDataService: UserDataService
+    private userDataService: UserDataService,
   ) {
   }
 
@@ -46,24 +51,26 @@ export class SearchbarComponent implements OnInit {
 
     await this.ifItemIsInLocalStorage();
 
-    setTimeout(() => {
-      this.api.getJwtPayload().then(async jwt => {
-        if (jwt?.userId != undefined) {
-          this.userDataService.users$.subscribe(res => {
-            const user: UserModel | undefined = res.find(currentUser => currentUser.id === jwt.userId)
-            if (user == undefined) {
-              return;
-            }
+    if (this.getLoggedIn()) {
+      setTimeout(() => {
+        this.api.getJwtPayload().then(async jwt => {
+          if (jwt?.userId != undefined) {
+            this.userDataService.users$.subscribe(res => {
+              const user: UserModel | undefined = res.find(currentUser => currentUser.id === jwt.userId)
+              if (user == undefined) {
+                return;
+              }
 
-            if (user.middleName == '') {
-              this.username = user.firstName + ' ' + user.lastName
-            } else {
-              this.username = user.firstName + ' ' + user.middleName + ' ' + user.lastName
-            }
-          })
-        }
-      });
-    }, 200)
+              if (user.middleName == '') {
+                this.username = user.firstName + ' ' + user.lastName
+              } else {
+                this.username = user.firstName + ' ' + user.middleName + ' ' + user.lastName
+              }
+            })
+          }
+        });
+      }, 200)
+    }
   }
 
   public async ifItemIsInLocalStorage(): Promise<void> {
@@ -72,6 +79,15 @@ export class SearchbarComponent implements OnInit {
 
   getLoggedIn(): boolean {
     return SearchbarComponent.loggedIn;
+  }
+
+
+  search(): void {
+    this.router.navigate(['search'], {
+      queryParams: {
+        search: this.searchGroup.controls.search.value
+      }
+    })
   }
 
 }
