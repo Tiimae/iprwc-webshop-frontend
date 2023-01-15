@@ -22,7 +22,15 @@ export class AllCategoriesComponent implements OnInit {
     this.categoryDataService
       .categories$
       .subscribe(r => {
-        this.allCategories = r;
+        this.allCategories = r.sort((a, b) => {
+          if (a.categoryName < b.categoryName) {
+            return -1;
+          }
+          if (a.categoryName > b.categoryName) {
+            return 1;
+          }
+          return 0;
+        });
       });
 
   }

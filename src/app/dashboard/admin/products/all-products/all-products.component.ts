@@ -24,7 +24,15 @@ export class AllProductsComponent implements OnInit {
       .products$
       .subscribe({
         next: (products: ProductModel[]) => {
-          this.allProducts = products;
+          this.allProducts = products.sort((a, b) => {
+            if (a.productName < b.productName) {
+              return -1;
+            }
+            if (a.productName > b.productName) {
+              return 1;
+            }
+            return 0;
+          });
         },
         error(e: Error) {
           throw new Error(e.message);

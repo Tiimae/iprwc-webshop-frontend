@@ -21,7 +21,15 @@ export class AllSuppliersComponent implements OnInit {
     this.supplierDataService
       .suppliers$
       .subscribe(r => {
-        this.allSuppliers = r
+        this.allSuppliers = r.sort((a, b) => {
+          if (a.name < b.name) {
+            return -1;
+          }
+          if (a.name > b.name) {
+            return 1;
+          }
+          return 0;
+        })
       })
   }
 

@@ -26,7 +26,6 @@ export class HomeComponent implements OnInit {
     private authService: AuthService,
     private api: ApiConnectorService,
     private route: ActivatedRoute,
-    private router: Router
   ) {
   }
 
@@ -69,8 +68,16 @@ export class HomeComponent implements OnInit {
 
     await this.categoryService.getAllCategories();
     this.categoryService.categories$.subscribe({
-      next: (products: CategoryModel[]) => {
-        this.categories = products;
+      next: (category: CategoryModel[]) => {
+        this.categories = category.sort((a, b) => {
+          if (a.categoryName < b.categoryName) {
+            return -1;
+          }
+          if (a.categoryName > b.categoryName) {
+            return 1;
+          }
+          return 0;
+        });
       },
       error(e: Error) {
         throw new Error(e.message);
@@ -103,6 +110,16 @@ export class HomeComponent implements OnInit {
         } else {
           this.productsToShow = this.products;
         }
+
+      this.productsToShow.sort((a, b) => {
+          if (a.productName < b.productName) {
+            return -1;
+          }
+          if (a.productName > b.productName) {
+            return 1;
+          }
+          return 0;
+        });
       })
       setTimeout(() => {
         this.reveal(null);

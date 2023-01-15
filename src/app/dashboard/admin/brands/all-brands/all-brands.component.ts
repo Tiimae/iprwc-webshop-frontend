@@ -23,7 +23,15 @@ export class AllBrandsComponent implements OnInit {
     this.brandDataService
       .brands$
       .subscribe(r => {
-        this.brands = r
+        this.brands = r.sort((a, b) => {
+          if (a.brandName < b.brandName) {
+            return -1;
+          }
+          if (a.brandName > b.brandName) {
+            return 1;
+          }
+          return 0;
+        })
       })
   }
 

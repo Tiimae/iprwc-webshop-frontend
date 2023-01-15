@@ -21,7 +21,15 @@ export class AllUsersComponent implements OnInit {
     (await this.userDataService
       .users$)
       .subscribe(r => {
-        this.allUsers = r
+        this.allUsers = r.sort((a, b) => {
+          if (a.firstName < b.firstName) {
+            return -1;
+          }
+          if (a.firstName > b.firstName) {
+            return 1;
+          }
+          return 0;
+        })
       });
   }
 
