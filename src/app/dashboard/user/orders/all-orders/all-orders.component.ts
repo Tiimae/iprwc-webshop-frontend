@@ -39,28 +39,14 @@ export class AllOrdersComponent implements OnInit {
     this.userOrders = this.userOrders.sort((a, b) => {
       let comparison = 0;
       if (a.orderDate > b.orderDate) {
-        comparison = 1;
-      } else if (a.orderDate < b.orderDate) {
         comparison = -1;
+      } else if (a.orderDate < b.orderDate) {
+        comparison = 1;
       }
       return comparison;
     });
 
     AppComponent.isLoading = false;
-  }
-
-  compare(a: OrderModel, b: OrderModel) {
-    // Use toUpperCase() to ignore character casing
-    const bandA = a.orderId;
-    const bandB = b.orderId;
-
-    let comparison = 0;
-    if (bandA > bandB) {
-      comparison = 1;
-    } else if (bandA < bandB) {
-      comparison = -1;
-    }
-    return comparison;
   }
 
 }
