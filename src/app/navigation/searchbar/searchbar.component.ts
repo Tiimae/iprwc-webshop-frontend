@@ -8,6 +8,7 @@ import {CartDataService} from 'src/app/_service/data/cartData.service';
 import {environment} from "../../../environments/environment";
 import {UserDataService} from "../../_service/data/userData.service";
 import {UserModel} from "../../_models/user.model";
+import {FormControl, FormGroup} from "@angular/forms";
 
 @Component({
   selector: 'app-searchbar',
@@ -26,12 +27,16 @@ export class SearchbarComponent implements OnInit {
 
   cartLength: number = 0;
 
+  searchGroup = new FormGroup({
+    search: new FormControl('')
+  })
+
   constructor(
     private router: Router,
     private authService: AuthService,
     private cartDataService: CartDataService,
     private api: ApiConnectorService,
-    private userDataService: UserDataService
+    private userDataService: UserDataService,
   ) {
   }
 
@@ -74,6 +79,15 @@ export class SearchbarComponent implements OnInit {
 
   getLoggedIn(): boolean {
     return SearchbarComponent.loggedIn;
+  }
+
+
+  search(): void {
+    this.router.navigate(['search'], {
+      queryParams: {
+        search: this.searchGroup.controls.search.value
+      }
+    })
   }
 
 }

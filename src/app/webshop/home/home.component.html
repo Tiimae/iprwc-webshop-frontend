@@ -1,10 +1,10 @@
-<section class="flex w-full items-center justify-center bg-[#e10600] pb-4 hidden lg:flex lg:flex-wrap">
+<section class="flex w-full items-center justify-center bg-[#e10600] pb-4 hidden lg:flex lg:flex-wrap" *ngIf="!uri">
     <p class="mr-4 text-white cursor-pointer" (click)="showProducts('all')" >All</p>
     <p class="mr-4 text-white cursor-pointer" *ngFor="let category of categories" (click)="showProducts(category.categoryName)">{{ category.categoryName }}</p>
 </section>
 
 <main class="container">
-  <section class="items">
-    <app-product *ngFor="let product of productsToShow" [product]="product"></app-product>
+  <section class="items" (scroll)="reveal($event)" (load)="reveal($event)">
+    <app-product *ngFor="let product of productsToShow" [product]="product" class="reveal"></app-product>
   </section>
 </main>
