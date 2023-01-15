@@ -6,6 +6,7 @@ import {UserDataService} from "../../../../_service/data/userData.service";
 import {ApiConnectorService} from "../../../../_service/api-connector.service";
 import * as CryptoJs from "crypto-js";
 import {Router} from "@angular/router";
+import {AppComponent} from "../../../../app.component";
 
 @Component({
   selector: 'app-all-addresses',
@@ -24,6 +25,8 @@ export class AllAddressesComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    AppComponent.isLoading = true;
+
     this.api.getJwtPayload().then(payload => {
 
       setTimeout(() => {
@@ -44,6 +47,8 @@ export class AllAddressesComponent implements OnInit {
         })
       }, 200)
     });
+
+    AppComponent.isLoading = false;
   }
 
   async changeURL(event: UserAddressesModel, type: string) {

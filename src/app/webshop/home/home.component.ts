@@ -6,6 +6,7 @@ import {ApiConnectorService} from "../../_service/api-connector.service";
 import {CategoryDataService} from "../../_service/data/categoryData.service";
 import {CategoryModel} from "../../_models/category.model";
 import {ActivatedRoute, Router} from "@angular/router";
+import {AppComponent} from "../../app.component";
 
 @Component({
   selector: 'app-home',
@@ -13,6 +14,7 @@ import {ActivatedRoute, Router} from "@angular/router";
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
+  isLoading: boolean = false;
 
   products: ProductModel[] = []
   categories: CategoryModel[] = []
@@ -30,7 +32,7 @@ export class HomeComponent implements OnInit {
   }
 
   async ngOnInit(): Promise<void> {
-
+    AppComponent.isLoading = true;
     const jwtToken = localStorage.getItem('blank-token');
 
     if (localStorage.getItem('blank-token') !== null) {
@@ -125,6 +127,8 @@ export class HomeComponent implements OnInit {
         this.reveal(null);
       }, 200)
     }, 100)
+
+    AppComponent.isLoading = false;
   }
 
   showProducts(category: string): void {

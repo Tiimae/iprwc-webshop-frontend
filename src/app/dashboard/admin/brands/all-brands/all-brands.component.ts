@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {BrandModel} from "../../../../_models/brand.model";
 import {BrandDataService} from "../../../../_service/data/brandData.service";
 import {ToastrService} from "ngx-toastr";
+import {AppComponent} from "../../../../app.component";
 
 @Component({
   selector: 'app-all-brands',
@@ -19,6 +20,7 @@ export class AllBrandsComponent implements OnInit {
   }
 
   async ngOnInit(): Promise<void> {
+    AppComponent.isLoading = true;
 
     this.brandDataService
       .brands$
@@ -33,6 +35,8 @@ export class AllBrandsComponent implements OnInit {
           return 0;
         })
       })
+
+    AppComponent.isLoading = false;
   }
 
   public removeUser(event: BrandModel): void {

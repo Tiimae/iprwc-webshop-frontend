@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {ProductDataService} from "../../../../_service/data/productData.service";
 import {ProductModel} from "../../../../_models/product.model";
 import {ToastrService} from "ngx-toastr";
+import {AppComponent} from "../../../../app.component";
 
 @Component({
   selector: 'app-all-products',
@@ -20,6 +21,9 @@ export class AllProductsComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+
+    AppComponent.isLoading = true;
+
     this.productDataService
       .products$
       .subscribe({
@@ -55,6 +59,7 @@ export class AllProductsComponent implements OnInit {
           console.log("complete")
         }
       })
+    AppComponent.isLoading = false;
   }
 
   removeProductOutArray(event: ProductModel): void {

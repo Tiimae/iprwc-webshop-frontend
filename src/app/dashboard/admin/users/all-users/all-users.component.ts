@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import {UserModel} from "../../../../_models/user.model";
 import {UserDataService} from "../../../../_service/data/userData.service";
+import {AppComponent} from "../../../../app.component";
 
 @Component({
   selector: 'app-all-users',
@@ -18,6 +19,8 @@ export class AllUsersComponent implements OnInit {
   ) { }
 
   async ngOnInit(): Promise<void> {
+    AppComponent.isLoading = true;
+
     (await this.userDataService
       .users$)
       .subscribe(r => {
@@ -31,6 +34,8 @@ export class AllUsersComponent implements OnInit {
           return 0;
         })
       });
+
+    AppComponent.isLoading = false;
   }
 
   public removeUserOutArray(user: UserModel): void {

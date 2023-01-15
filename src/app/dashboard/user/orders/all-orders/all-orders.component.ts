@@ -3,6 +3,7 @@ import {UserDataService} from "../../../../_service/data/userData.service";
 import {ApiConnectorService} from "../../../../_service/api-connector.service";
 import {UserModel} from "../../../../_models/user.model";
 import {OrderModel} from "../../../../_models/order.model";
+import {AppComponent} from "../../../../app.component";
 
 @Component({
   selector: 'app-all-orders',
@@ -20,6 +21,7 @@ export class AllOrdersComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    AppComponent.isLoading = true;
     this.api.getJwtPayload().then(payload => {
 
       setTimeout(() => {
@@ -34,7 +36,17 @@ export class AllOrdersComponent implements OnInit {
       }, 200)
     });
 
-    this.userOrders = this.userOrders.sort(this.compare);
+    this.userOrders = this.userOrders.sort((a, b) => {
+      let comparison = 0;
+      if (a.orderDate > b.orderDate) {
+        comparison = 1;
+      } else if (a.orderDate < b.orderDate) {
+        comparison = -1;
+      }
+      return comparison;
+    });
+
+    AppComponent.isLoading = false;
   }
 
   compare(a: OrderModel, b: OrderModel) {

@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {CategoryModel} from 'src/app/_models/category.model';
 import {CategoryDataService} from "../../../../_service/data/categoryData.service";
 import {ToastrService} from "ngx-toastr";
+import {AppComponent} from "../../../../app.component";
 
 @Component({
   selector: 'app-all-categories',
@@ -18,6 +19,7 @@ export class AllCategoriesComponent implements OnInit {
   ) { }
 
   async ngOnInit(): Promise<void> {
+    AppComponent.isLoading = true;
 
     this.categoryDataService
       .categories$
@@ -33,6 +35,7 @@ export class AllCategoriesComponent implements OnInit {
         });
       });
 
+    AppComponent.isLoading = false;
   }
 
   removeCategoryOutArray(event: CategoryModel): void {

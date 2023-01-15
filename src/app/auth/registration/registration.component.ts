@@ -6,6 +6,7 @@ import {FormControl, FormGroup, NgForm, Validators} from "@angular/forms";
 import {ApiConnectorService} from "../../_service/api-connector.service";
 import {AuthService} from '../../_service/auth.service';
 import {ToastrService} from "ngx-toastr";
+import {AppComponent} from "../../app.component";
 
 @Component({
   selector: 'app-registration',
@@ -48,6 +49,8 @@ export class RegistrationComponent implements OnInit {
   }
 
   async ngOnInit() {
+    AppComponent.isLoading = true;
+
     const jwtToken = localStorage.getItem('blank-token');
 
     if (localStorage.getItem('blank-token') !== null) {
@@ -74,20 +77,26 @@ export class RegistrationComponent implements OnInit {
       } catch (err) {
       }
     }
+
+    AppComponent.isLoading = false;
   }
 
   toNextStep(): void {
+    AppComponent.isLoading = true;
+
     const firstname = this.firstRegistrationForm.controls.firstname.value
     const middlename = this.firstRegistrationForm.controls.middlename.value
     const lastname = this.firstRegistrationForm.controls.lastname.value
 
     if (firstname == null || lastname == null) {
       this.toastr.error("Something went wrong!", "Failed");
+      AppComponent.isLoading = false;
       return;
     }
 
     if (!this.firstRegistrationForm.valid) {
       this.toastr.error("Something went wrong!", "Failed");
+      AppComponent.isLoading = false;
       return;
     }
 
@@ -98,30 +107,38 @@ export class RegistrationComponent implements OnInit {
     this.lastname = lastname;
 
     this.step = 2
+
+    AppComponent.isLoading = false;
   }
 
   async onSubmit() {
+    AppComponent.isLoading = true;
+
     const email = this.secondRegistrationForm.controls.email.value
     const password = this.secondRegistrationForm.controls.password.value
     const passwordCheck = this.secondRegistrationForm.controls.passwordCheck.value
 
     if (email == null || password == null || passwordCheck == null) {
       this.toastr.error("Something went wrong!", "Failed");
+      AppComponent.isLoading = false;
       return;
     }
 
     if (!this.secondRegistrationForm.controls.terms.valid) {
       this.toastr.error("Accept the terms and conditions", "Failed");
+      AppComponent.isLoading = false;
       return;
     }
 
     if (password !== passwordCheck) {
       this.toastr.error("Passwords doesn't match", "Failed");
+      AppComponent.isLoading = false;
       return;
     }
 
     if (!this.secondRegistrationForm.valid) {
       this.toastr.error("Something went wrong!", "Failed");
+      AppComponent.isLoading = false;
       return;
     }
 
@@ -141,6 +158,7 @@ export class RegistrationComponent implements OnInit {
       }
     });
 
+    AppComponent.isLoading = false;
   }
 
 }

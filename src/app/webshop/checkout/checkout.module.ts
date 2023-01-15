@@ -6,6 +6,7 @@ import { UserAddressComponent } from './pay/user-address/user-address.component'
 import {CartComponent} from "../cart/cart.component";
 import {CartModule} from "../cart/cart.module";
 import {UserAddressesModel} from "../../_models/userAddresses.model";
+import {SharedModule} from "../../_shared/shared.module";
 
 
 
@@ -20,7 +21,8 @@ import {UserAddressesModel} from "../../_models/userAddresses.model";
   imports: [
     CommonModule,
     ReactiveFormsModule,
-    CartModule
+    CartModule,
+    SharedModule
   ]
 })
 export class CheckoutModule { }

@@ -6,6 +6,7 @@ import {Router} from "@angular/router";
 import {faEnvelope, faKey} from "@fortawesome/free-solid-svg-icons";
 import {FormControl, FormGroup, NgForm, Validators} from "@angular/forms";
 import {ToastrService} from 'ngx-toastr';
+import {AppComponent} from "../../app.component";
 
 @Component({
   selector: 'app-login',
@@ -37,6 +38,7 @@ export class LoginComponent implements OnInit {
   }
 
   async ngOnInit() {
+    AppComponent.isLoading = true;
     if (localStorage.getItem('jwt-token')) {
       try {
         const tokenPayload = await this.api.getJwtPayload();
@@ -50,9 +52,13 @@ export class LoginComponent implements OnInit {
       } catch (err) {
       }
     }
+
+
+    AppComponent.isLoading = false;
   }
 
   public async onSubmit() {
+    AppComponent.isLoading = true;
 
     const email = this.loginForm.controls.email.value
     const password = this.loginForm.controls.password.value
@@ -79,5 +85,7 @@ export class LoginComponent implements OnInit {
         this.toastr.error("Credentials doesnt match!", r.data.message);
       }
     })
+
+    AppComponent.isLoading = false;
   }
 }

@@ -1,4 +1,8 @@
 <main>
+  <div *ngIf="getIsLoading()">
+    <app-loading-spinner></app-loading-spinner>
+  </div>
+
   <app-navigation></app-navigation>
 
   <router-outlet></router-outlet>

@@ -6,6 +6,7 @@ import {UserModel} from "../../../../_models/user.model";
 import {UserDataService} from "../../../../_service/data/userData.service";
 import {RoleDataService} from "../../../../_service/data/roleData.service";
 import { ToastrService } from 'ngx-toastr';
+import {AppComponent} from "../../../../app.component";
 
 @Component({
   selector: 'app-create-user',
@@ -40,14 +41,20 @@ export class CreateUserComponent implements OnInit {
   }
 
   async ngOnInit(): Promise<void> {
+    AppComponent.isLoading = true;
+
     (await this.roleDataService
       .getAll())
       .subscribe(r => {
         this.roles = r;
       })
+
+    AppComponent.isLoading = false;
   }
 
   public onSubmit(): void {
+    AppComponent.isLoading = true;
+
     const firstname = this.userCreateForm.controls.firstname.value;
     const middlename = this.userCreateForm.controls.middlename.value;
     const lastname = this.userCreateForm.controls.lastname.value;
@@ -55,11 +62,13 @@ export class CreateUserComponent implements OnInit {
 
     if (firstname == null || lastname == null || email == null || this.userRoles.length == null) {
       this.toastr.error('Something is wrong!', 'Failed');
+      AppComponent.isLoading = false;
       return
     }
 
     if (!this.userCreateForm.valid) {
       this.toastr.error('Something is wrong!', 'Failed');
+      AppComponent.isLoading = false;
       return;
     }
 
@@ -80,6 +89,8 @@ export class CreateUserComponent implements OnInit {
       this.toastr.success("User has been created successfully!", "Created");
       this.router.navigate(['dashboard', 'admin', 'users']);
     }
+
+    AppComponent.isLoading = false;
   }
 
   public removeRoleOutArray(event: string) {
