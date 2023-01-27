@@ -8,6 +8,7 @@ import {RoleModel} from "../../../../_models/role.model";
 import {UserDataService} from "../../../../_service/data/userData.service";
 import {RoleDataService} from "../../../../_service/data/roleData.service";
 import {ToastrService} from 'ngx-toastr';
+import {AppComponent} from "../../../../app.component";
 
 @Component({
   selector: 'app-update-user',
@@ -46,6 +47,8 @@ export class UpdateUserComponent implements OnInit {
   }
 
   async ngOnInit(): Promise<void> {
+    AppComponent.isLoading = false;
+
     this.route.params.subscribe(async (params) => {
       const currentUserId = params['userId'].replaceAll("*", "/");
       this.userId = CryptoJs.Rabbit.decrypt(currentUserId, await this.api.getDecryptKey()).toString(CryptoJs.enc.Utf8)
@@ -78,9 +81,14 @@ export class UpdateUserComponent implements OnInit {
         this.roles = r;
         this.userEditForm.controls.role.setValue(this.roles[0].name);
       })
+
+
+    AppComponent.isLoading = false;
   }
 
   public onSubmit(): void {
+    AppComponent.isLoading = true;
+
     const firstname = this.userEditForm.controls.firstname.value;
     const middlename = this.userEditForm.controls.middlename.value;
     const lastname = this.userEditForm.controls.lastname.value;
@@ -88,11 +96,13 @@ export class UpdateUserComponent implements OnInit {
 
     if (firstname == null || lastname == null || email == null || this.userRoles.length == null) {
       this.toastr.error('Something is wrong!', 'Failed');
+      AppComponent.isLoading = false;
       return
     }
 
     if (!this.userEditForm.valid) {
       this.toastr.error('Something is wrong!', 'Failed');
+      AppComponent.isLoading = false;
       return;
     }
 
@@ -115,6 +125,7 @@ export class UpdateUserComponent implements OnInit {
         this.router.navigate(['dashboard', 'admin', 'users'])
       }
     }
+    AppComponent.isLoading = false;
 
   }
 

@@ -4,6 +4,7 @@ import {AuthService} from "../../_service/auth.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {AxiosResponse} from "axios";
 import {ToastrService} from "ngx-toastr";
+import {AppComponent} from "../../app.component";
 
 @Component({
   selector: 'app-reset-password',
@@ -29,30 +30,37 @@ export class ResetPasswordComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    AppComponent.isLoading = true;
     this.token = this.route.snapshot.queryParamMap.get('token');
 
     if (this.token == null) {
       this.router.navigate(["/"])
     }
+    AppComponent.isLoading = false;
   }
 
   onSubmit(): void {
+
+    AppComponent.isLoading = true;
     const email = this.resetPasswordForm.controls.email.value;
     const password = this.resetPasswordForm.controls.password.value;
     const passwordCheck = this.resetPasswordForm.controls.passwordCheck.value;
 
     if (email == null || password == null || passwordCheck == null || this.token == null) {
       this.toastr.error("Something went wrong!", "Failed");
+      AppComponent.isLoading = false;
       return;
     }
 
     if (password !== passwordCheck) {
       this.toastr.error("Passwords doesn't match!", "Failed");
+      AppComponent.isLoading = false;
       return;
     }
 
     if (!this.resetPasswordForm.valid) {
       this.toastr.error("Something went wrong!", "Failed");
+      AppComponent.isLoading = false;
       return;
     }
 
@@ -71,5 +79,8 @@ export class ResetPasswordComponent implements OnInit {
         }
 
       });
+
+
+    AppComponent.isLoading = false;
   }
 }

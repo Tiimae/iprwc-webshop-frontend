@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {ProductDataService} from "../../../../_service/data/productData.service";
 import {ProductModel} from "../../../../_models/product.model";
 import {ToastrService} from "ngx-toastr";
+import {AppComponent} from "../../../../app.component";
 
 @Component({
   selector: 'app-all-products',
@@ -20,11 +21,22 @@ export class AllProductsComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+
+    AppComponent.isLoading = true;
+
     this.productDataService
       .products$
       .subscribe({
         next: (products: ProductModel[]) => {
-          this.allProducts = products;
+          this.allProducts = products.sort((a, b) => {
+            if (a.productName < b.productName) {
+              return -1;
+            }
+            if (a.productName > b.productName) {
+              return 1;
+            }
+            return 0;
+          });
         },
         error(e: Error) {
           throw new Error(e.message);
@@ -47,6 +59,7 @@ export class AllProductsComponent implements OnInit {
           console.log("complete")
         }
       })
+    AppComponent.isLoading = false;
   }
 
   removeProductOutArray(event: ProductModel): void {

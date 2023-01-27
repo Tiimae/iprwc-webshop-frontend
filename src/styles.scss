@@ -52,6 +52,10 @@ p {
 
 .container {
   width: 90%;
+  animation: headerButton;
+  animation-duration: 1s;
+  animation-delay: 0.2s;
+  animation-fill-mode: backwards;
 }
 
 .scrolling-items-y {
@@ -92,4 +96,15 @@ body {
   // Firefox
   scrollbar-width: thin;
   scrollbar-color: $scrollbar-1-thumb-color $scrollbar-1-track-color;
+}
+
+
+@keyframes headerButton {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
 }

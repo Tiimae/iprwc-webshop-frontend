@@ -17,6 +17,7 @@ import {Router} from "@angular/router";
 })
 export class PayComponent implements OnInit {
 
+  isLoading: boolean = false;
   user!: UserModel;
   deliveryAddresses: UserAddressesModel[] = [];
   invoiceAddresses: UserAddressesModel[] = [];
@@ -32,6 +33,8 @@ export class PayComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.isLoading = true;
+
     this.api.getJwtPayload().then(payload => {
 
       setTimeout(() => {
@@ -52,6 +55,8 @@ export class PayComponent implements OnInit {
         })
       }, 200)
     });
+
+    this.isLoading = false;
   }
 
   changeSeclectedDeliveryAddress(address: UserAddressesModel) {

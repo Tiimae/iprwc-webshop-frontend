@@ -6,6 +6,7 @@ import {ApiConnectorService} from "../../_service/api-connector.service";
 import {CategoryDataService} from "../../_service/data/categoryData.service";
 import {CategoryModel} from "../../_models/category.model";
 import {ActivatedRoute, Router} from "@angular/router";
+import {AppComponent} from "../../app.component";
 
 @Component({
   selector: 'app-home',
@@ -13,6 +14,7 @@ import {ActivatedRoute, Router} from "@angular/router";
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
+  isLoading: boolean = false;
 
   products: ProductModel[] = []
   categories: CategoryModel[] = []
@@ -26,12 +28,11 @@ export class HomeComponent implements OnInit {
     private authService: AuthService,
     private api: ApiConnectorService,
     private route: ActivatedRoute,
-    private router: Router
   ) {
   }
 
   async ngOnInit(): Promise<void> {
-
+    AppComponent.isLoading = true;
     const jwtToken = localStorage.getItem('blank-token');
 
     if (localStorage.getItem('blank-token') !== null) {
@@ -53,11 +54,21 @@ export class HomeComponent implements OnInit {
       }
     }
 
-    this.productDataService
+    await this.productDataService
       .products$
       .subscribe({
         next: (products: ProductModel[]) => {
           this.products = products;
+          this.productsToShow = this.products
+          this.productsToShow.sort((a, b) => {
+            if (a.productName < b.productName) {
+              return -1;
+            }
+            if (a.productName > b.productName) {
+              return 1;
+            }
+            return 0;
+          });
         },
         error(e: Error) {
           throw new Error(e.message);
@@ -68,9 +79,19 @@ export class HomeComponent implements OnInit {
       })
 
     await this.categoryService.getAllCategories();
-    this.categoryService.categories$.subscribe({
-      next: (products: CategoryModel[]) => {
-        this.categories = products;
+    await this.categoryService.categories$.subscribe({
+      next: (category: CategoryModel[]) => {
+        this.categories = category.sort((a, b) => {
+          if (a.categoryName < b.categoryName) {
+            return -1;
+          }
+          if (a.categoryName > b.categoryName) {
+            return 1;
+          }
+          return 0;
+        });
+
+        this.reveal(null)
       },
       error(e: Error) {
         throw new Error(e.message);
@@ -80,40 +101,34 @@ export class HomeComponent implements OnInit {
       }
     })
 
+    this.route.url.subscribe(res => {
+      if (res[0] != undefined) {
+        this.uri = true
+      }
+    })
+
+    this.route.queryParams.subscribe(params => {
+      if (params["search"] != null) {
+        this.productsToShow = []
+        this.products.forEach(product => {
+          if (product.productName.toLowerCase().includes(params["search"].toLowerCase()) || product.category.categoryName.toLowerCase().includes(params["search"].toLowerCase())) {
+            this.productsToShow.push(product)
+          }
+        })
+      }
+    })
+
     setTimeout(() => {
-      this.route.url.subscribe(res => {
-        if (res[0] != undefined) {
-          console.log(res)
-          this.uri = true
-        }
-      })
-
-      this.route.queryParams.subscribe(params => {
-        if (params["search"] != null) {
-          this.productsToShow = []
-          this.products.forEach(product => {
-            if (product.productName.toLowerCase().includes(params["search"].toLowerCase()) || product.category.categoryName.toLowerCase().includes(params["search"].toLowerCase())) {
-              this.productsToShow.push(product)
-            }
-          })
-
-          setTimeout(() => {
-            this.reveal(null);
-          }, 200)
-        } else {
-          this.productsToShow = this.products;
-        }
-      })
-      setTimeout(() => {
-        this.reveal(null);
-      }, 200)
-    }, 100)
+      this.reveal(null)
+      AppComponent.isLoading = false;
+    }, 1000)
   }
 
   showProducts(category: string): void {
     this.productsToShow = [];
 
-    if (category === 'all') {
+    if (category === 'all'
+    ) {
       this.productsToShow = this.products;
       setTimeout(() => {
         this.reveal(null)
@@ -135,7 +150,8 @@ export class HomeComponent implements OnInit {
   @HostListener('window:scroll', ['$event'])
   reveal(event: any): void {
     const reveals = document.querySelectorAll(".reveal");
-    for (let i = 0; i < reveals.length; i++) {
+    for (let i = 0; i < reveals.length; i++
+    ) {
       const windowHeight = window.innerHeight;
       const elementTop = reveals[i].getBoundingClientRect().top;
       let elementVisible = 10;

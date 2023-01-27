@@ -3,6 +3,7 @@ import {CartDataService} from 'src/app/_service/data/cartData.service';
 import {ProductModel} from "../../_models/product.model";
 import {Router} from "@angular/router";
 import { ToastrService } from 'ngx-toastr';
+import {AppComponent} from "../../app.component";
 
 @Component({
   selector: 'app-cart',
@@ -10,7 +11,7 @@ import { ToastrService } from 'ngx-toastr';
   styleUrls: ['./cart.component.scss']
 })
 export class CartComponent implements OnInit {
-
+  isLoading:boolean = false;
   cartProducts!: ProductModel[];
   totalProduct: number = 0;
   tax: number = 0;
@@ -26,7 +27,7 @@ export class CartComponent implements OnInit {
   }
 
   ngOnInit(): void {
-
+    AppComponent.isLoading = true;
     this.cartDataService
       .products$
       .subscribe({
@@ -43,6 +44,8 @@ export class CartComponent implements OnInit {
           console.log("complete")
         }
       })
+
+    AppComponent.isLoading = false;
   }
 
   calculateTotalProduct() {

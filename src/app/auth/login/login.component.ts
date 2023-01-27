@@ -1,11 +1,12 @@
-import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-import { ApiConnectorService } from '../../_service/api-connector.service';
-import { AuthService } from '../../_service/auth.service';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { faEnvelope, faKey } from '@fortawesome/free-solid-svg-icons';
-import { ToastrService } from 'ngx-toastr';
-import { AppComponent } from '../../app.component';
+import {Component, OnInit, ViewChild} from '@angular/core';
+import {AuthService} from "../../_service/auth.service";
+import {ApiConnectorService} from "../../_service/api-connector.service";
+import {Router} from "@angular/router";
+
+import {faEnvelope, faKey} from "@fortawesome/free-solid-svg-icons";
+import {FormControl, FormGroup, NgForm, Validators} from "@angular/forms";
+import {ToastrService} from 'ngx-toastr';
+import {AppComponent} from "../../app.component";
 
 @Component({
   selector: 'app-login',
@@ -35,6 +36,7 @@ export class LoginComponent implements OnInit {
   ) {}
 
   async ngOnInit() {
+    AppComponent.isLoading = true;
     if (localStorage.getItem('jwt-token')) {
       try {
         const tokenPayload = await this.api.getJwtPayload();
@@ -50,6 +52,7 @@ export class LoginComponent implements OnInit {
   }
 
   public async onSubmit() {
+    AppComponent.isLoading = true;
 
     const email = this.loginForm.controls.email.value;
     const password = this.loginForm.controls.password.value;

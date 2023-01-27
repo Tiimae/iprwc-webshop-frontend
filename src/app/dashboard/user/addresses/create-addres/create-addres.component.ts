@@ -10,6 +10,7 @@ import {UserModel} from "../../../../_models/user.model";
 import {UserAddressesModel} from "../../../../_models/userAddresses.model";
 import {AddressEnum} from "../../../../_enum/address.enum";
 import {AddressesModule} from "../addresses.module";
+import {AppComponent} from "../../../../app.component";
 
 @Component({
   selector: 'app-create-addres',
@@ -40,6 +41,8 @@ export class CreateAddresComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    AppComponent.isLoading = true;
+
     this.api.getJwtPayload().then(payload => {
       setTimeout(() => {
         this.userDataService.getCurrentUser(payload.userId).subscribe(res => {
@@ -56,9 +59,13 @@ export class CreateAddresComponent implements OnInit {
         })
       }, 400)
     });
+
+    AppComponent.isLoading = false;
   }
 
   onSubmit(): void {
+    AppComponent.isLoading = true;
+
     const deliveryStreet = this.addressForm.controls.street.value
     const deliveryNumber = this.addressForm.controls.number.value
     const deliveryAdditional = this.addressForm.controls.additional.value
@@ -68,16 +75,19 @@ export class CreateAddresComponent implements OnInit {
 
     if (deliveryStreet == null || deliveryNumber == null || deliveryZipcode == null || deliveryCity == null || deliveryCountry == null || this.user == undefined) {
       this.toastr.error('Something is wrong!', 'Failed');
+      AppComponent.isLoading = false;
       return;
     }
 
     if(deliveryZipcode.length > 6 || deliveryZipcode.length < 6 && deliveryZipcode.includes(' ')) {
       this.toastr.error('Incorrect zip Code', 'Failed');
+      AppComponent.isLoading = false;
       return;
     }
 
     if (!this.addressForm.valid) {
       this.toastr.error('Something is wrong!', 'Failed');
+      AppComponent.isLoading = false;
       return;
     }
 
@@ -106,6 +116,7 @@ export class CreateAddresComponent implements OnInit {
         this.router.navigate(redirect);
       }
     })
+    AppComponent.isLoading = false;
   }
 
 }

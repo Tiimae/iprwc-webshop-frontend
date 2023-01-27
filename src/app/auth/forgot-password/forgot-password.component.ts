@@ -3,6 +3,7 @@ import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {AuthService} from "../../_service/auth.service";
 import {AxiosResponse} from "axios";
 import {ToastrService} from "ngx-toastr";
+import {AppComponent} from "../../app.component";
 
 @Component({
   selector: 'app-forgot-password',
@@ -30,14 +31,18 @@ export class ForgotPasswordComponent implements OnInit {
   }
 
   onSubmit(): void {
+    AppComponent.isLoading = true;
+
     const email = this.setNewPassword.controls.email.value;
 
     if (email == null) {
       this.toastr.error("Something went wrong!", "Failed");
+      AppComponent.isLoading = false;
       return;
     }
     if (!this.setNewPassword.valid) {
       this.toastr.error("Something went wrong!", "Failed");
+      AppComponent.isLoading = false;
       return;
     }
 
@@ -52,6 +57,8 @@ export class ForgotPasswordComponent implements OnInit {
           this.toastr.error(response.data.payload.message, "Failed");
         }
       });
+
+    AppComponent.isLoading = false;
   }
 
 }

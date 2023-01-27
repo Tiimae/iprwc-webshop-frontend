@@ -8,6 +8,7 @@ import {faStar, faCheck, faArrowRight, faArrowLeft} from "@fortawesome/free-soli
 import { CartDataService } from 'src/app/_service/data/cartData.service';
 import {ToastrService} from "ngx-toastr";
 import {ReviewModel} from "../../_models/review.model";
+import {AppComponent} from "../../app.component";
 // import {faInstagram} from "@fortawesome/fontawesome-svg-core"
 
 @Component({
@@ -17,6 +18,7 @@ import {ReviewModel} from "../../_models/review.model";
 })
 export class ProductDetailComponent implements OnInit {
 
+  isLoading: boolean = false;
   productId!: string;
   product!: ProductModel
   stars: number = 0;
@@ -38,6 +40,7 @@ export class ProductDetailComponent implements OnInit {
   ) { }
 
   async ngOnInit(): Promise<void> {
+    AppComponent.isLoading = true;
     await this.route.params.subscribe(async (params) => {
       const currentProductId = params['productId'].replaceAll("*", "/");
       this.productId = CryptoJs.Rabbit.decrypt(currentProductId, await this.api.getDecryptKey()).toString(CryptoJs.enc.Utf8)
@@ -55,6 +58,8 @@ export class ProductDetailComponent implements OnInit {
           this.calculateStars();
         })
     })
+
+    AppComponent.isLoading = false;
   }
 
   calculateStars(): void {
@@ -91,6 +96,7 @@ export class ProductDetailComponent implements OnInit {
   }
 
   addToCart() {
+    AppComponent.isLoading = true;
     const input = (<HTMLInputElement>document.getElementById("amount"))
 
     if (input != null) {
@@ -106,11 +112,18 @@ export class ProductDetailComponent implements OnInit {
       this.cartDataService.createProduct(this.product, 1)
     }
     this.toastr.success("Item added successfully to your Cart!", "Added!")
+
+    AppComponent.isLoading = false;
   }
 
   addReviewToProduct(event: ReviewModel): void {
+    AppComponent.isLoading = true;
+
     this.product.reviews.push(event);
     this.productDataService.setNewReview(this.productId, this.product);
     this.calculateStars();
+
+
+    AppComponent.isLoading = false;
   }
 }

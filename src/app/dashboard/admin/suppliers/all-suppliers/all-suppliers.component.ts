@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {SupplierModel} from "../../../../_models/supplier.model";
 import {SupplierDataService} from "../../../../_service/data/supplierData.service";
 import {ToastrService} from "ngx-toastr";
+import {AppComponent} from "../../../../app.component";
 
 @Component({
   selector: 'app-all-suppliers',
@@ -18,11 +19,23 @@ export class AllSuppliersComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+
+    AppComponent.isLoading = true;
     this.supplierDataService
       .suppliers$
       .subscribe(r => {
-        this.allSuppliers = r
+        this.allSuppliers = r.sort((a, b) => {
+          if (a.name < b.name) {
+            return -1;
+          }
+          if (a.name > b.name) {
+            return 1;
+          }
+          return 0;
+        })
       })
+
+    AppComponent.isLoading = false;
   }
 
   removeUserOutArray(event: SupplierModel) {

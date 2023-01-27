@@ -4,18 +4,21 @@ import {BubbleTextComponent} from './bubble-text/bubble-text.component';
 import {AddEntityBarComponent} from './add-entity-bar/add-entity-bar.component';
 import { BreadcrumbComponent } from './breadcrumb/breadcrumb.component';
 import {RouterLinkWithHref} from "@angular/router";
+import {LoadingSpinnerComponent} from "./loading-spinner/loading-spinner.component";
 
 
 @NgModule({
   declarations: [
     BubbleTextComponent,
     AddEntityBarComponent,
-    BreadcrumbComponent
+    BreadcrumbComponent,
+    LoadingSpinnerComponent
   ],
   exports: [
     BubbleTextComponent,
     AddEntityBarComponent,
-    BreadcrumbComponent
+    BreadcrumbComponent,
+    LoadingSpinnerComponent
   ],
   imports: [
     CommonModule,

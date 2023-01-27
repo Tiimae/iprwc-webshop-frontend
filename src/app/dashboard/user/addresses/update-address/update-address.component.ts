@@ -9,6 +9,7 @@ import {AddressEnum} from "../../../../_enum/address.enum";
 import {ToastrService} from "ngx-toastr";
 import {UserModel} from "../../../../_models/user.model";
 import {UserDataService} from 'src/app/_service/data/userData.service';
+import {AppComponent} from "../../../../app.component";
 
 @Component({
   selector: 'app-update-address',
@@ -40,6 +41,9 @@ export class UpdateAddressComponent implements OnInit {
   }
 
   ngOnInit(): void {
+
+    AppComponent.isLoading = true;
+
     this.api.getJwtPayload().then(payload => {
       this.userDataService.getCurrentUser(payload.userId).subscribe(res => {
         this.user = res
@@ -66,9 +70,14 @@ export class UpdateAddressComponent implements OnInit {
         }, 200)
       })
     })
+
+
+    AppComponent.isLoading = false;
   }
 
   onSubmit(): void {
+    AppComponent.isLoading = true;
+
     const deliveryStreet = this.addressUpdateForm.controls.street.value
     const deliveryNumber = this.addressUpdateForm.controls.number.value
     const deliveryAdditional = this.addressUpdateForm.controls.additional.value
@@ -78,16 +87,20 @@ export class UpdateAddressComponent implements OnInit {
 
     if (deliveryStreet == null || deliveryNumber == null || deliveryZipcode == null || deliveryCity == null || deliveryCountry == null || this.user == undefined) {
       this.toastr.error('Something is wrong!', 'Failed');
+      AppComponent.isLoading = false;
       return;
     }
 
     if (deliveryZipcode.length > 6 || deliveryZipcode.length < 6 && deliveryZipcode.includes(' ')) {
       this.toastr.error('Incorrect zip Code', 'Failed');
+      AppComponent.isLoading = false;
       return;
     }
 
     if (!this.addressUpdateForm.valid) {
       this.toastr.error('Something is wrong!', 'Failed');
+
+      AppComponent.isLoading = false;
       return;
     }
 
@@ -112,9 +125,13 @@ export class UpdateAddressComponent implements OnInit {
       this.toastr.success("Addresses has been updated successfully", "Success!");
       this.router.navigate(['dashboard', 'user', 'addresses']);
     })
+
+
+    AppComponent.isLoading = false;
   }
 
   removeAddress(): void {
+    AppComponent.isLoading = true;
     this.userAddressDataService.deleteUserAddress(this.addressId).then(res => {
       if (this.user != undefined) {
         this.user.addresses.splice(this.user.addresses.findIndex(currentAddress => currentAddress.id === this.addressId), 1)
@@ -124,6 +141,8 @@ export class UpdateAddressComponent implements OnInit {
       this.toastr.success("Addresses has been deleted successfully", "Success!");
       this.router.navigate(['dashboard', 'user', 'addresses']);
     })
+
+    AppComponent.isLoading = false;
   }
 
 }

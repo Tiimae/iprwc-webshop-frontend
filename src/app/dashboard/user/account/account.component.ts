@@ -5,6 +5,7 @@ import {UserDataService} from "../../../_service/data/userData.service";
 import {ToastrService} from "ngx-toastr";
 import {UserModel} from "../../../_models/user.model";
 import {ApiConnectorService} from "../../../_service/api-connector.service";
+import {AppComponent} from "../../../app.component";
 
 @Component({
   selector: 'app-account',
@@ -37,6 +38,8 @@ export class AccountComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    AppComponent.isLoading = true;
+
     this.api.getJwtPayload().then(payload => {
       setTimeout(() => {
         this.userDataService
@@ -58,9 +61,13 @@ export class AccountComponent implements OnInit {
           })
       }, 200)
     });
+
+    AppComponent.isLoading = false;
   }
 
   onSubmit(): void {
+    AppComponent.isLoading = true;
+
     const firstname = this.userEditForm.controls.firstname.value;
     const middlename = this.userEditForm.controls.middlename.value;
     const lastname = this.userEditForm.controls.lastname.value;
@@ -68,16 +75,19 @@ export class AccountComponent implements OnInit {
 
     if (firstname == null || lastname == null || email == null) {
       this.toastr.error('Something is wrong!', 'Failed');
+      AppComponent.isLoading = false;
       return
     }
 
     if (!this.userEditForm.valid) {
       this.toastr.error('Something is wrong!', 'Failed');
+      AppComponent.isLoading = false;
       return;
     }
 
     if (this.user == undefined) {
       this.router.navigate([""])
+      AppComponent.isLoading = false;
       return;
     }
 
@@ -97,6 +107,8 @@ export class AccountComponent implements OnInit {
     if (request) {
       this.toastr.success("User has been updated successfully!", "Created");
     }
+
+    AppComponent.isLoading = false;
   }
 
 }

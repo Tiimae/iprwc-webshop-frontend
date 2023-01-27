@@ -7,4 +7,9 @@ import {Component} from '@angular/core';
 })
 export class AppComponent {
   title = 'iprwc-webshop';
+  static isLoading: boolean = false;
+
+  getIsLoading() {
+    return AppComponent.isLoading;
+  }
 }

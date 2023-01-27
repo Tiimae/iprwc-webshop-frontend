@@ -10,6 +10,7 @@ import {CheckoutModule} from "./checkout/checkout.module";
 import {CartModule} from "./cart/cart.module";
 import { ReviewComponent } from './product-detail/review/review.component';
 import {ReactiveFormsModule} from "@angular/forms";
+import {SharedModule} from "../_shared/shared.module";
 
 
 @NgModule({
@@ -25,7 +26,8 @@ import {ReactiveFormsModule} from "@angular/forms";
     FontAwesomeModule,
     CheckoutModule,
     CartModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    SharedModule
   ]
 })
 export class WebshopModule { }
