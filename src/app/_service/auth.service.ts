@@ -2,6 +2,7 @@ import {Injectable} from '@angular/core';
 import * as CryptoJs from 'crypto-js';
 import {ApiConnectorService} from "./api-connector.service";
 import {environment} from "../../environments/environment";
+import { AxiosResponse } from 'axios';
 
 @Injectable({
   providedIn: 'root',
@@ -16,7 +17,7 @@ export class AuthService {
     padding: CryptoJs.pad.Pkcs7,
   };
 
-  public login(email: string, password: string) {
+  public login(email: string, password: string): Promise<AxiosResponse> {
     const encryptedPassword: string = AuthService.encryptText(password);
     return this.api.noAuth().post(
       'auth/login',
