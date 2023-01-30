@@ -1,11 +1,16 @@
 <section class="scrolling-items-y">
   <form class="w-full" [formGroup]="userCreateForm" (ngSubmit)="onSubmit()">
-    <h2 class="block uppercase tracking-wide text-gray-700 text-xl font-bold mb-2">
+    <h2
+      class="block uppercase tracking-wide text-gray-700 text-xl font-bold mb-2"
+    >
       User details
     </h2>
     <section class="flex flex-wrap -mx-3 mb-6">
       <section class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-        <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="firstname">
+        <label
+          class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+          for="firstname"
+        >
           First Name
         </label>
         <input
@@ -14,10 +19,13 @@
           type="text"
           formControlName="firstname"
           required
-        >
+        />
       </section>
       <section class="w-full md:w-1/2 px-3">
-        <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="middlename">
+        <label
+          class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+          for="middlename"
+        >
           middle name
         </label>
         <input
@@ -25,13 +33,15 @@
           id="middlename"
           type="text"
           formControlName="middlename"
-          required
-        >
+        />
       </section>
     </section>
     <section class="flex flex-wrap -mx-3 mb-6">
       <section class="w-full px-3">
-        <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="lastname">
+        <label
+          class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+          for="lastname"
+        >
           Last name
         </label>
         <input
@@ -40,12 +50,15 @@
           type="text"
           formControlName="lastname"
           required
-        >
+        />
       </section>
     </section>
     <section class="flex flex-wrap -mx-3 mb-6">
       <section class="w-full px-3">
-        <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="email">
+        <label
+          class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+          for="email"
+        >
           Email address
         </label>
         <input
@@ -54,18 +67,23 @@
           type="text"
           formControlName="email"
           required
-        >
+        />
       </section>
     </section>
-    <hr>
+    <hr />
     <section class="flex flex-col mx-3 mb-6">
-      <h2 class="block uppercase tracking-wide text-gray-700 text-xl font-bold mb-2">
+      <h2
+        class="block uppercase tracking-wide text-gray-700 text-xl font-bold mb-2"
+      >
         User roles
       </h2>
-      <br>
-      <br>
-      <app-add-entity-bar *ngFor="let role of userRoles" [name]="role.name"
-                             (delete)="removeRoleOutArray($event)"></app-add-entity-bar>
+      <br />
+      <br />
+      <app-add-entity-bar
+        *ngFor="let role of userRoles"
+        [name]="role.name"
+        (delete)="removeRoleOutArray($event)"
+      ></app-add-entity-bar>
 
       <section>
         <label for="role">add Role:</label>
@@ -77,16 +95,24 @@
             formControlName="role"
             required
           >
-            <option *ngFor="let role of roles" value="{{ role.name }}">{{ role.name }}</option>
+            <option *ngFor="let role of roles" value="{{ role.name }}">
+              {{ role.name }}
+            </option>
           </select>
-          <button class="w-full items-center justify-right bg-blue-500 bg-blue-700 text-white font-bold rounded ml-5" (click)="addRole()" type="button">
+          <button
+            class="w-full items-center justify-right bg-blue-500 bg-blue-700 text-white font-bold rounded ml-5"
+            (click)="addRole()"
+            type="button"
+          >
             Add Role
           </button>
         </section>
       </section>
     </section>
-    <button class="mr-1 items-center justify-right bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-            type="submit">
+    <button
+      class="mr-1 items-center justify-right bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+      type="submit"
+    >
       Submit
     </button>
   </form>

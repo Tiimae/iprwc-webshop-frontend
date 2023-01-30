@@ -1,15 +1,13 @@
-import {Injectable, OnInit} from '@angular/core';
-import axios, {AxiosInstance} from 'axios';
-import {LoggedUserModel} from "../_models/loggedUser.model";
+import { Injectable } from '@angular/core';
+import axios, { AxiosInstance } from 'axios';
 import * as CryptoJs from 'crypto-js';
-import {environment} from "../../environments/environment";
-import {AuthService} from "./auth.service";
+import { environment } from '../../environments/environment';
+import { AuthService } from './auth.service';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ApiConnectorService {
-
   public static apiUrl = environment.apiUrl;
   private jwtToken: string | null = null;
   private decryptKey: string | null = null;
@@ -40,12 +38,46 @@ export class ApiConnectorService {
       this.jwtToken = await this.decryptJwtFromStorage();
     }
 
-    return axios.create({
+    let request = axios.create({
       baseURL: ApiConnectorService.apiUrl,
       headers: {
         Authorization: 'Bearer ' + this.jwtToken,
       },
+      params: {},
     });
+
+    request.interceptors.request.use(
+      (request) => {
+        if (localStorage.getItem('jwt-token') == null) {
+          return Promise.reject();
+        }
+
+        return request;
+      },
+      (error) => {
+        // console.log(error);
+        return Promise.reject();
+      }
+    );
+
+    request.interceptors.response.use(
+      (response) => response,
+      (error) => {
+        if (error.response.status === 401) {
+          console.error('Your login has expired');
+          localStorage.removeItem('jwt-token');
+          localStorage.removeItem('refresh-token');
+          
+          window.location.href = environment.base + '/auth/login';
+
+          return Promise.reject();
+        }
+
+        return Promise.reject(error);
+      }
+    );
+
+    return request;
   }
 
   public async authenticated() {
@@ -59,15 +91,14 @@ export class ApiConnectorService {
     return false;
   }
 
-  public async verified(){
+  public async verified() {
     const auth = new AuthService(this);
     const profile = await auth.getProfile();
 
-    if(profile.data.payload.verified){
+    if (profile.data.payload.verified) {
       return true;
     }
     return false;
-
   }
 
   private getTokenFromStore(): null | string {

@@ -62,6 +62,8 @@ export class UserDataService {
       lastName: user.lastName,
       email: user.email,
       password: '',
+      verified: false,
+      resetRequired: true,
       roleIds: roleIds,
       orderIds: [],
       userAddressIds: [],

@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
-import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
@@ -15,7 +15,6 @@ import { NavigationComponent } from './navigation/navigation.component';
 import { SearchbarComponent } from './navigation/searchbar/searchbar.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { WebshopModule } from './webshop/webshop.module';
-import { ErrorInterceptor } from './_interceptor/error.interceptor';
 import { SharedModule } from './_shared/shared.module';
 
 @NgModule({
@@ -40,13 +39,7 @@ import { SharedModule } from './_shared/shared.module';
     SharedModule,
     ToastrModule.forRoot(),
   ],
-  providers: [
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: ErrorInterceptor,
-      multi: true,
-    },
-  ],
+  providers: [],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

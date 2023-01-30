@@ -1,17 +1,16 @@
 import { Component, OnInit } from '@angular/core';
-import {AddressEnum} from "../../../../_enum/address.enum";
-import {UserModel} from "../../../../_models/user.model";
-import {UserAddressesModel} from "../../../../_models/userAddresses.model";
-import {UserDataService} from "../../../../_service/data/userData.service";
-import {ApiConnectorService} from "../../../../_service/api-connector.service";
-import * as CryptoJs from "crypto-js";
-import {Router} from "@angular/router";
-import {AppComponent} from "../../../../app.component";
+import { Router } from '@angular/router';
+import * as CryptoJs from 'crypto-js';
+import { UserAddressesDataService } from 'src/app/_service/data/userAddressesData.service';
+import { AppComponent } from '../../../../app.component';
+import { UserModel } from '../../../../_models/user.model';
+import { UserAddressesModel } from '../../../../_models/userAddresses.model';
+import { ApiConnectorService } from '../../../../_service/api-connector.service';
 
 @Component({
   selector: 'app-all-addresses',
   templateUrl: './all-addresses.component.html',
-  styleUrls: ['./all-addresses.component.scss']
+  styleUrls: ['./all-addresses.component.scss'],
 })
 export class AllAddressesComponent implements OnInit {
   user!: UserModel;
@@ -19,46 +18,53 @@ export class AllAddressesComponent implements OnInit {
   invoiceAddresses: UserAddressesModel[] = [];
 
   constructor(
-    private userDataService: UserDataService,
+    private userAddressDataService: UserAddressesDataService,
     private api: ApiConnectorService,
     private router: Router
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     AppComponent.isLoading = true;
 
-    this.api.getJwtPayload().then(payload => {
+    this.api.getJwtPayload().then((payload) => {
+      this.userAddressDataService.userAddresses$.subscribe((userAddresses) => {
+        console.log(userAddresses);
+        let count: number = 0;
 
-      setTimeout(() => {
-        this.userDataService.getCurrentUser(payload.userId).subscribe(res => {
-          if (res == undefined) {
-            return;
+        if (
+          (userAddresses.length == 0 && count < 1) ||
+          (userAddresses == undefined && count < 1)
+        ) {
+          this.userAddressDataService.getByUserId(payload.userId);
+          count = 1;
+        }
+
+        this.deliveryAddresses = [];
+        this.invoiceAddresses = [];
+
+        userAddresses.forEach((address) => {
+          if (address.type === '0') {
+            this.invoiceAddresses.push(address);
+          } else {
+            this.deliveryAddresses.push(address);
           }
-
-          this.user = res;
-
-          this.user.addresses.forEach(address => {
-            if (address.type === AddressEnum.DELIVERY.toString()) {
-              this.deliveryAddresses.push(address);
-            } else if (address.type === AddressEnum.INVOICE.toString()) {
-              this.invoiceAddresses.push(address)
-            }
-          })
-        })
-      }, 200)
+        });
+      });
     });
 
     AppComponent.isLoading = false;
   }
 
   async changeURL(event: UserAddressesModel, type: string) {
-    let encryptedId: string = CryptoJs.Rabbit.encrypt(event.id, await this.api.getDecryptKey()).toString()
-    const id = encryptedId.replace(new RegExp("/", "g"), "*");
+    let encryptedId: string = CryptoJs.Rabbit.encrypt(
+      event.id,
+      await this.api.getDecryptKey()
+    ).toString();
+    const id = encryptedId.replace(new RegExp('/', 'g'), '*');
     await this.router.navigate(['dashboard', 'user', 'addresses', id], {
       queryParams: {
-        type: type
-      }
+        type: type,
+      },
     });
   }
-
 }
