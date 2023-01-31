@@ -13,7 +13,7 @@ export class BrandDataService {
   brands: BrandModel[] = [];
   brands$: Subject<BrandModel[]> = new BehaviorSubject<BrandModel[]>([]);
 
-  constructor(private toastr: ToastrService) {}
+  constructor(private toastr: ToastrService, private api: ApiMethodsService) {}
 
   public get(brandId: string): Observable<BrandModel | undefined> {
     if (this.brands.length > 0) {
@@ -24,16 +24,14 @@ export class BrandDataService {
   }
 
   public async getByRequest(brandId: string): Promise<AxiosResponse> {
-    return await ApiMethodsService.getInstance().get('brand/' + brandId, true);
+    return await this.api.get('brand/' + brandId, true);
   }
 
   public async getAll(): Promise<void> {
-    await ApiMethodsService.getInstance()
-      .get('brand', false)
-      .then((r) => {
-        this.brands = r.data.payload;
-        this.brands$.next(this.brands);
-      });
+    await this.api.get('brand', false).then((r) => {
+      this.brands = r.data.payload;
+      this.brands$.next(this.brands);
+    });
   }
 
   public create(brand: BrandModel): boolean {
@@ -63,12 +61,10 @@ export class BrandDataService {
       })
     );
 
-    ApiMethodsService.getInstance()
-      .post('brand', formData, true)
-      .then((r) => {
-        this.brands.push(r.data.payload);
-        this.brands$.next(this.brands);
-      });
+    this.api.post('brand', formData, true).then((r) => {
+      this.brands.push(r.data.payload);
+      this.brands$.next(this.brands);
+    });
 
     return check;
   }
@@ -101,16 +97,14 @@ export class BrandDataService {
       })
     );
 
-    ApiMethodsService.getInstance()
-      .put('brand/' + brand.id, formData, true)
-      .then((r) => {
-        this.brands[
-          this.brands.findIndex(
-            (currentBrand) => currentBrand.id === r.data.payload.id
-          )
-        ] = r.data.payload;
-        this.brands$.next(this.brands);
-      });
+    this.api.put('brand/' + brand.id, formData, true).then((r) => {
+      this.brands[
+        this.brands.findIndex(
+          (currentBrand) => currentBrand.id === r.data.payload.id
+        )
+      ] = r.data.payload;
+      this.brands$.next(this.brands);
+    });
 
     return check;
   }
@@ -122,10 +116,8 @@ export class BrandDataService {
       }
     });
 
-    ApiMethodsService.getInstance()
-      .delete('brand/' + brand.id, true)
-      .then((r) => {
-        this.brands$.next(this.brands);
-      });
+    this.api.delete('brand/' + brand.id, true).then((r) => {
+      this.brands$.next(this.brands);
+    });
   }
 }

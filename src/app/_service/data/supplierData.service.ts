@@ -39,7 +39,7 @@ export class SupplierDataService {
   }
 
   public getByRequest(supplierId: string): Promise<AxiosResponse> {
-    return ApiMethodsService.getInstance().get('supplier/' + supplierId, true);
+    return this.apiMethod.get('supplier/' + supplierId, true);
   }
 
   public post(supplier: SupplierModel): boolean {
@@ -65,7 +65,7 @@ export class SupplierDataService {
       productIds: [],
     };
 
-    ApiMethodsService.getInstance()
+    this.apiMethod
       .post('supplier', payload, true)
       .then((r) => {
         this.suppliers.push(r.data.payload);
@@ -100,7 +100,7 @@ export class SupplierDataService {
       country: supplier.country,
     };
 
-    ApiMethodsService.getInstance()
+    this.apiMethod
       .put('supplier/' + supplier.id, payload, true)
       .then((r) => {
         this.suppliers[

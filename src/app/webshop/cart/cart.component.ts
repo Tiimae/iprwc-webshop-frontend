@@ -31,7 +31,6 @@ export class CartComponent implements OnInit {
     AppComponent.isLoading = true;
     this.cartDataService.products$.subscribe({
       next: (products: ProductModel[]) => {
-        console.log(products);
         this.cartProducts = products;
         setTimeout(() => {
           this.calculateTotalProduct();

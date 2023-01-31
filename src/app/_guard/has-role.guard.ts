@@ -7,10 +7,13 @@ import {ApiConnectorService} from "../_service/api-connector.service";
   providedIn: 'root'
 })
 export class HasRoleGuard implements CanActivate {
+
+  constructor(private api: ApiConnectorService) { }
+
   canActivate(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-    return new ApiConnectorService().getJwtPayload().then((res): boolean => {
+    return this.api.getJwtPayload().then((res): boolean => {
       let matchingRoles: string[] | undefined;
         const rolesOnRoute: null | Array<string> = route.data['roles'];
 

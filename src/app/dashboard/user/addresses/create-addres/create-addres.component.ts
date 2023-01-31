@@ -120,7 +120,7 @@ export class CreateAddresComponent implements OnInit {
     this.customerAddress.createUserAddress(deliveryAddress).then((res) => {
       if (this.user != undefined) {
         this.user?.addresses.push(res);
-        this.userDataService.updateUser(this.user);
+        this.userDataService.updateUser(this.user, false);
       }
       this.toastr.success('Addresses has been added successfully', 'Success!');
       if (this.route.snapshot.queryParamMap.has('redirectURI')) {

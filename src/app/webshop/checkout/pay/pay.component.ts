@@ -160,7 +160,7 @@ export class PayComponent implements OnInit {
       this.userDataService.getUserByRequest(this.userId).then((oldUser) => {
         const user: UserModel = oldUser.data.payload;
         user.orders.push(res);
-        this.userDataService.updateUser(user);
+        this.userDataService.updateUser(user, false);
       });
       this.cartDataService.clearCart();
       this.router.navigate(['']);

@@ -98,7 +98,7 @@ export class AccountComponent implements OnInit {
       this.user.orders
     );
 
-    const request: boolean = this.userDataService.updateUser(user);
+    const request: boolean = this.userDataService.updateUser(user, false);
 
     if (request) {
       this.toastr.success('User has been updated successfully!', 'Created');

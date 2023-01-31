@@ -18,7 +18,7 @@ export class ProductDataService {
     ProductModel[]
   >([]);
 
-  constructor(private toastr: ToastrService) {}
+  constructor(private toastr: ToastrService, private api: ApiMethodsService) {}
 
   get(productId: string): Observable<ProductModel | undefined> {
     if (this.products.length != 0) {
@@ -33,24 +33,22 @@ export class ProductDataService {
   }
 
   public getByRequest(productId: string): Promise<AxiosResponse> {
-    return ApiMethodsService.getInstance().get('product/' + productId, false);
+    return this.api.get('product/' + productId, false);
   }
 
   getAll(): void {
-    ApiMethodsService.getInstance()
-      .get('product', false)
-      .then((res) => {
-        res.data.payload.forEach((product: ProductModel) => {
-          if (product.deleted) {
-            this.deletedProducts.push(product);
-          } else {
-            this.products.push(product);
-          }
-        });
-
-        this.products$.next(this.products);
-        this.deletedProducts$.next(this.deletedProducts);
+    this.api.get('product', false).then((res) => {
+      res.data.payload.forEach((product: ProductModel) => {
+        if (product.deleted) {
+          this.deletedProducts.push(product);
+        } else {
+          this.products.push(product);
+        }
       });
+
+      this.products$.next(this.products);
+      this.deletedProducts$.next(this.deletedProducts);
+    });
   }
 
   post(product: ProductModel, images: File[]): boolean {
@@ -84,12 +82,10 @@ export class ProductDataService {
       })
     );
 
-    ApiMethodsService.getInstance()
-      .post('product', fd, true)
-      .then((res) => {
-        this.products.push(res.data.payload);
-        this.products$.next(this.products);
-      });
+    this.api.post('product', fd, true).then((res) => {
+      this.products.push(res.data.payload);
+      this.products$.next(this.products);
+    });
 
     return check;
   }
@@ -135,51 +131,45 @@ export class ProductDataService {
       })
     );
 
-    ApiMethodsService.getInstance()
-      .put('product/' + product.id, fd, true)
-      .then((res) => {
-        this.products[
-          this.products.findIndex(
-            (currentProduct) => currentProduct.id === product.id
-          )
-        ] = res.data.payload;
-        this.products$.next(this.products);
-      });
+    this.api.put('product/' + product.id, fd, true).then((res) => {
+      this.products[
+        this.products.findIndex(
+          (currentProduct) => currentProduct.id === product.id
+        )
+      ] = res.data.payload;
+      this.products$.next(this.products);
+    });
 
     return check;
   }
 
   delete(productId: string): void {
-    ApiMethodsService.getInstance()
-      .delete('product/' + productId, true)
-      .then((r) => {
-        this.products.splice(
-          this.products.findIndex(
-            (currentProduct) => currentProduct.id === productId
-          ),
-          1
-        );
-        this.deletedProducts.push(r.data.payload);
-        this.products$.next(this.products);
-        this.deletedProducts$.next(this.products);
-      });
+    this.api.delete('product/' + productId, true).then((r) => {
+      this.products.splice(
+        this.products.findIndex(
+          (currentProduct) => currentProduct.id === productId
+        ),
+        1
+      );
+      this.deletedProducts.push(r.data.payload);
+      this.products$.next(this.products);
+      this.deletedProducts$.next(this.products);
+    });
   }
 
   restore(productId: string): void {
-    ApiMethodsService.getInstance()
-      .delete('product/' + productId + '/restore', true)
-      .then((r) => {
-        this.deletedProducts.splice(
-          this.deletedProducts.findIndex(
-            (currentProduct) => currentProduct.id === productId
-          ),
-          1
-        );
-        this.products.push(r.data.payload);
+    this.api.delete('product/' + productId + '/restore', true).then((r) => {
+      this.deletedProducts.splice(
+        this.deletedProducts.findIndex(
+          (currentProduct) => currentProduct.id === productId
+        ),
+        1
+      );
+      this.products.push(r.data.payload);
 
-        this.products$.next(this.products);
-        this.deletedProducts$.next(this.deletedProducts);
-      });
+      this.products$.next(this.products);
+      this.deletedProducts$.next(this.deletedProducts);
+    });
   }
 
   setNewReview(productId: string, product: ProductModel) {

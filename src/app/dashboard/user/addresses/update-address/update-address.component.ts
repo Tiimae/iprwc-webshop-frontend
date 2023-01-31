@@ -147,7 +147,7 @@ export class UpdateAddressComponent implements OnInit {
               (currentAddress) => currentAddress.id === this.addressId
             )
           ] = res;
-          this.userDataService.updateUser(this.user);
+          this.userDataService.updateUser(this.user, false);
         }
 
         this.toastr.success(
@@ -172,7 +172,7 @@ export class UpdateAddressComponent implements OnInit {
             ),
             1
           );
-          this.userDataService.updateUser(this.user);
+          this.userDataService.updateUser(this.user, false);
         }
 
         this.toastr.success(

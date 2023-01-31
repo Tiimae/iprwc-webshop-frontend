@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import axios, { AxiosInstance } from 'axios';
 import * as CryptoJs from 'crypto-js';
+import { ToastrService } from 'ngx-toastr';
 import { environment } from '../../environments/environment';
 import { AuthService } from './auth.service';
 
@@ -12,7 +13,8 @@ export class ApiConnectorService {
   private jwtToken: string | null = null;
   private decryptKey: string | null = null;
 
-  constructor() {}
+  constructor(private toastr: ToastrService) {
+  }
 
   public noAuth(): AxiosInstance {
     const instance = axios.create({
@@ -55,19 +57,25 @@ export class ApiConnectorService {
         return request;
       },
       (error) => {
-        // console.log(error);
         return Promise.reject();
       }
     );
 
     request.interceptors.response.use(
-      (response) => response,
+      (response) => {
+        if (response.data.code === 400) {
+          this.toastr.error(response.data.message, 'OOPS!');
+          return Promise.reject();
+        }
+
+        return response;
+      },
       (error) => {
         if (error.response.status === 401) {
           console.error('Your login has expired');
           localStorage.removeItem('jwt-token');
           localStorage.removeItem('refresh-token');
-          
+
           window.location.href = environment.base + '/auth/login';
 
           return Promise.reject();

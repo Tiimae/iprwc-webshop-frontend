@@ -126,7 +126,7 @@ export class UpdateUserComponent implements OnInit {
         []
       );
 
-      const request: boolean = this.userDataService.updateUser(user);
+      const request: boolean = this.userDataService.updateUser(user, true);
 
       if (request) {
         this.toastr.success('User has been updated successfully!', 'Updated');

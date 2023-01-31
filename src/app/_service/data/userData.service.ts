@@ -39,12 +39,12 @@ export class UserDataService {
   public createNewUser(user: UserModel): boolean {
     let check = true;
 
-    this.users.forEach((currentUser: UserModel) => {
-      if (user.email === currentUser.email) {
-        this.toastr.error('Supplier name is already in user.', 'Failed');
-        check = false;
-      }
-    });
+    // this.users.forEach((currentUser: UserModel) => {
+    //   if (user.email === currentUser.email) {
+    //     this.toastr.error('Supplier name is already in user.', 'Failed');
+    //     check = false;
+    //   }
+    // });
 
     if (!check) {
       return check;
@@ -69,7 +69,7 @@ export class UserDataService {
       userAddressIds: [],
     };
 
-    ApiMethodsService.getInstance()
+    this.apiMethod
       .post('user', payload, true)
       .then((r) => {
         this.users.push(r.data.payload);
@@ -79,7 +79,7 @@ export class UserDataService {
     return check;
   }
 
-  public updateUser(user: UserModel): boolean {
+  public updateUser(user: UserModel, admin: boolean): boolean {
     let check = true;
 
     this.users.forEach((currentUser: UserModel) => {
@@ -115,14 +115,25 @@ export class UserDataService {
       userAddressIds: userAddressesId,
     };
 
-    ApiMethodsService.getInstance()
-      .put('user/' + user.id, payload, true)
-      .then((r) => {
-        this.users[
-          this.users.findIndex((currentUser) => currentUser.id === user.id)
-        ] = user;
-        this.users$.next(this.users);
-      });
+    if (!admin) {
+      this.apiMethod
+        .put('user/' + user.id, payload, true)
+        .then((r) => {
+          this.users[
+            this.users.findIndex((currentUser) => currentUser.id === user.id)
+          ] = user;
+          this.users$.next(this.users);
+        });
+    } else {
+      this.apiMethod
+        .put('user/' + user.id + '/admin', payload, true)
+        .then((r) => {
+          this.users[
+            this.users.findIndex((currentUser) => currentUser.id === user.id)
+          ] = user;
+          this.users$.next(this.users);
+        });
+    }
 
     return check;
   }

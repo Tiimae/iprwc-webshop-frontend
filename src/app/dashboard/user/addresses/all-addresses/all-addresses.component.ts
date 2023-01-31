@@ -28,7 +28,6 @@ export class AllAddressesComponent implements OnInit {
 
     this.api.getJwtPayload().then((payload) => {
       this.userAddressDataService.userAddresses$.subscribe((userAddresses) => {
-        console.log(userAddresses);
         let count: number = 0;
 
         if (

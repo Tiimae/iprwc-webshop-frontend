@@ -36,19 +36,14 @@ export class CategoryDataService {
   public async getCategoryByRequest(
     categoryId: string
   ): Promise<AxiosResponse> {
-    return await ApiMethodsService.getInstance().get(
-      'category/' + categoryId,
-      true
-    );
+    return await this.apiMethod.get('category/' + categoryId, true);
   }
 
   public async getAllCategories(): Promise<void> {
-    await ApiMethodsService.getInstance()
-      .get('category', false)
-      .then((r) => {
-        this.categories = r.data.payload;
-        this.categories$.next(this.categories);
-      });
+    await this.apiMethod.get('category', false).then((r) => {
+      this.categories = r.data.payload;
+      this.categories$.next(this.categories);
+    });
   }
 
   public removeCategory(category: CategoryModel) {
@@ -58,11 +53,9 @@ export class CategoryDataService {
       }
     });
 
-    ApiMethodsService.getInstance()
-      .delete('category/' + category.id, true)
-      .then((r) => {
-        this.categories$.next(this.categories);
-      });
+    this.apiMethod.delete('category/' + category.id, true).then((r) => {
+      this.categories$.next(this.categories);
+    });
   }
 
   public createCategory(category: CategoryModel): boolean {
@@ -84,12 +77,10 @@ export class CategoryDataService {
       productIds: [],
     };
 
-    ApiMethodsService.getInstance()
-      .post('category', payload, true)
-      .then((r) => {
-        this.categories.push(r.data.payload);
-        this.categories$.next(this.categories);
-      });
+    this.apiMethod.post('category', payload, true).then((r) => {
+      this.categories.push(r.data.payload);
+      this.categories$.next(this.categories);
+    });
 
     return check;
   }
@@ -116,16 +107,14 @@ export class CategoryDataService {
       productIds: [],
     };
 
-    ApiMethodsService.getInstance()
-      .put('category/' + category.id, payload, true)
-      .then((r) => {
-        this.categories[
-          this.categories.findIndex(
-            (currentCategory) => currentCategory.id === category.id
-          )
-        ] = category;
-        this.categories$.next(this.categories);
-      });
+    this.apiMethod.put('category/' + category.id, payload, true).then((r) => {
+      this.categories[
+        this.categories.findIndex(
+          (currentCategory) => currentCategory.id === category.id
+        )
+      ] = category;
+      this.categories$.next(this.categories);
+    });
     return check;
   }
 }

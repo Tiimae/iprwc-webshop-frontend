@@ -17,7 +17,6 @@ export class UserAddressesDataService {
 
   public getByUserId(userId: string): void {
     this.api.get('user-address/user/' + userId, true).then((res) => {
-      console.log(res);
       this.userAddresses = res.data.payload;
       this.userAddresses$.next(this.userAddresses);
     });
