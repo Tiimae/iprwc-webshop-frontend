@@ -13,7 +13,7 @@ import { UserDataService } from '../../../../_service/data/userData.service';
 @Component({
   selector: 'app-update-user',
   templateUrl: './update-user.component.html',
-  styleUrls: ['./update-user.component.scss'],
+  styleUrls: ['./update-user.component.scss']
 })
 export class UpdateUserComponent implements OnInit {
   userId: string = '';
@@ -30,9 +30,9 @@ export class UpdateUserComponent implements OnInit {
       Validators.pattern(
         '^(?=.{1,64}@)[A-Za-z0-9_-]+(\\.[A-Za-z0-9_-]+)*@' +
           '[^-][A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})$'
-      ),
+      )
     ]),
-    role: new FormControl('', [Validators.required]),
+    role: new FormControl('', [Validators.required])
   });
 
   constructor(

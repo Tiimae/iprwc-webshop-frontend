@@ -10,7 +10,7 @@ import { SupplierDataService } from '../../../../_service/data/supplierData.serv
 @Component({
   selector: 'app-update-supplier',
   templateUrl: './update-supplier.component.html',
-  styleUrls: ['./update-supplier.component.scss'],
+  styleUrls: ['./update-supplier.component.scss']
 })
 export class UpdateSupplierComponent implements OnInit {
   supplierId: string = '';
@@ -21,7 +21,7 @@ export class UpdateSupplierComponent implements OnInit {
     address: new FormControl('', [Validators.required]),
     zipcode: new FormControl('', [Validators.required]),
     city: new FormControl('', [Validators.required]),
-    country: new FormControl('', [Validators.required]),
+    country: new FormControl('', [Validators.required])
   });
 
   constructor(
@@ -57,7 +57,7 @@ export class UpdateSupplierComponent implements OnInit {
         error(e: Error) {
           console.log(e.message);
         },
-        complete: () => {},
+        complete: () => {}
       });
     });
   }

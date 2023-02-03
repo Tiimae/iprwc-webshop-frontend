@@ -7,10 +7,11 @@ import { BrandDataService } from '../../../../_service/data/brandData.service';
 @Component({
   selector: 'app-all-brands',
   templateUrl: './all-brands.component.html',
-  styleUrls: ['./all-brands.component.scss'],
+  styleUrls: ['./all-brands.component.scss']
 })
 export class AllBrandsComponent implements OnInit {
-  brands: BrandModel[] = [];
+  public brands: BrandModel[] = [];
+  private count: number = 0;
 
   constructor(
     private brandDataService: BrandDataService,
@@ -21,8 +22,9 @@ export class AllBrandsComponent implements OnInit {
     AppComponent.isLoading = true;
 
     this.brandDataService.brands$.subscribe((r) => {
-      if (r.length < 1) {
+      if (r.length < 1 && this.count == 0) {
         this.brandDataService.getAll();
+        this.count = 1;
       }
 
       this.brands = r.sort((a, b) => {

@@ -1,27 +1,30 @@
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 import axios, { AxiosInstance } from 'axios';
 import * as CryptoJs from 'crypto-js';
 import { ToastrService } from 'ngx-toastr';
 import { environment } from '../../environments/environment';
+import { AppComponent } from '../app.component';
 import { AuthService } from './auth.service';
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class ApiConnectorService {
   public static apiUrl = environment.apiUrl;
   private jwtToken: string | null = null;
-  private decryptKey: string | null = null;
 
-  constructor(private toastr: ToastrService) {
-  }
+  constructor(private toastr: ToastrService, private router: Router) {}
 
   public noAuth(): AxiosInstance {
-    const instance = axios.create({
+    const instance: AxiosInstance = axios.create({
       baseURL: ApiConnectorService.apiUrl,
       headers: {
         Accept: 'application/json',
-      },
+        'Strict-Transport-Security': 'max-age=31536000',
+        'X-Frame-Options': 'SAMEORIGIN',
+        'X-Content-Type-Options': 'nosniff'
+      }
     });
 
     instance.defaults.headers.common['Content-Type'] = 'application/json';
@@ -30,7 +33,7 @@ export class ApiConnectorService {
   }
 
   public async auth(): Promise<AxiosInstance> {
-    const loggedIn = await this.authenticated();
+    const loggedIn: boolean = await this.authenticated();
 
     if (!loggedIn) {
       throw new Error('not logged in');
@@ -40,12 +43,16 @@ export class ApiConnectorService {
       this.jwtToken = await this.decryptJwtFromStorage();
     }
 
-    let request = axios.create({
+    let request: AxiosInstance = axios.create({
       baseURL: ApiConnectorService.apiUrl,
       headers: {
         Authorization: 'Bearer ' + this.jwtToken,
+        'Strict-Transport-Security': 'max-age=31536000',
+        'X-Frame-Options': 'SAMEORIGIN',
+        'X-Content-Type-Options': 'nosniff'
       },
-      params: {},
+
+      params: {}
     });
 
     request.interceptors.request.use(
@@ -71,14 +78,14 @@ export class ApiConnectorService {
         return response;
       },
       (error) => {
-        if (error.response.status === 401) {
-          console.error('Your login has expired');
+        if (error.response.status === 401 || error.response.status === 403) {
           localStorage.removeItem('jwt-token');
           localStorage.removeItem('refresh-token');
+          this.toastr.error('Your login has been expired!', 'OOPS!');
 
-          window.location.href = environment.base + '/auth/login';
+          this.router.navigate(['auth', 'login']);
 
-          return Promise.reject();
+          return Promise.reject('Login has been expired!');
         }
 
         return Promise.reject(error);
@@ -88,7 +95,7 @@ export class ApiConnectorService {
     return request;
   }
 
-  public async authenticated() {
+  public async authenticated(): Promise<boolean> {
     let result = this.getTokenFromStore();
 
     if (result !== null && result.length > 0) {
@@ -129,20 +136,20 @@ export class ApiConnectorService {
   }
 
   async getDecryptKey(): Promise<string> {
-    if (this.decryptKey === null) {
+    if (AppComponent.decryptKey === null) {
       try {
         const result = await this.noAuth().get('/auth/secret', {
-          withCredentials: true,
+          withCredentials: true
         });
 
-        this.decryptKey = result.data['message'];
-        return this.decryptKey ?? 'cant happen';
+        AppComponent.decryptKey = result.data['message'];
+        return AppComponent.decryptKey ?? 'cant happen';
       } catch (error) {
         return '';
       }
     }
 
-    return this.decryptKey;
+    return AppComponent.decryptKey;
   }
 
   public async decryptJwtFromStorage(): Promise<string> {

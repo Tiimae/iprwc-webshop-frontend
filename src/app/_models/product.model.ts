@@ -1,10 +1,10 @@
-import {CategoryModel} from "./category.model";
-import {BrandModel} from "./brand.model";
-import {SupplierModel} from "./supplier.model";
-import {ProductImageModel} from "./productImage.model";
-import {OrderModel} from "./order.model";
-import {OrderProductModel} from "./orderProduct.model";
-import {ReviewModel} from "./review.model";
+import { CategoryModel } from './category.model';
+import { BrandModel } from './brand.model';
+import { SupplierModel } from './supplier.model';
+import { ProductImageModel } from './productImage.model';
+import { OrderModel } from './order.model';
+import { OrderProductModel } from './orderProduct.model';
+import { ReviewModel } from './review.model';
 
 export class ProductModel {
   private readonly _id: string;
@@ -15,11 +15,23 @@ export class ProductModel {
   private readonly _brand: BrandModel;
   private readonly _supplier: SupplierModel;
   private readonly _productImages: ProductImageModel[];
-  private readonly _ordersProducts: OrderProductModel[] = []
+  private readonly _ordersProducts: OrderProductModel[] = [];
   private readonly _reviews: ReviewModel[] = [];
   private readonly _deleted: boolean;
 
-  constructor(id: string, productName: string, description: string, price: number, category: CategoryModel, brand: BrandModel, supplier: SupplierModel, productImages: ProductImageModel[], ordersProducts: OrderProductModel[], reviews: ReviewModel[], deleted: boolean) {
+  constructor(
+    id: string,
+    productName: string,
+    description: string,
+    price: number,
+    category: CategoryModel,
+    brand: BrandModel,
+    supplier: SupplierModel,
+    productImages: ProductImageModel[],
+    ordersProducts: OrderProductModel[],
+    reviews: ReviewModel[],
+    deleted: boolean
+  ) {
     this._id = id;
     this._productName = productName;
     this._description = description;
@@ -72,7 +84,6 @@ export class ProductModel {
   get deleted(): boolean {
     return this._deleted;
   }
-
 
   get reviews(): ReviewModel[] {
     return this._reviews;

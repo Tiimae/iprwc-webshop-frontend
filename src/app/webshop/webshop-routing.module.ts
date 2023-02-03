@@ -1,39 +1,44 @@
-import {NgModule} from '@angular/core';
-import {RouterModule, Routes} from '@angular/router';
-import {HomeComponent} from "./home/home.component";
-import {ProductDetailComponent} from "./product-detail/product-detail.component";
-import {CartComponent} from "./cart/cart.component";
-import {IsAuthenticatedGuard} from "../_guard/is-authenticated.guard";
-import {ProductResolverService} from "../_service/_resolver/product-resolver.service";
+import { NgModule } from '@angular/core';
+import { RouterModule, Routes } from '@angular/router';
+import { HomeComponent } from './home/home.component';
+import { ProductDetailComponent } from './product-detail/product-detail.component';
+import { CartComponent } from './cart/cart.component';
+import { IsAuthenticatedGuard } from '../_guard/is-authenticated.guard';
+import { ProductResolverService } from '../_service/_resolver/product-resolver.service';
 
 const routes: Routes = [
   {
-    path: "", component: HomeComponent
+    path: '',
+    component: HomeComponent
   },
   {
-    path: "search", component: HomeComponent
+    path: 'search',
+    component: HomeComponent
   },
   {
-    path: "product/:productId",
+    path: 'product/:productId',
     component: ProductDetailComponent,
     data: {
-      breadcrumb: (data: any) => `${data.product.productName}`,
+      breadcrumb: (data: any) => `${data.product.productName}`
     },
-    resolve: {product: ProductResolverService},
+    resolve: { product: ProductResolverService }
   },
   {
-    path: "cart",
+    path: 'cart',
     component: CartComponent,
     data: {
-      breadcrumb: "Cart"
+      breadcrumb: 'Cart'
     }
   },
   {
-    path: "checkout",
+    path: 'checkout',
     canActivate: [IsAuthenticatedGuard],
-    loadChildren: () => import('./checkout/checkout-routing.module').then(m => m.CheckoutRoutingModule),
+    loadChildren: () =>
+      import('./checkout/checkout-routing.module').then(
+        (m) => m.CheckoutRoutingModule
+      ),
     data: {
-      breadcrumb: "Checkout"
+      breadcrumb: 'Checkout'
     }
   }
 ];
@@ -42,4 +47,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class WebshopRoutingModule { }
+export class WebshopRoutingModule {}

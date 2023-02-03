@@ -14,7 +14,7 @@ import { SupplierDataService } from '../../../../_service/data/supplierData.serv
 @Component({
   selector: 'app-create-product',
   templateUrl: './create-product.component.html',
-  styleUrls: ['./create-product.component.scss'],
+  styleUrls: ['./create-product.component.scss']
 })
 export class CreateProductComponent implements OnInit {
   productCreateForm = new FormGroup({
@@ -24,7 +24,7 @@ export class CreateProductComponent implements OnInit {
     category: new FormControl('', [Validators.required]),
     brand: new FormControl('', [Validators.required]),
     supplier: new FormControl('', [Validators.required]),
-    image: new FormControl('', [Validators.required]),
+    image: new FormControl('', [Validators.required])
   });
 
   brands: BrandModel[] = [];
@@ -69,7 +69,7 @@ export class CreateProductComponent implements OnInit {
       error(e: Error) {
         throw new Error(e.message);
       },
-      complete: () => {},
+      complete: () => {}
     });
 
     this.brandDataService.brands$.subscribe({
@@ -89,7 +89,7 @@ export class CreateProductComponent implements OnInit {
       error(e: Error) {
         throw new Error(e.message);
       },
-      complete: () => {},
+      complete: () => {}
     });
 
     this.categoryDataService.categories$.subscribe({
@@ -109,7 +109,7 @@ export class CreateProductComponent implements OnInit {
       error(e: Error) {
         throw new Error(e.message);
       },
-      complete: () => {},
+      complete: () => {}
     });
   }
 

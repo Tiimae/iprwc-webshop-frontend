@@ -8,7 +8,7 @@ import { ProductModel } from '../../_models/product.model';
 @Component({
   selector: 'app-cart',
   templateUrl: './cart.component.html',
-  styleUrls: ['./cart.component.scss'],
+  styleUrls: ['./cart.component.scss']
 })
 export class CartComponent implements OnInit {
   isLoading: boolean = false;
@@ -41,7 +41,7 @@ export class CartComponent implements OnInit {
       },
       complete: () => {
         console.log('complete');
-      },
+      }
     });
 
     AppComponent.isLoading = false;

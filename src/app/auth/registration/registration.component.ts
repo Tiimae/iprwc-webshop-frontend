@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { AxiosResponse } from 'axios';
 import { ToastrService } from 'ngx-toastr';
 import { AppComponent } from '../../app.component';
 import { ApiConnectorService } from '../../_service/api-connector.service';
@@ -10,33 +11,33 @@ import { AuthService } from '../../_service/auth.service';
 @Component({
   selector: 'app-registration',
   templateUrl: './registration.component.html',
-  styleUrls: ['./registration.component.scss'],
+  styleUrls: ['./registration.component.scss']
 })
 export class RegistrationComponent implements OnInit {
-  step: number = 1;
+  public step: number = 1;
 
-  firstRegistrationForm = new FormGroup({
+  public firstRegistrationForm: FormGroup = new FormGroup({
     firstname: new FormControl('', [Validators.required]),
     middlename: new FormControl(''),
-    lastname: new FormControl('', [Validators.required]),
+    lastname: new FormControl('', [Validators.required])
   });
 
-  secondRegistrationForm = new FormGroup({
+  public secondRegistrationForm: FormGroup = new FormGroup({
     email: new FormControl('', [
       Validators.required,
       Validators.pattern(
         '^(?=.{1,64}@)[A-Za-z0-9_-]+(\\.[A-Za-z0-9_-]+)*@' +
           '[^-][A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})$'
-      ),
+      )
     ]),
     password: new FormControl('', [Validators.required]),
     passwordCheck: new FormControl('', [Validators.required]),
-    terms: new FormControl('', [Validators.required]),
+    terms: new FormControl('', [Validators.required])
   });
 
-  firstname: string = '';
-  middlename: string = '';
-  lastname: string = '';
+  public firstname: string = '';
+  public middlename: string = '';
+  public lastname: string = '';
 
   constructor(
     private router: Router,
@@ -50,7 +51,7 @@ export class RegistrationComponent implements OnInit {
 
     if (localStorage.getItem('jwt-token')) {
       try {
-        const tokenPayload = await this.api.getJwtPayload();
+        const tokenPayload: any = await this.api.getJwtPayload();
         if (tokenPayload !== undefined) {
           this.router.navigate(['/']);
         }
@@ -63,9 +64,12 @@ export class RegistrationComponent implements OnInit {
   toNextStep(): void {
     AppComponent.isLoading = true;
 
-    const firstname = this.firstRegistrationForm.controls.firstname.value;
-    const middlename = this.firstRegistrationForm.controls.middlename.value;
-    const lastname = this.firstRegistrationForm.controls.lastname.value;
+    const firstname: string =
+      this.firstRegistrationForm.controls['firstname'].value;
+    const middlename: string =
+      this.firstRegistrationForm.controls['middlename'].value;
+    const lastname: string =
+      this.firstRegistrationForm.controls['lastname'].value;
 
     if (firstname == null || lastname == null) {
       this.toastr.error('Something went wrong!', 'Failed');
@@ -91,10 +95,11 @@ export class RegistrationComponent implements OnInit {
 
   async onSubmit() {
     AppComponent.isLoading = true;
-    const email = this.secondRegistrationForm.controls.email.value;
-    const password = this.secondRegistrationForm.controls.password.value;
-    const passwordCheck =
-      this.secondRegistrationForm.controls.passwordCheck.value;
+    const email: string = this.secondRegistrationForm.controls['email'].value;
+    const password: string =
+      this.secondRegistrationForm.controls['password'].value;
+    const passwordCheck: string =
+      this.secondRegistrationForm.controls['passwordCheck'].value;
 
     if (email == null || password == null || passwordCheck == null) {
       this.toastr.error('Something went wrong!', 'Failed');
@@ -102,7 +107,7 @@ export class RegistrationComponent implements OnInit {
       return;
     }
 
-    if (!this.secondRegistrationForm.controls.terms.valid) {
+    if (!this.secondRegistrationForm.controls['terms'].valid) {
       this.toastr.error('Accept the terms and conditions', 'Failed');
       AppComponent.isLoading = false;
       return;
@@ -122,7 +127,7 @@ export class RegistrationComponent implements OnInit {
 
     await this.authService
       .register(this.firstname, this.middlename, this.lastname, email, password)
-      .then((r) => {
+      .then((r: AxiosResponse) => {
         if (r.data.code == 202) {
           this.router.navigate(['auth', 'login']);
           this.toastr.success(

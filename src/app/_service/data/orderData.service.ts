@@ -4,7 +4,7 @@ import { OrderModel } from '../../_models/order.model';
 import { ApiMethodsService } from '../api-methods.service';
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class OrderDataService {
   constructor(private api: ApiMethodsService) {}
@@ -13,8 +13,8 @@ export class OrderDataService {
     return await this.api.get('order/' + userId, true);
   }
 
-  async create(fd: FormData): Promise<OrderModel> {
-    return await this.api.post('order', fd, true).then((res) => {
+  public async create(fd: FormData): Promise<OrderModel> {
+    return await this.api.post('order', fd, true).then((res: AxiosResponse) => {
       return <OrderModel>res.data.payload;
     });
   }

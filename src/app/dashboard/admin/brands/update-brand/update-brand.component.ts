@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 import * as CryptoJs from 'crypto-js';
 import { ToastrService } from 'ngx-toastr';
 import { BrandModel } from '../../../../_models/brand.model';
@@ -10,17 +10,17 @@ import { BrandDataService } from '../../../../_service/data/brandData.service';
 @Component({
   selector: 'app-update-brand',
   templateUrl: './update-brand.component.html',
-  styleUrls: ['./update-brand.component.scss'],
+  styleUrls: ['./update-brand.component.scss']
 })
 export class UpdateBrandComponent implements OnInit {
-  brandCreateForm = new FormGroup({
+  public brandCreateForm: FormGroup = new FormGroup({
     brandName: new FormControl('', [Validators.required]),
     url: new FormControl('', [Validators.required]),
-    logo: new FormControl(''),
+    logo: new FormControl('')
   });
-  uploadedImage!: File;
-  brandId: string = '';
-  brand!: BrandModel;
+  private uploadedImage!: File;
+  private brandId: string = '';
+  public brand!: BrandModel;
 
   constructor(
     private router: Router,
@@ -31,7 +31,7 @@ export class UpdateBrandComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.route.params.subscribe(async (params) => {
+    this.route.params.subscribe(async (params: Params) => {
       const currentBrandId = params['brandId'].replaceAll('*', '/');
       this.brandId = CryptoJs.Rabbit.decrypt(
         currentBrandId,
@@ -55,8 +55,8 @@ export class UpdateBrandComponent implements OnInit {
   }
 
   private setFormData(): void {
-    this.brandCreateForm.controls.brandName.setValue(this.brand.brandName);
-    this.brandCreateForm.controls.url.setValue(this.brand.webPage);
+    this.brandCreateForm.controls['brandName'].setValue(this.brand.brandName);
+    this.brandCreateForm.controls['url'].setValue(this.brand.webPage);
   }
 
   public onImageUpload(event: any) {
@@ -64,8 +64,8 @@ export class UpdateBrandComponent implements OnInit {
   }
 
   onSubmit(): void {
-    const brandName = this.brandCreateForm.controls.brandName.value;
-    const webPage = this.brandCreateForm.controls.url.value;
+    const brandName = this.brandCreateForm.controls['brandName'].value;
+    const webPage = this.brandCreateForm.controls['url'].value;
 
     if (brandName == null || webPage == null) {
       this.toastr.error('Something is wrong!', 'Failed');

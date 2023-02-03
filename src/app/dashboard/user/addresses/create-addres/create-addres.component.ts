@@ -13,7 +13,7 @@ import { UserDataService } from '../../../../_service/data/userData.service';
 @Component({
   selector: 'app-create-addres',
   templateUrl: './create-addres.component.html',
-  styleUrls: ['./create-addres.component.scss'],
+  styleUrls: ['./create-addres.component.scss']
 })
 export class CreateAddresComponent implements OnInit {
   addressForm = new FormGroup({
@@ -22,7 +22,7 @@ export class CreateAddresComponent implements OnInit {
     additional: new FormControl(''),
     zipcode: new FormControl('', [Validators.required]),
     city: new FormControl('', [Validators.required]),
-    country: new FormControl('', [Validators.required]),
+    country: new FormControl('', [Validators.required])
   });
 
   user!: UserModel | undefined;

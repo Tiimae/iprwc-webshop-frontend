@@ -6,13 +6,13 @@ import { SupplierModel } from '../../_models/supplier.model';
 import { ApiMethodsService } from '../api-methods.service';
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class SupplierDataService {
-  suppliers: SupplierModel[] = [];
-  suppliers$: Subject<SupplierModel[]> = new BehaviorSubject<SupplierModel[]>(
-    []
-  );
+  private suppliers: SupplierModel[] = [];
+  public suppliers$: Subject<SupplierModel[]> = new BehaviorSubject<
+    SupplierModel[]
+  >([]);
 
   constructor(
     private apiMethod: ApiMethodsService,
@@ -20,7 +20,7 @@ export class SupplierDataService {
   ) {}
 
   public async getAll(): Promise<void> {
-    await this.apiMethod.get('supplier', false).then((r) => {
+    await this.apiMethod.get('supplier', false).then((r: AxiosResponse) => {
       this.suppliers = r.data.payload;
       this.suppliers$.next(this.suppliers);
     });
@@ -62,15 +62,13 @@ export class SupplierDataService {
       zipcode: supplier.zipcode,
       city: supplier.city,
       country: supplier.country,
-      productIds: [],
+      productIds: []
     };
 
-    this.apiMethod
-      .post('supplier', payload, true)
-      .then((r) => {
-        this.suppliers.push(r.data.payload);
-        this.suppliers$.next(this.suppliers);
-      });
+    this.apiMethod.post('supplier', payload, true).then((r: AxiosResponse) => {
+      this.suppliers.push(r.data.payload);
+      this.suppliers$.next(this.suppliers);
+    });
 
     return check;
   }
@@ -97,12 +95,12 @@ export class SupplierDataService {
       address: supplier.address,
       zipcode: supplier.zipcode,
       city: supplier.city,
-      country: supplier.country,
+      country: supplier.country
     };
 
     this.apiMethod
       .put('supplier/' + supplier.id, payload, true)
-      .then((r) => {
+      .then((r: AxiosResponse) => {
         this.suppliers[
           this.suppliers.findIndex(
             (currentSupplier) => currentSupplier.id === supplier.id
@@ -120,8 +118,10 @@ export class SupplierDataService {
       }
     });
 
-    this.apiMethod.delete('supplier/' + supplier.id, true).then((r) => {
-      this.suppliers$.next(this.suppliers);
-    });
+    this.apiMethod
+      .delete('supplier/' + supplier.id, true)
+      .then((r: AxiosResponse) => {
+        this.suppliers$.next(this.suppliers);
+      });
   }
 }

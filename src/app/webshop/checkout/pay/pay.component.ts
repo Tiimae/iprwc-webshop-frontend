@@ -12,7 +12,7 @@ import { ApiConnectorService } from '../../../_service/api-connector.service';
 @Component({
   selector: 'app-pay',
   templateUrl: './pay.component.html',
-  styleUrls: ['./pay.component.scss'],
+  styleUrls: ['./pay.component.scss']
 })
 export class PayComponent implements OnInit {
   isLoading: boolean = false;

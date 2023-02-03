@@ -7,10 +7,10 @@ export const environment = {
   apiUrl: 'http://localhost:8080/api/v1.0/',
   url: 'http://localhost:8080',
   base: 'http://localhost:4200',
-  sharedSecret: '5qwex6rc7t8v968fgt7yb7t58d47sed5c8tv9yb0nT9V0878TVUBYIPNJpyihk',
-  // apiUrl: 'http://api.timdekok.nl:8080/api/v1.0/',
-  // url: 'http://api.timdekok.nl:8080',
-  // base: 'http://timdekok.nl',
+  sharedSecret: '5qwex6rc7t8v968fgt7yb7t58d47sed5c8tv9yb0nT9V0878TVUBYIPNJpyihk'
+  // apiUrl: 'https://api.timdekok.nl:8080/api/v1.0/',
+  // url: 'https://api.timdekok.nl:8080',
+  // base: 'https://timdekok.nl',
   // sharedSecret: '05Voetbal#07',
 };
 

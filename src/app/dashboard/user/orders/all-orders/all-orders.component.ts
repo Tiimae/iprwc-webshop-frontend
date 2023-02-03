@@ -8,7 +8,7 @@ import { ApiConnectorService } from '../../../../_service/api-connector.service'
 @Component({
   selector: 'app-all-orders',
   templateUrl: './all-orders.component.html',
-  styleUrls: ['./all-orders.component.scss'],
+  styleUrls: ['./all-orders.component.scss']
 })
 export class AllOrdersComponent implements OnInit {
   user!: UserModel;
@@ -23,15 +23,17 @@ export class AllOrdersComponent implements OnInit {
     AppComponent.isLoading = true;
     this.api.getJwtPayload().then((payload) => {
       this.orderDataService.getByUserId(payload.userId).then((res) => {
-        this.userOrders = res.data.payload.sort((a: { orderId: number; }, b: { orderId: number; }) => {
-          let comparison = 0;
-          if (a.orderId > b.orderId) {
-            comparison = -1;
-          } else if (a.orderId < b.orderId) {
-            comparison = 1;
+        this.userOrders = res.data.payload.sort(
+          (a: { orderId: number }, b: { orderId: number }) => {
+            let comparison = 0;
+            if (a.orderId > b.orderId) {
+              comparison = -1;
+            } else if (a.orderId < b.orderId) {
+              comparison = 1;
+            }
+            return comparison;
           }
-          return comparison;
-        });
+        );
       });
     });
 

@@ -17,7 +17,7 @@ import { SupplierDataService } from '../../../../_service/data/supplierData.serv
 @Component({
   selector: 'app-update-product',
   templateUrl: './update-product.component.html',
-  styleUrls: ['./update-product.component.scss'],
+  styleUrls: ['./update-product.component.scss']
 })
 export class UpdateProductComponent implements OnInit {
   productCreateForm = new FormGroup({
@@ -27,7 +27,7 @@ export class UpdateProductComponent implements OnInit {
     category: new FormControl('', [Validators.required]),
     brand: new FormControl('', [Validators.required]),
     supplier: new FormControl('', [Validators.required]),
-    image: new FormControl('', []),
+    image: new FormControl('', [])
   });
 
   productId!: string;
@@ -99,7 +99,7 @@ export class UpdateProductComponent implements OnInit {
       error(e: Error) {
         throw new Error(e.message);
       },
-      complete: () => {},
+      complete: () => {}
     });
 
     this.brandDataService.brands$.subscribe({
@@ -119,7 +119,7 @@ export class UpdateProductComponent implements OnInit {
       error(e: Error) {
         throw new Error(e.message);
       },
-      complete: () => {},
+      complete: () => {}
     });
 
     this.categoryDataService.categories$.subscribe({
@@ -139,7 +139,7 @@ export class UpdateProductComponent implements OnInit {
       error(e: Error) {
         throw new Error(e.message);
       },
-      complete: () => {},
+      complete: () => {}
     });
   }
 

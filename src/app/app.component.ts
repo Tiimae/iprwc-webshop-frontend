@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-root',
@@ -8,6 +8,8 @@ import {Component} from '@angular/core';
 export class AppComponent {
   title = 'iprwc-webshop';
   static isLoading: boolean = false;
+
+  public static decryptKey: string | null = null;
 
   getIsLoading() {
     return AppComponent.isLoading;

@@ -1,7 +1,7 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {CategoryModel} from 'src/app/_models/category.model';
-import * as CryptoJs from "crypto-js";
-import {ApiConnectorService} from "../../../../../_service/api-connector.service";
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { CategoryModel } from 'src/app/_models/category.model';
+import * as CryptoJs from 'crypto-js';
+import { ApiConnectorService } from '../../../../../_service/api-connector.service';
 
 @Component({
   selector: 'app-category',
@@ -9,20 +9,20 @@ import {ApiConnectorService} from "../../../../../_service/api-connector.service
   styleUrls: ['./category.component.scss']
 })
 export class CategoryComponent implements OnInit {
-
-  categoryId: string = ""
+  categoryId: string = '';
 
   @Input() category!: CategoryModel;
 
   @Output() delete: EventEmitter<CategoryModel> = new EventEmitter();
 
-  constructor(
-    private api: ApiConnectorService
-  ) { }
+  constructor(private api: ApiConnectorService) {}
 
   async ngOnInit(): Promise<void> {
-    let encryptedId: string = CryptoJs.Rabbit.encrypt(this.category?.id, await this.api.getDecryptKey()).toString()
-    this.categoryId = encryptedId.toString().replace(new RegExp("/", "g"), "*");
+    let encryptedId: string = CryptoJs.Rabbit.encrypt(
+      this.category?.id,
+      await this.api.getDecryptKey()
+    ).toString();
+    this.categoryId = encryptedId.toString().replace(new RegExp('/', 'g'), '*');
   }
 
   removeCategory(): void {

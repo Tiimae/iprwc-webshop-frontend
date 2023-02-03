@@ -6,8 +6,14 @@ export class SupplierModel {
   private readonly _city: string;
   private readonly _country: string;
 
-
-  constructor(id: string, name: string, address: string, zipcode: string, city: string, country: string) {
+  constructor(
+    id: string,
+    name: string,
+    address: string,
+    zipcode: string,
+    city: string,
+    country: string
+  ) {
     this._id = id;
     this._name = name;
     this._address = address;
@@ -15,7 +21,6 @@ export class SupplierModel {
     this._city = city;
     this._country = country;
   }
-
 
   get id(): string {
     return this._id;

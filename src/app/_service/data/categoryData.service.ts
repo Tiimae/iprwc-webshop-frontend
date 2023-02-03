@@ -6,13 +6,13 @@ import { CategoryModel } from '../../_models/category.model';
 import { ApiMethodsService } from '../api-methods.service';
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class CategoryDataService {
-  categories: CategoryModel[] = [];
-  categories$: Subject<CategoryModel[]> = new BehaviorSubject<CategoryModel[]>(
-    []
-  );
+  private categories: CategoryModel[] = [];
+  public categories$: Subject<CategoryModel[]> = new BehaviorSubject<
+    CategoryModel[]
+  >([]);
 
   constructor(
     private apiMethod: ApiMethodsService,
@@ -40,7 +40,7 @@ export class CategoryDataService {
   }
 
   public async getAllCategories(): Promise<void> {
-    await this.apiMethod.get('category', false).then((r) => {
+    await this.apiMethod.get('category', false).then((r: AxiosResponse) => {
       this.categories = r.data.payload;
       this.categories$.next(this.categories);
     });
@@ -53,9 +53,11 @@ export class CategoryDataService {
       }
     });
 
-    this.apiMethod.delete('category/' + category.id, true).then((r) => {
-      this.categories$.next(this.categories);
-    });
+    this.apiMethod
+      .delete('category/' + category.id, true)
+      .then((r: AxiosResponse) => {
+        this.categories$.next(this.categories);
+      });
   }
 
   public createCategory(category: CategoryModel): boolean {
@@ -74,10 +76,10 @@ export class CategoryDataService {
 
     const payload = {
       categoryName: category.categoryName,
-      productIds: [],
+      productIds: []
     };
 
-    this.apiMethod.post('category', payload, true).then((r) => {
+    this.apiMethod.post('category', payload, true).then((r: AxiosResponse) => {
       this.categories.push(r.data.payload);
       this.categories$.next(this.categories);
     });
@@ -104,17 +106,19 @@ export class CategoryDataService {
 
     const payload = {
       categoryName: category.categoryName,
-      productIds: [],
+      productIds: []
     };
 
-    this.apiMethod.put('category/' + category.id, payload, true).then((r) => {
-      this.categories[
-        this.categories.findIndex(
-          (currentCategory) => currentCategory.id === category.id
-        )
-      ] = category;
-      this.categories$.next(this.categories);
-    });
+    this.apiMethod
+      .put('category/' + category.id, payload, true)
+      .then((r: AxiosResponse) => {
+        this.categories[
+          this.categories.findIndex(
+            (currentCategory) => currentCategory.id === category.id
+          )
+        ] = category;
+        this.categories$.next(this.categories);
+      });
     return check;
   }
 }

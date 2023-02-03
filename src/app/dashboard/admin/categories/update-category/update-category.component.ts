@@ -10,14 +10,14 @@ import { CategoryDataService } from '../../../../_service/data/categoryData.serv
 @Component({
   selector: 'app-update-category',
   templateUrl: './update-category.component.html',
-  styleUrls: ['./update-category.component.scss'],
+  styleUrls: ['./update-category.component.scss']
 })
 export class UpdateCategoryComponent implements OnInit {
   categoryId: string = '';
   category!: CategoryModel;
 
   categoryCreateForm = new FormGroup({
-    catname: new FormControl('', [Validators.required]),
+    catname: new FormControl('', [Validators.required])
   });
 
   constructor(

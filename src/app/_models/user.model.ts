@@ -1,6 +1,6 @@
-import {RoleModel} from "./role.model";
-import {UserAddressesModel} from "./userAddresses.model";
-import {OrderModel} from "./order.model";
+import { RoleModel } from './role.model';
+import { UserAddressesModel } from './userAddresses.model';
+import { OrderModel } from './order.model';
 
 export class UserModel {
   private readonly _id: string;
@@ -9,11 +9,19 @@ export class UserModel {
   private readonly _lastName: string;
   private readonly _email: string;
   private readonly _roles: RoleModel[] = [];
-  private readonly _addresses: UserAddressesModel[] = []
-  private readonly _orders: OrderModel[] = []
+  private readonly _addresses: UserAddressesModel[] = [];
+  private readonly _orders: OrderModel[] = [];
 
-
-  constructor(id: string, firstName: string, middleName: string, lastName: string, email: string, roles: RoleModel[], addresses: UserAddressesModel[], orders: OrderModel[]) {
+  constructor(
+    id: string,
+    firstName: string,
+    middleName: string,
+    lastName: string,
+    email: string,
+    roles: RoleModel[],
+    addresses: UserAddressesModel[],
+    orders: OrderModel[]
+  ) {
     this._id = id;
     this._firstName = firstName;
     this._middleName = middleName;
@@ -23,7 +31,6 @@ export class UserModel {
     this._addresses = addresses;
     this._orders = orders;
   }
-
 
   get id(): string {
     return this._id;

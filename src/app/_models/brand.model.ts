@@ -5,13 +5,17 @@ export class BrandModel {
   private _logoUrl: File | string;
   private _image: File | undefined;
 
-  constructor(id: string, brandName: string, webPage: string, logoUrl: File | string) {
+  constructor(
+    id: string,
+    brandName: string,
+    webPage: string,
+    logoUrl: File | string
+  ) {
     this._id = id;
     this._brandName = brandName;
     this._webPage = webPage;
     this._logoUrl = logoUrl;
   }
-
 
   get id(): string {
     return this._id;
@@ -36,7 +40,6 @@ export class BrandModel {
   set webPage(value: string) {
     this._webPage = value;
   }
-
 
   get logoUrl(): File | string {
     return this._logoUrl;

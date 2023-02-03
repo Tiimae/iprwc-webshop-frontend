@@ -1,31 +1,35 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
-import {AuthService} from "../../_service/auth.service";
-import {ApiConnectorService} from "../../_service/api-connector.service";
-import {Router} from "@angular/router";
+import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { ApiConnectorService } from '../../_service/api-connector.service';
+import { AuthService } from '../../_service/auth.service';
 
-import {faEnvelope, faKey} from "@fortawesome/free-solid-svg-icons";
-import {FormControl, FormGroup, NgForm, Validators} from "@angular/forms";
-import {ToastrService} from 'ngx-toastr';
-import {AppComponent} from "../../app.component";
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import {
+  faEnvelope,
+  faKey,
+  IconDefinition
+} from '@fortawesome/free-solid-svg-icons';
+import { ToastrService } from 'ngx-toastr';
+import { AppComponent } from '../../app.component';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss'],
+  styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit {
-  faKey = faKey;
-  faEnvelope = faEnvelope;
+  public faKey: IconDefinition = faKey;
+  public faEnvelope: IconDefinition = faEnvelope;
 
-  loginForm = new FormGroup({
+  public loginForm: FormGroup = new FormGroup({
     email: new FormControl('', [
       Validators.required,
       Validators.pattern(
         '^(?=.{1,64}@)[A-Za-z0-9_-]+(\\.[A-Za-z0-9_-]+)*@' +
           '[^-][A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})$'
-      ),
+      )
     ]),
-    password: new FormControl('', [Validators.required]),
+    password: new FormControl('', [Validators.required])
   });
 
   constructor(
@@ -39,7 +43,7 @@ export class LoginComponent implements OnInit {
     AppComponent.isLoading = true;
     if (localStorage.getItem('jwt-token')) {
       try {
-        const tokenPayload = await this.api.getJwtPayload();
+        const tokenPayload: any = await this.api.getJwtPayload();
 
         setTimeout(async () => {
           if (tokenPayload !== undefined) {
@@ -54,8 +58,8 @@ export class LoginComponent implements OnInit {
   public async onSubmit() {
     AppComponent.isLoading = true;
 
-    const email = this.loginForm.controls.email.value;
-    const password = this.loginForm.controls.password.value;
+    const email: string = this.loginForm.controls['email'].value;
+    const password: string = this.loginForm.controls['password'].value;
 
     if (email == null || password == null) {
       this.toastr.error('Something went wrong!', 'Failed');

@@ -11,7 +11,7 @@ import { ProductDataService } from '../../_service/data/productData.service';
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
-  styleUrls: ['./home.component.scss'],
+  styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
   isLoading: boolean = false;
@@ -76,7 +76,7 @@ export class HomeComponent implements OnInit {
       },
       complete: () => {
         console.log('complete');
-      },
+      }
     });
 
     await this.categoryService.getAllCategories();
@@ -99,7 +99,7 @@ export class HomeComponent implements OnInit {
       },
       complete: () => {
         console.log('complete');
-      },
+      }
     });
 
     this.route.url.subscribe((res) => {

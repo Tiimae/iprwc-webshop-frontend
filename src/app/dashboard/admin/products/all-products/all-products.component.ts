@@ -7,7 +7,7 @@ import { ProductDataService } from '../../../../_service/data/productData.servic
 @Component({
   selector: 'app-all-products',
   templateUrl: './all-products.component.html',
-  styleUrls: ['./all-products.component.scss'],
+  styleUrls: ['./all-products.component.scss']
 })
 export class AllProductsComponent implements OnInit {
   allProducts: ProductModel[] = [];
@@ -46,7 +46,7 @@ export class AllProductsComponent implements OnInit {
       },
       complete: () => {
         console.log('complete');
-      },
+      }
     });
 
     this.productDataService.deletedProducts$.subscribe({
@@ -58,7 +58,7 @@ export class AllProductsComponent implements OnInit {
       },
       complete: () => {
         console.log('complete');
-      },
+      }
     });
     AppComponent.isLoading = false;
   }

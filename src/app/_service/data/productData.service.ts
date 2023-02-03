@@ -8,19 +8,21 @@ import { ProductImageModel } from '../../_models/productImage.model';
 import { ApiMethodsService } from '../api-methods.service';
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class ProductDataService {
   private products: ProductModel[] = [];
-  products$: Subject<ProductModel[]> = new BehaviorSubject<ProductModel[]>([]);
+  public products$: Subject<ProductModel[]> = new BehaviorSubject<
+    ProductModel[]
+  >([]);
   private deletedProducts: ProductModel[] = [];
-  deletedProducts$: Subject<ProductModel[]> = new BehaviorSubject<
+  public deletedProducts$: Subject<ProductModel[]> = new BehaviorSubject<
     ProductModel[]
   >([]);
 
   constructor(private toastr: ToastrService, private api: ApiMethodsService) {}
 
-  get(productId: string): Observable<ProductModel | undefined> {
+  public get(productId: string): Observable<ProductModel | undefined> {
     if (this.products.length != 0) {
       return of(
         <ProductModel>(
@@ -36,8 +38,8 @@ export class ProductDataService {
     return this.api.get('product/' + productId, false);
   }
 
-  getAll(): void {
-    this.api.get('product', false).then((res) => {
+  public getAll(): void {
+    this.api.get('product', false).then((res: AxiosResponse) => {
       res.data.payload.forEach((product: ProductModel) => {
         if (product.deleted) {
           this.deletedProducts.push(product);
@@ -51,7 +53,7 @@ export class ProductDataService {
     });
   }
 
-  post(product: ProductModel, images: File[]): boolean {
+  public post(product: ProductModel, images: File[]): boolean {
     let check = true;
 
     this.products.forEach((currentProduct: ProductModel) => {
@@ -78,11 +80,11 @@ export class ProductDataService {
         price: product.price,
         brandId: product.brand.id,
         categoryId: product.category.id,
-        supplierId: product.supplier.id,
+        supplierId: product.supplier.id
       })
     );
 
-    this.api.post('product', fd, true).then((res) => {
+    this.api.post('product', fd, true).then((res: AxiosResponse) => {
       this.products.push(res.data.payload);
       this.products$.next(this.products);
     });
@@ -90,7 +92,7 @@ export class ProductDataService {
     return check;
   }
 
-  update(
+  public update(
     product: ProductModel,
     deletedImages: ProductImageModel[],
     newImages: File[]
@@ -127,24 +129,26 @@ export class ProductDataService {
         price: product.price,
         brandId: product.brand.id,
         categoryId: product.category.id,
-        supplierId: product.supplier.id,
+        supplierId: product.supplier.id
       })
     );
 
-    this.api.put('product/' + product.id, fd, true).then((res) => {
-      this.products[
-        this.products.findIndex(
-          (currentProduct) => currentProduct.id === product.id
-        )
-      ] = res.data.payload;
-      this.products$.next(this.products);
-    });
+    this.api
+      .put('product/' + product.id, fd, true)
+      .then((res: AxiosResponse) => {
+        this.products[
+          this.products.findIndex(
+            (currentProduct) => currentProduct.id === product.id
+          )
+        ] = res.data.payload;
+        this.products$.next(this.products);
+      });
 
     return check;
   }
 
-  delete(productId: string): void {
-    this.api.delete('product/' + productId, true).then((r) => {
+  public delete(productId: string): void {
+    this.api.delete('product/' + productId, true).then((r: AxiosResponse) => {
       this.products.splice(
         this.products.findIndex(
           (currentProduct) => currentProduct.id === productId
@@ -158,18 +162,20 @@ export class ProductDataService {
   }
 
   restore(productId: string): void {
-    this.api.delete('product/' + productId + '/restore', true).then((r) => {
-      this.deletedProducts.splice(
-        this.deletedProducts.findIndex(
-          (currentProduct) => currentProduct.id === productId
-        ),
-        1
-      );
-      this.products.push(r.data.payload);
+    this.api
+      .delete('product/' + productId + '/restore', true)
+      .then((r: AxiosResponse) => {
+        this.deletedProducts.splice(
+          this.deletedProducts.findIndex(
+            (currentProduct) => currentProduct.id === productId
+          ),
+          1
+        );
+        this.products.push(r.data.payload);
 
-      this.products$.next(this.products);
-      this.deletedProducts$.next(this.deletedProducts);
-    });
+        this.products$.next(this.products);
+        this.deletedProducts$.next(this.deletedProducts);
+      });
   }
 
   setNewReview(productId: string, product: ProductModel) {

@@ -10,12 +10,14 @@ import { ApiConnectorService } from '../../../../_service/api-connector.service'
 @Component({
   selector: 'app-all-addresses',
   templateUrl: './all-addresses.component.html',
-  styleUrls: ['./all-addresses.component.scss'],
+  styleUrls: ['./all-addresses.component.scss']
 })
 export class AllAddressesComponent implements OnInit {
   user!: UserModel;
   deliveryAddresses: UserAddressesModel[] = [];
   invoiceAddresses: UserAddressesModel[] = [];
+
+  private count: number = 0;
 
   constructor(
     private userAddressDataService: UserAddressesDataService,
@@ -28,14 +30,12 @@ export class AllAddressesComponent implements OnInit {
 
     this.api.getJwtPayload().then((payload) => {
       this.userAddressDataService.userAddresses$.subscribe((userAddresses) => {
-        let count: number = 0;
-
         if (
-          (userAddresses.length == 0 && count < 1) ||
-          (userAddresses == undefined && count < 1)
+          (userAddresses.length == 0 && this.count < 1) ||
+          (userAddresses == undefined && this.count < 1)
         ) {
           this.userAddressDataService.getByUserId(payload.userId);
-          count = 1;
+          this.count = 1;
         }
 
         this.deliveryAddresses = [];
@@ -62,8 +62,8 @@ export class AllAddressesComponent implements OnInit {
     const id = encryptedId.replace(new RegExp('/', 'g'), '*');
     await this.router.navigate(['dashboard', 'user', 'addresses', id], {
       queryParams: {
-        type: type,
-      },
+        type: type
+      }
     });
   }
 }

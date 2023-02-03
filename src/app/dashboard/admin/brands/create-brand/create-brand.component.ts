@@ -1,9 +1,9 @@
-import {Component, OnInit} from '@angular/core';
-import {FormControl, FormGroup, Validators} from "@angular/forms";
-import {Router} from "@angular/router";
-import {BrandModel} from 'src/app/_models/brand.model';
-import {BrandDataService} from 'src/app/_service/data/brandData.service';
-import {ToastrService} from "ngx-toastr";
+import { Component, OnInit } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
+import { BrandModel } from 'src/app/_models/brand.model';
+import { BrandDataService } from 'src/app/_service/data/brandData.service';
 
 @Component({
   selector: 'app-create-brand',
@@ -11,33 +11,29 @@ import {ToastrService} from "ngx-toastr";
   styleUrls: ['./create-brand.component.scss']
 })
 export class CreateBrandComponent implements OnInit {
-
-  brandCreateForm = new FormGroup({
+  public brandCreateForm: FormGroup = new FormGroup({
     brandName: new FormControl('', [Validators.required]),
     url: new FormControl('', [Validators.required]),
-    logo: new FormControl('', [Validators.required]),
-  })
+    logo: new FormControl('', [Validators.required])
+  });
 
-  uploadedImage!: File;
+  private uploadedImage!: File;
 
   constructor(
     private router: Router,
     private brandDataService: BrandDataService,
     private toastr: ToastrService
-  ) { }
+  ) {}
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
   public onImageUpload(event: any) {
     this.uploadedImage = event.target.files[0];
   }
 
-
   public onSubmit(): void {
-
-    const brandName = this.brandCreateForm.controls.brandName.value
-    const webPage = this.brandCreateForm.controls.url.value
+    const brandName = this.brandCreateForm.controls['brandName'].value;
+    const webPage = this.brandCreateForm.controls['url'].value;
 
     if (brandName == null || webPage == null) {
       this.toastr.error('Something is wrong!', 'Failed');
@@ -49,15 +45,13 @@ export class CreateBrandComponent implements OnInit {
       return;
     }
 
-    const brand = new BrandModel("", brandName, webPage, this.uploadedImage)
-    brand.image = this.uploadedImage
+    const brand = new BrandModel('', brandName, webPage, this.uploadedImage);
+    brand.image = this.uploadedImage;
     const request: boolean = this.brandDataService.create(brand);
 
     if (request) {
-      this.toastr.success("Brand Has been created successfully!", "Created")
-      this.router.navigate(["dashboard", "admin", "brands"])
+      this.toastr.success('Brand Has been created successfully!', 'Created');
+      this.router.navigate(['dashboard', 'admin', 'brands']);
     }
-
   }
-
 }

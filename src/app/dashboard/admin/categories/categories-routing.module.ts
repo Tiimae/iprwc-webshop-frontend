@@ -1,34 +1,34 @@
-import {NgModule} from '@angular/core';
-import {RouterModule, Routes} from '@angular/router';
-import {AllCategoriesComponent} from "./all-categories/all-categories.component";
-import {CreateCategoryComponent} from './create-category/create-category.component';
-import {UpdateCategoryComponent} from './update-category/update-category.component';
-import {CategoryResolverService} from "../../../_service/_resolver/category-resolver.service";
+import { NgModule } from '@angular/core';
+import { RouterModule, Routes } from '@angular/router';
+import { AllCategoriesComponent } from './all-categories/all-categories.component';
+import { CreateCategoryComponent } from './create-category/create-category.component';
+import { UpdateCategoryComponent } from './update-category/update-category.component';
+import { CategoryResolverService } from '../../../_service/_resolver/category-resolver.service';
 
 const routes: Routes = [
   {
-    path: "",
+    path: '',
     component: AllCategoriesComponent
   },
   {
-    path: "create",
+    path: 'create',
     component: CreateCategoryComponent,
     data: {
-      breadcrumb: "Create"
+      breadcrumb: 'Create'
     }
   },
   {
-    path: ":categoryId",
+    path: ':categoryId',
     component: UpdateCategoryComponent,
     data: {
       breadcrumb: (data: any) => `${data.category.categoryName}`
     },
-    resolve: {category: CategoryResolverService}
-  },
+    resolve: { category: CategoryResolverService }
+  }
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class CategoriesRoutingModule { }
+export class CategoriesRoutingModule {}

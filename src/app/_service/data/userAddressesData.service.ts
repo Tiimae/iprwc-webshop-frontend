@@ -5,28 +5,30 @@ import { UserAddressesModel } from 'src/app/_models/userAddresses.model';
 import { ApiMethodsService } from '../api-methods.service';
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class UserAddressesDataService {
   private userAddresses: UserAddressesModel[] = [];
-  userAddresses$: Subject<UserAddressesModel[]> = new BehaviorSubject<
+  public userAddresses$: Subject<UserAddressesModel[]> = new BehaviorSubject<
     UserAddressesModel[]
   >([]);
 
   constructor(private api: ApiMethodsService) {}
 
   public getByUserId(userId: string): void {
-    this.api.get('user-address/user/' + userId, true).then((res) => {
-      this.userAddresses = res.data.payload;
-      this.userAddresses$.next(this.userAddresses);
-    });
+    this.api
+      .get('user-address/user/' + userId, true)
+      .then((res: AxiosResponse) => {
+        this.userAddresses = res.data.payload;
+        this.userAddresses$.next(this.userAddresses);
+      });
   }
 
   public async getByAddressId(addressId: string): Promise<AxiosResponse> {
     return await this.api.get('user-address/' + addressId, true);
   }
 
-  async createUserAddress(
+  public async createUserAddress(
     userAddress: UserAddressesModel
   ): Promise<UserAddressesModel> {
     return await this.api
@@ -40,18 +42,18 @@ export class UserAddressesDataService {
           city: userAddress.city,
           country: userAddress.country,
           type: userAddress.type,
-          userId: userAddress.user.id,
+          userId: userAddress.user.id
         },
         true
       )
-      .then((res) => {
+      .then((res: AxiosResponse) => {
         this.userAddresses.push(res.data.payload);
         this.userAddresses$.next(this.userAddresses);
         return res.data.payload;
       });
   }
 
-  async updateUserAddress(
+  public async updateUserAddress(
     userAddress: UserAddressesModel
   ): Promise<UserAddressesModel> {
     return await this.api
@@ -63,18 +65,20 @@ export class UserAddressesDataService {
           addition: userAddress.addition,
           zipcode: userAddress.zipcode,
           city: userAddress.city,
-          country: userAddress.country,
+          country: userAddress.country
         },
         true
       )
-      .then((res) => {
+      .then((res: AxiosResponse) => {
         return res.data.payload;
       });
   }
 
-  async deleteUserAddress(id: string): Promise<AxiosResponse> {
-    return await this.api.delete('user-address/' + id, true).then((res) => {
-      return res;
-    });
+  public async deleteUserAddress(id: string): Promise<AxiosResponse> {
+    return await this.api
+      .delete('user-address/' + id, true)
+      .then((res: AxiosResponse) => {
+        return res;
+      });
   }
 }

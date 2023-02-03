@@ -5,7 +5,7 @@ import { ProductModel } from 'src/app/_models/product.model';
 import { ProductDataService } from './productData.service';
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class CartDataService {
   products: ProductModel[] = [];
@@ -46,7 +46,7 @@ export class CartDataService {
             error(e: Error) {
               console.log(e.message);
             },
-            complete: () => {},
+            complete: () => {}
           });
         });
       }
@@ -78,7 +78,7 @@ export class CartDataService {
 
         const newItem = JSON.stringify({
           id: product.id,
-          amount: oldAmount,
+          amount: oldAmount
         });
         // @ts-ignore
         items[items.findIndex((item) => JSON.parse(item).id === product.id)] =
@@ -87,7 +87,7 @@ export class CartDataService {
       } else {
         const newItem = JSON.stringify({
           id: product.id,
-          amount: amount,
+          amount: amount
         });
 
         // @ts-ignore
@@ -139,7 +139,11 @@ export class CartDataService {
 
     if (items != null) {
       // @ts-ignore
-      items.splice(items.findIndex((item) => JSON.parse(item).id === product.id), 1);
+      items.splice(
+        // @ts-ignore
+        items.findIndex((item) => JSON.parse(item).id === product.id),
+        1
+      );
     }
 
     localStorage.setItem('cart', JSON.stringify(items));

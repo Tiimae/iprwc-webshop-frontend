@@ -1,9 +1,9 @@
-import {Component, OnInit} from '@angular/core';
-import {FormControl, FormGroup, Validators} from "@angular/forms";
-import {Router} from '@angular/router';
-import {CategoryModel} from "../../../../_models/category.model";
-import {CategoryDataService} from "../../../../_service/data/categoryData.service";
-import {ToastrService} from "ngx-toastr";
+import { Component, OnInit } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+import { CategoryModel } from '../../../../_models/category.model';
+import { CategoryDataService } from '../../../../_service/data/categoryData.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-create-category',
@@ -11,28 +11,24 @@ import {ToastrService} from "ngx-toastr";
   styleUrls: ['./create-category.component.scss']
 })
 export class CreateCategoryComponent implements OnInit {
-
   categoryCreateForm = new FormGroup({
-    catname: new FormControl('', [Validators.required]),
-  })
+    catname: new FormControl('', [Validators.required])
+  });
 
   constructor(
     private router: Router,
     private categoryDataService: CategoryDataService,
     private toastr: ToastrService
-  ) {
-  }
+  ) {}
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
   onSubmit(): void {
-
     const catName = this.categoryCreateForm.controls.catname.value;
 
     if (catName == null) {
       this.toastr.error('Something is wrong!', 'Failed');
-      return
+      return;
     }
 
     if (!this.categoryCreateForm.valid) {
@@ -40,14 +36,13 @@ export class CreateCategoryComponent implements OnInit {
       return;
     }
 
-    const category = new CategoryModel("", catName)
+    const category = new CategoryModel('', catName);
 
-    const request: boolean = this.categoryDataService.createCategory(category)
+    const request: boolean = this.categoryDataService.createCategory(category);
 
     if (request) {
-      this.toastr.success("Brand Has been created successfully!", "Created")
-      this.router.navigate(['dashboard', "admin", "categories"])
+      this.toastr.success('Brand Has been created successfully!', 'Created');
+      this.router.navigate(['dashboard', 'admin', 'categories']);
     }
   }
-
 }

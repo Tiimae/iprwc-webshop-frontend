@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import {
   ActivatedRouteSnapshot,
   Resolve,
-  RouterStateSnapshot,
+  RouterStateSnapshot
 } from '@angular/router';
 
 import * as CryptoJs from 'crypto-js';
@@ -11,7 +11,7 @@ import { ApiConnectorService } from '../api-connector.service';
 import { BrandDataService } from '../data/brandData.service';
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class BrandResolverService implements Resolve<BrandModel | undefined> {
   constructor(
@@ -34,7 +34,7 @@ export class BrandResolverService implements Resolve<BrandModel | undefined> {
       (res: BrandModel | undefined) => {
         if (res == undefined) {
           this.brandDataService.getByRequest(id).then((res) => {
-            currentBrand = res.data.payload;
+            currentBrand = <BrandModel>res.data.payload;
           });
         } else {
           currentBrand = res;

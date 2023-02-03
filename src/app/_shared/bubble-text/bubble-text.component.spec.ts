@@ -1,6 +1,6 @@
-import {ComponentFixture, TestBed} from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import {BubbleTextComponent} from './bubble-text.component';
+import { BubbleTextComponent } from './bubble-text.component';
 
 describe('BubbleTextComponent', () => {
   let component: BubbleTextComponent;
@@ -8,9 +8,8 @@ describe('BubbleTextComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ BubbleTextComponent ]
-    })
-    .compileComponents();
+      declarations: [BubbleTextComponent]
+    }).compileComponents();
 
     fixture = TestBed.createComponent(BubbleTextComponent);
     component = fixture.componentInstance;

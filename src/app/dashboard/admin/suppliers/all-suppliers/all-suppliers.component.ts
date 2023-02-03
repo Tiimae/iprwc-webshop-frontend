@@ -7,10 +7,11 @@ import { SupplierDataService } from '../../../../_service/data/supplierData.serv
 @Component({
   selector: 'app-all-suppliers',
   templateUrl: './all-suppliers.component.html',
-  styleUrls: ['./all-suppliers.component.scss'],
+  styleUrls: ['./all-suppliers.component.scss']
 })
 export class AllSuppliersComponent implements OnInit {
   allSuppliers: SupplierModel[] = [];
+  private count: number = 0;
 
   constructor(
     private supplierDataService: SupplierDataService,
@@ -20,8 +21,9 @@ export class AllSuppliersComponent implements OnInit {
   ngOnInit(): void {
     AppComponent.isLoading = true;
     this.supplierDataService.suppliers$.subscribe((r) => {
-      if (r.length < 1) {
+      if (r.length < 1 && this.count == 0) {
         this.supplierDataService.getAll();
+        this.count = 1;
       }
 
       this.allSuppliers = r.sort((a, b) => {

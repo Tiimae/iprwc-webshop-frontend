@@ -7,11 +7,11 @@ import { v4 as uuid } from 'uuid';
 import { ApiMethodsService } from '../api-methods.service';
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class BrandDataService {
-  brands: BrandModel[] = [];
-  brands$: Subject<BrandModel[]> = new BehaviorSubject<BrandModel[]>([]);
+  private brands: BrandModel[] = [];
+  public brands$: Subject<BrandModel[]> = new BehaviorSubject<BrandModel[]>([]);
 
   constructor(private toastr: ToastrService, private api: ApiMethodsService) {}
 
@@ -57,7 +57,7 @@ export class BrandDataService {
         brandName: brand.brandName,
         webPage: brand.webPage,
         logo: '',
-        productIds: [],
+        productIds: []
       })
     );
 
@@ -93,14 +93,14 @@ export class BrandDataService {
         brandName: brand.brandName,
         webPage: brand.webPage,
         logo: '',
-        productIds: [],
+        productIds: []
       })
     );
 
     this.api.put('brand/' + brand.id, formData, true).then((r) => {
       this.brands[
         this.brands.findIndex(
-          (currentBrand) => currentBrand.id === r.data.payload.id
+          (currentBrand: BrandModel) => currentBrand.id === r.data.payload.id
         )
       ] = r.data.payload;
       this.brands$.next(this.brands);
@@ -109,7 +109,7 @@ export class BrandDataService {
     return check;
   }
 
-  public remove(brand: BrandModel) {
+  public remove(brand: BrandModel): void {
     this.brands.forEach((currentUser, index) => {
       if (currentUser.id == brand.id) {
         this.brands.splice(index, 1);

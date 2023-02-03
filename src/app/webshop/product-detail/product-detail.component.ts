@@ -4,7 +4,7 @@ import {
   faArrowLeft,
   faArrowRight,
   faCheck,
-  faStar,
+  faStar
 } from '@fortawesome/free-solid-svg-icons';
 import * as CryptoJs from 'crypto-js';
 import { ToastrService } from 'ngx-toastr';
@@ -19,7 +19,7 @@ import { ProductDataService } from '../../_service/data/productData.service';
 @Component({
   selector: 'app-product-detail',
   templateUrl: './product-detail.component.html',
-  styleUrls: ['./product-detail.component.scss'],
+  styleUrls: ['./product-detail.component.scss']
 })
 export class ProductDetailComponent implements OnInit {
   isLoading: boolean = false;

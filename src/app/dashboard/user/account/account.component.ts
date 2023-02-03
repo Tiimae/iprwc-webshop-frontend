@@ -10,7 +10,7 @@ import { UserDataService } from '../../../_service/data/userData.service';
 @Component({
   selector: 'app-account',
   templateUrl: './account.component.html',
-  styleUrls: ['./account.component.scss'],
+  styleUrls: ['./account.component.scss']
 })
 export class AccountComponent implements OnInit {
   user!: UserModel;
@@ -23,8 +23,8 @@ export class AccountComponent implements OnInit {
       Validators.pattern(
         '^(?=.{1,64}@)[A-Za-z0-9_-]+(\\.[A-Za-z0-9_-]+)*@' +
           '[^-][A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})$'
-      ),
-    ]),
+      )
+    ])
   });
 
   constructor(

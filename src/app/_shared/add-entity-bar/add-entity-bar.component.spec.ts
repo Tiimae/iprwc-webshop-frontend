@@ -1,6 +1,6 @@
-import {ComponentFixture, TestBed} from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import {AddEntityBarComponent} from './add-entity-bar.component';
+import { AddEntityBarComponent } from './add-entity-bar.component';
 
 describe('AddEntityBarComponent', () => {
   let component: AddEntityBarComponent;
@@ -8,9 +8,8 @@ describe('AddEntityBarComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ AddEntityBarComponent ]
-    })
-    .compileComponents();
+      declarations: [AddEntityBarComponent]
+    }).compileComponents();
 
     fixture = TestBed.createComponent(AddEntityBarComponent);
     component = fixture.componentInstance;

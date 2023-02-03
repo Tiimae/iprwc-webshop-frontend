@@ -11,7 +11,7 @@ import { UserDataService } from '../../../../_service/data/userData.service';
 @Component({
   selector: 'app-create-user',
   templateUrl: './create-user.component.html',
-  styleUrls: ['./create-user.component.scss'],
+  styleUrls: ['./create-user.component.scss']
 })
 export class CreateUserComponent implements OnInit {
   roles: RoleModel[] = [];
@@ -26,9 +26,9 @@ export class CreateUserComponent implements OnInit {
       Validators.pattern(
         '^(?=.{1,64}@)[A-Za-z0-9_-]+(\\.[A-Za-z0-9_-]+)*@' +
           '[^-][A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})$'
-      ),
+      )
     ]),
-    role: new FormControl('', [Validators.required]),
+    role: new FormControl('', [Validators.required])
   });
 
   constructor(

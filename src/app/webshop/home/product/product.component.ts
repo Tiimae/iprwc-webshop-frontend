@@ -1,7 +1,7 @@
-import {Component, Input, OnInit} from '@angular/core';
-import {ProductModel} from "../../../_models/product.model";
-import * as CryptoJs from "crypto-js";
-import {ApiConnectorService} from "../../../_service/api-connector.service";
+import { Component, Input, OnInit } from '@angular/core';
+import { ProductModel } from '../../../_models/product.model';
+import * as CryptoJs from 'crypto-js';
+import { ApiConnectorService } from '../../../_service/api-connector.service';
 
 @Component({
   selector: 'app-product',
@@ -9,21 +9,20 @@ import {ApiConnectorService} from "../../../_service/api-connector.service";
   styleUrls: ['./product.component.scss']
 })
 export class ProductComponent implements OnInit {
-
   @Input() product!: ProductModel;
-  productId!: string
+  productId!: string;
 
-  constructor(
-    private api: ApiConnectorService
-  ) { }
+  constructor(private api: ApiConnectorService) {}
 
   ngOnInit(): void {
-    this.checkIfIdIsUndefined()
+    this.checkIfIdIsUndefined();
   }
 
   public async checkIfIdIsUndefined(): Promise<void> {
-    let encryptedId: string = CryptoJs.Rabbit.encrypt(this.product.id, await this.api.getDecryptKey()).toString()
-    this.productId = encryptedId.replace(new RegExp("/", "g"), "*");
+    let encryptedId: string = CryptoJs.Rabbit.encrypt(
+      this.product.id,
+      await this.api.getDecryptKey()
+    ).toString();
+    this.productId = encryptedId.replace(new RegExp('/', 'g'), '*');
   }
-
 }

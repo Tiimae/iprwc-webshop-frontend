@@ -1,11 +1,10 @@
-import {NgModule} from '@angular/core';
-import {CommonModule} from '@angular/common';
-import {BubbleTextComponent} from './bubble-text/bubble-text.component';
-import {AddEntityBarComponent} from './add-entity-bar/add-entity-bar.component';
+import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { BubbleTextComponent } from './bubble-text/bubble-text.component';
+import { AddEntityBarComponent } from './add-entity-bar/add-entity-bar.component';
 import { BreadcrumbComponent } from './breadcrumb/breadcrumb.component';
-import {RouterLinkWithHref} from "@angular/router";
-import {LoadingSpinnerComponent} from "./loading-spinner/loading-spinner.component";
-
+import { RouterLinkWithHref } from '@angular/router';
+import { LoadingSpinnerComponent } from './loading-spinner/loading-spinner.component';
 
 @NgModule({
   declarations: [
@@ -20,9 +19,6 @@ import {LoadingSpinnerComponent} from "./loading-spinner/loading-spinner.compone
     BreadcrumbComponent,
     LoadingSpinnerComponent
   ],
-  imports: [
-    CommonModule,
-    RouterLinkWithHref
-  ]
+  imports: [CommonModule, RouterLinkWithHref]
 })
-export class SharedModule { }
+export class SharedModule {}

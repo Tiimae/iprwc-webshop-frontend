@@ -1,20 +1,19 @@
-import {Injectable} from '@angular/core';
-import * as CryptoJs from 'crypto-js';
-import {ApiConnectorService} from "./api-connector.service";
-import {environment} from "../../environments/environment";
+import { Injectable } from '@angular/core';
 import { AxiosResponse } from 'axios';
+import * as CryptoJs from 'crypto-js';
+import { environment } from '../../environments/environment';
+import { ApiConnectorService } from './api-connector.service';
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class AuthService {
-  constructor(private api: ApiConnectorService) {
-  }
+  constructor(private api: ApiConnectorService) {}
 
   private static sharedDecryptKey: string = environment.sharedSecret;
   private static cipherOptions = {
     mode: CryptoJs.mode.ECB,
-    padding: CryptoJs.pad.Pkcs7,
+    padding: CryptoJs.pad.Pkcs7
   };
 
   public login(email: string, password: string): Promise<AxiosResponse> {
@@ -23,63 +22,77 @@ export class AuthService {
       'auth/login',
       {
         email,
-        password: encryptedPassword,
+        password: encryptedPassword
       },
-      {params: {encrypted: true}}
+      { params: { encrypted: true } }
     );
   }
 
-  public logout() {
-    // Clear secret cookie aswell?
+  public logout(): void {
     localStorage.clear();
   }
 
-  public async register(firstname: string, middlename: string, lastname: string, email: string, password: string) {
+  public async register(
+    firstname: string,
+    middlename: string,
+    lastname: string,
+    email: string,
+    password: string
+  ): Promise<AxiosResponse> {
     const encryptedPassword: string = AuthService.encryptText(password);
 
     return await this.api.noAuth().post(
       'auth/register',
       {
-        "firstName": firstname,
-        "middleName": middlename,
-        "lastName": lastname,
+        firstName: firstname,
+        middleName: middlename,
+        lastName: lastname,
         email,
-        password: encryptedPassword,
+        password: encryptedPassword
       },
-      {params: {encrypted: true}}
+      { params: { encrypted: true } }
     );
   }
 
-  public async getProfile() {
+  public async getProfile(): Promise<AxiosResponse> {
     return await (await this.api.auth()).get('auth/profile');
   }
 
-  public async verifyEmail(token: string) {
-    return await (await this.api.auth()).post('auth/verify-email?token=' + token);
+  public async verifyEmail(token: string): Promise<AxiosResponse> {
+    return await (
+      await this.api.auth()
+    ).post('auth/verify-email?token=' + token);
   }
 
-  public async sendVerifyEmail() {
+  public async sendVerifyEmail(): Promise<AxiosResponse> {
     return (await this.api.auth()).get('auth/send-verify-email/');
   }
 
-  public async forgotPassword(email: string) {
+  public async forgotPassword(email: string): Promise<AxiosResponse> {
     return this.api.noAuth().post('auth/forgot-password?email=' + email);
   }
 
-  public async setNewPassword(token: string, email: string, password: string) {
+  public async setNewPassword(
+    token: string,
+    email: string,
+    password: string
+  ): Promise<AxiosResponse> {
     const encryptedPassword: string = AuthService.encryptText(password);
-    return await this.api.noAuth().post('auth/set-new-password?token=' + token, {
-        "email": email,
-        "password": encryptedPassword
+    return await this.api.noAuth().post(
+      'auth/set-new-password?token=' + token,
+      {
+        email: email,
+        password: encryptedPassword
       },
-      {params: {encrypted: true}});
+      { params: { encrypted: true } }
+    );
   }
 
-  public getSecret() {
-    return this.api.noAuth().get('auth/secret', {withCredentials: true});
+  public getSecret(): Promise<AxiosResponse> {
+    return this.api.noAuth().get('auth/secret', { withCredentials: true });
   }
 
-  public static encryptText(plainText: string) {
+  public static encryptText(plainText: string): string {
     const secretKey = CryptoJs.MD5(this.sharedDecryptKey).toString();
 
     return CryptoJs.AES.encrypt(
@@ -89,7 +102,7 @@ export class AuthService {
     ).toString();
   }
 
-  public static decryptText(encryptedText: string) {
+  public static decryptText(encryptedText: string): string {
     const secretKey = CryptoJs.MD5(this.sharedDecryptKey).toString();
 
     return CryptoJS.enc.Utf8.stringify(

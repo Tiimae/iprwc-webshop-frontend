@@ -6,11 +6,11 @@ import { UserModel } from '../../_models/user.model';
 import { ApiMethodsService } from '../api-methods.service';
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class UserDataService {
-  users: UserModel[] = [];
-  users$: Subject<UserModel[]> = new BehaviorSubject<UserModel[]>([]);
+  private users: UserModel[] = [];
+  public users$: Subject<UserModel[]> = new BehaviorSubject<UserModel[]>([]);
 
   constructor(
     private apiMethod: ApiMethodsService,
@@ -30,21 +30,16 @@ export class UserDataService {
   }
 
   public async getAllUsers(): Promise<void> {
-    return await this.apiMethod.get('user/roles', true).then((r) => {
-      this.users = r.data.payload;
-      this.users$.next(this.users);
-    });
+    return await this.apiMethod
+      .get('user/roles', true)
+      .then((r: AxiosResponse) => {
+        this.users = r.data.payload;
+        this.users$.next(this.users);
+      });
   }
 
   public createNewUser(user: UserModel): boolean {
     let check = true;
-
-    // this.users.forEach((currentUser: UserModel) => {
-    //   if (user.email === currentUser.email) {
-    //     this.toastr.error('Supplier name is already in user.', 'Failed');
-    //     check = false;
-    //   }
-    // });
 
     if (!check) {
       return check;
@@ -66,15 +61,13 @@ export class UserDataService {
       resetRequired: true,
       roleIds: roleIds,
       orderIds: [],
-      userAddressIds: [],
+      userAddressIds: []
     };
 
-    this.apiMethod
-      .post('user', payload, true)
-      .then((r) => {
-        this.users.push(r.data.payload);
-        this.users$.next(this.users);
-      });
+    this.apiMethod.post('user', payload, true).then((r: AxiosResponse) => {
+      this.users.push(r.data.payload);
+      this.users$.next(this.users);
+    });
 
     return check;
   }
@@ -112,13 +105,13 @@ export class UserDataService {
       password: '',
       roleIds: roleIds,
       orderIds: [],
-      userAddressIds: userAddressesId,
+      userAddressIds: userAddressesId
     };
 
     if (!admin) {
       this.apiMethod
         .put('user/' + user.id, payload, true)
-        .then((r) => {
+        .then((r: AxiosResponse) => {
           this.users[
             this.users.findIndex((currentUser) => currentUser.id === user.id)
           ] = user;
@@ -127,7 +120,7 @@ export class UserDataService {
     } else {
       this.apiMethod
         .put('user/' + user.id + '/admin', payload, true)
-        .then((r) => {
+        .then((r: AxiosResponse) => {
           this.users[
             this.users.findIndex((currentUser) => currentUser.id === user.id)
           ] = user;
@@ -145,7 +138,7 @@ export class UserDataService {
       }
     });
 
-    this.apiMethod.delete('user/' + user.id, true).then((r) => {
+    this.apiMethod.delete('user/' + user.id, true).then((r: AxiosResponse) => {
       this.users$.next(this.users);
     });
   }

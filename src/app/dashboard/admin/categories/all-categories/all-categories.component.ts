@@ -7,10 +7,11 @@ import { CategoryDataService } from '../../../../_service/data/categoryData.serv
 @Component({
   selector: 'app-all-categories',
   templateUrl: './all-categories.component.html',
-  styleUrls: ['./all-categories.component.scss'],
+  styleUrls: ['./all-categories.component.scss']
 })
 export class AllCategoriesComponent implements OnInit {
   allCategories: CategoryModel[] = [];
+  private count: number = 0;
 
   constructor(
     private categoryDataService: CategoryDataService,
@@ -21,8 +22,9 @@ export class AllCategoriesComponent implements OnInit {
     AppComponent.isLoading = true;
 
     this.categoryDataService.categories$.subscribe((r) => {
-      if (r.length < 1) {
+      if (r.length < 1 && this.count == 0) {
         this.categoryDataService.getAllCategories();
+        this.count = 1;
       }
 
       this.allCategories = r.sort((a, b) => {

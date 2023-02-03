@@ -14,7 +14,7 @@ import { UserAddressesDataService } from '../../../../_service/data/userAddresse
 @Component({
   selector: 'app-update-address',
   templateUrl: './update-address.component.html',
-  styleUrls: ['./update-address.component.scss'],
+  styleUrls: ['./update-address.component.scss']
 })
 export class UpdateAddressComponent implements OnInit {
   addressUpdateForm = new FormGroup({
@@ -23,7 +23,7 @@ export class UpdateAddressComponent implements OnInit {
     additional: new FormControl(''),
     zipcode: new FormControl('', [Validators.required]),
     city: new FormControl('', [Validators.required]),
-    country: new FormControl('', [Validators.required]),
+    country: new FormControl('', [Validators.required])
   });
 
   addressId!: string;

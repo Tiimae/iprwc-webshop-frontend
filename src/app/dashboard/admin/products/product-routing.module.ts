@@ -1,26 +1,26 @@
-import {NgModule} from '@angular/core';
-import {RouterModule, Routes} from '@angular/router';
-import {AllProductsComponent} from "./all-products/all-products.component";
-import {CreateProductComponent} from "./create-product/create-product.component";
-import {UpdateProductComponent} from './update-product/update-product.component';
-import {ProductResolverService} from "../../../_service/_resolver/product-resolver.service";
+import { NgModule } from '@angular/core';
+import { RouterModule, Routes } from '@angular/router';
+import { AllProductsComponent } from './all-products/all-products.component';
+import { CreateProductComponent } from './create-product/create-product.component';
+import { UpdateProductComponent } from './update-product/update-product.component';
+import { ProductResolverService } from '../../../_service/_resolver/product-resolver.service';
 
 const routes: Routes = [
-  { path: "", component: AllProductsComponent },
+  { path: '', component: AllProductsComponent },
   {
-    path: "create",
+    path: 'create',
     component: CreateProductComponent,
     data: {
-      breadcrumb: "Create"
+      breadcrumb: 'Create'
     }
   },
   {
-    path: ":productId",
+    path: ':productId',
     component: UpdateProductComponent,
     data: {
       breadcrumb: (data: any) => `${data.product.productName}`
     },
-    resolve: {product: ProductResolverService}
+    resolve: { product: ProductResolverService }
   }
 ];
 
@@ -28,4 +28,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class ProductRoutingModule { }
+export class ProductRoutingModule {}

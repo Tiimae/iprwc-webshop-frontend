@@ -23,7 +23,7 @@ import { SharedModule } from './_shared/shared.module';
     NavigationComponent,
     SearchbarComponent,
     PageNotFoundComponent,
-    DashboardComponent,
+    DashboardComponent
   ],
   imports: [
     BrowserModule,
@@ -37,9 +37,9 @@ import { SharedModule } from './_shared/shared.module';
     WebshopModule,
     BrowserAnimationsModule,
     SharedModule,
-    ToastrModule.forRoot(),
+    ToastrModule.forRoot()
   ],
   providers: [],
-  bootstrap: [AppComponent],
+  bootstrap: [AppComponent]
 })
 export class AppModule {}

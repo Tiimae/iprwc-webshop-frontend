@@ -7,10 +7,12 @@ import { UserDataService } from '../../../../_service/data/userData.service';
 @Component({
   selector: 'app-all-users',
   templateUrl: './all-users.component.html',
-  styleUrls: ['./all-users.component.scss'],
+  styleUrls: ['./all-users.component.scss']
 })
 export class AllUsersComponent implements OnInit {
   allUsers: UserModel[] = [];
+
+  private count: number = 0;
 
   constructor(
     private userDataService: UserDataService,
@@ -21,8 +23,9 @@ export class AllUsersComponent implements OnInit {
     AppComponent.isLoading = true;
 
     (await this.userDataService.users$).subscribe((r) => {
-      if (r.length < 1) {
+      if (r.length < 1 && this.count == 0) {
         this.userDataService.getAllUsers();
+        this.count = 1;
       }
 
       this.allUsers = r.sort((a, b) => {

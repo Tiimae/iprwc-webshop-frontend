@@ -3,7 +3,7 @@ import { AxiosResponse } from 'axios';
 import { ApiConnectorService } from './api-connector.service';
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class ApiMethodsService {
   constructor(private api: ApiConnectorService) {}

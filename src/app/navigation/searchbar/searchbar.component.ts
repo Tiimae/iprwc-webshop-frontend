@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import {
   faSearch,
   faShoppingCart,
-  faUser,
+  faUser
 } from '@fortawesome/free-solid-svg-icons';
 import { ProductModel } from 'src/app/_models/product.model';
 import { UserModel } from 'src/app/_models/user.model';
@@ -17,7 +17,7 @@ import { UserDataService } from '../../_service/data/userData.service';
 @Component({
   selector: 'app-searchbar',
   templateUrl: './searchbar.component.html',
-  styleUrls: ['./searchbar.component.scss'],
+  styleUrls: ['./searchbar.component.scss']
 })
 export class SearchbarComponent implements OnInit {
   public apiUrl = environment.url;
@@ -32,7 +32,7 @@ export class SearchbarComponent implements OnInit {
   cartLength: number = 0;
 
   searchGroup = new FormGroup({
-    search: new FormControl(''),
+    search: new FormControl('')
   });
 
   constructor(
@@ -78,8 +78,8 @@ export class SearchbarComponent implements OnInit {
   search(): void {
     this.router.navigate(['search'], {
       queryParams: {
-        search: this.searchGroup.controls.search.value,
-      },
+        search: this.searchGroup.controls.search.value
+      }
     });
   }
 
