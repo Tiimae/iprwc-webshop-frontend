@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ApiConnectorService } from '../../_service/api-connector.service';
+import { ActivatedRoute, Router } from '@angular/router';
 import {
   faAddressCard,
   faBox,
@@ -11,9 +11,9 @@ import {
   faSignOut,
   faUser
 } from '@fortawesome/free-solid-svg-icons';
-import { ActivatedRoute, Router } from '@angular/router';
-import { LoggedUserModel } from '../../_models/loggedUser.model';
 import { SearchbarComponent } from '../../navigation/searchbar/searchbar.component';
+import { LoggedUserModel } from '../../_models/loggedUser.model';
+import { ApiConnectorService } from '../../_service/_api/api-connector.service';
 
 @Component({
   selector: 'app-sidebar',

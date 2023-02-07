@@ -6,9 +6,9 @@ import { ToastrService } from 'ngx-toastr';
 import { AppComponent } from '../../../../app.component';
 import { RoleModel } from '../../../../_models/role.model';
 import { UserModel } from '../../../../_models/user.model';
-import { ApiConnectorService } from '../../../../_service/api-connector.service';
-import { RoleDataService } from '../../../../_service/data/roleData.service';
-import { UserDataService } from '../../../../_service/data/userData.service';
+import { ApiConnectorService } from '../../../../_service/_api/api-connector.service';
+import { RoleDataService } from '../../../../_service/_data/roleData.service';
+import { UserDataService } from '../../../../_service/_data/userData.service';
 
 @Component({
   selector: 'app-update-user',

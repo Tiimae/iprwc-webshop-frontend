@@ -5,8 +5,8 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { AxiosResponse } from 'axios';
 import { ToastrService } from 'ngx-toastr';
 import { AppComponent } from '../../app.component';
-import { ApiConnectorService } from '../../_service/api-connector.service';
 import { AuthService } from '../../_service/auth.service';
+import { ApiConnectorService } from '../../_service/_api/api-connector.service';
 
 @Component({
   selector: 'app-registration',

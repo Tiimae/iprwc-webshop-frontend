@@ -1,9 +1,9 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { ReviewModel } from '../../../_models/review.model';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { ReviewDataService } from '../../../_service/data/reviewData.service';
-import { ToastrService } from 'ngx-toastr';
 import { faStar } from '@fortawesome/free-solid-svg-icons';
+import { ToastrService } from 'ngx-toastr';
+import { ReviewModel } from '../../../_models/review.model';
+import { ReviewDataService } from '../../../_service/_data/reviewData.service';
 
 @Component({
   selector: 'app-review',

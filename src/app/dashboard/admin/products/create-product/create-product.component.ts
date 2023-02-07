@@ -3,13 +3,13 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { CategoryModel } from 'src/app/_models/category.model';
-import { ProductDataService } from 'src/app/_service/data/productData.service';
+import { ProductDataService } from 'src/app/_service/_data/productData.service';
 import { BrandModel } from '../../../../_models/brand.model';
 import { ProductModel } from '../../../../_models/product.model';
 import { SupplierModel } from '../../../../_models/supplier.model';
-import { BrandDataService } from '../../../../_service/data/brandData.service';
-import { CategoryDataService } from '../../../../_service/data/categoryData.service';
-import { SupplierDataService } from '../../../../_service/data/supplierData.service';
+import { BrandDataService } from '../../../../_service/_data/brandData.service';
+import { CategoryDataService } from '../../../../_service/_data/categoryData.service';
+import { SupplierDataService } from '../../../../_service/_data/supplierData.service';
 
 @Component({
   selector: 'app-create-product',

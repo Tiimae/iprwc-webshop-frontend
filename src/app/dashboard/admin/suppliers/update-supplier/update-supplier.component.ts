@@ -4,8 +4,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import * as CryptoJs from 'crypto-js';
 import { ToastrService } from 'ngx-toastr';
 import { SupplierModel } from '../../../../_models/supplier.model';
-import { ApiConnectorService } from '../../../../_service/api-connector.service';
-import { SupplierDataService } from '../../../../_service/data/supplierData.service';
+import { SupplierDataService } from '../../../../_service/_data/supplierData.service';
+import { ApiConnectorService } from '../../../../_service/_api/api-connector.service';
 
 @Component({
   selector: 'app-update-supplier',

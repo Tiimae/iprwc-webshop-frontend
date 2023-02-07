@@ -4,8 +4,8 @@ import { ActivatedRoute, Params, Router } from '@angular/router';
 import * as CryptoJs from 'crypto-js';
 import { ToastrService } from 'ngx-toastr';
 import { BrandModel } from '../../../../_models/brand.model';
-import { ApiConnectorService } from '../../../../_service/api-connector.service';
-import { BrandDataService } from '../../../../_service/data/brandData.service';
+import { ApiConnectorService } from '../../../../_service/_api/api-connector.service';
+import { BrandDataService } from '../../../../_service/_data/brandData.service';
 
 @Component({
   selector: 'app-update-brand',

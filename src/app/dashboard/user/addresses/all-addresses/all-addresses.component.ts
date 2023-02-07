@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import * as CryptoJs from 'crypto-js';
-import { UserAddressesDataService } from 'src/app/_service/data/userAddressesData.service';
+import { UserAddressesDataService } from 'src/app/_service/_data/userAddressesData.service';
 import { AppComponent } from '../../../../app.component';
 import { UserModel } from '../../../../_models/user.model';
 import { UserAddressesModel } from '../../../../_models/userAddresses.model';
-import { ApiConnectorService } from '../../../../_service/api-connector.service';
+import { ApiConnectorService } from '../../../../_service/_api/api-connector.service';
 
 @Component({
   selector: 'app-all-addresses',
@@ -28,27 +28,29 @@ export class AllAddressesComponent implements OnInit {
   ngOnInit(): void {
     AppComponent.isLoading = true;
 
-    this.api.getJwtPayload().then((payload) => {
-      this.userAddressDataService.userAddresses$.subscribe((userAddresses) => {
-        if (
-          (userAddresses.length == 0 && this.count < 1) ||
-          (userAddresses == undefined && this.count < 1)
-        ) {
-          this.userAddressDataService.getByUserId(payload.userId);
-          this.count = 1;
-        }
-
-        this.deliveryAddresses = [];
-        this.invoiceAddresses = [];
-
-        userAddresses.forEach((address) => {
-          if (address.type === '0') {
-            this.invoiceAddresses.push(address);
-          } else {
-            this.deliveryAddresses.push(address);
+    this.api.getJwtPayload().then((payload: any) => {
+      this.userAddressDataService.userAddresses$.subscribe(
+        (userAddresses: UserAddressesModel[]) => {
+          if (
+            (userAddresses.length == 0 && this.count < 1) ||
+            (userAddresses == undefined && this.count < 1)
+          ) {
+            this.userAddressDataService.getByUserId(payload.userId);
+            this.count = 1;
           }
-        });
-      });
+
+          this.deliveryAddresses = [];
+          this.invoiceAddresses = [];
+
+          userAddresses.forEach((address) => {
+            if (address.type === '0') {
+              this.invoiceAddresses.push(address);
+            } else {
+              this.deliveryAddresses.push(address);
+            }
+          });
+        }
+      );
     });
 
     AppComponent.isLoading = false;

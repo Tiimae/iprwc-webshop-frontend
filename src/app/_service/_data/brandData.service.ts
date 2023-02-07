@@ -4,7 +4,7 @@ import { ToastrService } from 'ngx-toastr';
 import { BehaviorSubject, Observable, of, Subject } from 'rxjs';
 import { BrandModel } from 'src/app/_models/brand.model';
 import { v4 as uuid } from 'uuid';
-import { ApiMethodsService } from '../api-methods.service';
+import { ApiMethodsService } from '../_api/api-methods.service';
 
 @Injectable({
   providedIn: 'root'

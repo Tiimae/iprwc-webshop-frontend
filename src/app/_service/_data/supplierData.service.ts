@@ -3,7 +3,7 @@ import { AxiosResponse } from 'axios';
 import { ToastrService } from 'ngx-toastr';
 import { BehaviorSubject, Observable, of, Subject } from 'rxjs';
 import { SupplierModel } from '../../_models/supplier.model';
-import { ApiMethodsService } from '../api-methods.service';
+import { ApiMethodsService } from '../_api/api-methods.service';
 
 @Injectable({
   providedIn: 'root'

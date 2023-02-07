@@ -7,7 +7,7 @@ import {
   UrlTree
 } from '@angular/router';
 import { Observable } from 'rxjs';
-import { ApiConnectorService } from '../_service/api-connector.service';
+import { ApiConnectorService } from '../_service/_api/api-connector.service';
 
 @Injectable({
   providedIn: 'root'

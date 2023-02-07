@@ -8,13 +8,12 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import * as CryptoJs from 'crypto-js';
 import { ToastrService } from 'ngx-toastr';
-import { CartDataService } from 'src/app/_service/data/cartData.service';
+import { CartDataService } from 'src/app/_service/_data/cartData.service';
 import { AppComponent } from '../../app.component';
 import { ProductModel } from '../../_models/product.model';
 import { ReviewModel } from '../../_models/review.model';
-import { ApiConnectorService } from '../../_service/api-connector.service';
-import { ProductDataService } from '../../_service/data/productData.service';
-// import {faInstagram} from "@fortawesome/fontawesome-svg-core"
+import { ApiConnectorService } from '../../_service/_api/api-connector.service';
+import { ProductDataService } from '../../_service/_data/productData.service';
 
 @Component({
   selector: 'app-product-detail',

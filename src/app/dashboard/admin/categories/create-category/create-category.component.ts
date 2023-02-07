@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { CategoryModel } from '../../../../_models/category.model';
-import { CategoryDataService } from '../../../../_service/data/categoryData.service';
 import { ToastrService } from 'ngx-toastr';
+import { CategoryModel } from '../../../../_models/category.model';
+import { CategoryDataService } from '../../../../_service/_data/categoryData.service';
 
 @Component({
   selector: 'app-create-category',

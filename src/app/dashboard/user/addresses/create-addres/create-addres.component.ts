@@ -6,9 +6,9 @@ import { AppComponent } from '../../../../app.component';
 import { AddressEnum } from '../../../../_enum/address.enum';
 import { UserModel } from '../../../../_models/user.model';
 import { UserAddressesModel } from '../../../../_models/userAddresses.model';
-import { ApiConnectorService } from '../../../../_service/api-connector.service';
-import { UserAddressesDataService } from '../../../../_service/data/userAddressesData.service';
-import { UserDataService } from '../../../../_service/data/userData.service';
+import { ApiConnectorService } from '../../../../_service/_api/api-connector.service';
+import { UserAddressesDataService } from '../../../../_service/_data/userAddressesData.service';
+import { UserDataService } from '../../../../_service/_data/userData.service';
 
 @Component({
   selector: 'app-create-addres',
@@ -39,7 +39,7 @@ export class CreateAddresComponent implements OnInit {
   ngOnInit(): void {
     AppComponent.isLoading = true;
 
-    this.api.getJwtPayload().then((payload) => {
+    this.api.getJwtPayload().then((payload: any) => {
       this.userDataService.getCurrentUser(payload.userId).subscribe((res) => {
         if (res == undefined) {
           this.userDataService.getUserByRequest(payload.userId).then((res) => {

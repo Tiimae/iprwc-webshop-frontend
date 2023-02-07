@@ -8,11 +8,10 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { ProductModel } from 'src/app/_models/product.model';
 import { UserModel } from 'src/app/_models/user.model';
-import { CartDataService } from 'src/app/_service/data/cartData.service';
+import { CartDataService } from 'src/app/_service/_data/cartData.service';
 import { environment } from '../../../environments/environment';
-import { ApiConnectorService } from '../../_service/api-connector.service';
-import { AuthService } from '../../_service/auth.service';
-import { UserDataService } from '../../_service/data/userData.service';
+import { ApiConnectorService } from '../../_service/_api/api-connector.service';
+import { UserDataService } from '../../_service/_data/userData.service';
 
 @Component({
   selector: 'app-searchbar',
@@ -37,7 +36,6 @@ export class SearchbarComponent implements OnInit {
 
   constructor(
     private router: Router,
-    private authService: AuthService,
     private cartDataService: CartDataService,
     private api: ApiConnectorService,
     private userDataService: UserDataService

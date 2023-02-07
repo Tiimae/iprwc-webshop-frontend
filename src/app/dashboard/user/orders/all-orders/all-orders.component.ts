@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { OrderDataService } from 'src/app/_service/data/orderData.service';
+import { OrderDataService } from 'src/app/_service/_data/orderData.service';
 import { AppComponent } from '../../../../app.component';
 import { OrderModel } from '../../../../_models/order.model';
 import { UserModel } from '../../../../_models/user.model';
-import { ApiConnectorService } from '../../../../_service/api-connector.service';
+import { ApiConnectorService } from '../../../../_service/_api/api-connector.service';
 
 @Component({
   selector: 'app-all-orders',

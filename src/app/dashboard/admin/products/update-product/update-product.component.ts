@@ -8,11 +8,11 @@ import { BrandModel } from '../../../../_models/brand.model';
 import { CategoryModel } from '../../../../_models/category.model';
 import { ProductImageModel } from '../../../../_models/productImage.model';
 import { SupplierModel } from '../../../../_models/supplier.model';
-import { ApiConnectorService } from '../../../../_service/api-connector.service';
-import { BrandDataService } from '../../../../_service/data/brandData.service';
-import { CategoryDataService } from '../../../../_service/data/categoryData.service';
-import { ProductDataService } from '../../../../_service/data/productData.service';
-import { SupplierDataService } from '../../../../_service/data/supplierData.service';
+import { ApiConnectorService } from '../../../../_service/_api/api-connector.service';
+import { BrandDataService } from '../../../../_service/_data/brandData.service';
+import { CategoryDataService } from '../../../../_service/_data/categoryData.service';
+import { ProductDataService } from '../../../../_service/_data/productData.service';
+import { SupplierDataService } from '../../../../_service/_data/supplierData.service';
 
 @Component({
   selector: 'app-update-product',

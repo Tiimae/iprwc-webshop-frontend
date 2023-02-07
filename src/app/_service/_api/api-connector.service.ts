@@ -3,9 +3,9 @@ import { Router } from '@angular/router';
 import axios, { AxiosInstance } from 'axios';
 import * as CryptoJs from 'crypto-js';
 import { ToastrService } from 'ngx-toastr';
-import { environment } from '../../environments/environment';
-import { AppComponent } from '../app.component';
-import { AuthService } from './auth.service';
+import { environment } from '../../../environments/environment';
+import { AppComponent } from '../../app.component';
+import { AuthService } from '../auth.service';
 
 @Injectable({
   providedIn: 'root'
@@ -70,11 +70,6 @@ export class ApiConnectorService {
 
     request.interceptors.response.use(
       (response) => {
-        if (response.data.code === 400) {
-          this.toastr.error(response.data.message, 'OOPS!');
-          return Promise.reject();
-        }
-
         return response;
       },
       (error) => {

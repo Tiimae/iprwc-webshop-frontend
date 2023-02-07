@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { AxiosResponse } from 'axios';
 import * as CryptoJs from 'crypto-js';
 import { environment } from '../../environments/environment';
-import { ApiConnectorService } from './api-connector.service';
+import { ApiConnectorService } from './_api/api-connector.service';
 
 @Injectable({
   providedIn: 'root'

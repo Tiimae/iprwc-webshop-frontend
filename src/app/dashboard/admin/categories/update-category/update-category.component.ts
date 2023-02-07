@@ -4,8 +4,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import * as CryptoJs from 'crypto-js';
 import { ToastrService } from 'ngx-toastr';
 import { CategoryModel } from '../../../../_models/category.model';
-import { ApiConnectorService } from '../../../../_service/api-connector.service';
-import { CategoryDataService } from '../../../../_service/data/categoryData.service';
+import { ApiConnectorService } from '../../../../_service/_api/api-connector.service';
+import { CategoryDataService } from '../../../../_service/_data/categoryData.service';
 
 @Component({
   selector: 'app-update-category',

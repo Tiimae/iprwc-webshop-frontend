@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { ApiMethodsService } from 'src/app/_service/api-methods.service';
+import { ApiMethodsService } from 'src/app/_service/_api/api-methods.service';
 
 @Component({
   selector: 'app-verify',

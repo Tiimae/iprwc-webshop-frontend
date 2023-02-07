@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { CategoryModel } from 'src/app/_models/category.model';
 import { AppComponent } from '../../../../app.component';
-import { CategoryDataService } from '../../../../_service/data/categoryData.service';
+import { CategoryDataService } from '../../../../_service/_data/categoryData.service';
 
 @Component({
   selector: 'app-all-categories',
@@ -21,7 +21,7 @@ export class AllCategoriesComponent implements OnInit {
   async ngOnInit(): Promise<void> {
     AppComponent.isLoading = true;
 
-    this.categoryDataService.categories$.subscribe((r) => {
+    this.categoryDataService.categories$.subscribe((r: CategoryModel[]) => {
       if (r.length < 1 && this.count == 0) {
         this.categoryDataService.getAllCategories();
         this.count = 1;

@@ -3,7 +3,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { BrandModel } from 'src/app/_models/brand.model';
-import { BrandDataService } from 'src/app/_service/data/brandData.service';
+import { BrandDataService } from 'src/app/_service/_data/brandData.service';
 
 @Component({
   selector: 'app-create-brand',

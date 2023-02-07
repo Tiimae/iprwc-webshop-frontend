@@ -4,13 +4,10 @@ import {
   Resolve,
   RouterStateSnapshot
 } from '@angular/router';
-import { UserModel } from '../../_models/user.model';
-import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
-import { environment } from 'src/environments/environment';
-import { UserDataService } from '../data/userData.service';
 import * as CryptoJs from 'crypto-js';
-import { ApiConnectorService } from '../api-connector.service';
+import { UserModel } from '../../_models/user.model';
+import { ApiConnectorService } from '../_api/api-connector.service';
+import { UserDataService } from '../_data/userData.service';
 
 @Injectable({
   providedIn: 'root'

@@ -3,10 +3,10 @@ import { ActivatedRoute } from '@angular/router';
 import { AppComponent } from '../../app.component';
 import { CategoryModel } from '../../_models/category.model';
 import { ProductModel } from '../../_models/product.model';
-import { ApiConnectorService } from '../../_service/api-connector.service';
 import { AuthService } from '../../_service/auth.service';
-import { CategoryDataService } from '../../_service/data/categoryData.service';
-import { ProductDataService } from '../../_service/data/productData.service';
+import { ApiConnectorService } from '../../_service/_api/api-connector.service';
+import { CategoryDataService } from '../../_service/_data/categoryData.service';
+import { ProductDataService } from '../../_service/_data/productData.service';
 
 @Component({
   selector: 'app-home',

@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import { CartDataService } from 'src/app/_service/data/cartData.service';
+import { CartDataService } from 'src/app/_service/_data/cartData.service';
 import { AppComponent } from '../../app.component';
 import { ProductModel } from '../../_models/product.model';
 

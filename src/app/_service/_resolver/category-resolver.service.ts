@@ -6,9 +6,9 @@ import {
 } from '@angular/router';
 
 import * as CryptoJs from 'crypto-js';
-import { ApiConnectorService } from '../api-connector.service';
 import { CategoryModel } from 'src/app/_models/category.model';
-import { CategoryDataService } from '../data/categoryData.service';
+import { ApiConnectorService } from '../_api/api-connector.service';
+import { CategoryDataService } from '../_data/categoryData.service';
 
 @Injectable({
   providedIn: 'root'

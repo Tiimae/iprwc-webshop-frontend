@@ -4,8 +4,8 @@ import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { AppComponent } from '../../../app.component';
 import { UserModel } from '../../../_models/user.model';
-import { ApiConnectorService } from '../../../_service/api-connector.service';
-import { UserDataService } from '../../../_service/data/userData.service';
+import { ApiConnectorService } from '../../../_service/_api/api-connector.service';
+import { UserDataService } from '../../../_service/_data/userData.service';
 
 @Component({
   selector: 'app-account',

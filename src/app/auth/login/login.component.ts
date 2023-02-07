@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { ApiConnectorService } from '../../_service/api-connector.service';
 import { AuthService } from '../../_service/auth.service';
+import { ApiConnectorService } from '../../_service/_api/api-connector.service';
 
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import {

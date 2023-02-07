@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { SupplierModel } from '../../../../../_models/supplier.model';
 import * as CryptoJs from 'crypto-js';
-import { ApiConnectorService } from '../../../../../_service/api-connector.service';
+import { SupplierModel } from '../../../../../_models/supplier.model';
+import { ApiConnectorService } from '../../../../../_service/_api/api-connector.service';
 
 @Component({
   selector: 'app-supplier',
