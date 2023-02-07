@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 import { AxiosResponse } from 'axios';
 import { ToastrService } from 'ngx-toastr';
 import { BehaviorSubject, Observable, of, Subject } from 'rxjs';
@@ -20,7 +21,11 @@ export class ProductDataService {
     ProductModel[]
   >([]);
 
-  constructor(private toastr: ToastrService, private api: ApiMethodsService) {}
+  constructor(
+    private toastr: ToastrService,
+    private api: ApiMethodsService,
+    private router: Router
+  ) {}
 
   public get(productId: string): Observable<ProductModel | undefined> {
     if (this.products.length != 0) {
@@ -53,20 +58,7 @@ export class ProductDataService {
     });
   }
 
-  public post(product: ProductModel, images: File[]): boolean {
-    let check = true;
-
-    this.products.forEach((currentProduct: ProductModel) => {
-      if (product.productName === currentProduct.productName) {
-        this.toastr.error('Product name is already in products.', 'Failed');
-        check = false;
-      }
-    });
-
-    if (!check) {
-      return check;
-    }
-
+  public post(product: ProductModel, images: File[]): void {
     const fd = new FormData();
     images.forEach((image) => {
       const extension = image.type.split('/')[1];
@@ -85,34 +77,22 @@ export class ProductDataService {
     );
 
     this.api.post('product', fd, true).then((res: AxiosResponse) => {
-      this.products.push(res.data.payload);
-      this.products$.next(this.products);
+      if (res.data.code === 202) {
+        this.products.push(res.data.payload);
+        this.products$.next(this.products);
+        this.toastr.success('Brand Has been created successfully!', 'Created');
+        this.router.navigate(['dashboard', 'admin', 'products']);
+      } else if (res.data.code === 400) {
+        this.toastr.error(res.data.message, res.data.code);
+      }
     });
-
-    return check;
   }
 
   public update(
     product: ProductModel,
     deletedImages: ProductImageModel[],
     newImages: File[]
-  ): boolean {
-    let check = true;
-
-    this.products.forEach((currentProduct: ProductModel) => {
-      if (
-        product.productName === currentProduct.productName &&
-        product.id !== currentProduct.id
-      ) {
-        this.toastr.error('Product name is already in products.', 'Failed');
-        check = false;
-      }
-    });
-
-    if (!check) {
-      return check;
-    }
-
+  ): void {
     const fd = new FormData();
     deletedImages.forEach((image) => {
       fd.append('deletedImages', image.imagePath);
@@ -136,15 +116,22 @@ export class ProductDataService {
     this.api
       .put('product/' + product.id, fd, true)
       .then((res: AxiosResponse) => {
-        this.products[
-          this.products.findIndex(
-            (currentProduct) => currentProduct.id === product.id
-          )
-        ] = res.data.payload;
-        this.products$.next(this.products);
+        if (res.data.code === 202) {
+          this.products[
+            this.products.findIndex(
+              (currentProduct) => currentProduct.id === product.id
+            )
+          ] = res.data.payload;
+          this.products$.next(this.products);
+          this.toastr.success(
+            'Product has been updated successfully!',
+            'Updated'
+          );
+          this.router.navigate(['dashboard', 'admin', 'products']);
+        } else if (res.data.code === 400) {
+          this.toastr.error(res.data.message, res.data.code);
+        }
       });
-
-    return check;
   }
 
   public delete(productId: string): void {

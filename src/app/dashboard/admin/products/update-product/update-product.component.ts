@@ -20,7 +20,7 @@ import { SupplierDataService } from '../../../../_service/_data/supplierData.ser
   styleUrls: ['./update-product.component.scss']
 })
 export class UpdateProductComponent implements OnInit {
-  productCreateForm = new FormGroup({
+  public productCreateForm = new FormGroup({
     name: new FormControl('', [Validators.required]),
     price: new FormControl('', [Validators.required]),
     description: new FormControl('', [Validators.required]),
@@ -72,8 +72,13 @@ export class UpdateProductComponent implements OnInit {
       this.productDataService.get(this.productId).subscribe((res) => {
         if (res == undefined) {
           this.productDataService.getByRequest(this.productId).then((res) => {
-            this.product = res.data.payload;
-            this.setFormData();
+            if (res.data.code === 202) {
+              this.product = res.data.payload;
+              this.setFormData();
+            } else if (res.data.code === 400) {
+              this.toastr.error(res.data.message, res.data.code);
+              this.router.navigate(['dashboard', 'admin', 'products']);
+            }
           });
         } else {
           this.product = res;
@@ -200,16 +205,11 @@ export class UpdateProductComponent implements OnInit {
       false
     );
 
-    const request: boolean = this.productDataService.update(
+    this.productDataService.update(
       product,
       this.deleteImages,
       this.addedImages
     );
-
-    if (request) {
-      this.toastr.success('Brand Has been updated successfully!', 'Updated');
-      this.router.navigate(['dashboard', 'admin', 'products']);
-    }
   }
 
   addImage(event: any): void {

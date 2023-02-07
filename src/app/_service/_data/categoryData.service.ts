@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 import { AxiosResponse } from 'axios';
 import { ToastrService } from 'ngx-toastr';
 import { BehaviorSubject, Observable, of, Subject } from 'rxjs';
@@ -16,7 +17,8 @@ export class CategoryDataService {
 
   constructor(
     private apiMethod: ApiMethodsService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private router: Router
   ) {}
 
   public getCurrentCategory(
@@ -46,64 +48,31 @@ export class CategoryDataService {
     });
   }
 
-  public removeCategory(category: CategoryModel) {
-    this.categories.forEach((currentUser, index) => {
-      if (currentUser.id == category.id) {
-        this.categories.splice(index, 1);
-      }
-    });
-
-    this.apiMethod
-      .delete('category/' + category.id, true)
-      .then((r: AxiosResponse) => {
-        this.categories$.next(this.categories);
-      });
-  }
-
-  public createCategory(category: CategoryModel): boolean {
-    let check = true;
-
-    this.categories.forEach((currentCategory: CategoryModel) => {
-      if (category.categoryName === currentCategory.categoryName) {
-        this.toastr.error('Category name is already in user.', 'Failed');
-        check = false;
-      }
-    });
-
-    if (!check) {
-      return check;
-    }
-
+  public createCategory(category: CategoryModel): void {
     const payload = {
       categoryName: category.categoryName,
       productIds: []
     };
 
-    this.apiMethod.post('category', payload, true).then((r: AxiosResponse) => {
-      this.categories.push(r.data.payload);
-      this.categories$.next(this.categories);
-    });
+    this.apiMethod
+      .post('category', payload, true)
+      .then((res: AxiosResponse) => {
+        if (res.data.code === 202) {
+          this.categories.push(res.data.payload);
+          this.categories$.next(this.categories);
 
-    return check;
+          this.toastr.success(
+            'Brand Has been created successfully!',
+            'Created'
+          );
+          this.router.navigate(['dashboard', 'admin', 'categories']);
+        } else if (res.data.code === 400) {
+          this.toastr.error(res.data.message, res.data.code);
+        }
+      });
   }
 
-  public updateCategory(category: CategoryModel): boolean {
-    let check = true;
-
-    this.categories.forEach((currentCategory: CategoryModel) => {
-      if (
-        category.categoryName === currentCategory.categoryName &&
-        currentCategory.id !== category.id
-      ) {
-        this.toastr.error('Category name is already in categories.', 'Failed');
-        check = false;
-      }
-    });
-
-    if (!check) {
-      return check;
-    }
-
+  public updateCategory(category: CategoryModel): void {
     const payload = {
       categoryName: category.categoryName,
       productIds: []
@@ -111,14 +80,43 @@ export class CategoryDataService {
 
     this.apiMethod
       .put('category/' + category.id, payload, true)
-      .then((r: AxiosResponse) => {
-        this.categories[
-          this.categories.findIndex(
-            (currentCategory) => currentCategory.id === category.id
-          )
-        ] = category;
-        this.categories$.next(this.categories);
+      .then((res: AxiosResponse) => {
+        if (res.data.code === 202) {
+          this.categories[
+            this.categories.findIndex(
+              (currentCategory) => currentCategory.id === category.id
+            )
+          ] = category;
+          this.categories$.next(this.categories);
+          this.toastr.success(
+            'Brand Has been updated successfully!',
+            'Updated'
+          );
+          this.router.navigate(['dashboard', 'admin', 'categories']);
+        } else if (res.data.code === 400) {
+          this.toastr.error(res.data.message, res.data.code);
+        }
       });
-    return check;
+  }
+
+  public removeCategory(category: CategoryModel) {
+    this.apiMethod
+      .delete('category/' + category.id, true)
+      .then((res: AxiosResponse) => {
+        if (res.data.code === 202) {
+          this.categories.forEach((currentUser, index) => {
+            if (currentUser.id == category.id) {
+              this.categories.splice(index, 1);
+            }
+          });
+          this.categories$.next(this.categories);
+          this.toastr.success(
+            'Category has been deleted successfully!',
+            'Deleted'
+          );
+        } else if (res.data.code === 400) {
+          this.toastr.error(res.data.message, res.data.code);
+        }
+      });
   }
 }

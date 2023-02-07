@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { CategoryModel } from 'src/app/_models/category.model';
 import { ProductDataService } from 'src/app/_service/_data/productData.service';
@@ -17,7 +16,7 @@ import { SupplierDataService } from '../../../../_service/_data/supplierData.ser
   styleUrls: ['./create-product.component.scss']
 })
 export class CreateProductComponent implements OnInit {
-  productCreateForm = new FormGroup({
+  public productCreateForm: FormGroup = new FormGroup({
     name: new FormControl('', [Validators.required]),
     price: new FormControl('', [Validators.required]),
     description: new FormControl('', [Validators.required]),
@@ -47,7 +46,6 @@ export class CreateProductComponent implements OnInit {
     private brandDataService: BrandDataService,
     private categoryDataService: CategoryDataService,
     private productDataService: ProductDataService,
-    private router: Router,
     private toastr: ToastrService
   ) {}
 
@@ -61,7 +59,7 @@ export class CreateProductComponent implements OnInit {
 
         this.suppliers = suppliers;
         setTimeout(() => {
-          this.productCreateForm.controls.supplier.setValue(
+          this.productCreateForm.controls['supplier'].setValue(
             this.suppliers[0].name
           );
         }, 100);
@@ -81,7 +79,7 @@ export class CreateProductComponent implements OnInit {
 
         this.brands = brands;
         setTimeout(() => {
-          this.productCreateForm.controls.brand.setValue(
+          this.productCreateForm.controls['brand'].setValue(
             this.brands[0].brandName
           );
         }, 100);
@@ -101,7 +99,7 @@ export class CreateProductComponent implements OnInit {
 
         this.categories = categories;
         setTimeout(() => {
-          this.productCreateForm.controls.category.setValue(
+          this.productCreateForm.controls['category'].setValue(
             this.categories[0].categoryName
           );
         }, 100);
@@ -114,9 +112,9 @@ export class CreateProductComponent implements OnInit {
   }
 
   onSubmit(): void {
-    const name = this.productCreateForm.controls.name.value;
-    const price: number = Number(this.productCreateForm.controls.price.value);
-    const description = this.productCreateForm.controls.description.value;
+    const name = this.productCreateForm.controls['name'].value;
+    const price: number = Number(this.productCreateForm.controls['price'].value);
+    const description = this.productCreateForm.controls['description'].value;
 
     if (
       name == null ||
@@ -155,12 +153,7 @@ export class CreateProductComponent implements OnInit {
       false
     );
 
-    const request: boolean = this.productDataService.post(product, this.images);
-
-    if (request) {
-      this.toastr.success('Brand Has been created successfully!', 'Created');
-      this.router.navigate(['dashboard', 'admin', 'products']);
-    }
+    this.productDataService.post(product, this.images);
   }
 
   addImage(event: any): void {
@@ -168,7 +161,7 @@ export class CreateProductComponent implements OnInit {
   }
 
   addCategory(): void {
-    const categoryToAdd = this.productCreateForm.controls.category.value;
+    const categoryToAdd = this.productCreateForm.controls['category'].value;
 
     this.categories.forEach((category) => {
       if (category.categoryName == categoryToAdd) {
@@ -178,7 +171,7 @@ export class CreateProductComponent implements OnInit {
   }
 
   addBrand(): void {
-    const brandToAdd = this.productCreateForm.controls.brand.value;
+    const brandToAdd = this.productCreateForm.controls['brand'].value;
 
     this.brands.forEach((brand) => {
       if (brand.brandName == brandToAdd) {
@@ -188,7 +181,7 @@ export class CreateProductComponent implements OnInit {
   }
 
   addSupplier(): void {
-    const supplierToAdd = this.productCreateForm.controls.supplier.value;
+    const supplierToAdd = this.productCreateForm.controls['supplier'].value;
 
     this.suppliers.forEach((supplier) => {
       if (supplier.name == supplierToAdd) {

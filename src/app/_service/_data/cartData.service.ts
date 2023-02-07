@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { AxiosResponse } from 'axios';
 import { ToastrService } from 'ngx-toastr';
 import { BehaviorSubject, Subject } from 'rxjs';
 import { ProductModel } from 'src/app/_models/product.model';
@@ -8,8 +9,10 @@ import { ProductDataService } from './productData.service';
   providedIn: 'root'
 })
 export class CartDataService {
-  products: ProductModel[] = [];
-  products$: Subject<ProductModel[]> = new BehaviorSubject<ProductModel[]>([]);
+  private products: ProductModel[] = [];
+  public products$: Subject<ProductModel[]> = new BehaviorSubject<
+    ProductModel[]
+  >([]);
 
   constructor(
     private productDataService: ProductDataService,
@@ -36,7 +39,7 @@ export class CartDataService {
               if (product == undefined) {
                 this.productDataService
                   .getByRequest('product/' + JSON.parse(item).id)
-                  .then((res) => {
+                  .then((res: AxiosResponse) => {
                     this.products.push(res.data.payload);
                   });
               } else {

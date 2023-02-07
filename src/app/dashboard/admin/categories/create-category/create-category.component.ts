@@ -38,11 +38,6 @@ export class CreateCategoryComponent implements OnInit {
 
     const category = new CategoryModel('', catName);
 
-    const request: boolean = this.categoryDataService.createCategory(category);
-
-    if (request) {
-      this.toastr.success('Brand Has been created successfully!', 'Created');
-      this.router.navigate(['dashboard', 'admin', 'categories']);
-    }
+    this.categoryDataService.createCategory(category);
   }
 }

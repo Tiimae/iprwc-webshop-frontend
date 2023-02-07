@@ -43,6 +43,5 @@ export class AllCategoriesComponent implements OnInit {
 
   removeCategoryOutArray(event: CategoryModel): void {
     this.categoryDataService.removeCategory(event);
-    this.toastr.success('Category has been deleted successfully!', 'Deleted');
   }
 }
