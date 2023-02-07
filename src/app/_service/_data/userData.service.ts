@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 import { AxiosResponse } from 'axios';
 import { ToastrService } from 'ngx-toastr';
 import { BehaviorSubject, Observable, of, Subject } from 'rxjs';
@@ -14,7 +15,8 @@ export class UserDataService {
 
   constructor(
     private apiMethod: ApiMethodsService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private router: Router
   ) {}
 
   public getCurrentUser(userId: string): Observable<UserModel | undefined> {
@@ -38,13 +40,7 @@ export class UserDataService {
       });
   }
 
-  public createNewUser(user: UserModel): boolean {
-    let check = true;
-
-    if (!check) {
-      return check;
-    }
-
+  public createNewUser(user: UserModel): void {
     let roleIds: string[] = [];
 
     user.roles.forEach((roles) => {
@@ -64,28 +60,19 @@ export class UserDataService {
       userAddressIds: []
     };
 
-    this.apiMethod.post('user', payload, true).then((r: AxiosResponse) => {
-      this.users.push(r.data.payload);
-      this.users$.next(this.users);
-    });
-
-    return check;
-  }
-
-  public updateUser(user: UserModel, admin: boolean): boolean {
-    let check = true;
-
-    this.users.forEach((currentUser: UserModel) => {
-      if (user.email === currentUser.email && user.id != currentUser.id) {
-        this.toastr.error('Email already exists.', 'Failed');
-        check = false;
+    this.apiMethod.post('user', payload, true).then((res: AxiosResponse) => {
+      if (res.data.code === 202) {
+        this.users.push(res.data.payload);
+        this.users$.next(this.users);
+        this.toastr.success('User has been created successfully!', 'Created');
+        this.router.navigate(['dashboard', 'admin', 'users']);
+      } else if (res.data.code === 400) {
+        this.toastr.error(res.data.message, res.data.code);
       }
     });
+  }
 
-    if (!check) {
-      return check;
-    }
-
+  public updateUser(user: UserModel, admin: boolean): void {
     let roleIds: string[] = [];
     let userAddressesId: string[] = [];
 
@@ -111,35 +98,57 @@ export class UserDataService {
     if (!admin) {
       this.apiMethod
         .put('user/' + user.id, payload, true)
-        .then((r: AxiosResponse) => {
-          this.users[
-            this.users.findIndex((currentUser) => currentUser.id === user.id)
-          ] = user;
-          this.users$.next(this.users);
+        .then((res: AxiosResponse) => {
+          if (res.data.code === 202) {
+            this.users[
+              this.users.findIndex((currentUser) => currentUser.id === user.id)
+            ] = user;
+            this.users$.next(this.users);
+            this.toastr.success(
+              'User has been updated successfully!',
+              'Updated'
+            );
+            this.router.navigate(['dashboard', 'admin', 'users']);
+          } else if (res.data.code === 400) {
+            this.toastr.error(res.data.message, res.data.code);
+          }
         });
     } else {
       this.apiMethod
         .put('user/' + user.id + '/admin', payload, true)
-        .then((r: AxiosResponse) => {
-          this.users[
-            this.users.findIndex((currentUser) => currentUser.id === user.id)
-          ] = user;
-          this.users$.next(this.users);
+        .then((res: AxiosResponse) => {
+          if (res.data.code === 202) {
+            this.users[
+              this.users.findIndex((currentUser) => currentUser.id === user.id)
+            ] = user;
+            this.users$.next(this.users);
+            this.toastr.success(
+              'User has been updated successfully!',
+              'Updated'
+            );
+            this.router.navigate(['dashboard', 'admin', 'users']);
+          } else if (res.data.code === 400) {
+            this.toastr.error(res.data.message, res.data.code);
+          }
         });
     }
-
-    return check;
   }
 
   public removeUser(user: UserModel) {
-    this.users.forEach((currentUser, index) => {
-      if (currentUser.id == user.id) {
-        this.users.splice(index, 1);
-      }
-    });
-
-    this.apiMethod.delete('user/' + user.id, true).then((r: AxiosResponse) => {
-      this.users$.next(this.users);
-    });
+    this.apiMethod
+      .delete('user/' + user.id, true)
+      .then((res: AxiosResponse) => {
+        if (res.data.code === 202) {
+          this.users.forEach((currentUser, index) => {
+            if (currentUser.id == user.id) {
+              this.users.splice(index, 1);
+            }
+          });
+          this.users$.next(this.users);
+          this.toastr.success('User has been deleted successfully!', 'Deleted');
+        } else if (res.data.code === 400) {
+          this.toastr.error(res.data.message, res.data.code);
+        }
+      });
   }
 }

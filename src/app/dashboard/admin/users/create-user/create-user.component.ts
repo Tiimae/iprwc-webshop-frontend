@@ -14,10 +14,10 @@ import { UserDataService } from '../../../../_service/_data/userData.service';
   styleUrls: ['./create-user.component.scss']
 })
 export class CreateUserComponent implements OnInit {
-  roles: RoleModel[] = [];
-  userRoles: RoleModel[] = [];
+  public roles: RoleModel[] = [];
+  public userRoles: RoleModel[] = [];
 
-  userCreateForm = new FormGroup({
+  public userCreateForm: FormGroup = new FormGroup({
     firstname: new FormControl('', [Validators.required]),
     middlename: new FormControl(''),
     lastname: new FormControl('', [Validators.required]),
@@ -51,10 +51,10 @@ export class CreateUserComponent implements OnInit {
   public onSubmit(): void {
     AppComponent.isLoading = true;
 
-    const firstname = this.userCreateForm.controls.firstname.value;
-    const middlename = this.userCreateForm.controls.middlename.value;
-    const lastname = this.userCreateForm.controls.lastname.value;
-    const email = this.userCreateForm.controls.email.value;
+    const firstname = this.userCreateForm.controls['firstname'].value;
+    const middlename = this.userCreateForm.controls['middlename'].value;
+    const lastname = this.userCreateForm.controls['lastname'].value;
+    const email = this.userCreateForm.controls['email'].value;
 
     if (
       firstname == null ||
@@ -84,12 +84,7 @@ export class CreateUserComponent implements OnInit {
       []
     );
 
-    const request: boolean = this.userDataService.createNewUser(user);
-
-    if (request) {
-      this.toastr.success('User has been created successfully!', 'Created');
-      this.router.navigate(['dashboard', 'admin', 'users']);
-    }
+    this.userDataService.createNewUser(user);
 
     AppComponent.isLoading = false;
   }
@@ -106,14 +101,14 @@ export class CreateUserComponent implements OnInit {
     let alreadyHasRole = false;
 
     this.userRoles?.forEach((currentRole) => {
-      if (currentRole.name == this.userCreateForm.controls.role.value) {
+      if (currentRole.name == this.userCreateForm.controls['role'].value) {
         alreadyHasRole = true;
       }
     });
 
     if (!alreadyHasRole) {
       this.roles.forEach((currentRole) => {
-        if (currentRole.name == this.userCreateForm.controls.role.value) {
+        if (currentRole.name == this.userCreateForm.controls['role'].value) {
           this.userRoles?.push(currentRole);
         }
       });

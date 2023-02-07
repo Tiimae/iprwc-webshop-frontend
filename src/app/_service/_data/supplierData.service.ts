@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 import { AxiosResponse } from 'axios';
 import { ToastrService } from 'ngx-toastr';
 import { BehaviorSubject, Observable, of, Subject } from 'rxjs';
@@ -16,7 +17,8 @@ export class SupplierDataService {
 
   constructor(
     private apiMethod: ApiMethodsService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private router: Router
   ) {}
 
   public async getAll(): Promise<void> {
@@ -42,20 +44,7 @@ export class SupplierDataService {
     return this.apiMethod.get('supplier/' + supplierId, true);
   }
 
-  public post(supplier: SupplierModel): boolean {
-    let check = true;
-
-    this.suppliers.forEach((currentSupplier: SupplierModel) => {
-      if (supplier.name === currentSupplier.name) {
-        this.toastr.error('Supplier name is already in user.', 'Failed');
-        check = false;
-      }
-    });
-
-    if (!check) {
-      return check;
-    }
-
+  public post(supplier: SupplierModel): void {
     const payload = {
       name: supplier.name,
       address: supplier.address,
@@ -65,31 +54,25 @@ export class SupplierDataService {
       productIds: []
     };
 
-    this.apiMethod.post('supplier', payload, true).then((r: AxiosResponse) => {
-      this.suppliers.push(r.data.payload);
-      this.suppliers$.next(this.suppliers);
-    });
+    this.apiMethod
+      .post('supplier', payload, true)
+      .then((res: AxiosResponse) => {
+        if (res.data.code === 202) {
+          this.suppliers.push(res.data.payload);
+          this.suppliers$.next(this.suppliers);
 
-    return check;
+          this.toastr.success(
+            'Supplier has been created successfully!',
+            'Created'
+          );
+          this.router.navigate(['dashboard', 'admin', 'suppliers']);
+        } else if (res.data.code === 400) {
+          this.toastr.error(res.data.message, res.data.code);
+        }
+      });
   }
 
-  public put(supplier: SupplierModel): boolean {
-    let check = true;
-
-    this.suppliers.forEach((currentSupplier: SupplierModel) => {
-      if (
-        supplier.name === currentSupplier.name &&
-        supplier.id !== currentSupplier.id
-      ) {
-        this.toastr.error('Supplier name is already in suppliers.', 'Failed');
-        check = false;
-      }
-    });
-
-    if (!check) {
-      return check;
-    }
-
+  public put(supplier: SupplierModel): void {
     const payload = {
       name: supplier.name,
       address: supplier.address,
@@ -100,28 +83,38 @@ export class SupplierDataService {
 
     this.apiMethod
       .put('supplier/' + supplier.id, payload, true)
-      .then((r: AxiosResponse) => {
-        this.suppliers[
-          this.suppliers.findIndex(
-            (currentSupplier) => currentSupplier.id === supplier.id
-          )
-        ] = r.data.payload;
+      .then((res: AxiosResponse) => {
+        if (res.data.code === 202) {
+          this.suppliers[
+            this.suppliers.findIndex(
+              (currentSupplier) => currentSupplier.id === supplier.id
+            )
+          ] = res.data.payload;
+          this.toastr.success(
+            'Supplier has been updated successfully!',
+            'Updated'
+          );
+          this.router.navigate(['dashboard', 'admin', 'suppliers']);
+        } else if (res.data.code === 400) {
+          this.toastr.error(res.data.message, res.data.code);
+        }
       });
-
-    return check;
   }
 
   public remove(supplier: SupplierModel): void {
-    this.suppliers.forEach((currentSupplier, index) => {
-      if (currentSupplier.id == supplier.id) {
-        this.suppliers.splice(index, 1);
-      }
-    });
-
     this.apiMethod
       .delete('supplier/' + supplier.id, true)
-      .then((r: AxiosResponse) => {
-        this.suppliers$.next(this.suppliers);
+      .then((res: AxiosResponse) => {
+        if (res.data.code === 202) {
+          this.suppliers$.next(this.suppliers);
+          this.suppliers.forEach((currentSupplier, index) => {
+            if (currentSupplier.id == supplier.id) {
+              this.suppliers.splice(index, 1);
+            }
+          });
+        } else if (res.data.code === 400) {
+          this.toastr.error(res.data.message, res.data.code);
+        }
       });
   }
 }

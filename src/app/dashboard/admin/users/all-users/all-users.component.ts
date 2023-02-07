@@ -44,6 +44,5 @@ export class AllUsersComponent implements OnInit {
 
   public removeUserOutArray(user: UserModel): void {
     this.userDataService.removeUser(user);
-    this.toastr.success('User has been deleted successfully!', 'Deleted');
   }
 }

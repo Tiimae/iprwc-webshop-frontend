@@ -11,7 +11,7 @@ import { SupplierDataService } from '../../../../_service/_data/supplierData.ser
   styleUrls: ['./create-supplier.component.scss']
 })
 export class CreateSupplierComponent implements OnInit {
-  supplierCreateForm = new FormGroup({
+  public supplierCreateForm: FormGroup = new FormGroup({
     name: new FormControl('', [Validators.required]),
     address: new FormControl('', [Validators.required]),
     zipcode: new FormControl('', [Validators.required]),
@@ -21,18 +21,17 @@ export class CreateSupplierComponent implements OnInit {
 
   constructor(
     private supplierDataService: SupplierDataService,
-    private router: Router,
     private toastr: ToastrService
   ) {}
 
   ngOnInit(): void {}
 
   public onSubmit() {
-    const name = this.supplierCreateForm.controls.name.value;
-    const address = this.supplierCreateForm.controls.address.value;
-    const zipcode = this.supplierCreateForm.controls.zipcode.value;
-    const city = this.supplierCreateForm.controls.city.value;
-    const country = this.supplierCreateForm.controls.country.value;
+    const name = this.supplierCreateForm.controls['name'].value;
+    const address = this.supplierCreateForm.controls['address'].value;
+    const zipcode = this.supplierCreateForm.controls['zipcode'].value;
+    const city = this.supplierCreateForm.controls['city'].value;
+    const country = this.supplierCreateForm.controls['country'].value;
 
     if (
       name == null ||
@@ -59,11 +58,6 @@ export class CreateSupplierComponent implements OnInit {
       country
     );
 
-    const request: boolean = this.supplierDataService.post(supplier);
-
-    if (request) {
-      this.toastr.success('Supplier has been created successfully!', 'Created');
-      this.router.navigate(['dashboard', 'admin', 'suppliers']);
-    }
+    this.supplierDataService.post(supplier);
   }
 }

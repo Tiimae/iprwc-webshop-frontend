@@ -42,6 +42,5 @@ export class AllSuppliersComponent implements OnInit {
 
   removeUserOutArray(event: SupplierModel) {
     this.supplierDataService.remove(event);
-    this.toastr.success('Product has been deleted successfully!', 'Deleted');
   }
 }

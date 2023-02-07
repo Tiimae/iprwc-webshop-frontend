@@ -16,6 +16,7 @@ export class ProductDataService {
   public products$: Subject<ProductModel[]> = new BehaviorSubject<
     ProductModel[]
   >([]);
+
   private deletedProducts: ProductModel[] = [];
   public deletedProducts$: Subject<ProductModel[]> = new BehaviorSubject<
     ProductModel[]
@@ -135,40 +136,48 @@ export class ProductDataService {
   }
 
   public delete(productId: string): void {
-    this.api.delete('product/' + productId, true).then((r: AxiosResponse) => {
-      this.products.splice(
-        this.products.findIndex(
-          (currentProduct) => currentProduct.id === productId
-        ),
-        1
-      );
-      this.deletedProducts.push(r.data.payload);
-      this.products$.next(this.products);
-      this.deletedProducts$.next(this.products);
+    this.api.delete('product/' + productId, true).then((res: AxiosResponse) => {
+      if (res.data.code === 202) {
+        this.products.splice(
+          this.products.findIndex(
+            (currentProduct) => currentProduct.id === productId
+          ),
+          1
+        );
+        this.deletedProducts.push(res.data.payload);
+        this.products$.next(this.products);
+        this.deletedProducts$.next(this.products);
+      } else if (res.data.code === 400) {
+        this.toastr.error(res.data.message, res.data.code);
+      }
     });
   }
 
   restore(productId: string): void {
     this.api
       .delete('product/' + productId + '/restore', true)
-      .then((r: AxiosResponse) => {
-        this.deletedProducts.splice(
-          this.deletedProducts.findIndex(
-            (currentProduct) => currentProduct.id === productId
-          ),
-          1
-        );
-        this.products.push(r.data.payload);
+      .then((res: AxiosResponse) => {
+        if (res.data.code === 202) {
+          this.deletedProducts.splice(
+            this.deletedProducts.findIndex(
+              (currentProduct) => currentProduct.id === productId
+            ),
+            1
+          );
+          this.products.push(res.data.payload);
 
-        this.products$.next(this.products);
-        this.deletedProducts$.next(this.deletedProducts);
+          this.products$.next(this.products);
+          this.deletedProducts$.next(this.deletedProducts);
+        } else if (res.data.code === 400) {
+          this.toastr.error(res.data.message, res.data.code);
+        }
       });
   }
 
   setNewReview(productId: string, product: ProductModel) {
     this.products[
       this.products.findIndex(
-        (currentProduct) => currentProduct.id === product.id
+        (currentProduct) => currentProduct.id === productId
       )
     ] = product;
     this.products$.next(this.products);

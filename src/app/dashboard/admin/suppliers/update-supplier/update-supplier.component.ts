@@ -4,8 +4,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import * as CryptoJs from 'crypto-js';
 import { ToastrService } from 'ngx-toastr';
 import { SupplierModel } from '../../../../_models/supplier.model';
-import { SupplierDataService } from '../../../../_service/_data/supplierData.service';
 import { ApiConnectorService } from '../../../../_service/_api/api-connector.service';
+import { SupplierDataService } from '../../../../_service/_data/supplierData.service';
 
 @Component({
   selector: 'app-update-supplier',
@@ -13,10 +13,10 @@ import { ApiConnectorService } from '../../../../_service/_api/api-connector.ser
   styleUrls: ['./update-supplier.component.scss']
 })
 export class UpdateSupplierComponent implements OnInit {
-  supplierId: string = '';
-  supplier!: SupplierModel;
+  private supplierId: string = '';
+  private supplier!: SupplierModel;
 
-  supplierUpdateForm = new FormGroup({
+  public supplierUpdateForm: FormGroup = new FormGroup({
     name: new FormControl('', [Validators.required]),
     address: new FormControl('', [Validators.required]),
     zipcode: new FormControl('', [Validators.required]),
@@ -46,8 +46,13 @@ export class UpdateSupplierComponent implements OnInit {
             this.supplierDataService
               .getByRequest(this.supplierId)
               .then((res) => {
-                this.supplier = res.data.payload;
-                this.setFormData();
+                if (res.data.code === 202) {
+                  this.supplier = res.data.payload;
+                  this.setFormData();
+                } else if (res.data.code === 400) {
+                  this.toastr.error(res.data.message, res.data.code);
+                  this.router.navigate(['dashboard', 'admin', 'suppliers']);
+                }
               });
           } else {
             this.supplier = supplier;
@@ -63,19 +68,19 @@ export class UpdateSupplierComponent implements OnInit {
   }
 
   private setFormData(): void {
-    this.supplierUpdateForm.controls.name.setValue(this.supplier.name);
-    this.supplierUpdateForm.controls.address.setValue(this.supplier.address);
-    this.supplierUpdateForm.controls.zipcode.setValue(this.supplier.zipcode);
-    this.supplierUpdateForm.controls.city.setValue(this.supplier.city);
-    this.supplierUpdateForm.controls.country.setValue(this.supplier.country);
+    this.supplierUpdateForm.controls['name'].setValue(this.supplier.name);
+    this.supplierUpdateForm.controls['address'].setValue(this.supplier.address);
+    this.supplierUpdateForm.controls['zipcode'].setValue(this.supplier.zipcode);
+    this.supplierUpdateForm.controls['city'].setValue(this.supplier.city);
+    this.supplierUpdateForm.controls['country'].setValue(this.supplier.country);
   }
 
   public onSubmit(): void {
-    const name = this.supplierUpdateForm.controls.name.value;
-    const address = this.supplierUpdateForm.controls.address.value;
-    const zipcode = this.supplierUpdateForm.controls.zipcode.value;
-    const city = this.supplierUpdateForm.controls.city.value;
-    const country = this.supplierUpdateForm.controls.country.value;
+    const name = this.supplierUpdateForm.controls['name'].value;
+    const address = this.supplierUpdateForm.controls['address'].value;
+    const zipcode = this.supplierUpdateForm.controls['zipcode'].value;
+    const city = this.supplierUpdateForm.controls['city'].value;
+    const country = this.supplierUpdateForm.controls['country'].value;
 
     if (
       name == null ||
@@ -102,11 +107,6 @@ export class UpdateSupplierComponent implements OnInit {
       country
     );
 
-    const request: boolean = this.supplierDataService.put(supplier);
-
-    if (request) {
-      this.toastr.success('Supplier has been updated successfully!', 'Updated');
-      this.router.navigate(['dashboard', 'admin', 'suppliers']);
-    }
+    this.supplierDataService.put(supplier);
   }
 }
