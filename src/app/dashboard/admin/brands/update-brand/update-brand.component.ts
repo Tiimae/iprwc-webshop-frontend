@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute, Params, Router } from '@angular/router';
+import {ActivatedRoute, Params, Router} from '@angular/router';
+import { AxiosResponse } from 'axios';
 import * as CryptoJs from 'crypto-js';
 import { ToastrService } from 'ngx-toastr';
 import { BrandModel } from '../../../../_models/brand.model';
@@ -41,9 +42,14 @@ export class UpdateBrandComponent implements OnInit {
       (await this.brandDataService.get(this.brandId)).subscribe(
         (r: BrandModel | undefined) => {
           if (r == undefined) {
-            this.brandDataService.getByRequest(this.brandId).then((res) => {
-              this.brand = res.data.payload;
-              this.setFormData();
+            this.brandDataService.getByRequest(this.brandId).then((res: AxiosResponse) => {
+              if (res.data.code === 202) {
+                this.brand = res.data.payload;
+                this.setFormData();
+              } else if (res.data.code === 400) {
+                this.toastr.error(res.data.message, res.data.code);
+                this.router.navigate(['dashboard', 'admin', 'brands']);
+              }
             });
           } else {
             this.brand = r;
@@ -83,13 +89,8 @@ export class UpdateBrandComponent implements OnInit {
       webPage,
       this.brand.logoUrl
     );
+
     brand.image = this.uploadedImage;
-
-    const request: boolean = this.brandDataService.update(brand);
-
-    if (request) {
-      this.toastr.success('Brand Has been updated successfully!', 'Updated!');
-      this.router.navigate(['dashboard', 'admin', 'brands']);
-    }
+    this.brandDataService.update(brand);
   }
 }

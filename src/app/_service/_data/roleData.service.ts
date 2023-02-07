@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { AxiosResponse } from 'axios';
 import { Observable, of } from 'rxjs';
 import { RoleModel } from '../../_models/role.model';
-import { ApiMethodsService } from '../api-methods.service';
+import { ApiMethodsService } from '../_api/api-methods.service';
 
 @Injectable({
   providedIn: 'root'

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { AxiosResponse } from 'axios';
 import { ReviewModel } from 'src/app/_models/review.model';
-import { ApiMethodsService } from '../api-methods.service';
+import { ApiMethodsService } from '../_api/api-methods.service';
 
 @Injectable({
   providedIn: 'root'

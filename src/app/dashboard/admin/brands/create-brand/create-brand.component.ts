@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { BrandModel } from 'src/app/_models/brand.model';
 import { BrandDataService } from 'src/app/_service/_data/brandData.service';
@@ -20,7 +19,6 @@ export class CreateBrandComponent implements OnInit {
   private uploadedImage!: File;
 
   constructor(
-    private router: Router,
     private brandDataService: BrandDataService,
     private toastr: ToastrService
   ) {}
@@ -31,7 +29,7 @@ export class CreateBrandComponent implements OnInit {
     this.uploadedImage = event.target.files[0];
   }
 
-  public onSubmit(): void {
+  public async onSubmit(): Promise<void> {
     const brandName = this.brandCreateForm.controls['brandName'].value;
     const webPage = this.brandCreateForm.controls['url'].value;
 
@@ -47,11 +45,7 @@ export class CreateBrandComponent implements OnInit {
 
     const brand = new BrandModel('', brandName, webPage, this.uploadedImage);
     brand.image = this.uploadedImage;
-    const request: boolean = this.brandDataService.create(brand);
 
-    if (request) {
-      this.toastr.success('Brand Has been created successfully!', 'Created');
-      this.router.navigate(['dashboard', 'admin', 'brands']);
-    }
+    this.brandDataService.create(brand);
   }
 }

@@ -1,10 +1,11 @@
-import { Injectable } from '@angular/core';
-import { AxiosResponse } from 'axios';
-import { ToastrService } from 'ngx-toastr';
-import { BehaviorSubject, Observable, of, Subject } from 'rxjs';
-import { BrandModel } from 'src/app/_models/brand.model';
-import { v4 as uuid } from 'uuid';
-import { ApiMethodsService } from '../_api/api-methods.service';
+import {Injectable} from '@angular/core';
+import {Router} from '@angular/router';
+import {AxiosResponse} from 'axios';
+import {ToastrService} from 'ngx-toastr';
+import {BehaviorSubject, Observable, of, Subject} from 'rxjs';
+import {BrandModel} from 'src/app/_models/brand.model';
+import {v4 as uuid} from 'uuid';
+import {ApiMethodsService} from '../_api/api-methods.service';
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +14,12 @@ export class BrandDataService {
   private brands: BrandModel[] = [];
   public brands$: Subject<BrandModel[]> = new BehaviorSubject<BrandModel[]>([]);
 
-  constructor(private toastr: ToastrService, private api: ApiMethodsService) {}
+  constructor(
+    private toastr: ToastrService,
+    private api: ApiMethodsService,
+    private router: Router
+  ) {
+  }
 
   public get(brandId: string): Observable<BrandModel | undefined> {
     if (this.brands.length > 0) {
@@ -34,20 +40,7 @@ export class BrandDataService {
     });
   }
 
-  public create(brand: BrandModel): boolean {
-    let check = true;
-
-    this.brands.forEach((currentBrand: BrandModel) => {
-      if (brand.brandName === currentBrand.brandName) {
-        this.toastr.error('Brand name is already in user.', 'Failed');
-        check = false;
-      }
-    });
-
-    if (!check) {
-      return check;
-    }
-
+  public create(brand: BrandModel): void {
     const formData = new FormData();
     const extension = brand.image.type.split('/')[1];
     formData.append('logo', brand.logoUrl, uuid() + '.' + extension);
@@ -61,28 +54,19 @@ export class BrandDataService {
       })
     );
 
-    this.api.post('brand', formData, true).then((r) => {
-      this.brands.push(r.data.payload);
-      this.brands$.next(this.brands);
-    });
-
-    return check;
-  }
-
-  public update(brand: BrandModel): boolean {
-    let check = true;
-
-    this.brands.forEach((currentBrand: BrandModel) => {
-      if (brand.brandName === currentBrand.brandName) {
-        this.toastr.error('Brand name is already in user.', 'Failed');
-        check = false;
+    this.api.post('brand', formData, true).then((r: AxiosResponse) => {
+      if (r.data.code === 202) {
+        this.brands.push(r.data.payload);
+        this.brands$.next(this.brands);
+        this.toastr.success('Brand Has been created successfully!', 'Created');
+        this.router.navigate(['dashboard', 'admin', 'brands']);
+      } else if (r.data.code === 400) {
+        this.toastr.error(r.data.message, r.data.code);
       }
     });
+  }
 
-    if (!check) {
-      return check;
-    }
-
+  public update(brand: BrandModel): void {
     const formData = new FormData();
     if (brand.image != null) {
       formData.append('logo', brand.image, brand.image.name);
@@ -97,27 +81,43 @@ export class BrandDataService {
       })
     );
 
-    this.api.put('brand/' + brand.id, formData, true).then((r) => {
-      this.brands[
-        this.brands.findIndex(
-          (currentBrand: BrandModel) => currentBrand.id === r.data.payload.id
-        )
-      ] = r.data.payload;
-      this.brands$.next(this.brands);
-    });
+    this.api
+      .put('brand/' + brand.id, formData, true)
+      .then((r: AxiosResponse) => {
+        if (r.data.payload === 202 || r.data.payload === 200) {
+          this.brands[
+            this.brands.findIndex(
+              (currentBrand: BrandModel) =>
+                currentBrand.id === r.data.payload.id
+            )
+            ] = r.data.payload;
+          this.brands$.next(this.brands);
 
-    return check;
+          this.toastr.success(
+            'Brand Has been updated successfully!',
+            'Updated!'
+          );
+
+          this.router.navigate(['dashboard', 'admin', 'brands']);
+        } else if (r.data.code === 400) {
+          this.toastr.error(r.data.message, r.data.code);
+        }
+      });
   }
 
   public remove(brand: BrandModel): void {
-    this.brands.forEach((currentUser, index) => {
-      if (currentUser.id == brand.id) {
-        this.brands.splice(index, 1);
-      }
-    });
-
     this.api.delete('brand/' + brand.id, true).then((r) => {
-      this.brands$.next(this.brands);
+      if (r.data.code === 202) {
+        this.brands.forEach((currentUser, index) => {
+          if (currentUser.id == brand.id) {
+            this.brands.splice(index, 1);
+          }
+        });
+        this.brands$.next(this.brands);
+        this.toastr.success('Brand has been deleted successfully!', 'Deleted');
+      } else if (r.data.code === 400) {
+        this.toastr.error(r.data.message, r.data.code);
+      }
     });
   }
 }

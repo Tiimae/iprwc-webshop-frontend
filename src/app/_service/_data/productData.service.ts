@@ -5,7 +5,7 @@ import { BehaviorSubject, Observable, of, Subject } from 'rxjs';
 import { v4 as uuid } from 'uuid';
 import { ProductModel } from '../../_models/product.model';
 import { ProductImageModel } from '../../_models/productImage.model';
-import { ApiMethodsService } from '../api-methods.service';
+import { ApiMethodsService } from '../_api/api-methods.service';
 
 @Injectable({
   providedIn: 'root'
