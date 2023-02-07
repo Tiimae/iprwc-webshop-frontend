@@ -36,8 +36,8 @@ export class HomeComponent implements OnInit {
     AppComponent.isLoading = true;
     const jwtToken = localStorage.getItem('blank-token');
 
-    if (localStorage.getItem('blank-token') !== null) {
-      try {
+    try {
+      if (jwtToken !== null) {
         const secret = await this.authService.getSecret();
 
         setTimeout(() => {
@@ -47,9 +47,9 @@ export class HomeComponent implements OnInit {
 
           location.reload();
         }, 500);
-      } catch (error) {
-        localStorage.clear();
       }
+    } catch (error) {
+      localStorage.clear();
     }
 
     await this.productDataService.products$.subscribe({

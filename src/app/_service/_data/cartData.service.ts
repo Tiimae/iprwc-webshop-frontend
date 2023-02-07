@@ -17,15 +17,9 @@ export class CartDataService {
   constructor(
     private productDataService: ProductDataService,
     private toastr: ToastrService
-  ) {
-    if (localStorage.getItem('cart') !== null) {
-      this.getAllProductsInCart();
-    } else {
-      localStorage.setItem('cart', JSON.stringify([]));
-    }
-  }
+  ) {}
 
-  private getAllProductsInCart(): void {
+  public getAllProductsInCart(): void {
     let items = localStorage.getItem('cart');
 
     if (items == null) {

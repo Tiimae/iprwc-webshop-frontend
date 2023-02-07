@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AxiosResponse } from 'axios';
+import { ToastrService } from 'ngx-toastr';
 import { BehaviorSubject, Subject } from 'rxjs';
 import { UserAddressesModel } from 'src/app/_models/userAddresses.model';
 import { ApiMethodsService } from '../_api/api-methods.service';
@@ -13,14 +14,18 @@ export class UserAddressesDataService {
     UserAddressesModel[]
   >([]);
 
-  constructor(private api: ApiMethodsService) {}
+  constructor(private api: ApiMethodsService, private toastr: ToastrService) {}
 
   public getByUserId(userId: string): void {
     this.api
       .get('user-address/user/' + userId, true)
       .then((res: AxiosResponse) => {
-        this.userAddresses = res.data.payload;
-        this.userAddresses$.next(this.userAddresses);
+        if (res.data.code === 202) {
+          this.userAddresses = res.data.payload;
+          this.userAddresses$.next(this.userAddresses);
+        } else if (res.data.code === 400) {
+          this.toastr.error(res.data.message, res.data.code);
+        }
       });
   }
 

@@ -11,15 +11,14 @@ import { ProductModel } from '../../_models/product.model';
   styleUrls: ['./cart.component.scss']
 })
 export class CartComponent implements OnInit {
-  isLoading: boolean = false;
-  cartProducts!: ProductModel[];
-  totalProduct: number = 0;
-  tax: number = 0;
-  grandTotal: number = 0;
+  public cartProducts!: ProductModel[];
+  public totalProduct: number = 0;
+  public tax: number = 0;
+  public grandTotal: number = 0;
 
   @Input() overview: boolean = false;
 
-  private productCheck: boolean = false;
+  private cartCheck: boolean = false;
 
   constructor(
     private cartDataService: CartDataService,
@@ -31,6 +30,11 @@ export class CartComponent implements OnInit {
     AppComponent.isLoading = true;
     this.cartDataService.products$.subscribe({
       next: (products: ProductModel[]) => {
+        if (products.length === 0 && !this.cartCheck) {
+          this.cartDataService.getAllProductsInCart();
+          this.cartCheck = true;
+        }
+
         this.cartProducts = products;
         setTimeout(() => {
           this.calculateTotalProduct();

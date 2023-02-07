@@ -21,21 +21,19 @@ import { ProductDataService } from '../../_service/_data/productData.service';
   styleUrls: ['./product-detail.component.scss']
 })
 export class ProductDetailComponent implements OnInit {
-  isLoading: boolean = false;
-  productId!: string;
-  product!: ProductModel;
-  stars: number = 0;
+  public productId!: string;
+  public product!: ProductModel;
+  public stars: number = 0;
 
-  imgId: number = 1;
+  public imgId: number = 1;
 
-  faStar = faStar;
-  faCheck = faCheck;
-  faArrowRight = faArrowRight;
-  faArrowLeft = faArrowLeft;
+  public faStar = faStar;
+  public faCheck = faCheck;
+  public faArrowRight = faArrowRight;
+  public faArrowLeft = faArrowLeft;
 
   constructor(
     private route: ActivatedRoute,
-    private router: Router,
     private productDataService: ProductDataService,
     private cartDataService: CartDataService,
     private toastr: ToastrService,

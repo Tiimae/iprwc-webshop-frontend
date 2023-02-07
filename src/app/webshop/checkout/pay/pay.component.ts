@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { AxiosResponse } from 'axios';
+import { OrderModel } from 'src/app/_models/order.model';
 import { UserModel } from 'src/app/_models/user.model';
 import { CartDataService } from 'src/app/_service/_data/cartData.service';
 import { OrderDataService } from 'src/app/_service/_data/orderData.service';
@@ -150,20 +152,24 @@ export class PayComponent implements OnInit {
       });
     });
 
-    const fd = new FormData();
+    const fd: FormData = new FormData();
     fd.append('invoice', this.currentInvoiceAddress.id);
     fd.append('delivery', this.currentDeliveryAddress.id);
     fd.append('userId', this.userId);
     fd.append('products', JSON.stringify(productIds));
 
-    this.orderDataService.create(fd).then((res) => {
-      this.userDataService.getUserByRequest(this.userId).then((oldUser) => {
-        const user: UserModel = oldUser.data.payload;
-        user.orders.push(res);
-        this.userDataService.updateUser(user, false);
-      });
-      this.cartDataService.clearCart();
-      this.router.navigate(['']);
+    this.orderDataService.create(fd).then((res: OrderModel | undefined) => {
+      if (res != undefined) {
+        this.userDataService
+          .getUserByRequest(this.userId)
+          .then((oldUser: AxiosResponse) => {
+            const user: UserModel = oldUser.data.payload;
+            user.orders.push(res);
+            this.userDataService.updateUser(user, false);
+          });
+        this.cartDataService.clearCart();
+        this.router.navigate(['']);
+      }
     });
   }
 }
