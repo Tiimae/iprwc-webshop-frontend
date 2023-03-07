@@ -11,14 +11,14 @@ import { ReviewDataService } from '../../../_service/_data/reviewData.service';
   styleUrls: ['./review.component.scss']
 })
 export class ReviewComponent implements OnInit {
-  @Input() reviews: ReviewModel[] = [];
-  @Input() productId!: string;
-  @Output() addReview: EventEmitter<ReviewModel> =
+  @Input() public reviews: ReviewModel[] = [];
+  @Input() public productId!: string;
+  @Output() public addReview: EventEmitter<ReviewModel> =
     new EventEmitter<ReviewModel>();
 
   faStar = faStar;
 
-  postReviewForm = new FormGroup({
+  public postReviewForm = new FormGroup({
     description: new FormControl('', [Validators.required]),
     stars: new FormControl('', [Validators.required])
   });
@@ -30,7 +30,7 @@ export class ReviewComponent implements OnInit {
 
   ngOnInit(): void {}
 
-  postReview(): void {
+  public postReview(): void {
     const description = this.postReviewForm.controls.description.value;
     const stars = this.postReviewForm.controls.stars.value;
 

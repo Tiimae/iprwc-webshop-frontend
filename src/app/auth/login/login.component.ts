@@ -11,6 +11,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { ToastrService } from 'ngx-toastr';
 import { AppComponent } from '../../app.component';
+import {Title} from "@angular/platform-browser";
 
 @Component({
   selector: 'app-login',
@@ -36,14 +37,15 @@ export class LoginComponent implements OnInit {
     private router: Router,
     private authService: AuthService,
     private toastr: ToastrService,
-    private api: ApiConnectorService
+    private api: ApiConnectorService,
+    private title: Title
   ) {}
 
-  async ngOnInit() {
+  ngOnInit() {
     AppComponent.isLoading = true;
     if (localStorage.getItem('jwt-token')) {
       try {
-        const tokenPayload: any = await this.api.getJwtPayload();
+        const tokenPayload: any = this.api.getJwtPayload();
 
         setTimeout(async () => {
           if (tokenPayload !== undefined) {
@@ -52,10 +54,12 @@ export class LoginComponent implements OnInit {
         }, 300);
       } catch (err) {}
     }
+
+    this.title.setTitle("F1 Webshop | Login")
     AppComponent.isLoading = false;
   }
 
-  public async onSubmit() {
+  public onSubmit() {
     AppComponent.isLoading = true;
 
     const email: string = this.loginForm.controls['email'].value;
@@ -71,7 +75,7 @@ export class LoginComponent implements OnInit {
       return;
     }
 
-    await this.authService.login(email, password).then((r) => {
+    this.authService.login(email, password).then((r) => {
       if (r.data.code == 200) {
         localStorage.setItem('refresh-token', r.data.payload?.refreshToken);
         localStorage.setItem('blank-token', r.data.payload?.jwtToken);

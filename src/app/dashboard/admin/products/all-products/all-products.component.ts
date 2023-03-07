@@ -3,6 +3,7 @@ import { ToastrService } from 'ngx-toastr';
 import { AppComponent } from '../../../../app.component';
 import { ProductModel } from '../../../../_models/product.model';
 import { ProductDataService } from '../../../../_service/_data/productData.service';
+import {Title} from "@angular/platform-browser";
 
 @Component({
   selector: 'app-all-products',
@@ -10,15 +11,16 @@ import { ProductDataService } from '../../../../_service/_data/productData.servi
   styleUrls: ['./all-products.component.scss']
 })
 export class AllProductsComponent implements OnInit {
-  allProducts: ProductModel[] = [];
-  deletedProducts: ProductModel[] = [];
-  showDeleted: boolean = false;
+  public allProducts: ProductModel[] = [];
+  public deletedProducts: ProductModel[] = [];
+  public showDeleted: boolean = false;
 
   private count: number = 0;
 
   constructor(
     private productDataService: ProductDataService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private title: Title
   ) {}
 
   ngOnInit(): void {
@@ -60,19 +62,21 @@ export class AllProductsComponent implements OnInit {
         console.log('complete');
       }
     });
+
+    this.title.setTitle("F1 Webshop | All Products")
     AppComponent.isLoading = false;
   }
 
-  removeProductOutArray(event: ProductModel): void {
+  public removeProductOutArray(event: ProductModel): void {
     this.productDataService.delete(event.id);
     this.toastr.success('Product has been deleted successfully!', 'Deleted');
   }
 
-  changeProducts(): void {
+  public changeProducts(): void {
     this.showDeleted = !this.showDeleted;
   }
 
-  setDeletedBack(event: ProductModel) {
+  public setDeletedBack(event: ProductModel): void {
     this.productDataService.restore(event.id);
     this.toastr.success('Product has been restored successfully!', 'Deleted');
   }

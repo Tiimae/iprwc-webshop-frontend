@@ -7,6 +7,7 @@ import { ToastrService } from 'ngx-toastr';
 import { CategoryModel } from '../../../../_models/category.model';
 import { ApiConnectorService } from '../../../../_service/_api/api-connector.service';
 import { CategoryDataService } from '../../../../_service/_data/categoryData.service';
+import {Title} from "@angular/platform-browser";
 
 @Component({
   selector: 'app-update-category',
@@ -26,7 +27,8 @@ export class UpdateCategoryComponent implements OnInit {
     private router: Router,
     private categoryDataService: CategoryDataService,
     private toastr: ToastrService,
-    private api: ApiConnectorService
+    private api: ApiConnectorService,
+    private title: Title
   ) {}
 
   ngOnInit(): void {
@@ -65,9 +67,11 @@ export class UpdateCategoryComponent implements OnInit {
     this.categoryCreateForm.controls['catname'].setValue(
       this.category.categoryName
     );
+
+    this.title.setTitle(`F1 Webshop | Update Category - ${this.category.categoryName}`);
   }
 
-  onSubmit(): void {
+  public onSubmit(): void {
     const catName = this.categoryCreateForm.controls['catname'].value;
 
     if (catName == null) {
@@ -80,7 +84,7 @@ export class UpdateCategoryComponent implements OnInit {
       return;
     }
 
-    const category = new CategoryModel('', catName);
+    const category = new CategoryModel(this.category.id, catName);
 
     this.categoryDataService.updateCategory(category);
   }

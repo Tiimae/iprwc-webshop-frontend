@@ -14,6 +14,7 @@ import { ProductModel } from '../../_models/product.model';
 import { ReviewModel } from '../../_models/review.model';
 import { ApiConnectorService } from '../../_service/_api/api-connector.service';
 import { ProductDataService } from '../../_service/_data/productData.service';
+import {Title} from "@angular/platform-browser";
 
 @Component({
   selector: 'app-product-detail',
@@ -37,7 +38,8 @@ export class ProductDetailComponent implements OnInit {
     private productDataService: ProductDataService,
     private cartDataService: CartDataService,
     private toastr: ToastrService,
-    private api: ApiConnectorService
+    private api: ApiConnectorService,
+    private title: Title
   ) {}
 
   ngOnInit(): void {
@@ -54,6 +56,7 @@ export class ProductDetailComponent implements OnInit {
           this.productDataService.getByRequest(this.productId).then((res) => {
             this.product = res.data.payload;
             this.calculateStars();
+            this.title.setTitle(`F1 Webshop | Product Detail - ${this.product.productName}`)
           });
         } else {
           this.product = res;

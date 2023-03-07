@@ -20,17 +20,17 @@ import { UserDataService } from '../../_service/_data/userData.service';
 })
 export class SearchbarComponent implements OnInit {
   public apiUrl = environment.url;
-  faSearch = faSearch;
-  faShoppingCart = faShoppingCart;
-  faUser = faUser;
-  products!: ProductModel[];
-  static loggedIn: boolean;
+  public faSearch = faSearch;
+  public faShoppingCart = faShoppingCart;
+  public faUser = faUser;
+  public products!: ProductModel[];
+  public static loggedIn: boolean;
 
-  username: string = '';
+  public username: string = '';
 
-  cartLength: number = 0;
+  public cartLength: number = 0;
 
-  searchGroup = new FormGroup({
+  public searchGroup = new FormGroup({
     search: new FormControl('')
   });
 
@@ -69,11 +69,11 @@ export class SearchbarComponent implements OnInit {
     SearchbarComponent.loggedIn = await this.api.authenticated();
   }
 
-  getLoggedIn(): boolean {
+  public getLoggedIn(): boolean {
     return SearchbarComponent.loggedIn;
   }
 
-  search(): void {
+  public search(): void {
     this.router.navigate(['search'], {
       queryParams: {
         search: this.searchGroup.controls.search.value
@@ -81,7 +81,7 @@ export class SearchbarComponent implements OnInit {
     });
   }
 
-  private setUserName(user: UserModel) {
+  private setUserName(user: UserModel): void {
     if (user.middleName == '') {
       this.username = user.firstName + ' ' + user.lastName;
     } else {

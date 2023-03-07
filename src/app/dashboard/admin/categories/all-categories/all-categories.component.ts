@@ -3,6 +3,7 @@ import { ToastrService } from 'ngx-toastr';
 import { CategoryModel } from 'src/app/_models/category.model';
 import { AppComponent } from '../../../../app.component';
 import { CategoryDataService } from '../../../../_service/_data/categoryData.service';
+import {Title} from "@angular/platform-browser";
 
 @Component({
   selector: 'app-all-categories',
@@ -10,15 +11,15 @@ import { CategoryDataService } from '../../../../_service/_data/categoryData.ser
   styleUrls: ['./all-categories.component.scss']
 })
 export class AllCategoriesComponent implements OnInit {
-  allCategories: CategoryModel[] = [];
+  public allCategories: CategoryModel[] = [];
   private count: number = 0;
 
   constructor(
     private categoryDataService: CategoryDataService,
-    private toastr: ToastrService
+    private title: Title
   ) {}
 
-  async ngOnInit(): Promise<void> {
+  ngOnInit(): void {
     AppComponent.isLoading = true;
 
     this.categoryDataService.categories$.subscribe((r: CategoryModel[]) => {
@@ -38,10 +39,12 @@ export class AllCategoriesComponent implements OnInit {
       });
     });
 
+    this.title.setTitle("F1 Webshop | All Categories");
+
     AppComponent.isLoading = false;
   }
 
-  removeCategoryOutArray(event: CategoryModel): void {
+  public removeCategoryOutArray(event: CategoryModel): void {
     this.categoryDataService.removeCategory(event);
   }
 }

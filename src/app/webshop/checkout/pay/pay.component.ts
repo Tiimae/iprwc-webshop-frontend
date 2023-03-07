@@ -10,6 +10,7 @@ import { UserDataService } from 'src/app/_service/_data/userData.service';
 import { AddressEnum } from '../../../_enum/address.enum';
 import { UserAddressesModel } from '../../../_models/userAddresses.model';
 import { ApiConnectorService } from '../../../_service/_api/api-connector.service';
+import {Title} from "@angular/platform-browser";
 
 @Component({
   selector: 'app-pay',
@@ -17,13 +18,13 @@ import { ApiConnectorService } from '../../../_service/_api/api-connector.servic
   styleUrls: ['./pay.component.scss']
 })
 export class PayComponent implements OnInit {
-  isLoading: boolean = false;
-  userAddresses: UserAddressesModel[] = [];
-  userId!: string;
-  deliveryAddresses: UserAddressesModel[] = [];
-  invoiceAddresses: UserAddressesModel[] = [];
-  currentDeliveryAddress: UserAddressesModel | null = null;
-  currentInvoiceAddress: UserAddressesModel | null = null;
+  public isLoading: boolean = false;
+  public userAddresses: UserAddressesModel[] = [];
+  public userId!: string;
+  public deliveryAddresses: UserAddressesModel[] = [];
+  public invoiceAddresses: UserAddressesModel[] = [];
+  public currentDeliveryAddress: UserAddressesModel | null = null;
+  public currentInvoiceAddress: UserAddressesModel | null = null;
 
   private check: boolean = false;
 
@@ -33,7 +34,8 @@ export class PayComponent implements OnInit {
     private cartDataService: CartDataService,
     private orderDataService: OrderDataService,
     private router: Router,
-    private userDataService: UserDataService
+    private userDataService: UserDataService,
+    private title: Title
   ) {}
 
   ngOnInit(): void {
@@ -50,6 +52,7 @@ export class PayComponent implements OnInit {
 
         this.userAddresses = res;
         this.setAddresses();
+        this.title.setTitle("F1 Webshop | Checkout")
       });
     });
 
@@ -66,7 +69,7 @@ export class PayComponent implements OnInit {
     });
   }
 
-  changeSeclectedDeliveryAddress(address: UserAddressesModel) {
+  public changeSeclectedDeliveryAddress(address: UserAddressesModel): void {
     if (this.currentDeliveryAddress == null) {
       const streetName =
         address.street.replace(' ', '') + address.houseNumber + 'delivery';
@@ -100,7 +103,7 @@ export class PayComponent implements OnInit {
     this.currentDeliveryAddress = address;
   }
 
-  changeSeclectedInvoiceAddress(address: UserAddressesModel) {
+  public changeSeclectedInvoiceAddress(address: UserAddressesModel): void {
     if (this.currentInvoiceAddress == null) {
       const streetName =
         address.street.replace(' ', '') + address.houseNumber + 'invoice';
@@ -134,7 +137,7 @@ export class PayComponent implements OnInit {
     this.currentInvoiceAddress = address;
   }
 
-  createOrder(): void {
+  public createOrder(): void {
     if (this.currentDeliveryAddress == null) {
       return;
     }

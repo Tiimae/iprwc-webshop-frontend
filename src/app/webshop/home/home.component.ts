@@ -7,6 +7,7 @@ import { AuthService } from '../../_service/auth.service';
 import { ApiConnectorService } from '../../_service/_api/api-connector.service';
 import { CategoryDataService } from '../../_service/_data/categoryData.service';
 import { ProductDataService } from '../../_service/_data/productData.service';
+import {Title} from "@angular/platform-browser";
 
 @Component({
   selector: 'app-home',
@@ -14,13 +15,12 @@ import { ProductDataService } from '../../_service/_data/productData.service';
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
-  isLoading: boolean = false;
+  public isLoading: boolean = false;
+  public products: ProductModel[] = [];
+  public categories: CategoryModel[] = [];
 
-  products: ProductModel[] = [];
-  categories: CategoryModel[] = [];
-
-  productsToShow: ProductModel[] = [];
-  uri: boolean = false;
+  public productsToShow: ProductModel[] = [];
+  public uri: boolean = false;
 
   private productsCheck: boolean = false;
 
@@ -29,11 +29,13 @@ export class HomeComponent implements OnInit {
     private categoryService: CategoryDataService,
     private authService: AuthService,
     private api: ApiConnectorService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private title: Title
   ) {}
 
   async ngOnInit(): Promise<void> {
     AppComponent.isLoading = true;
+    this.title.setTitle("F1 Webshop | Home")
     const jwtToken = localStorage.getItem('blank-token');
 
     try {
@@ -52,7 +54,7 @@ export class HomeComponent implements OnInit {
       localStorage.clear();
     }
 
-    await this.productDataService.products$.subscribe({
+    this.productDataService.products$.subscribe({
       next: (products: ProductModel[]) => {
         if (products.length == 0 && this.productsCheck == false) {
           this.productDataService.getAll();
@@ -79,8 +81,8 @@ export class HomeComponent implements OnInit {
       }
     });
 
-    await this.categoryService.getAllCategories();
-    await this.categoryService.categories$.subscribe({
+    this.categoryService.getAllCategories();
+    this.categoryService.categories$.subscribe({
       next: (category: CategoryModel[]) => {
         this.categories = category.sort((a, b) => {
           if (a.categoryName < b.categoryName) {
@@ -132,7 +134,7 @@ export class HomeComponent implements OnInit {
     }, 1000);
   }
 
-  showProducts(category: string): void {
+  public showProducts(category: string): void {
     this.productsToShow = [];
 
     if (category === 'all') {
@@ -155,7 +157,7 @@ export class HomeComponent implements OnInit {
   }
 
   @HostListener('window:scroll', ['$event'])
-  reveal(event: any): void {
+  public reveal(event: any): void {
     const reveals = document.querySelectorAll('.reveal');
     for (let i = 0; i < reveals.length; i++) {
       const windowHeight = window.innerHeight;

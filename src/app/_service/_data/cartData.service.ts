@@ -51,7 +51,7 @@ export class CartDataService {
     }, 500);
   }
 
-  createProduct(product: ProductModel, amount: number): void {
+  public createProduct(product: ProductModel, amount: number): void {
     if (amount < 1) {
       this.toastr.error("Amount can't be lower then 1", 'Error');
       return;
@@ -98,7 +98,7 @@ export class CartDataService {
     localStorage.setItem('cart', JSON.stringify(items));
   }
 
-  getCartItem(productId: string) {
+  public getCartItem(productId: string) {
     let items = localStorage.getItem('cart');
     let check = false;
 
@@ -118,7 +118,7 @@ export class CartDataService {
     }
   }
 
-  removeProduct(product: ProductModel): void {
+  public removeProduct(product: ProductModel): void {
     this.products.forEach((currentProduct, index) => {
       if (currentProduct.id == product.id) {
         this.products.splice(index, 1);
@@ -148,7 +148,7 @@ export class CartDataService {
     this.products$.next(this.products);
   }
 
-  clearCart(): void {
+  public clearCart(): void {
     this.products = [];
     localStorage.setItem('cart', JSON.stringify([]));
     this.products$.next(this.products);

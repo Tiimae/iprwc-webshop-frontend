@@ -9,8 +9,8 @@ import { ApiConnectorService } from '../../../_service/_api/api-connector.servic
   styleUrls: ['./product.component.scss']
 })
 export class ProductComponent implements OnInit {
-  @Input() product!: ProductModel;
-  productId!: string;
+  @Input() public product!: ProductModel;
+  public productId!: string;
 
   constructor(private api: ApiConnectorService) {}
 

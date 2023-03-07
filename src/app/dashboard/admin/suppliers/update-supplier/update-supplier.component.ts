@@ -6,6 +6,7 @@ import { ToastrService } from 'ngx-toastr';
 import { SupplierModel } from '../../../../_models/supplier.model';
 import { ApiConnectorService } from '../../../../_service/_api/api-connector.service';
 import { SupplierDataService } from '../../../../_service/_data/supplierData.service';
+import {Title} from "@angular/platform-browser";
 
 @Component({
   selector: 'app-update-supplier',
@@ -29,7 +30,8 @@ export class UpdateSupplierComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     private toastr: ToastrService,
-    private api: ApiConnectorService
+    private api: ApiConnectorService,
+    private title: Title
   ) {}
 
   ngOnInit(): void {
@@ -73,6 +75,7 @@ export class UpdateSupplierComponent implements OnInit {
     this.supplierUpdateForm.controls['zipcode'].setValue(this.supplier.zipcode);
     this.supplierUpdateForm.controls['city'].setValue(this.supplier.city);
     this.supplierUpdateForm.controls['country'].setValue(this.supplier.country);
+    this.title.setTitle(`F1 Webshop | Update Supplier - ${this.supplier.name}`)
   }
 
   public onSubmit(): void {

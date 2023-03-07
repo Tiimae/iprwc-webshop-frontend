@@ -4,6 +4,7 @@ import { ToastrService } from 'ngx-toastr';
 import { CartDataService } from 'src/app/_service/_data/cartData.service';
 import { AppComponent } from '../../app.component';
 import { ProductModel } from '../../_models/product.model';
+import {Title} from "@angular/platform-browser";
 
 @Component({
   selector: 'app-cart',
@@ -16,14 +17,15 @@ export class CartComponent implements OnInit {
   public tax: number = 0;
   public grandTotal: number = 0;
 
-  @Input() overview: boolean = false;
+  @Input() public overview: boolean = false;
 
   private cartCheck: boolean = false;
 
   constructor(
     private cartDataService: CartDataService,
     private router: Router,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private title: Title
   ) {}
 
   ngOnInit(): void {
@@ -48,10 +50,11 @@ export class CartComponent implements OnInit {
       }
     });
 
+    this.title.setTitle("F1 Webshop | Cart")
     AppComponent.isLoading = false;
   }
 
-  calculateTotalProduct() {
+  public calculateTotalProduct(): void {
     const allTotal = document.getElementsByClassName('product-line-price');
     let total = 0;
 
@@ -65,7 +68,7 @@ export class CartComponent implements OnInit {
     this.grandTotal = this.totalProduct + this.tax;
   }
 
-  toCheckout(): void {
+  public toCheckout(): void {
     if (this.cartProducts.length == 0) {
       this.toastr.error(
         'Your cart cannot be empty to go to checkout!',

@@ -9,6 +9,7 @@ import { SupplierModel } from '../../../../_models/supplier.model';
 import { BrandDataService } from '../../../../_service/_data/brandData.service';
 import { CategoryDataService } from '../../../../_service/_data/categoryData.service';
 import { SupplierDataService } from '../../../../_service/_data/supplierData.service';
+import {Title} from "@angular/platform-browser";
 
 @Component({
   selector: 'app-create-product',
@@ -26,16 +27,16 @@ export class CreateProductComponent implements OnInit {
     image: new FormControl('', [Validators.required])
   });
 
-  brands: BrandModel[] = [];
-  currentBrand: BrandModel | undefined;
+  public brands: BrandModel[] = [];
+  public currentBrand: BrandModel | undefined;
 
-  suppliers: SupplierModel[] = [];
-  currentSupplier: SupplierModel | undefined;
+  public suppliers: SupplierModel[] = [];
+  public currentSupplier: SupplierModel | undefined;
 
-  categories: CategoryModel[] = [];
-  currentCategory: CategoryModel | undefined;
+  public categories: CategoryModel[] = [];
+  public currentCategory: CategoryModel | undefined;
 
-  images: File[] = [];
+  public images: File[] = [];
 
   private supplierCheck: boolean = false;
   private categoryCheck: boolean = false;
@@ -46,10 +47,11 @@ export class CreateProductComponent implements OnInit {
     private brandDataService: BrandDataService,
     private categoryDataService: CategoryDataService,
     private productDataService: ProductDataService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private title: Title
   ) {}
 
-  async ngOnInit(): Promise<void> {
+  ngOnInit(): void {
     this.supplierDataService.suppliers$.subscribe({
       next: (suppliers: SupplierModel[]) => {
         if (suppliers.length == 0 && this.supplierCheck == false) {
@@ -109,9 +111,11 @@ export class CreateProductComponent implements OnInit {
       },
       complete: () => {}
     });
+
+    this.title.setTitle("F1 Webshop | Create Product")
   }
 
-  onSubmit(): void {
+  public onSubmit(): void {
     const name = this.productCreateForm.controls['name'].value;
     const price: number = Number(this.productCreateForm.controls['price'].value);
     const description = this.productCreateForm.controls['description'].value;
@@ -122,8 +126,7 @@ export class CreateProductComponent implements OnInit {
       description == null ||
       this.currentSupplier == undefined ||
       this.currentBrand == undefined ||
-      this.currentCategory == undefined ||
-      this.images.length == 0
+      this.currentCategory == undefined
     ) {
       this.toastr.error('Something is wrong!', 'Failed');
       return;
@@ -156,11 +159,11 @@ export class CreateProductComponent implements OnInit {
     this.productDataService.post(product, this.images);
   }
 
-  addImage(event: any): void {
+  public addImage(event: any): void {
     this.images.push(event.target.files[0]);
   }
 
-  addCategory(): void {
+  public addCategory(): void {
     const categoryToAdd = this.productCreateForm.controls['category'].value;
 
     this.categories.forEach((category) => {
@@ -170,7 +173,7 @@ export class CreateProductComponent implements OnInit {
     });
   }
 
-  addBrand(): void {
+  public addBrand(): void {
     const brandToAdd = this.productCreateForm.controls['brand'].value;
 
     this.brands.forEach((brand) => {
@@ -180,7 +183,7 @@ export class CreateProductComponent implements OnInit {
     });
   }
 
-  addSupplier(): void {
+  public addSupplier(): void {
     const supplierToAdd = this.productCreateForm.controls['supplier'].value;
 
     this.suppliers.forEach((supplier) => {
@@ -190,19 +193,19 @@ export class CreateProductComponent implements OnInit {
     });
   }
 
-  removeCategory(event: string): void {
+  public removeCategory(event: string): void {
     this.currentCategory = undefined;
   }
 
-  removeBrand(event: string): void {
+  public removeBrand(event: string): void {
     this.currentBrand = undefined;
   }
 
-  removeSupplier(event: string): void {
+  public removeSupplier(event: string): void {
     this.currentSupplier = undefined;
   }
 
-  removeImage(event: string): void {
+  public removeImage(event: string): void {
     this.images.forEach((image, index) => {
       if (image.name == event) {
         this.images.splice(index, 1);

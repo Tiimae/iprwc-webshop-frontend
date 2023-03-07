@@ -7,6 +7,7 @@ import { ToastrService } from 'ngx-toastr';
 import { BrandModel } from '../../../../_models/brand.model';
 import { ApiConnectorService } from '../../../../_service/_api/api-connector.service';
 import { BrandDataService } from '../../../../_service/_data/brandData.service';
+import {Title} from "@angular/platform-browser";
 
 @Component({
   selector: 'app-update-brand',
@@ -28,7 +29,8 @@ export class UpdateBrandComponent implements OnInit {
     private route: ActivatedRoute,
     private brandDataService: BrandDataService,
     private toastr: ToastrService,
-    private api: ApiConnectorService
+    private api: ApiConnectorService,
+    private title: Title
   ) {}
 
   ngOnInit(): void {
@@ -39,7 +41,7 @@ export class UpdateBrandComponent implements OnInit {
         await this.api.getDecryptKey()
       ).toString(CryptoJs.enc.Utf8);
 
-      (await this.brandDataService.get(this.brandId)).subscribe(
+      (this.brandDataService.get(this.brandId)).subscribe(
         (r: BrandModel | undefined) => {
           if (r == undefined) {
             this.brandDataService.getByRequest(this.brandId).then((res: AxiosResponse) => {
@@ -63,9 +65,10 @@ export class UpdateBrandComponent implements OnInit {
   private setFormData(): void {
     this.brandCreateForm.controls['brandName'].setValue(this.brand.brandName);
     this.brandCreateForm.controls['url'].setValue(this.brand.webPage);
+    this.title.setTitle(`F1 Webshop | Update Brand - ${this.brand.brandName}`)
   }
 
-  public onImageUpload(event: any) {
+  public onImageUpload(event: any): void {
     this.uploadedImage = event.target.files[0];
   }
 

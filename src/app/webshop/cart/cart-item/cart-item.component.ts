@@ -8,12 +8,12 @@ import { ProductModel } from '../../../_models/product.model';
   styleUrls: ['./cart-item.component.scss']
 })
 export class CartItemComponent implements OnInit {
-  @Input() product!: ProductModel;
-  @Input() overview!: boolean;
-  amount!: number;
-  totalPrice!: number;
+  @Input() public product!: ProductModel;
+  @Input() public  overview!: boolean;
+  public amount!: number;
+  public totalPrice!: number;
 
-  @Output() change: EventEmitter<void> = new EventEmitter();
+  @Output() public change: EventEmitter<void> = new EventEmitter();
 
   constructor(private cartDataService: CartDataService) {}
 
@@ -25,7 +25,7 @@ export class CartItemComponent implements OnInit {
     this.totalPrice = this.product.price * this.amount;
   }
 
-  changePrice(event: any) {
+  public changePrice(event: any): void {
     let newQuantity = event.target.value;
     if (newQuantity < 1) {
       event.target.value = 1;
@@ -41,7 +41,7 @@ export class CartItemComponent implements OnInit {
     this.change.emit();
   }
 
-  deleteProduct() {
+  public deleteProduct(): void {
     this.cartDataService.removeProduct(this.product);
   }
 }

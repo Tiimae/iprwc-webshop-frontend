@@ -7,6 +7,7 @@ import { RoleModel } from '../../../../_models/role.model';
 import { UserModel } from '../../../../_models/user.model';
 import { RoleDataService } from '../../../../_service/_data/roleData.service';
 import { UserDataService } from '../../../../_service/_data/userData.service';
+import {Title} from "@angular/platform-browser";
 
 @Component({
   selector: 'app-create-user',
@@ -35,7 +36,8 @@ export class CreateUserComponent implements OnInit {
     private router: Router,
     private userDataService: UserDataService,
     private roleDataService: RoleDataService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private title: Title
   ) {}
 
   async ngOnInit(): Promise<void> {
@@ -44,6 +46,8 @@ export class CreateUserComponent implements OnInit {
     (await this.roleDataService.getAll()).subscribe((r) => {
       this.roles = r;
     });
+
+    this.title.setTitle("F1 Webshop | Create User");
 
     AppComponent.isLoading = false;
   }

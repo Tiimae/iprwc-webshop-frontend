@@ -8,20 +8,20 @@ import { Router } from '@angular/router';
   styleUrls: ['./user-address.component.scss']
 })
 export class UserAddressComponent implements OnInit {
-  @Input() address: UserAddressesModel | undefined = undefined;
-  @Input() type: string | null = null;
-  @Input() redirectUrl: string | null = null;
-  @Output() select: EventEmitter<UserAddressesModel> = new EventEmitter();
+  @Input() public address: UserAddressesModel | undefined = undefined;
+  @Input() public type: string | null = null;
+  @Input() public redirectUrl: string | null = null;
+  @Output() public select: EventEmitter<UserAddressesModel> = new EventEmitter();
 
   constructor(private router: Router) {}
 
   ngOnInit(): void {}
 
-  selectAddress() {
+  public selectAddress(): void {
     this.select.emit(this.address);
   }
 
-  createAddress(): void {
+  public createAddress(): void {
     this.router.navigate(['dashboard', 'user', 'addresses', 'create'], {
       queryParams: {
         redirectURI: this.redirectUrl,

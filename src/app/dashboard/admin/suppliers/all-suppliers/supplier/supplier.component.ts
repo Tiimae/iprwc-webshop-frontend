@@ -9,11 +9,11 @@ import { ApiConnectorService } from '../../../../../_service/_api/api-connector.
   styleUrls: ['./supplier.component.scss']
 })
 export class SupplierComponent implements OnInit {
-  @Input() supplier!: SupplierModel;
+  @Input() public  supplier!: SupplierModel;
 
-  supplierId: string | undefined;
+  public supplierId: string | undefined;
 
-  @Output() delete: EventEmitter<SupplierModel> = new EventEmitter();
+  @Output() public delete: EventEmitter<SupplierModel> = new EventEmitter();
 
   constructor(private api: ApiConnectorService) {}
 
@@ -21,7 +21,7 @@ export class SupplierComponent implements OnInit {
     this.checkIfIdIsUndefined();
   }
 
-  async checkIfIdIsUndefined() {
+  public async checkIfIdIsUndefined(): Promise<void> {
     let encryptedId: string = CryptoJs.Rabbit.encrypt(
       this.supplier.id,
       await this.api.getDecryptKey()
@@ -29,7 +29,7 @@ export class SupplierComponent implements OnInit {
     this.supplierId = encryptedId.replace(new RegExp('/', 'g'), '*');
   }
 
-  removeSupplier() {
+  public removeSupplier(): void {
     this.delete.emit(this.supplier);
   }
 }

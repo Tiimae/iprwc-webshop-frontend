@@ -6,6 +6,7 @@ import { AppComponent } from '../../../../app.component';
 import { UserModel } from '../../../../_models/user.model';
 import { UserAddressesModel } from '../../../../_models/userAddresses.model';
 import { ApiConnectorService } from '../../../../_service/_api/api-connector.service';
+import {Title} from "@angular/platform-browser";
 
 @Component({
   selector: 'app-all-addresses',
@@ -13,16 +14,17 @@ import { ApiConnectorService } from '../../../../_service/_api/api-connector.ser
   styleUrls: ['./all-addresses.component.scss']
 })
 export class AllAddressesComponent implements OnInit {
-  user!: UserModel;
-  deliveryAddresses: UserAddressesModel[] = [];
-  invoiceAddresses: UserAddressesModel[] = [];
+  public user!: UserModel;
+  public deliveryAddresses: UserAddressesModel[] = [];
+  public invoiceAddresses: UserAddressesModel[] = [];
 
   private count: number = 0;
 
   constructor(
     private userAddressDataService: UserAddressesDataService,
     private api: ApiConnectorService,
-    private router: Router
+    private router: Router,
+    private title: Title
   ) {}
 
   ngOnInit(): void {
@@ -53,10 +55,12 @@ export class AllAddressesComponent implements OnInit {
       );
     });
 
+    this.title.setTitle("F1 Webshop | All Addresses");
+
     AppComponent.isLoading = false;
   }
 
-  async changeURL(event: UserAddressesModel, type: string) {
+  public async changeURL(event: UserAddressesModel, type: string): Promise<void> {
     let encryptedId: string = CryptoJs.Rabbit.encrypt(
       event.id,
       await this.api.getDecryptKey()

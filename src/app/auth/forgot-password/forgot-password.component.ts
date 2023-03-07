@@ -4,6 +4,7 @@ import { AxiosResponse } from 'axios';
 import { ToastrService } from 'ngx-toastr';
 import { AppComponent } from '../../app.component';
 import { AuthService } from '../../_service/auth.service';
+import {Title} from "@angular/platform-browser";
 
 @Component({
   selector: 'app-forgot-password',
@@ -23,10 +24,13 @@ export class ForgotPasswordComponent implements OnInit {
 
   constructor(
     private authService: AuthService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private title: Title
   ) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.title.setTitle("F1 Webshop | Forgot Password")
+  }
 
   public onSubmit(): void {
     AppComponent.isLoading = true;

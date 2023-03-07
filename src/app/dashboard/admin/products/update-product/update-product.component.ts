@@ -13,6 +13,7 @@ import { BrandDataService } from '../../../../_service/_data/brandData.service';
 import { CategoryDataService } from '../../../../_service/_data/categoryData.service';
 import { ProductDataService } from '../../../../_service/_data/productData.service';
 import { SupplierDataService } from '../../../../_service/_data/supplierData.service';
+import {Title} from "@angular/platform-browser";
 
 @Component({
   selector: 'app-update-product',
@@ -30,21 +31,21 @@ export class UpdateProductComponent implements OnInit {
     image: new FormControl('', [])
   });
 
-  productId!: string;
-  product!: ProductModel;
+  public productId!: string;
+  public product!: ProductModel;
 
-  brands: BrandModel[] = [];
-  currentBrand: BrandModel | undefined;
+  public brands: BrandModel[] = [];
+  public currentBrand: BrandModel | undefined;
 
-  suppliers: SupplierModel[] = [];
-  currentSupplier: SupplierModel | undefined;
+  public suppliers: SupplierModel[] = [];
+  public currentSupplier: SupplierModel | undefined;
 
-  categories: CategoryModel[] = [];
-  currentCategory: CategoryModel | undefined;
+  public categories: CategoryModel[] = [];
+  public currentCategory: CategoryModel | undefined;
 
-  images: ProductImageModel[] = [];
-  deleteImages: ProductImageModel[] = [];
-  addedImages: File[] = [];
+  public images: ProductImageModel[] = [];
+  public deleteImages: ProductImageModel[] = [];
+  public addedImages: File[] = [];
 
   private supplierCheck: boolean = false;
   private categoryCheck: boolean = false;
@@ -58,7 +59,8 @@ export class UpdateProductComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     private toastr: ToastrService,
-    private api: ApiConnectorService
+    private api: ApiConnectorService,
+    private title: Title
   ) {}
 
   ngOnInit(): void {
@@ -161,9 +163,11 @@ export class UpdateProductComponent implements OnInit {
     this.productCreateForm.controls.description.setValue(
       this.product.description
     );
+
+    this.title.setTitle(`F1 Webshop | Update Product - ${this.product.productName}`)
   }
 
-  onSubmit(): void {
+  public onSubmit(): void {
     const name = this.productCreateForm.controls.name.value;
     const price: number = Number(this.productCreateForm.controls.price.value);
     const description = this.productCreateForm.controls.description.value;
@@ -212,11 +216,11 @@ export class UpdateProductComponent implements OnInit {
     );
   }
 
-  addImage(event: any): void {
+  public addImage(event: any): void {
     this.addedImages.push(event.target.files[0]);
   }
 
-  addCategory(): void {
+  public addCategory(): void {
     const categoryToAdd = this.productCreateForm.controls.category.value;
 
     this.categories.forEach((category) => {
@@ -226,7 +230,7 @@ export class UpdateProductComponent implements OnInit {
     });
   }
 
-  addBrand(): void {
+  public addBrand(): void {
     const brandToAdd = this.productCreateForm.controls.brand.value;
 
     this.brands.forEach((brand) => {
@@ -236,7 +240,7 @@ export class UpdateProductComponent implements OnInit {
     });
   }
 
-  addSupplier(): void {
+  public addSupplier(): void {
     const supplierToAdd = this.productCreateForm.controls.supplier.value;
 
     this.suppliers.forEach((supplier) => {
@@ -246,19 +250,19 @@ export class UpdateProductComponent implements OnInit {
     });
   }
 
-  removeCategory(event: string): void {
+  public removeCategory(event: string): void {
     this.currentCategory = undefined;
   }
 
-  removeBrand(event: string): void {
+  public removeBrand(event: string): void {
     this.currentBrand = undefined;
   }
 
-  removeSupplier(event: string): void {
+  public removeSupplier(event: string): void {
     this.currentSupplier = undefined;
   }
 
-  removeExistingImage(event: string): void {
+  public removeExistingImage(event: string): void {
     this.images.forEach((image, index) => {
       if (image.imagePath === event) {
         this.deleteImages.push(image);
@@ -267,7 +271,7 @@ export class UpdateProductComponent implements OnInit {
     });
   }
 
-  removeNewImage(event: string): void {
+  public removeNewImage(event: string): void {
     this.addedImages.forEach((image, index) => {
       if (image.name == event) {
         this.addedImages.splice(index, 1);

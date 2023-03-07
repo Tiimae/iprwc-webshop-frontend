@@ -3,6 +3,7 @@ import { ToastrService } from 'ngx-toastr';
 import { AppComponent } from '../../../../app.component';
 import { UserModel } from '../../../../_models/user.model';
 import { UserDataService } from '../../../../_service/_data/userData.service';
+import {Title} from "@angular/platform-browser";
 
 @Component({
   selector: 'app-all-users',
@@ -10,19 +11,19 @@ import { UserDataService } from '../../../../_service/_data/userData.service';
   styleUrls: ['./all-users.component.scss']
 })
 export class AllUsersComponent implements OnInit {
-  allUsers: UserModel[] = [];
+  public allUsers: UserModel[] = [];
 
   private count: number = 0;
 
   constructor(
     private userDataService: UserDataService,
-    private toastr: ToastrService
+    private title: Title
   ) {}
 
-  async ngOnInit(): Promise<void> {
+  ngOnInit(): void {
     AppComponent.isLoading = true;
 
-    (await this.userDataService.users$).subscribe((r) => {
+    this.userDataService.users$.subscribe((r) => {
       if (r.length < 1 && this.count == 0) {
         this.userDataService.getAllUsers();
         this.count = 1;
@@ -38,6 +39,8 @@ export class AllUsersComponent implements OnInit {
         return 0;
       });
     });
+
+    this.title.setTitle("F1 Webshop | All Users");
 
     AppComponent.isLoading = false;
   }

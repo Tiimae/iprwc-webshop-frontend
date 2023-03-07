@@ -9,15 +9,19 @@ import { ApiConnectorService } from '../../../../../_service/_api/api-connector.
   styleUrls: ['./product.component.scss']
 })
 export class ProductComponent implements OnInit {
-  productId: string = '';
-  @Input() product!: ProductModel;
-  @Input() deleted!: boolean;
+  public productId: string = '';
+  @Input() public product!: ProductModel;
+  @Input() public deleted!: boolean;
 
-  @Output() delete: EventEmitter<ProductModel> = new EventEmitter();
+  @Output() public delete: EventEmitter<ProductModel> = new EventEmitter();
 
   constructor(private api: ApiConnectorService) {}
 
-  async ngOnInit(): Promise<void> {
+  ngOnInit(): void {
+    this.checkIfEmpty();
+  }
+  
+  private async checkIfEmpty() {
     let encryptedId: string = CryptoJs.Rabbit.encrypt(
       this.product.id,
       await this.api.getDecryptKey()
@@ -25,7 +29,7 @@ export class ProductComponent implements OnInit {
     this.productId = encryptedId.toString().replace(new RegExp('/', 'g'), '*');
   }
 
-  removeProduct(): void {
+  public removeProduct(): void {
     this.delete.emit(this.product);
   }
 }

@@ -3,6 +3,7 @@ import { ToastrService } from 'ngx-toastr';
 import { AppComponent } from '../../../../app.component';
 import { BrandModel } from '../../../../_models/brand.model';
 import { BrandDataService } from '../../../../_service/_data/brandData.service';
+import {Title} from "@angular/platform-browser";
 
 @Component({
   selector: 'app-all-brands',
@@ -15,10 +16,10 @@ export class AllBrandsComponent implements OnInit {
 
   constructor(
     private brandDataService: BrandDataService,
-    private toastr: ToastrService
+    private title: Title
   ) {}
 
-  async ngOnInit(): Promise<void> {
+  ngOnInit(): void {
     AppComponent.isLoading = true;
 
     this.brandDataService.brands$.subscribe((r) => {
@@ -37,6 +38,8 @@ export class AllBrandsComponent implements OnInit {
         return 0;
       });
     });
+
+    this.title.setTitle("F1 Webshop | All Brands")
 
     AppComponent.isLoading = false;
   }

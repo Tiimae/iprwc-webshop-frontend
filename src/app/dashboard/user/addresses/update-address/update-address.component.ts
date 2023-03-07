@@ -10,6 +10,7 @@ import { UserModel } from '../../../../_models/user.model';
 import { UserAddressesModel } from '../../../../_models/userAddresses.model';
 import { ApiConnectorService } from '../../../../_service/_api/api-connector.service';
 import { UserAddressesDataService } from '../../../../_service/_data/userAddressesData.service';
+import {Title} from "@angular/platform-browser";
 
 @Component({
   selector: 'app-update-address',
@@ -17,7 +18,7 @@ import { UserAddressesDataService } from '../../../../_service/_data/userAddress
   styleUrls: ['./update-address.component.scss']
 })
 export class UpdateAddressComponent implements OnInit {
-  addressUpdateForm = new FormGroup({
+  public addressUpdateForm: FormGroup = new FormGroup({
     street: new FormControl('', [Validators.required]),
     number: new FormControl('', [Validators.required]),
     additional: new FormControl(''),
@@ -26,9 +27,9 @@ export class UpdateAddressComponent implements OnInit {
     country: new FormControl('', [Validators.required])
   });
 
-  addressId!: string;
-  address!: UserAddressesModel;
-  user!: UserModel | undefined;
+  public addressId!: string;
+  public address!: UserAddressesModel;
+  public user!: UserModel | undefined;
 
   constructor(
     private userAddressDataService: UserAddressesDataService,
@@ -36,7 +37,8 @@ export class UpdateAddressComponent implements OnInit {
     private route: ActivatedRoute,
     private api: ApiConnectorService,
     private router: Router,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private title: Title
   ) {}
 
   ngOnInit(): void {
@@ -75,25 +77,27 @@ export class UpdateAddressComponent implements OnInit {
   }
 
   private setFormData(): void {
-    this.addressUpdateForm.controls.street.setValue(this.address.street);
-    this.addressUpdateForm.controls.number.setValue(
+    this.addressUpdateForm.controls['street'].setValue(this.address.street);
+    this.addressUpdateForm.controls['number'].setValue(
       this.address.houseNumber.toString()
     );
-    this.addressUpdateForm.controls.additional.setValue(this.address.addition);
-    this.addressUpdateForm.controls.zipcode.setValue(this.address.zipcode);
-    this.addressUpdateForm.controls.city.setValue(this.address.city);
-    this.addressUpdateForm.controls.country.setValue(this.address.country);
+    this.addressUpdateForm.controls['additional'].setValue(this.address.addition);
+    this.addressUpdateForm.controls['zipcode'].setValue(this.address.zipcode);
+    this.addressUpdateForm.controls['city'].setValue(this.address.city);
+    this.addressUpdateForm.controls['country'].setValue(this.address.country);
+
+    this.title.setTitle(`F1 Webshop | Update Address - ${this.address.street} ${this.address.houseNumber}`)
   }
 
-  onSubmit(): void {
+  public onSubmit(): void {
     AppComponent.isLoading = true;
 
-    const deliveryStreet = this.addressUpdateForm.controls.street.value;
-    const deliveryNumber = this.addressUpdateForm.controls.number.value;
-    const deliveryAdditional = this.addressUpdateForm.controls.additional.value;
-    const deliveryZipcode = this.addressUpdateForm.controls.zipcode.value;
-    const deliveryCity = this.addressUpdateForm.controls.city.value;
-    const deliveryCountry = this.addressUpdateForm.controls.country.value;
+    const deliveryStreet = this.addressUpdateForm.controls['street'].value;
+    const deliveryNumber = this.addressUpdateForm.controls['number'].value;
+    const deliveryAdditional = this.addressUpdateForm.controls['additional'].value;
+    const deliveryZipcode = this.addressUpdateForm.controls['zipcode'].value;
+    const deliveryCity = this.addressUpdateForm.controls['city'].value;
+    const deliveryCountry = this.addressUpdateForm.controls['country'].value;
 
     if (
       deliveryStreet == null ||
@@ -160,7 +164,7 @@ export class UpdateAddressComponent implements OnInit {
     AppComponent.isLoading = false;
   }
 
-  removeAddress(): void {
+  public removeAddress(): void {
     AppComponent.isLoading = true;
     this.userAddressDataService
       .deleteUserAddress(this.addressId)

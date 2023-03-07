@@ -153,7 +153,7 @@ export class ProductDataService {
     });
   }
 
-  restore(productId: string): void {
+  public restore(productId: string): void {
     this.api
       .delete('product/' + productId + '/restore', true)
       .then((res: AxiosResponse) => {
@@ -174,7 +174,7 @@ export class ProductDataService {
       });
   }
 
-  setNewReview(productId: string, product: ProductModel) {
+  public setNewReview(productId: string, product: ProductModel) {
     this.products[
       this.products.findIndex(
         (currentProduct) => currentProduct.id === productId

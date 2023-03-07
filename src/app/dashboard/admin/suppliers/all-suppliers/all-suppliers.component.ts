@@ -3,6 +3,7 @@ import { ToastrService } from 'ngx-toastr';
 import { AppComponent } from '../../../../app.component';
 import { SupplierModel } from '../../../../_models/supplier.model';
 import { SupplierDataService } from '../../../../_service/_data/supplierData.service';
+import {Title} from "@angular/platform-browser";
 
 @Component({
   selector: 'app-all-suppliers',
@@ -10,12 +11,13 @@ import { SupplierDataService } from '../../../../_service/_data/supplierData.ser
   styleUrls: ['./all-suppliers.component.scss']
 })
 export class AllSuppliersComponent implements OnInit {
-  allSuppliers: SupplierModel[] = [];
+  public allSuppliers: SupplierModel[] = [];
   private count: number = 0;
 
   constructor(
     private supplierDataService: SupplierDataService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private title: Title
   ) {}
 
   ngOnInit(): void {
@@ -37,10 +39,12 @@ export class AllSuppliersComponent implements OnInit {
       });
     });
 
+    this.title.setTitle("F1 Webshop | All Suppliers")
+
     AppComponent.isLoading = false;
   }
 
-  removeUserOutArray(event: SupplierModel) {
+  public removeUserOutArray(event: SupplierModel): void {
     this.supplierDataService.remove(event);
   }
 }

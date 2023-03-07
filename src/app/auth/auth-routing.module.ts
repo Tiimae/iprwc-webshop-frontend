@@ -14,28 +14,28 @@ const routes: Routes = [
     component: LoginComponent,
     data: {
       breadcrumb: 'Login'
-    }
+    },
   },
   {
     path: 'register',
     component: RegistrationComponent,
     data: {
       breadcrumb: 'Register'
-    }
+    },
   },
   {
     path: 'reset',
     component: ForgotPasswordComponent,
     data: {
       breadcrumb: 'Reset password'
-    }
+    },
   },
   {
     path: 'set-new-password',
     component: ResetPasswordComponent,
     data: {
       breadcrumb: 'New password'
-    }
+    },
   },
   {
     path: 'verify-request',

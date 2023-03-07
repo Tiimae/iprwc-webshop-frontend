@@ -9,10 +9,10 @@ import { ApiConnectorService } from '../../../../../_service/_api/api-connector.
   styleUrls: ['./brand.component.scss']
 })
 export class BrandComponent implements OnInit {
-  @Input() brand!: BrandModel;
-  @Output() delete: EventEmitter<BrandModel> = new EventEmitter<BrandModel>();
+  @Input() public brand!: BrandModel;
+  @Output() private delete: EventEmitter<BrandModel> = new EventEmitter<BrandModel>();
 
-  brandId!: string;
+  public brandId!: string;
 
   constructor(private api: ApiConnectorService) {}
 

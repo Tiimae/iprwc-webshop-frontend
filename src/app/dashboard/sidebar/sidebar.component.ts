@@ -21,18 +21,16 @@ import { ApiConnectorService } from '../../_service/_api/api-connector.service';
   styleUrls: ['./sidebar.component.scss']
 })
 export class SidebarComponent implements OnInit {
-  faUser = faUser;
-  faAddressCard = faAddressCard;
-  faShippingFast = faShippingFast;
-  faFileInvoice = faFileInvoice;
-  faSignOut = faSignOut;
-  faBox = faBox;
-  faListAlt = faListAlt;
-  faIndustry = faIndustry;
-  faFire = faFire;
-  hasRole: boolean = false;
-
-  private jwtPayload: LoggedUserModel | undefined = undefined;
+  public faUser = faUser;
+  public faAddressCard = faAddressCard;
+  public faShippingFast = faShippingFast;
+  public faFileInvoice = faFileInvoice;
+  public faSignOut = faSignOut;
+  public faBox = faBox;
+  public faListAlt = faListAlt;
+  public faIndustry = faIndustry;
+  public faFire = faFire;
+  public hasRole: boolean = false;
 
   constructor(
     private router: Router,
@@ -40,16 +38,16 @@ export class SidebarComponent implements OnInit {
     private api: ApiConnectorService
   ) {}
 
-  async ngOnInit(): Promise<void> {
+  ngOnInit(): void {
     // @ts-ignore
-    this.hasRole = await this.api
+    this.hasRole = this.api
       .getJwtPayload()
       .then((r: LoggedUserModel): boolean => {
         return r.roles.includes('Admin') || r.roles.includes('Owner');
       });
   }
 
-  public LogOut() {
+  public LogOut(): void {
     localStorage.removeItem('jwt-token');
     SearchbarComponent.loggedIn = false;
 

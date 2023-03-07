@@ -5,6 +5,7 @@ import { AxiosResponse } from 'axios';
 import { ToastrService } from 'ngx-toastr';
 import { AppComponent } from '../../app.component';
 import { AuthService } from '../../_service/auth.service';
+import {Title} from "@angular/platform-browser";
 
 @Component({
   selector: 'app-reset-password',
@@ -29,7 +30,8 @@ export class ResetPasswordComponent implements OnInit {
     private authService: AuthService,
     private router: Router,
     private route: ActivatedRoute,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private title: Title
   ) {}
 
   ngOnInit(): void {
@@ -39,10 +41,12 @@ export class ResetPasswordComponent implements OnInit {
     if (this.token == null) {
       this.router.navigate(['/']);
     }
+
+    this.title.setTitle("F1 Webshop | Reset Password")
     AppComponent.isLoading = false;
   }
 
-  onSubmit(): void {
+  public onSubmit(): void {
     AppComponent.isLoading = true;
     const email: string = this.resetPasswordForm.controls['email'].value;
     const password: string = this.resetPasswordForm.controls['password'].value;

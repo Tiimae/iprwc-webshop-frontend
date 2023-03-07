@@ -9,11 +9,11 @@ import { ApiConnectorService } from '../../../../../_service/_api/api-connector.
   styleUrls: ['./user.component.scss']
 })
 export class UserComponent implements OnInit {
-  @Input() user!: UserModel;
+  @Input() public  user!: UserModel;
 
-  userId: string | undefined;
+  public userId: string | undefined;
 
-  @Output() delete: EventEmitter<UserModel> = new EventEmitter();
+  @Output() public  delete: EventEmitter<UserModel> = new EventEmitter();
 
   constructor(private api: ApiConnectorService) {}
   ngOnInit(): void {

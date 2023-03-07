@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { SupplierModel } from 'src/app/_models/supplier.model';
 import { SupplierDataService } from '../../../../_service/_data/supplierData.service';
+import {Title} from "@angular/platform-browser";
 
 @Component({
   selector: 'app-create-supplier',
@@ -21,12 +22,15 @@ export class CreateSupplierComponent implements OnInit {
 
   constructor(
     private supplierDataService: SupplierDataService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private title: Title
   ) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.title.setTitle("F1 Webshop | Create Supplier");
+  }
 
-  public onSubmit() {
+  public onSubmit(): void {
     const name = this.supplierCreateForm.controls['name'].value;
     const address = this.supplierCreateForm.controls['address'].value;
     const zipcode = this.supplierCreateForm.controls['zipcode'].value;

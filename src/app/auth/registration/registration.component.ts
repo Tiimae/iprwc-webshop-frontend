@@ -7,6 +7,7 @@ import { ToastrService } from 'ngx-toastr';
 import { AppComponent } from '../../app.component';
 import { AuthService } from '../../_service/auth.service';
 import { ApiConnectorService } from '../../_service/_api/api-connector.service';
+import {Title} from "@angular/platform-browser";
 
 @Component({
   selector: 'app-registration',
@@ -43,25 +44,28 @@ export class RegistrationComponent implements OnInit {
     private router: Router,
     private authService: AuthService,
     private toastr: ToastrService,
-    private api: ApiConnectorService
+    private api: ApiConnectorService,
+    private title: Title
   ) {}
 
-  async ngOnInit() {
+  ngOnInit() {
     AppComponent.isLoading = true;
 
     if (localStorage.getItem('jwt-token')) {
       try {
-        const tokenPayload: any = await this.api.getJwtPayload();
+        const tokenPayload: any = this.api.getJwtPayload();
         if (tokenPayload !== undefined) {
           this.router.navigate(['/']);
         }
       } catch (err) {}
     }
 
+    this.title.setTitle("F1 Webshop | Register")
+
     AppComponent.isLoading = false;
   }
 
-  toNextStep(): void {
+  public toNextStep(): void {
     AppComponent.isLoading = true;
 
     const firstname: string =
@@ -93,7 +97,7 @@ export class RegistrationComponent implements OnInit {
     AppComponent.isLoading = false;
   }
 
-  async onSubmit() {
+  public onSubmit(): void {
     AppComponent.isLoading = true;
     const email: string = this.secondRegistrationForm.controls['email'].value;
     const password: string =
@@ -125,7 +129,7 @@ export class RegistrationComponent implements OnInit {
       return;
     }
 
-    await this.authService
+    this.authService
       .register(this.firstname, this.middlename, this.lastname, email, password)
       .then((r: AxiosResponse) => {
         if (r.data.code == 202) {

@@ -6,6 +6,7 @@ import { AppComponent } from '../../../app.component';
 import { UserModel } from '../../../_models/user.model';
 import { ApiConnectorService } from '../../../_service/_api/api-connector.service';
 import { UserDataService } from '../../../_service/_data/userData.service';
+import {Title} from "@angular/platform-browser";
 
 @Component({
   selector: 'app-account',
@@ -13,8 +14,8 @@ import { UserDataService } from '../../../_service/_data/userData.service';
   styleUrls: ['./account.component.scss']
 })
 export class AccountComponent implements OnInit {
-  user!: UserModel;
-  userEditForm = new FormGroup({
+  public user!: UserModel;
+  public userEditForm = new FormGroup({
     firstname: new FormControl('', [Validators.required]),
     middlename: new FormControl('', [Validators.required]),
     lastname: new FormControl('', [Validators.required]),
@@ -31,7 +32,8 @@ export class AccountComponent implements OnInit {
     private router: Router,
     private userDataService: UserDataService,
     private api: ApiConnectorService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private title: Title
   ) {}
 
   ngOnInit(): void {
@@ -51,6 +53,8 @@ export class AccountComponent implements OnInit {
       });
     });
 
+    this.title.setTitle("F1 Webshop | Update Account")
+
     AppComponent.isLoading = false;
   }
 
@@ -61,7 +65,7 @@ export class AccountComponent implements OnInit {
     this.userEditForm.controls.email.setValue(this.user.email);
   }
 
-  onSubmit(): void {
+  public onSubmit(): void {
     AppComponent.isLoading = true;
 
     const firstname = this.userEditForm.controls.firstname.value;

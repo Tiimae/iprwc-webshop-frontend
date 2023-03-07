@@ -76,7 +76,7 @@ export class ApiConnectorService {
         if (error.response.status === 401 || error.response.status === 403) {
           localStorage.removeItem('jwt-token');
           localStorage.removeItem('refresh-token');
-          this.toastr.error('Your login has been expired!', 'OOPS!');
+          this.toastr.warning('Your login has been expired!', 'OOPS!');
 
           this.router.navigate(['auth', 'login']);
 
@@ -130,7 +130,7 @@ export class ApiConnectorService {
     }
   }
 
-  async getDecryptKey(): Promise<string> {
+  public async getDecryptKey(): Promise<string> {
     if (AppComponent.decryptKey === null) {
       try {
         const result = await this.noAuth().get('/auth/secret', {

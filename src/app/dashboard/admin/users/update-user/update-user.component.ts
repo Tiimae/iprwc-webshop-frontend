@@ -9,6 +9,7 @@ import { UserModel } from '../../../../_models/user.model';
 import { ApiConnectorService } from '../../../../_service/_api/api-connector.service';
 import { RoleDataService } from '../../../../_service/_data/roleData.service';
 import { UserDataService } from '../../../../_service/_data/userData.service';
+import {Title} from "@angular/platform-browser";
 
 @Component({
   selector: 'app-update-user',
@@ -16,12 +17,12 @@ import { UserDataService } from '../../../../_service/_data/userData.service';
   styleUrls: ['./update-user.component.scss']
 })
 export class UpdateUserComponent implements OnInit {
-  userId: string = '';
-  user!: UserModel;
-  roles: RoleModel[] = [];
-  userRoles: RoleModel[] = [];
+  public userId: string = '';
+  public user!: UserModel;
+  public roles: RoleModel[] = [];
+  public userRoles: RoleModel[] = [];
 
-  userEditForm = new FormGroup({
+  public userEditForm = new FormGroup({
     firstname: new FormControl('', [Validators.required]),
     middlename: new FormControl(''),
     lastname: new FormControl('', [Validators.required]),
@@ -41,7 +42,8 @@ export class UpdateUserComponent implements OnInit {
     private userDataService: UserDataService,
     private roleDataService: RoleDataService,
     private toastr: ToastrService,
-    private api: ApiConnectorService
+    private api: ApiConnectorService,
+    private title: Title
   ) {}
 
   async ngOnInit(): Promise<void> {
@@ -87,6 +89,8 @@ export class UpdateUserComponent implements OnInit {
     if (this.user.roles.length != null) {
       this.userRoles = this.user.roles;
     }
+
+    this.title.setTitle(`F1 Webshop | Update User - ${this.createUserName()}`)
   }
 
   public onSubmit(): void {
@@ -156,5 +160,22 @@ export class UpdateUserComponent implements OnInit {
         }
       });
     }
+  }
+
+  public createUserName(): string {
+    let fullName = '';
+
+    if (this.user?.middleName == '') {
+      fullName = this.user?.firstName + ' ' + this.user?.lastName;
+    } else {
+      fullName =
+        this.user?.firstName +
+        ' ' +
+        this.user?.middleName +
+        ' ' +
+        this.user?.lastName;
+    }
+
+    return fullName;
   }
 }

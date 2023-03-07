@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { CategoryModel } from '../../../../_models/category.model';
 import { CategoryDataService } from '../../../../_service/_data/categoryData.service';
+import {Title} from "@angular/platform-browser";
 
 @Component({
   selector: 'app-create-category',
@@ -11,19 +12,22 @@ import { CategoryDataService } from '../../../../_service/_data/categoryData.ser
   styleUrls: ['./create-category.component.scss']
 })
 export class CreateCategoryComponent implements OnInit {
-  categoryCreateForm = new FormGroup({
+  public categoryCreateForm = new FormGroup({
     catname: new FormControl('', [Validators.required])
   });
 
   constructor(
     private router: Router,
     private categoryDataService: CategoryDataService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private title: Title
   ) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.title.setTitle("F1 Webshop | Create Category");
+  }
 
-  onSubmit(): void {
+  public onSubmit(): void {
     const catName = this.categoryCreateForm.controls.catname.value;
 
     if (catName == null) {
@@ -36,7 +40,7 @@ export class CreateCategoryComponent implements OnInit {
       return;
     }
 
-    const category = new CategoryModel('', catName);
+    const category: CategoryModel = new CategoryModel('', catName);
 
     this.categoryDataService.createCategory(category);
   }

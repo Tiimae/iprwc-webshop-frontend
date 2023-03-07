@@ -9,6 +9,7 @@ import { UserAddressesModel } from '../../../../_models/userAddresses.model';
 import { ApiConnectorService } from '../../../../_service/_api/api-connector.service';
 import { UserAddressesDataService } from '../../../../_service/_data/userAddressesData.service';
 import { UserDataService } from '../../../../_service/_data/userData.service';
+import {Title} from "@angular/platform-browser";
 
 @Component({
   selector: 'app-create-addres',
@@ -16,7 +17,7 @@ import { UserDataService } from '../../../../_service/_data/userData.service';
   styleUrls: ['./create-addres.component.scss']
 })
 export class CreateAddresComponent implements OnInit {
-  addressForm = new FormGroup({
+  public addressForm: FormGroup = new FormGroup({
     street: new FormControl('', [Validators.required]),
     number: new FormControl('', [Validators.required]),
     additional: new FormControl(''),
@@ -25,7 +26,7 @@ export class CreateAddresComponent implements OnInit {
     country: new FormControl('', [Validators.required])
   });
 
-  user!: UserModel | undefined;
+  public user!: UserModel | undefined;
 
   constructor(
     private customerAddress: UserAddressesDataService,
@@ -33,7 +34,8 @@ export class CreateAddresComponent implements OnInit {
     private userDataService: UserDataService,
     private router: Router,
     private toastr: ToastrService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private title: Title
   ) {}
 
   ngOnInit(): void {
@@ -62,18 +64,20 @@ export class CreateAddresComponent implements OnInit {
       });
     });
 
+    this.title.setTitle("F1 Webshop | Create Address")
+
     AppComponent.isLoading = false;
   }
 
   onSubmit(): void {
     AppComponent.isLoading = true;
 
-    const deliveryStreet = this.addressForm.controls.street.value;
-    const deliveryNumber = this.addressForm.controls.number.value;
-    const deliveryAdditional = this.addressForm.controls.additional.value;
-    const deliveryZipcode = this.addressForm.controls.zipcode.value;
-    const deliveryCity = this.addressForm.controls.city.value;
-    const deliveryCountry = this.addressForm.controls.country.value;
+    const deliveryStreet = this.addressForm.controls['street'].value;
+    const deliveryNumber = this.addressForm.controls['number'].value;
+    const deliveryAdditional = this.addressForm.controls['additional'].value;
+    const deliveryZipcode = this.addressForm.controls['zipcode'].value;
+    const deliveryCity = this.addressForm.controls['city'].value;
+    const deliveryCountry = this.addressForm.controls['country'].value;
 
     if (
       deliveryStreet == null ||

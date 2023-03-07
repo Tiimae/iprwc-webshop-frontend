@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import {Title} from "@angular/platform-browser";
 
 @Component({
   selector: 'app-root',
@@ -6,12 +7,12 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  title = 'iprwc-webshop';
-  static isLoading: boolean = false;
+  public static isLoading: boolean = false;
 
   public static decryptKey: string | null = null;
 
   getIsLoading() {
     return AppComponent.isLoading;
   }
+
 }
