@@ -38,11 +38,11 @@ export class SidebarComponent implements OnInit {
     private api: ApiConnectorService
   ) {}
 
-  ngOnInit(): void {
-    // @ts-ignore
-    this.hasRole = this.api
-      .getJwtPayload()
+  async ngOnInit(): Promise<void> {
+    this.hasRole = await (this.api
+      .getJwtPayload())
       .then((r: LoggedUserModel): boolean => {
+        console.log(r.roles.includes('Admin') || r.roles.includes('Owner'))
         return r.roles.includes('Admin') || r.roles.includes('Owner');
       });
   }

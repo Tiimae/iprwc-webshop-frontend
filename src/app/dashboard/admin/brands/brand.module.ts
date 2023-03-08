@@ -21,7 +21,8 @@ import { SharedModule } from '../../../_shared/shared.module';
     BrandRoutingModule,
     FormsModule,
     SharedModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    SharedModule
   ]
 })
 export class BrandModule {}
