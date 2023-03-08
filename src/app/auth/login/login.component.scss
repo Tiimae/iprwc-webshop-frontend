@@ -41,73 +41,17 @@
     }
 
     .login-input-section {
-      .login-row {
-        padding-top: .9375rem;
-
-        .field-wrapper {
-          box-sizing: border-box;
-          outline: 0;
-          display: block;
-
-          .field-wrapper-item {
-            position: relative;
-            outline: 0;
-            line-height: .875rem;
-            width: 100%;
-
-            .field-wrapper-input-label {
-              max-width: 90%;
-              text-overflow: ellipsis;
-              white-space: nowrap;
-              overflow: hidden;
-              font-size: .875rem;
-              font-style: italic;
-              color: #767676;
-              position: absolute;
-              display: inline-block;
-              margin: .5rem .3125rem;
-              line-height: 1.625rem;
-              padding: 0 .3125rem;
-              transition: all 100ms;
-              text-transform: capitalize;
-              z-index: 1;
-              pointer-events: none;
-
-              &::after {
-                content: '*';
-              }
-            }
-
-            .field-wrapper-children {
-              border: 1px solid #b5b5b5;
-              border-radius: .1875rem;
-              padding: 0 1px;
-
-              .text-field-input {
-                width: 100%;
-                font-size: .875rem;
-                line-height: 1.5rem;
-                color: #242424;
-                border: 0;
-                padding: .5rem;
-              }
-
-              .ng-invalid.ng-touched {
-                border-bottom: 1px solid red;
-              }
-
-              .ng-valid.ng-touched {
-                border-bottom: 1px solid lightgreen;
-              }
-            }
-
-            &:hover {
-              .field-wrapper-children {
-                border: 1px solid #3b5998;
-              }
-            }
-          }
+      .ng-invalid.ng-touched {
+        input {
+          background-color: red;
         }
+      }
+
+      .ng-valid.ng-touched {
+        input {
+          border-bottom: 1px solid lightgreen;
+        }
+      }
 
         .text-field {
           input {
@@ -126,7 +70,8 @@
           clear: both;
         }
       }
-    }
+
+
 
     .login-form-button {
       margin: 1.5625rem 0 0;
@@ -185,20 +130,4 @@
       clear: both;
     }
   }
-}
-
-.label-up {
-  .field-wrapper-input-label {
-    margin: .5rem .3125rem !important;
-    padding: 0 .3125rem !important;
-    top: -.9125rem !important;
-    font-size: .75rem !important;
-    line-height: .75rem !important;
-    background-color: #fff !important;
-    transition: all 100ms !important;
-  }
-}
-
-.error {
-
 }

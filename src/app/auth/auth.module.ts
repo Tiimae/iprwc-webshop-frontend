@@ -10,6 +10,7 @@ import { ForgotPasswordComponent } from './forgot-password/forgot-password.compo
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
 import { VerifyComponent } from './verify/verify.component';
 import { RequestVerifyComponent } from './request-verify/request-verify.component';
+import {SharedModule} from "../_shared/shared.module";
 
 @NgModule({
   declarations: [
@@ -25,7 +26,8 @@ import { RequestVerifyComponent } from './request-verify/request-verify.componen
     AuthRoutingModule,
     FormsModule,
     FontAwesomeModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    SharedModule
   ]
 })
 export class AuthModule {}

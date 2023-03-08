@@ -89,31 +89,4 @@ export class LoginComponent implements OnInit {
 
     AppComponent.isLoading = false;
   }
-
-  public onFocus(name: string): void {
-    document.querySelectorAll("[data-input]").forEach(type => {
-      const value: string | null = type.getAttribute("data-input")
-      if (value === name) {
-        if (type.classList.contains("label-up") && this.loginForm.controls[name].value == '') {
-          type.classList.remove("label-up")
-        } else {
-          type.classList.add("label-up")
-        }
-
-        return;
-      }
-    })
-  }
-
-  public onChange(): void {
-    const element = document.querySelector("[data-submit-button]");
-    if ( element != null) {
-      if (this.loginForm.valid && element.classList.contains("disabled")) {
-        element.classList.remove("disabled");
-      }
-      else if (!this.loginForm.valid && !element.classList.contains("disabled")) {
-        element.classList.add("disabled");
-      }
-    }
-  }
 }
