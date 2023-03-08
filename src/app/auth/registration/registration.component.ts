@@ -15,30 +15,20 @@ import {Title} from "@angular/platform-browser";
   styleUrls: ['./registration.component.scss']
 })
 export class RegistrationComponent implements OnInit {
-  public step: number = 1;
-
   public firstRegistrationForm: FormGroup = new FormGroup({
     firstname: new FormControl('', [Validators.required]),
     middlename: new FormControl(''),
-    lastname: new FormControl('', [Validators.required])
-  });
-
-  public secondRegistrationForm: FormGroup = new FormGroup({
+    lastname: new FormControl('', [Validators.required]),
     email: new FormControl('', [
       Validators.required,
       Validators.pattern(
         '^(?=.{1,64}@)[A-Za-z0-9_-]+(\\.[A-Za-z0-9_-]+)*@' +
-          '[^-][A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})$'
+        '[^-][A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})$'
       )
     ]),
     password: new FormControl('', [Validators.required]),
     passwordCheck: new FormControl('', [Validators.required]),
-    terms: new FormControl('', [Validators.required])
   });
-
-  public firstname: string = '';
-  public middlename: string = '';
-  public lastname: string = '';
 
   constructor(
     private router: Router,
@@ -65,54 +55,22 @@ export class RegistrationComponent implements OnInit {
     AppComponent.isLoading = false;
   }
 
-  public toNextStep(): void {
+  public onSubmit(): void {
     AppComponent.isLoading = true;
-
     const firstname: string =
       this.firstRegistrationForm.controls['firstname'].value;
     const middlename: string =
       this.firstRegistrationForm.controls['middlename'].value;
     const lastname: string =
       this.firstRegistrationForm.controls['lastname'].value;
-
-    if (firstname == null || lastname == null) {
-      this.toastr.error('Something went wrong!', 'Failed');
-      AppComponent.isLoading = false;
-      return;
-    }
-
-    if (!this.firstRegistrationForm.valid) {
-      this.toastr.error('Something went wrong!', 'Failed');
-      AppComponent.isLoading = false;
-      return;
-    }
-
-    this.firstname = firstname;
-    if (middlename != null) {
-      this.middlename = middlename;
-    }
-    this.lastname = lastname;
-    this.step = 2;
-
-    AppComponent.isLoading = false;
-  }
-
-  public onSubmit(): void {
-    AppComponent.isLoading = true;
-    const email: string = this.secondRegistrationForm.controls['email'].value;
+    const email: string = this.firstRegistrationForm.controls['email'].value;
     const password: string =
-      this.secondRegistrationForm.controls['password'].value;
+      this.firstRegistrationForm.controls['password'].value;
     const passwordCheck: string =
-      this.secondRegistrationForm.controls['passwordCheck'].value;
+      this.firstRegistrationForm.controls['passwordCheck'].value;
 
-    if (email == null || password == null || passwordCheck == null) {
+    if (firstname == null || lastname == null || email == null || password == null || passwordCheck == null) {
       this.toastr.error('Something went wrong!', 'Failed');
-      AppComponent.isLoading = false;
-      return;
-    }
-
-    if (!this.secondRegistrationForm.controls['terms'].valid) {
-      this.toastr.error('Accept the terms and conditions', 'Failed');
       AppComponent.isLoading = false;
       return;
     }
@@ -123,14 +81,14 @@ export class RegistrationComponent implements OnInit {
       return;
     }
 
-    if (!this.secondRegistrationForm.valid) {
+    if (!this.firstRegistrationForm.valid) {
       this.toastr.error('Something went wrong!', 'Failed');
       AppComponent.isLoading = false;
       return;
     }
 
     this.authService
-      .register(this.firstname, this.middlename, this.lastname, email, password)
+      .register(firstname, middlename, lastname, email, password)
       .then((r: AxiosResponse) => {
         if (r.data.code == 202) {
           this.router.navigate(['auth', 'login']);
@@ -144,5 +102,32 @@ export class RegistrationComponent implements OnInit {
       });
 
     AppComponent.isLoading = false;
+  }
+
+  public onFocus(name: string): void {
+    document.querySelectorAll("[data-input]").forEach(type => {
+      const value: string | null = type.getAttribute("data-input")
+      if (value === name) {
+        if (type.classList.contains("label-up") && this.firstRegistrationForm.controls[name].value == '') {
+          type.classList.remove("label-up")
+        } else {
+          type.classList.add("label-up")
+        }
+
+        return;
+      }
+    })
+  }
+
+  public onChange(): void {
+    const element = document.querySelector("[data-submit-button]");
+    if ( element != null) {
+      if (this.firstRegistrationForm.valid && element.classList.contains("disabled")) {
+        element.classList.remove("disabled");
+      }
+      else if (!this.firstRegistrationForm.valid && !element.classList.contains("disabled")) {
+        element.classList.add("disabled");
+      }
+    }
   }
 }
