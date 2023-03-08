@@ -32,7 +32,7 @@ export class CartDataService {
             next: (product: ProductModel | undefined): void => {
               if (product == undefined) {
                 this.productDataService
-                  .getByRequest('product/' + JSON.parse(item).id)
+                  .getByRequest(JSON.parse(item).id)
                   .then((res: AxiosResponse) => {
                     this.products.push(res.data.payload);
                   });

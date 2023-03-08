@@ -81,6 +81,9 @@ export class ApiConnectorService {
           this.router.navigate(['auth', 'login']);
 
           return Promise.reject('Login has been expired!');
+        } else if (error.response.status === 400) {
+          this.toastr.error(error.response.data.message, "400")
+          return Promise.reject("Something went wrong!")
         }
 
         return Promise.reject(error);
