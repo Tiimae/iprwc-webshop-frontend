@@ -12,6 +12,7 @@ export class DefaultInputFieldsComponent implements OnInit {
   public valueFormControl?: FormControl;
   @Input() public name!: string;
   @Input() public type!: string;
+  @Input() public value: string | null = null;
 
   constructor(
     private formGroupDirective: FormGroupDirective,
@@ -22,11 +23,16 @@ export class DefaultInputFieldsComponent implements OnInit {
   ngOnInit(): void {
     this.valueFormGroup = this.formGroupDirective.form;
     this.valueFormControl = this.formGroupDirective.getControl(this.formControlNameDirective);
+    setTimeout(() => {
+      this.onFocus(this.name);
+      this.onChange();
+    }, 50)
   }
 
   public onFocus(name: string): void {
     if (this.valueFormGroup != undefined) {
       const element = document.getElementById(name);
+      console.log(element)
       if (element != null) {
         if (!this.valueFormGroup.controls[name].valid) {
           element.style.borderBottom = "2px solid red"

@@ -9,6 +9,7 @@
           id="{{ name }}"
           class="text-field-input"
           required=""
+          [value]="value != null ? value : ''"
           (focus)="onFocus(name)"
           (blur)="onFocus(name)"
           (keyup)="onChange()"
