@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AccountComponent } from './account/account.component';
+import {IsAuthenticatedGuard} from "../../_guard/is-authenticated.guard";
 
 const routes: Routes = [
   {
@@ -18,7 +19,7 @@ const routes: Routes = [
     component: AccountComponent,
     data: {
       breadcrumb: 'Account'
-    }
+    },
   },
   {
     path: 'addresses',

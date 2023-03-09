@@ -30,7 +30,7 @@ export class IsNotVerifiedGuard implements CanActivate {
       .verified()
       .then(async (isVerified: boolean) => {
         if (isVerified) {
-          this.router.navigate(['/']);
+          return this.router.navigate(['/']);
         }
         return true;
       });
