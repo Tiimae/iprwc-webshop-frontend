@@ -86,9 +86,15 @@ export class ApiConnectorService {
           return Promise.reject("Something went wrong!")
         }
 
+
+        if (error.response.status === 404) {
+          this.router.navigate(["404"]);
+
+          return Promise.reject("Not Found")
+        }
+
         return Promise.reject(error);
-      }
-    );
+      });
 
     return request;
   }

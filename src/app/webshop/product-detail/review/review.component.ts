@@ -63,6 +63,8 @@ export class ReviewComponent implements OnInit {
 
     const response = this.reviewService.post(this.productId, review);
 
+    this.postReviewForm.reset();
+
     this.reviews.push(review);
     if (response == null) {
       return;

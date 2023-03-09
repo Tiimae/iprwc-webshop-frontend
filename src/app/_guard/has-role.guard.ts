@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import {
   ActivatedRouteSnapshot,
-  CanActivate,
+  CanActivate, Router,
   RouterStateSnapshot,
   UrlTree
 } from '@angular/router';
@@ -12,7 +12,7 @@ import { ApiConnectorService } from '../_service/_api/api-connector.service';
   providedIn: 'root'
 })
 export class HasRoleGuard implements CanActivate {
-  constructor(private api: ApiConnectorService) {}
+  constructor(private api: ApiConnectorService, private router: Router) {}
 
   canActivate(
     route: ActivatedRouteSnapshot,
@@ -22,7 +22,7 @@ export class HasRoleGuard implements CanActivate {
     | Promise<boolean | UrlTree>
     | boolean
     | UrlTree {
-    return this.api.getJwtPayload().then((res): boolean => {
+    return this.api.getJwtPayload().then(res => {
       let matchingRoles: string[] | undefined;
       const rolesOnRoute: null | Array<string> = route.data['roles'];
 
@@ -32,7 +32,11 @@ export class HasRoleGuard implements CanActivate {
         return rolesOnJwt.includes(role);
       });
 
-      return (matchingRoles?.length ?? 0) !== 0;
+      if ((matchingRoles?.length ?? 0) === 0) {
+        return this.router.navigate(["404"]);
+      }
+
+      return true;
     });
   }
 }
