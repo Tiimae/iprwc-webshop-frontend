@@ -135,7 +135,6 @@ export class ProductDetailComponent implements OnInit {
     this.product.reviews.push(event);
     this.productDataService.setNewReview(this.productId, this.product);
     this.calculateStars();
-
     AppComponent.isLoading = false;
   }
 }

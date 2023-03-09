@@ -35,6 +35,7 @@ button:focus {
     .addresses, .cart {
       height: 300px;
       overflow-y: scroll;
+      overflow-x: hidden;
     }
   }
 }

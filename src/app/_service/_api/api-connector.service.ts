@@ -83,9 +83,15 @@ export class ApiConnectorService {
           return Promise.reject('Login has been expired!');
         }
 
+
+        if (error.response.status === 404) {
+          this.router.navigate(["404"]);
+
+          return Promise.reject("Not Found")
+        }
+
         return Promise.reject(error);
-      }
-    );
+      });
 
     return request;
   }
