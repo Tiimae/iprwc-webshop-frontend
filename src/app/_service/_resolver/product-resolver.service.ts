@@ -25,11 +25,7 @@ export class ProductResolverService
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
   ): Promise<ProductModel | undefined> {
-    const productId = route.params['productId'].replaceAll('*', '/');
-    const id = CryptoJs.Rabbit.decrypt(
-      productId,
-      await this.api.getDecryptKey()
-    ).toString(CryptoJs.enc.Utf8);
+    const id = route.params['productId']
 
     let currentProduct: ProductModel | undefined = undefined;
     this.productDataService

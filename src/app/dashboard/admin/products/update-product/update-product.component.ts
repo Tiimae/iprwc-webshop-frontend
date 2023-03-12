@@ -65,11 +65,7 @@ export class UpdateProductComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.params.subscribe(async (params) => {
-      const currentProductId = params['productId'].replaceAll('*', '/');
-      this.productId = CryptoJs.Rabbit.decrypt(
-        currentProductId,
-        await this.api.getDecryptKey()
-      ).toString(CryptoJs.enc.Utf8);
+      this.productId = params['productId']
 
       this.productDataService.get(this.productId).subscribe((res) => {
         if (res == undefined) {

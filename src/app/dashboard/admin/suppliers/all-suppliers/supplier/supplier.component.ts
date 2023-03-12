@@ -22,11 +22,7 @@ export class SupplierComponent implements OnInit {
   }
 
   public async checkIfIdIsUndefined(): Promise<void> {
-    let encryptedId: string = CryptoJs.Rabbit.encrypt(
-      this.supplier.id,
-      await this.api.getDecryptKey()
-    ).toString();
-    this.supplierId = encryptedId.replace(new RegExp('/', 'g'), '*');
+    this.supplierId = this.supplier.id
   }
 
   public removeSupplier(): void {

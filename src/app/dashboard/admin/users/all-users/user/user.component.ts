@@ -42,11 +42,7 @@ export class UserComponent implements OnInit {
   }
 
   public async checkIfIdIsUndefined(): Promise<void> {
-    let encryptedId: string = CryptoJs.Rabbit.encrypt(
-      this.user.id,
-      await this.api.getDecryptKey()
-    ).toString();
-    this.userId = encryptedId.replace(new RegExp('/', 'g'), '*');
+    this.userId = this.user.id;
   }
 
   public getRolesRow(): string {

@@ -64,6 +64,8 @@ export class CreateProductComponent implements OnInit {
           this.productCreateForm.controls['supplier'].setValue(
             this.suppliers[0].name
           );
+
+          this.currentSupplier = this.suppliers[0];
         }, 100);
       },
       error(e: Error) {
@@ -84,6 +86,8 @@ export class CreateProductComponent implements OnInit {
           this.productCreateForm.controls['brand'].setValue(
             this.brands[0].brandName
           );
+
+          this.currentBrand = this.brands[0];
         }, 100);
       },
       error(e: Error) {
@@ -104,6 +108,8 @@ export class CreateProductComponent implements OnInit {
           this.productCreateForm.controls['category'].setValue(
             this.categories[0].categoryName
           );
+
+          this.currentCategory = this.categories[0];
         }, 100);
       },
       error(e: Error) {

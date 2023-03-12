@@ -50,12 +50,7 @@ export class UpdateUserComponent implements OnInit {
     AppComponent.isLoading = false;
 
     this.route.params.subscribe(async (params) => {
-      const currentUserId = params['userId'].replaceAll('*', '/');
-      this.userId = CryptoJs.Rabbit.decrypt(
-        currentUserId,
-        await this.api.getDecryptKey()
-      ).toString(CryptoJs.enc.Utf8);
-
+      this.userId = params['userId']
       this.userDataService.getCurrentUser(this.userId).subscribe((r) => {
         if (r == undefined) {
           this.userDataService.getUserByRequest(this.userId).then((res) => {

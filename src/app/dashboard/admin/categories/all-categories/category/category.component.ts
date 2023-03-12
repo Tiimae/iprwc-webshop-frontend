@@ -18,11 +18,7 @@ export class CategoryComponent implements OnInit {
   constructor(private api: ApiConnectorService) {}
 
   async ngOnInit(): Promise<void> {
-    let encryptedId: string = CryptoJs.Rabbit.encrypt(
-      this.category?.id,
-      await this.api.getDecryptKey()
-    ).toString();
-    this.categoryId = encryptedId.toString().replace(new RegExp('/', 'g'), '*');
+    this.categoryId = this.category?.id;
   }
 
   removeCategory(): void {

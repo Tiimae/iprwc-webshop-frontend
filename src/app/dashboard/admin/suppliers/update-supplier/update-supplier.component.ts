@@ -36,11 +36,7 @@ export class UpdateSupplierComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.params.subscribe(async (params) => {
-      const currentSupplierId = params['supplierId'].replaceAll('*', '/');
-      this.supplierId = CryptoJs.Rabbit.decrypt(
-        currentSupplierId,
-        await this.api.getDecryptKey()
-      ).toString(CryptoJs.enc.Utf8);
+      this.supplierId =  params['supplierId']
 
       this.supplierDataService.get(this.supplierId).subscribe({
         next: (supplier: SupplierModel | undefined): void => {

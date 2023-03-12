@@ -1,5 +1,4 @@
 import { Component, Input, OnInit } from '@angular/core';
-import * as CryptoJs from 'crypto-js';
 import { ProductModel } from '../../../_models/product.model';
 import { ApiConnectorService } from '../../../_service/_api/api-connector.service';
 
@@ -19,10 +18,11 @@ export class ProductComponent implements OnInit {
   }
 
   public async checkIfIdIsUndefined(): Promise<void> {
-    let encryptedId: string = CryptoJs.Rabbit.encrypt(
-      this.product.id,
-      await this.api.getDecryptKey()
-    ).toString();
-    this.productId = encryptedId.replace(new RegExp('/', 'g'), '*');
+    // let encryptedId: string = CryptoJs.Rabbit.encrypt(
+    //   this.product.id,
+    //   AppComponent.pageDecryptKey
+    // ).toString();
+    // this.productId = encryptedId.replace(new RegExp('/', 'g'), '*');
+    this.productId = this.product.id;
   }
 }

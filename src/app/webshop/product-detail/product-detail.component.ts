@@ -45,11 +45,12 @@ export class ProductDetailComponent implements OnInit {
   ngOnInit(): void {
     AppComponent.isLoading = true;
     this.route.params.subscribe(async (params) => {
-      const currentProductId = params['productId'].replaceAll('*', '/');
-      this.productId = CryptoJs.Rabbit.decrypt(
-        currentProductId,
-        await this.api.getDecryptKey()
-      ).toString(CryptoJs.enc.Utf8);
+      // const currentProductId = params['productId'].replaceAll('*', '/');
+      this.productId = params['productId']
+      //   CryptoJs.Rabbit.decrypt(
+      //   currentProductId,
+      //   AppComponent.pageDecryptKey
+      // ).toString(CryptoJs.enc.Utf8);
 
       this.productDataService.get(this.productId).subscribe((res) => {
         if (res == undefined) {

@@ -16,15 +16,17 @@ export class AuthService {
     padding: CryptoJs.pad.Pkcs7
   };
 
-  public login(email: string, password: string): Promise<AxiosResponse> {
+  public async login(email: string, password: string): Promise<AxiosResponse> {
     const encryptedPassword: string = AuthService.encryptText(password);
-    return this.api.noAuth().post(
+    return (await this.api.noAuth()).post(
       'auth/login',
       {
         email,
         password: encryptedPassword
       },
-      { params: { encrypted: true } }
+      {
+        params: {encrypted: true},
+      }
     );
   }
 
@@ -41,7 +43,7 @@ export class AuthService {
   ): Promise<AxiosResponse> {
     const encryptedPassword: string = AuthService.encryptText(password);
 
-    return await this.api.noAuth().post(
+    return await (await this.api.noAuth()).post(
       'auth/register',
       {
         firstName: firstname,
@@ -69,7 +71,7 @@ export class AuthService {
   }
 
   public async forgotPassword(email: string): Promise<AxiosResponse> {
-    return this.api.noAuth().post('auth/forgot-password?email=' + email);
+    return (await this.api.noAuth()).post('auth/forgot-password?email=' + email);
   }
 
   public async setNewPassword(
@@ -78,7 +80,7 @@ export class AuthService {
     password: string
   ): Promise<AxiosResponse> {
     const encryptedPassword: string = AuthService.encryptText(password);
-    return await this.api.noAuth().post(
+    return await (await this.api.noAuth()).post(
       'auth/set-new-password?token=' + token,
       {
         email: email,
@@ -88,8 +90,8 @@ export class AuthService {
     );
   }
 
-  public getSecret(): Promise<AxiosResponse> {
-    return this.api.noAuth().get('auth/secret', { withCredentials: true });
+  public async getSecret(): Promise<AxiosResponse> {
+    return (await this.api.noAuth()).get('auth/secret');
   }
 
   public static encryptText(plainText: string): string {
@@ -113,4 +115,6 @@ export class AuthService {
       )
     );
   }
+
+
 }

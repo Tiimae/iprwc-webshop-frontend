@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
-import { AppComponent } from 'src/app/app.component';
 import { ApiConnectorService } from 'src/app/_service/_api/api-connector.service';
 import { ApiMethodsService } from 'src/app/_service/_api/api-methods.service';
 
@@ -19,10 +18,6 @@ export class VerifyComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    if (AppComponent.decryptKey == null) {
-      this.apiConnector.getDecryptKey();
-    }
-
     const token: string | null = this.route.snapshot.queryParamMap.get('token');
     if (token == null) {
       return;

@@ -1,11 +1,13 @@
-import { Injectable } from '@angular/core';
-import { Router } from '@angular/router';
-import axios, { AxiosInstance } from 'axios';
+import {Injectable} from '@angular/core';
+import {Router} from '@angular/router';
+import axios, {AxiosInstance} from 'axios';
 import * as CryptoJs from 'crypto-js';
-import { ToastrService } from 'ngx-toastr';
-import { environment } from '../../../environments/environment';
-import { AppComponent } from '../../app.component';
-import { AuthService } from '../auth.service';
+import {ToastrService} from 'ngx-toastr';
+import {environment} from '../../../environments/environment';
+import {AppComponent} from '../../app.component';
+import {AuthService} from '../auth.service';
+import {HttpClient} from "@angular/common/http";
+import {SearchbarComponent} from "../../navigation/searchbar/searchbar.component";
 
 @Injectable({
   providedIn: 'root'
@@ -14,22 +16,49 @@ export class ApiConnectorService {
   public static apiUrl = environment.apiUrl;
   private jwtToken: string | null = null;
 
-  constructor(private toastr: ToastrService, private router: Router) {}
+  public static xsrfToken: string | null = null;
 
-  public noAuth(): AxiosInstance {
+  constructor(private toastr: ToastrService, private router: Router, private http: HttpClient) {
+  }
+
+  public async noAuth(): Promise<AxiosInstance> {
+    let token: string | null = null
+
     const instance: AxiosInstance = axios.create({
       baseURL: ApiConnectorService.apiUrl,
       headers: {
         Accept: 'application/json',
         'Strict-Transport-Security': 'max-age=31536000',
         'X-Frame-Options': 'SAMEORIGIN',
-        'X-Content-Type-Options': 'nosniff'
-      }
+        'X-Content-Type-Options': 'nosniff',
+        'X-XSRF-TOKEN': ApiConnectorService.xsrfToken
+      },
+      xsrfCookieName: "XSRF-TOKEN",
+      xsrfHeaderName: "X-XSRF-TOKEN",
+      withCredentials: true
     });
-
     instance.defaults.headers.common['Content-Type'] = 'application/json';
 
+    instance.interceptors.request.use(
+      (request) => {
+        return request;
+      },
+      (error) => {
+        return Promise.reject();
+      }
+    );
+
+    instance.interceptors.response.use((response) => {
+      // @ts-ignore
+      if (response.config.headers['X-XSRF-TOKEN'] != undefined) {
+        // @ts-ignore
+        ApiConnectorService.xsrfToken = response.config.headers['X-XSRF-TOKEN']
+      }
+      return response;
+    })
+
     return instance;
+
   }
 
   public async auth(): Promise<AxiosInstance> {
@@ -40,23 +69,30 @@ export class ApiConnectorService {
     }
 
     if (this.jwtToken === null || !this.jwtToken.length) {
-      this.jwtToken = await this.decryptJwtFromStorage();
+      this.jwtToken = await this.getTokenFromStore();
     }
 
-    let request: AxiosInstance = axios.create({
+    let instance: AxiosInstance = axios.create({
       baseURL: ApiConnectorService.apiUrl,
       headers: {
         Authorization: 'Bearer ' + this.jwtToken,
         'Strict-Transport-Security': 'max-age=31536000',
         'X-Frame-Options': 'SAMEORIGIN',
-        'X-Content-Type-Options': 'nosniff'
+        'X-Content-Type-Options': 'nosniff',
+        'X-XSRF-TOKEN': ApiConnectorService.xsrfToken
       },
-
+      xsrfCookieName: "XSRF-TOKEN",
+      xsrfHeaderName: "X-XSRF-TOKEN",
+      withCredentials: true,
       params: {}
     });
 
-    request.interceptors.request.use(
+    instance.defaults.headers['X-XSRF-TOKEN'] = localStorage.getItem('csrf');
+
+    instance.interceptors.request.use(
       (request) => {
+        instance.defaults.xsrfHeaderName = "X-XSRF-TOKEN"
+
         if (localStorage.getItem('jwt-token') == null) {
           return Promise.reject();
         }
@@ -68,8 +104,14 @@ export class ApiConnectorService {
       }
     );
 
-    request.interceptors.response.use(
+    instance.interceptors.response.use(
       (response) => {
+        // @ts-ignore
+        if (response.config.headers['X-XSRF-TOKEN'] != undefined) {
+          // @ts-ignore
+          ApiConnectorService.xsrfToken = response.config.headers['X-XSRF-TOKEN']
+        }
+
         return response;
       },
       (error) => {
@@ -77,7 +119,7 @@ export class ApiConnectorService {
           localStorage.removeItem('jwt-token');
           localStorage.removeItem('refresh-token');
           this.toastr.warning('Your login has been expired!', 'OOPS!');
-
+          SearchbarComponent.loggedIn.next(false);
           this.router.navigate(['auth', 'login']);
 
           return Promise.reject('Login has been expired!');
@@ -96,18 +138,13 @@ export class ApiConnectorService {
         return Promise.reject(error);
       });
 
-    return request;
+    return instance;
   }
 
   public async authenticated(): Promise<boolean> {
     let result = this.getTokenFromStore();
 
-    if (result !== null && result.length > 0) {
-      const key = await this.getDecryptKey();
-
-      return key !== '';
-    }
-    return false;
+    return result !== null && result.length > 0;
   }
 
   public async verified() {
@@ -132,40 +169,48 @@ export class ApiConnectorService {
   }
 
   public async getJwtPayload(): Promise<any> {
-    const tokenFromStorage = await this.decryptJwtFromStorage();
+    const tokenFromStorage = this.getTokenFromStore();
 
-    if (tokenFromStorage !== '') {
+    if (tokenFromStorage !== null) {
       return JSON.parse(atob(tokenFromStorage.split('.')[1]));
     }
   }
 
-  public async getDecryptKey(): Promise<string> {
-    if (AppComponent.decryptKey === null) {
-      try {
-        const result = await this.noAuth().get('/auth/secret', {
-          withCredentials: true
-        });
-
-        AppComponent.decryptKey = result.data['message'];
-        return AppComponent.decryptKey ?? 'cant happen';
-      } catch (error) {
-        return '';
-      }
-    }
-
-    return AppComponent.decryptKey;
-  }
-
-  public async decryptJwtFromStorage(): Promise<string> {
-    let tokenFromStorage = this.getTokenFromStore();
-
-    if (tokenFromStorage === null) {
-      return '';
-    }
-
-    return CryptoJs.Rabbit.decrypt(
-      tokenFromStorage,
-      await this.getDecryptKey()
-    ).toString(CryptoJs.enc.Utf8);
-  }
+  // public async getDecryptKey(): Promise<string> {
+  //   if (AppComponent.decryptKey === null) {
+  //     try {
+  //       const result = await (await this.noAuth()).get('/auth/secret', {
+  //         withCredentials: true
+  //       });
+  //
+  //       AppComponent.decryptKey = result.data['message'];
+  //       return AppComponent.decryptKey ?? 'cant happen';
+  //     } catch (error) {
+  //       return '';
+  //     }
+  //   }
+  //
+  //   return AppComponent.decryptKey;
+  // }
+  //
+  // public async decryptJwtFromStorage(): Promise<string> {
+  //   let tokenFromStorage = this.getTokenFromStore();
+  //
+  //   if (tokenFromStorage === null) {
+  //     return '';
+  //   }
+  //
+  //   return CryptoJs.Rabbit.decrypt(
+  //     tokenFromStorage,
+  //     await this.getDecryptKey()
+  //   ).toString(CryptoJs.enc.Utf8);
+  // }
+  //
+  // private async getCSRFToken(): Promise<string> {
+  //   return axios.get(ApiConnectorService.apiUrl + "csrf").then(res => {
+  //     // localStorage.setItem("csrf", res.data.token)
+  //     ApiConnectorService.xsrfToken = res.data.token
+  //     return res.data.token
+  //   })
+  // }
 }

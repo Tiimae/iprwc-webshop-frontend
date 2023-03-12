@@ -23,11 +23,7 @@ export class BrandResolverService implements Resolve<BrandModel | undefined> {
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
   ): Promise<BrandModel | undefined> {
-    const brandId = route.params['brandId'].replaceAll('*', '/');
-    const id = CryptoJs.Rabbit.decrypt(
-      brandId,
-      await this.api.getDecryptKey()
-    ).toString(CryptoJs.enc.Utf8);
+    const id = route.params['brandId']
 
     let currentBrand!: BrandModel;
     (await this.brandDataService.get(id)).subscribe(

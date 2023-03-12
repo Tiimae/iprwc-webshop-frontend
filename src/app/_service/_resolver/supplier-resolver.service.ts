@@ -25,11 +25,7 @@ export class SupplierResolverService
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
   ): Promise<SupplierModel | undefined> {
-    const supplierId = route.params['supplierId'].replaceAll('*', '/');
-    const id = CryptoJs.Rabbit.decrypt(
-      supplierId,
-      await this.api.getDecryptKey()
-    ).toString(CryptoJs.enc.Utf8);
+    const id = route.params['supplierId']
 
     let currentSupplier: SupplierModel | undefined = undefined;
     this.supplierDataService

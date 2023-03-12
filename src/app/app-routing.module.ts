@@ -27,9 +27,8 @@ const routes: Routes = [
       import('./dashboard/dashboard-routing.module').then(
         (m) => m.DashboardRoutingModule
       ),
-    canActivate: [IsAuthenticatedGuard, HasRoleGuard],
+    canActivate: [IsAuthenticatedGuard],
     data: {
-      roles: ['Owner', 'Admin', 'User'],
       breadcrumb: 'Dashboard'
     }
   },

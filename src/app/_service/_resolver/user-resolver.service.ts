@@ -22,11 +22,7 @@ export class UserResolverService implements Resolve<UserModel | undefined> {
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
   ): Promise<UserModel | undefined> {
-    const currentUserId = route.params['userId'].replaceAll('*', '/');
-    const id = CryptoJs.Rabbit.decrypt(
-      currentUserId,
-      await this.api.getDecryptKey()
-    ).toString(CryptoJs.enc.Utf8);
+    const id = route.params['userId']
 
     let currentUser: UserModel | undefined = undefined;
     this.userDataService

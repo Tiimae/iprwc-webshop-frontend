@@ -35,11 +35,7 @@ export class UpdateBrandComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.params.subscribe(async (params: Params) => {
-      const currentBrandId = params['brandId'].replaceAll('*', '/');
-      this.brandId = CryptoJs.Rabbit.decrypt(
-        currentBrandId,
-        await this.api.getDecryptKey()
-      ).toString(CryptoJs.enc.Utf8);
+      this.brandId =  params['brandId']
 
       (this.brandDataService.get(this.brandId)).subscribe(
         (r: BrandModel | undefined) => {

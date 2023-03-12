@@ -11,9 +11,11 @@ import {
   faSignOut,
   faUser
 } from '@fortawesome/free-solid-svg-icons';
+import { UserDataService } from 'src/app/_service/_data/userData.service';
 import { SearchbarComponent } from '../../navigation/searchbar/searchbar.component';
 import { LoggedUserModel } from '../../_models/loggedUser.model';
 import { ApiConnectorService } from '../../_service/_api/api-connector.service';
+import {RoleModel} from "../../_models/role.model";
 
 @Component({
   selector: 'app-sidebar',
@@ -35,21 +37,31 @@ export class SidebarComponent implements OnInit {
   constructor(
     private router: Router,
     private route: ActivatedRoute,
-    private api: ApiConnectorService
+    private api: ApiConnectorService,
+    private userDataService: UserDataService
   ) {}
 
   async ngOnInit(): Promise<void> {
     this.hasRole = await (this.api
       .getJwtPayload())
-      .then((r: LoggedUserModel): boolean => {
-        console.log(r.roles.includes('Admin') || r.roles.includes('Owner'))
-        return r.roles.includes('Admin') || r.roles.includes('Owner');
+      .then(async (r: LoggedUserModel): Promise<boolean> => {
+        return await this.userDataService.getUserWithRoleByRequest(r.userId).then((res): boolean => {
+          let hasRole: boolean = false;
+          res.data.payload.roles.forEach((role: RoleModel) => {
+            if (role.name === "Admin" || role.name === "Owner") {
+              hasRole = true;
+            }
+          })
+
+          return hasRole;
+        })
       });
   }
 
   public LogOut(): void {
     localStorage.removeItem('jwt-token');
-    SearchbarComponent.loggedIn = false;
+    localStorage.removeItem('refresh-token');
+    SearchbarComponent.loggedIn.next(false);
 
     this.router.navigate(['']);
   }

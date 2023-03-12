@@ -25,11 +25,7 @@ export class UserAddressResolverService
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
   ): Promise<UserAddressesModel | undefined> {
-    const currentUserAddressId = route.params['addressId'].replaceAll('*', '/');
-    const id = CryptoJs.Rabbit.decrypt(
-      currentUserAddressId,
-      await this.api.getDecryptKey()
-    ).toString(CryptoJs.enc.Utf8);
+    const id = route.params['addressId']
 
     let currentUserAddress: UserAddressesModel | undefined;
     return this.api

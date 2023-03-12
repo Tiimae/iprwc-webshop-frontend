@@ -25,11 +25,7 @@ export class CategoryResolverService
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
   ): Promise<CategoryModel | undefined> {
-    const categoryId = route.params['categoryId'].replaceAll('*', '/');
-    const id = CryptoJs.Rabbit.decrypt(
-      categoryId,
-      await this.api.getDecryptKey()
-    ).toString(CryptoJs.enc.Utf8);
+    const id = route.params['categoryId']
 
     let currentCategory: CategoryModel | undefined = undefined;
     this.categoryDataService

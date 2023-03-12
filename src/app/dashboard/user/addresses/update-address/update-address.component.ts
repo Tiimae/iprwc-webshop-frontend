@@ -56,12 +56,7 @@ export class UpdateAddressComponent implements OnInit {
       });
 
       this.route.params.subscribe(async (params) => {
-        const currentBrandId = params['addressId'].replaceAll('*', '/');
-        this.addressId = CryptoJs.Rabbit.decrypt(
-          currentBrandId,
-          await this.api.getDecryptKey()
-        ).toString(CryptoJs.enc.Utf8);
-
+        this.addressId = params['addressId']
         setTimeout(() => {
           this.userAddressDataService
             .getByAddressId(this.addressId)

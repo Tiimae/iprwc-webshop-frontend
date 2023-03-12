@@ -31,6 +31,11 @@ export class UserDataService {
     return this.apiMethod.get('user/' + userId, true);
   }
 
+  public async getUserWithRoleByRequest(userId: string): Promise<AxiosResponse> {
+    return this.apiMethod.get('user/' + userId + "/roles", true);
+  }
+
+
   public async getAllUsers(): Promise<void> {
     return await this.apiMethod
       .get('user/roles', true)

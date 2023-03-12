@@ -7,12 +7,15 @@ import {
 } from '@angular/router';
 import { Observable } from 'rxjs';
 import { ApiConnectorService } from '../_service/_api/api-connector.service';
+import {ApiMethodsService} from "../_service/_api/api-methods.service";
+import {data} from "autoprefixer";
+import {AuthService} from "../_service/auth.service";
 
 @Injectable({
   providedIn: 'root'
 })
 export class HasRoleGuard implements CanActivate {
-  constructor(private api: ApiConnectorService, private router: Router) {}
+  constructor(private api: ApiConnectorService, private auth: ApiMethodsService, private router: Router) {}
 
   canActivate(
     route: ActivatedRouteSnapshot,
@@ -23,20 +26,26 @@ export class HasRoleGuard implements CanActivate {
     | boolean
     | UrlTree {
     return this.api.getJwtPayload().then(res => {
-      let matchingRoles: string[] | undefined;
-      const rolesOnRoute: null | Array<string> = route.data['roles'];
-
-      matchingRoles = rolesOnRoute?.filter((role: string) => {
-        const rolesOnJwt: Array<string> = res['roles'];
-
-        return rolesOnJwt.includes(role);
-      });
-
-      if ((matchingRoles?.length ?? 0) === 0) {
+      if (res.userId == null) {
         return this.router.navigate(["404"]);
       }
 
-      return true;
-    });
+      const activeRoute = '/' + route.pathFromRoot
+        .filter(v => v.routeConfig)
+        .map(v => v.routeConfig!.path)
+        .join('/');
+
+      return this.auth.post(`user/${res.userId}/has-role`, activeRoute ,true).then(res => {
+        if (res.data.payload == false) {
+          return this.router.navigate(["404"]);
+        }
+
+        return res.data.payload
+      });
+    })
+
+
+
+
   }
 }

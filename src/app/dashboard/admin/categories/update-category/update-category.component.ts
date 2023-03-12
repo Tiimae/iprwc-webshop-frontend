@@ -33,13 +33,7 @@ export class UpdateCategoryComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.params.subscribe(async (params) => {
-      const currentUserId = params['categoryId'].replaceAll('*', '/');
-
-      this.categoryId = CryptoJs.Rabbit.decrypt(
-        currentUserId,
-        await this.api.getDecryptKey()
-      ).toString(CryptoJs.enc.Utf8);
-
+      this.categoryId = params['categoryId']
       this.categoryDataService
         .getCurrentCategory(this.categoryId)
         .subscribe((r: CategoryModel | undefined) => {

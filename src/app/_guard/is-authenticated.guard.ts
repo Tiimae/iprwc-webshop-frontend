@@ -2,6 +2,7 @@ import {Injectable} from '@angular/core';
 import {ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot, UrlTree} from '@angular/router';
 import {Observable} from 'rxjs';
 import {ApiConnectorService} from '../_service/_api/api-connector.service';
+import {SearchbarComponent} from "../navigation/searchbar/searchbar.component";
 
 @Injectable({
   providedIn: 'root'

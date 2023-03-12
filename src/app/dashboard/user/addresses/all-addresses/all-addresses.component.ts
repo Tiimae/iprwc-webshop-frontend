@@ -61,12 +61,7 @@ export class AllAddressesComponent implements OnInit {
   }
 
   public async changeURL(event: UserAddressesModel, type: string): Promise<void> {
-    let encryptedId: string = CryptoJs.Rabbit.encrypt(
-      event.id,
-      await this.api.getDecryptKey()
-    ).toString();
-    const id = encryptedId.replace(new RegExp('/', 'g'), '*');
-    await this.router.navigate(['dashboard', 'user', 'addresses', id], {
+    await this.router.navigate(['dashboard', 'user', 'addresses', event.id], {
       queryParams: {
         type: type
       }
