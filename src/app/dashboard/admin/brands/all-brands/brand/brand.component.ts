@@ -1,7 +1,6 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import * as CryptoJs from 'crypto-js';
-import { BrandModel } from '../../../../../_models/brand.model';
-import { ApiConnectorService } from '../../../../../_service/_api/api-connector.service';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {BrandModel} from '../../../../../_models/brand.model';
+import {ApiConnectorService} from '../../../../../_service/_api/api-connector.service';
 
 @Component({
   selector: 'app-brand',

@@ -1,8 +1,7 @@
-import { Component, OnInit } from '@angular/core';
-import { ToastrService } from 'ngx-toastr';
-import { CategoryModel } from 'src/app/_models/category.model';
-import { AppComponent } from '../../../../app.component';
-import { CategoryDataService } from '../../../../_service/_data/categoryData.service';
+import {Component, OnInit} from '@angular/core';
+import {CategoryModel} from 'src/app/_models/category.model';
+import {AppComponent} from '../../../../app.component';
+import {CategoryDataService} from '../../../../_service/_data/categoryData.service';
 import {Title} from "@angular/platform-browser";
 
 @Component({

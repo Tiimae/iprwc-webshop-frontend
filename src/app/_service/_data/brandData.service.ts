@@ -1,11 +1,11 @@
-import {Injectable} from '@angular/core';
-import {Router} from '@angular/router';
-import {AxiosResponse} from 'axios';
-import {ToastrService} from 'ngx-toastr';
-import {BehaviorSubject, Observable, of, Subject} from 'rxjs';
-import {BrandModel} from 'src/app/_models/brand.model';
-import {v4 as uuid} from 'uuid';
-import {ApiMethodsService} from '../_api/api-methods.service';
+import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
+import { AxiosResponse } from 'axios';
+import { ToastrService } from 'ngx-toastr';
+import { BehaviorSubject, Observable, of, Subject } from 'rxjs';
+import { BrandModel } from 'src/app/_models/brand.model';
+import { v4 as uuid } from 'uuid';
+import { ApiMethodsService } from '../_api/api-methods.service';
 
 @Injectable({
   providedIn: 'root'
@@ -18,8 +18,7 @@ export class BrandDataService {
     private toastr: ToastrService,
     private api: ApiMethodsService,
     private router: Router
-  ) {
-  }
+  ) {}
 
   public get(brandId: string): Observable<BrandModel | undefined> {
     if (this.brands.length > 0) {
@@ -90,7 +89,7 @@ export class BrandDataService {
               (currentBrand: BrandModel) =>
                 currentBrand.id === r.data.payload.id
             )
-            ] = r.data.payload;
+          ] = r.data.payload;
           this.brands$.next(this.brands);
 
           this.toastr.success(

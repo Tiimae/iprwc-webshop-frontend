@@ -1,9 +1,8 @@
-import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
-import { IsAuthenticatedGuard } from './_guard/is-authenticated.guard';
-import { HasRoleGuard } from './_guard/has-role.guard';
-import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
-import { DashboardComponent } from './dashboard/dashboard.component';
+import {NgModule} from '@angular/core';
+import {RouterModule, Routes} from '@angular/router';
+import {IsAuthenticatedGuard} from './_guard/is-authenticated.guard';
+import {PageNotFoundComponent} from './page-not-found/page-not-found.component';
+import {DashboardComponent} from './dashboard/dashboard.component';
 
 const routes: Routes = [
   {

@@ -12,10 +12,11 @@ import {
   faUser
 } from '@fortawesome/free-solid-svg-icons';
 import { UserDataService } from 'src/app/_service/_data/userData.service';
-import { SearchbarComponent } from '../../navigation/searchbar/searchbar.component';
+import { AppComponent } from '../../app.component';
 import { LoggedUserModel } from '../../_models/loggedUser.model';
+import { AuthService } from '../../_service/auth.service';
 import { ApiConnectorService } from '../../_service/_api/api-connector.service';
-import {RoleModel} from "../../_models/role.model";
+import { ApiMethodsService } from '../../_service/_api/api-methods.service';
 
 @Component({
   selector: 'app-sidebar',
@@ -36,33 +37,28 @@ export class SidebarComponent implements OnInit {
 
   constructor(
     private router: Router,
-    private route: ActivatedRoute,
     private api: ApiConnectorService,
-    private userDataService: UserDataService
+    private methods: ApiMethodsService,
+    private auth: AuthService
   ) {}
 
   async ngOnInit(): Promise<void> {
-    this.hasRole = await (this.api
-      .getJwtPayload())
-      .then(async (r: LoggedUserModel): Promise<boolean> => {
-        return await this.userDataService.getUserWithRoleByRequest(r.userId).then((res): boolean => {
-          let hasRole: boolean = false;
-          res.data.payload.roles.forEach((role: RoleModel) => {
-            if (role.name === "Admin" || role.name === "Owner") {
-              hasRole = true;
-            }
-          })
-
-          return hasRole;
-        })
-      });
+    if (AppComponent.hasRole == null) {
+      this.api
+        .getJwtPayload()
+        .then(async (res: LoggedUserModel): Promise<void> => {
+          this.methods.get(`user/${res.userId}/has-role`, true).then((res) => {
+            AppComponent.hasRole = res.data.payload;
+            this.hasRole = res.data.payload;
+          });
+        });
+    } else {
+      this.hasRole = AppComponent.hasRole;
+    }
   }
 
-  public LogOut(): void {
-    localStorage.removeItem('jwt-token');
-    localStorage.removeItem('refresh-token');
-    SearchbarComponent.loggedIn.next(false);
-
-    this.router.navigate(['']);
+  public logOut(): void {
+    this.auth.logout();
+    this.router.navigate(['/']);
   }
 }

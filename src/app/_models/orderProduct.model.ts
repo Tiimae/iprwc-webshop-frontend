@@ -1,5 +1,5 @@
-import { OrderModel } from './order.model';
-import { ProductModel } from './product.model';
+import {OrderModel} from './order.model';
+import {ProductModel} from './product.model';
 
 export class OrderProductModel {
   private readonly _id: string;

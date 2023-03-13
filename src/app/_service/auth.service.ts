@@ -1,8 +1,10 @@
-import { Injectable } from '@angular/core';
-import { AxiosResponse } from 'axios';
+import {Injectable} from '@angular/core';
+import {AxiosResponse} from 'axios';
 import * as CryptoJs from 'crypto-js';
-import { environment } from '../../environments/environment';
-import { ApiConnectorService } from './_api/api-connector.service';
+import {environment} from '../../environments/environment';
+import {ApiConnectorService} from './_api/api-connector.service';
+import {SearchbarComponent} from "../navigation/searchbar/searchbar.component";
+import {AppComponent} from "../app.component";
 
 @Injectable({
   providedIn: 'root'
@@ -31,7 +33,11 @@ export class AuthService {
   }
 
   public logout(): void {
-    localStorage.clear();
+    localStorage.removeItem("jwt-token");
+    localStorage.removeItem("refresh-token");
+    SearchbarComponent.loggedIn.next(false);
+    AppComponent.verified = null;
+    AppComponent.hasRole = null;
   }
 
   public async register(

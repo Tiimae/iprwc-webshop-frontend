@@ -1,6 +1,6 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { DefaultInputFieldsComponent } from './default-input-fields.component';
+import {DefaultInputFieldsComponent} from './default-input-fields.component';
 
 describe('DefaultInputFieldsComponent', () => {
   let component: DefaultInputFieldsComponent;

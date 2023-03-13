@@ -1,9 +1,9 @@
-import { Injectable } from '@angular/core';
-import { AxiosResponse } from 'axios';
-import { ToastrService } from 'ngx-toastr';
-import { BehaviorSubject, Subject } from 'rxjs';
-import { ProductModel } from 'src/app/_models/product.model';
-import { ProductDataService } from './productData.service';
+import {Injectable} from '@angular/core';
+import {AxiosResponse} from 'axios';
+import {ToastrService} from 'ngx-toastr';
+import {BehaviorSubject, Subject} from 'rxjs';
+import {ProductModel} from 'src/app/_models/product.model';
+import {ProductDataService} from './productData.service';
 
 @Injectable({
   providedIn: 'root'
@@ -64,38 +64,44 @@ export class CartDataService {
       items = JSON.stringify([]);
     }
 
-    items = JSON.parse(items);
+    if (this.isJsonString(items)) {
+      items = JSON.parse(items);
 
-    if (items != null) {
-      // @ts-ignore
-      let item = items.find((item) => JSON.parse(item).id === product.id);
-      if (item != undefined) {
-        let oldAmount: number = <number>JSON.parse(item).amount;
-        oldAmount = amount;
-
-        const newItem = JSON.stringify({
-          id: product.id,
-          amount: oldAmount
-        });
+      if (items != null) {
         // @ts-ignore
-        items[items.findIndex((item) => JSON.parse(item).id === product.id)] =
-          newItem;
-        check = true;
-      } else {
-        const newItem = JSON.stringify({
-          id: product.id,
-          amount: amount
-        });
+        let item = items.find((item) => JSON.parse(item).id === product.id);
+        if (item != undefined) {
+          let oldAmount: number = <number>JSON.parse(item).amount;
+          oldAmount = amount;
 
-        // @ts-ignore
-        items.push(newItem);
+          const newItem = JSON.stringify({
+            id: product.id,
+            amount: oldAmount
+          });
+          // @ts-ignore
+          items[items.findIndex((item) => JSON.parse(item).id === product.id)] =
+            newItem;
+          check = true;
+        } else {
+          const newItem = JSON.stringify({
+            id: product.id,
+            amount: amount
+          });
 
-        this.products.push(product);
-        this.products$.next(this.products);
+          // @ts-ignore
+          items.push(newItem);
+
+          this.products.push(product);
+          this.products$.next(this.products);
+        }
       }
+
+      localStorage.setItem('cart', JSON.stringify(items));
+    } else {
+      this.toastr.error("Something went wrong.", "Error")
     }
 
-    localStorage.setItem('cart', JSON.stringify(items));
+
   }
 
   public getCartItem(productId: string) {
@@ -153,4 +159,13 @@ export class CartDataService {
     localStorage.setItem('cart', JSON.stringify([]));
     this.products$.next(this.products);
   }
+
+  private isJsonString(str: string): boolean {
+    try {
+        JSON.parse(str);
+    } catch (e) {
+        return false;
+    }
+    return true;
+}
 }

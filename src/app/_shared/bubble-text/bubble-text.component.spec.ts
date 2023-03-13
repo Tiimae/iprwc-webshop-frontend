@@ -1,6 +1,6 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { BubbleTextComponent } from './bubble-text.component';
+import {BubbleTextComponent} from './bubble-text.component';
 
 describe('BubbleTextComponent', () => {
   let component: BubbleTextComponent;

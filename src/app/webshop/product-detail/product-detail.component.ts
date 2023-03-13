@@ -1,19 +1,13 @@
-import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import {
-  faArrowLeft,
-  faArrowRight,
-  faCheck,
-  faStar
-} from '@fortawesome/free-solid-svg-icons';
-import * as CryptoJs from 'crypto-js';
-import { ToastrService } from 'ngx-toastr';
-import { CartDataService } from 'src/app/_service/_data/cartData.service';
-import { AppComponent } from '../../app.component';
-import { ProductModel } from '../../_models/product.model';
-import { ReviewModel } from '../../_models/review.model';
-import { ApiConnectorService } from '../../_service/_api/api-connector.service';
-import { ProductDataService } from '../../_service/_data/productData.service';
+import {Component, OnInit} from '@angular/core';
+import {ActivatedRoute} from '@angular/router';
+import {faArrowLeft, faArrowRight, faCheck, faStar} from '@fortawesome/free-solid-svg-icons';
+import {ToastrService} from 'ngx-toastr';
+import {CartDataService} from 'src/app/_service/_data/cartData.service';
+import {AppComponent} from '../../app.component';
+import {ProductModel} from '../../_models/product.model';
+import {ReviewModel} from '../../_models/review.model';
+import {ApiConnectorService} from '../../_service/_api/api-connector.service';
+import {ProductDataService} from '../../_service/_data/productData.service';
 import {Title} from "@angular/platform-browser";
 
 @Component({

@@ -1,14 +1,9 @@
-import { Injectable } from '@angular/core';
-import {
-  ActivatedRouteSnapshot,
-  Resolve,
-  RouterStateSnapshot
-} from '@angular/router';
-import * as CryptoJs from 'crypto-js';
-import { UserModel } from '../../_models/user.model';
-import { UserAddressesModel } from '../../_models/userAddresses.model';
-import { ApiConnectorService } from '../_api/api-connector.service';
-import { UserDataService } from '../_data/userData.service';
+import {Injectable} from '@angular/core';
+import {ActivatedRouteSnapshot, Resolve, RouterStateSnapshot} from '@angular/router';
+import {UserModel} from '../../_models/user.model';
+import {UserAddressesModel} from '../../_models/userAddresses.model';
+import {ApiConnectorService} from '../_api/api-connector.service';
+import {UserDataService} from '../_data/userData.service';
 
 @Injectable({
   providedIn: 'root'

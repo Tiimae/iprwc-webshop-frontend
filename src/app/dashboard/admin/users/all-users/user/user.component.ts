@@ -1,7 +1,6 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import * as CryptoJs from 'crypto-js';
-import { UserModel } from '../../../../../_models/user.model';
-import { ApiConnectorService } from '../../../../../_service/_api/api-connector.service';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {UserModel} from '../../../../../_models/user.model';
+import {ApiConnectorService} from '../../../../../_service/_api/api-connector.service';
 
 @Component({
   selector: 'app-user',

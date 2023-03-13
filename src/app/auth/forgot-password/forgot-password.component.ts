@@ -1,9 +1,9 @@
-import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { AxiosResponse } from 'axios';
-import { ToastrService } from 'ngx-toastr';
-import { AppComponent } from '../../app.component';
-import { AuthService } from '../../_service/auth.service';
+import {Component, OnInit} from '@angular/core';
+import {FormControl, FormGroup, Validators} from '@angular/forms';
+import {AxiosResponse} from 'axios';
+import {ToastrService} from 'ngx-toastr';
+import {AppComponent} from '../../app.component';
+import {AuthService} from '../../_service/auth.service';
 import {Title} from "@angular/platform-browser";
 
 @Component({

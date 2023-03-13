@@ -1,12 +1,12 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
 
+import { FormsModule } from '@angular/forms';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { AdminModule } from './admin/admin.module';
 import { DashboardRoutingModule } from './dashboard-routing.module';
 import { SidebarComponent } from './sidebar/sidebar.component';
-import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { FormsModule } from '@angular/forms';
 import { UserModule } from './user/user.module';
-import { AdminModule } from './admin/admin.module';
 
 @NgModule({
   declarations: [SidebarComponent],

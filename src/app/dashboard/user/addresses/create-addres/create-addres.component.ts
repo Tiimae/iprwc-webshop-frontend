@@ -1,14 +1,14 @@
-import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
-import { ToastrService } from 'ngx-toastr';
-import { AppComponent } from '../../../../app.component';
-import { AddressEnum } from '../../../../_enum/address.enum';
-import { UserModel } from '../../../../_models/user.model';
-import { UserAddressesModel } from '../../../../_models/userAddresses.model';
-import { ApiConnectorService } from '../../../../_service/_api/api-connector.service';
-import { UserAddressesDataService } from '../../../../_service/_data/userAddressesData.service';
-import { UserDataService } from '../../../../_service/_data/userData.service';
+import {Component, OnInit} from '@angular/core';
+import {FormControl, FormGroup, Validators} from '@angular/forms';
+import {ActivatedRoute, Router} from '@angular/router';
+import {ToastrService} from 'ngx-toastr';
+import {AppComponent} from '../../../../app.component';
+import {AddressEnum} from '../../../../_enum/address.enum';
+import {UserModel} from '../../../../_models/user.model';
+import {UserAddressesModel} from '../../../../_models/userAddresses.model';
+import {ApiConnectorService} from '../../../../_service/_api/api-connector.service';
+import {UserAddressesDataService} from '../../../../_service/_data/userAddressesData.service';
+import {UserDataService} from '../../../../_service/_data/userData.service';
 import {Title} from "@angular/platform-browser";
 
 @Component({

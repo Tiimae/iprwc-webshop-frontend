@@ -1,19 +1,14 @@
-import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-import { AuthService } from '../../_service/auth.service';
-import { ApiConnectorService } from '../../_service/_api/api-connector.service';
+import {Component, OnInit} from '@angular/core';
+import {Router} from '@angular/router';
+import {AuthService} from '../../_service/auth.service';
+import {ApiConnectorService} from '../../_service/_api/api-connector.service';
 
-import { FormControl, FormGroup, Validators } from '@angular/forms';
-import {
-  faEnvelope,
-  faKey,
-  IconDefinition
-} from '@fortawesome/free-solid-svg-icons';
-import { ToastrService } from 'ngx-toastr';
-import { AppComponent } from '../../app.component';
+import {FormControl, FormGroup, Validators} from '@angular/forms';
+import {faEnvelope, faKey, IconDefinition} from '@fortawesome/free-solid-svg-icons';
+import {ToastrService} from 'ngx-toastr';
+import {AppComponent} from '../../app.component';
 import {Title} from "@angular/platform-browser";
 import {SearchbarComponent} from "../../navigation/searchbar/searchbar.component";
-import {of} from "rxjs";
 
 @Component({
   selector: 'app-login',

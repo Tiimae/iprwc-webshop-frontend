@@ -1,12 +1,12 @@
-import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
-import { ToastrService } from 'ngx-toastr';
-import { AppComponent } from '../../../../app.component';
-import { RoleModel } from '../../../../_models/role.model';
-import { UserModel } from '../../../../_models/user.model';
-import { RoleDataService } from '../../../../_service/_data/roleData.service';
-import { UserDataService } from '../../../../_service/_data/userData.service';
+import {Component, OnInit} from '@angular/core';
+import {FormControl, FormGroup, Validators} from '@angular/forms';
+import {Router} from '@angular/router';
+import {ToastrService} from 'ngx-toastr';
+import {AppComponent} from '../../../../app.component';
+import {RoleModel} from '../../../../_models/role.model';
+import {UserModel} from '../../../../_models/user.model';
+import {RoleDataService} from '../../../../_service/_data/roleData.service';
+import {UserDataService} from '../../../../_service/_data/userData.service';
 import {Title} from "@angular/platform-browser";
 
 @Component({

@@ -1,9 +1,9 @@
-import { Injectable } from '@angular/core';
-import { AxiosResponse } from 'axios';
-import { ToastrService } from 'ngx-toastr';
-import { BehaviorSubject, Subject } from 'rxjs';
-import { UserAddressesModel } from 'src/app/_models/userAddresses.model';
-import { ApiMethodsService } from '../_api/api-methods.service';
+import {Injectable} from '@angular/core';
+import {AxiosResponse} from 'axios';
+import {ToastrService} from 'ngx-toastr';
+import {BehaviorSubject, Subject} from 'rxjs';
+import {UserAddressesModel} from 'src/app/_models/userAddresses.model';
+import {ApiMethodsService} from '../_api/api-methods.service';
 
 @Injectable({
   providedIn: 'root'

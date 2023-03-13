@@ -22,7 +22,6 @@ export class ApiConnectorService {
   }
 
   public async noAuth(): Promise<AxiosInstance> {
-    let token: string | null = null
 
     const instance: AxiosInstance = axios.create({
       baseURL: ApiConnectorService.apiUrl,
@@ -31,11 +30,7 @@ export class ApiConnectorService {
         'Strict-Transport-Security': 'max-age=31536000',
         'X-Frame-Options': 'SAMEORIGIN',
         'X-Content-Type-Options': 'nosniff',
-        'X-XSRF-TOKEN': ApiConnectorService.xsrfToken
       },
-      xsrfCookieName: "XSRF-TOKEN",
-      xsrfHeaderName: "X-XSRF-TOKEN",
-      withCredentials: true
     });
     instance.defaults.headers.common['Content-Type'] = 'application/json';
 
@@ -78,21 +73,13 @@ export class ApiConnectorService {
         Authorization: 'Bearer ' + this.jwtToken,
         'Strict-Transport-Security': 'max-age=31536000',
         'X-Frame-Options': 'SAMEORIGIN',
-        'X-Content-Type-Options': 'nosniff',
-        'X-XSRF-TOKEN': ApiConnectorService.xsrfToken
+        'X-Content-Type-Options': 'nosniff'
       },
-      xsrfCookieName: "XSRF-TOKEN",
-      xsrfHeaderName: "X-XSRF-TOKEN",
-      withCredentials: true,
       params: {}
     });
 
-    instance.defaults.headers['X-XSRF-TOKEN'] = localStorage.getItem('csrf');
-
     instance.interceptors.request.use(
       (request) => {
-        instance.defaults.xsrfHeaderName = "X-XSRF-TOKEN"
-
         if (localStorage.getItem('jwt-token') == null) {
           return Promise.reject();
         }
@@ -118,18 +105,17 @@ export class ApiConnectorService {
         if (error.response.status === 401 || error.response.status === 403) {
           localStorage.removeItem('jwt-token');
           localStorage.removeItem('refresh-token');
+
           this.toastr.warning('Your login has been expired!', 'OOPS!');
           SearchbarComponent.loggedIn.next(false);
           this.router.navigate(['auth', 'login']);
+          location.reload();
 
           return Promise.reject('Login has been expired!');
         } else if (error.response.status === 400) {
           this.toastr.error(error.response.data.message, "400")
           return Promise.reject("Something went wrong!")
-        }
-
-
-        if (error.response.status === 404) {
+        } else if (error.response.status === 404) {
           this.router.navigate(["404"]);
 
           return Promise.reject("Not Found")
@@ -149,12 +135,13 @@ export class ApiConnectorService {
 
   public async verified() {
     const auth = new AuthService(this);
-    const profile = await auth.getProfile();
 
-    if (profile.data.payload.verified) {
-      return true;
+    if (AppComponent.verified == null) {
+      const profile = await auth.getProfile();
+      AppComponent.verified = profile.data.payload.verified
     }
-    return false;
+
+    return AppComponent.verified;
   }
 
   private getTokenFromStore(): null | string {
@@ -175,42 +162,4 @@ export class ApiConnectorService {
       return JSON.parse(atob(tokenFromStorage.split('.')[1]));
     }
   }
-
-  // public async getDecryptKey(): Promise<string> {
-  //   if (AppComponent.decryptKey === null) {
-  //     try {
-  //       const result = await (await this.noAuth()).get('/auth/secret', {
-  //         withCredentials: true
-  //       });
-  //
-  //       AppComponent.decryptKey = result.data['message'];
-  //       return AppComponent.decryptKey ?? 'cant happen';
-  //     } catch (error) {
-  //       return '';
-  //     }
-  //   }
-  //
-  //   return AppComponent.decryptKey;
-  // }
-  //
-  // public async decryptJwtFromStorage(): Promise<string> {
-  //   let tokenFromStorage = this.getTokenFromStore();
-  //
-  //   if (tokenFromStorage === null) {
-  //     return '';
-  //   }
-  //
-  //   return CryptoJs.Rabbit.decrypt(
-  //     tokenFromStorage,
-  //     await this.getDecryptKey()
-  //   ).toString(CryptoJs.enc.Utf8);
-  // }
-  //
-  // private async getCSRFToken(): Promise<string> {
-  //   return axios.get(ApiConnectorService.apiUrl + "csrf").then(res => {
-  //     // localStorage.setItem("csrf", res.data.token)
-  //     ApiConnectorService.xsrfToken = res.data.token
-  //     return res.data.token
-  //   })
-  // }
 }

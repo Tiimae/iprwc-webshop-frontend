@@ -1,11 +1,10 @@
-import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
-import * as CryptoJs from 'crypto-js';
-import { ToastrService } from 'ngx-toastr';
-import { SupplierModel } from '../../../../_models/supplier.model';
-import { ApiConnectorService } from '../../../../_service/_api/api-connector.service';
-import { SupplierDataService } from '../../../../_service/_data/supplierData.service';
+import {Component, OnInit} from '@angular/core';
+import {FormControl, FormGroup, Validators} from '@angular/forms';
+import {ActivatedRoute, Router} from '@angular/router';
+import {ToastrService} from 'ngx-toastr';
+import {SupplierModel} from '../../../../_models/supplier.model';
+import {ApiConnectorService} from '../../../../_service/_api/api-connector.service';
+import {SupplierDataService} from '../../../../_service/_data/supplierData.service';
 import {Title} from "@angular/platform-browser";
 
 @Component({

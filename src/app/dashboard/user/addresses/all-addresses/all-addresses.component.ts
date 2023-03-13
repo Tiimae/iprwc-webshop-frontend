@@ -1,11 +1,10 @@
-import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-import * as CryptoJs from 'crypto-js';
-import { UserAddressesDataService } from 'src/app/_service/_data/userAddressesData.service';
-import { AppComponent } from '../../../../app.component';
-import { UserModel } from '../../../../_models/user.model';
-import { UserAddressesModel } from '../../../../_models/userAddresses.model';
-import { ApiConnectorService } from '../../../../_service/_api/api-connector.service';
+import {Component, OnInit} from '@angular/core';
+import {Router} from '@angular/router';
+import {UserAddressesDataService} from 'src/app/_service/_data/userAddressesData.service';
+import {AppComponent} from '../../../../app.component';
+import {UserModel} from '../../../../_models/user.model';
+import {UserAddressesModel} from '../../../../_models/userAddresses.model';
+import {ApiConnectorService} from '../../../../_service/_api/api-connector.service';
 import {Title} from "@angular/platform-browser";
 
 @Component({

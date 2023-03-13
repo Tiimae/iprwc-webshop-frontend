@@ -1,14 +1,8 @@
-import { Injectable } from '@angular/core';
-import {
-  ActivatedRouteSnapshot,
-  Resolve,
-  RouterStateSnapshot
-} from '@angular/router';
-
-import * as CryptoJs from 'crypto-js';
-import { BrandModel } from 'src/app/_models/brand.model';
-import { ApiConnectorService } from '../_api/api-connector.service';
-import { BrandDataService } from '../_data/brandData.service';
+import {Injectable} from '@angular/core';
+import {ActivatedRouteSnapshot, Resolve, RouterStateSnapshot} from '@angular/router';
+import {BrandModel} from 'src/app/_models/brand.model';
+import {ApiConnectorService} from '../_api/api-connector.service';
+import {BrandDataService} from '../_data/brandData.service';
 
 @Injectable({
   providedIn: 'root'

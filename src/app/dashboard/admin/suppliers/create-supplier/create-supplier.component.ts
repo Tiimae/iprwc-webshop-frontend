@@ -1,9 +1,8 @@
-import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
-import { ToastrService } from 'ngx-toastr';
-import { SupplierModel } from 'src/app/_models/supplier.model';
-import { SupplierDataService } from '../../../../_service/_data/supplierData.service';
+import {Component, OnInit} from '@angular/core';
+import {FormControl, FormGroup, Validators} from '@angular/forms';
+import {ToastrService} from 'ngx-toastr';
+import {SupplierModel} from 'src/app/_models/supplier.model';
+import {SupplierDataService} from '../../../../_service/_data/supplierData.service';
 import {Title} from "@angular/platform-browser";
 
 @Component({

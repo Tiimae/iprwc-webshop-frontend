@@ -1,14 +1,13 @@
-import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
-import * as CryptoJs from 'crypto-js';
-import { ToastrService } from 'ngx-toastr';
-import { AppComponent } from '../../../../app.component';
-import { RoleModel } from '../../../../_models/role.model';
-import { UserModel } from '../../../../_models/user.model';
-import { ApiConnectorService } from '../../../../_service/_api/api-connector.service';
-import { RoleDataService } from '../../../../_service/_data/roleData.service';
-import { UserDataService } from '../../../../_service/_data/userData.service';
+import {Component, OnInit} from '@angular/core';
+import {FormControl, FormGroup, Validators} from '@angular/forms';
+import {ActivatedRoute, Router} from '@angular/router';
+import {ToastrService} from 'ngx-toastr';
+import {AppComponent} from '../../../../app.component';
+import {RoleModel} from '../../../../_models/role.model';
+import {UserModel} from '../../../../_models/user.model';
+import {ApiConnectorService} from '../../../../_service/_api/api-connector.service';
+import {RoleDataService} from '../../../../_service/_data/roleData.service';
+import {UserDataService} from '../../../../_service/_data/userData.service';
 import {Title} from "@angular/platform-browser";
 
 @Component({

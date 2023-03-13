@@ -8,6 +8,7 @@ img {
 
   .card-wrapper {
     margin: 0 auto;
+    margin-top: 20px;
 
     .card {
       .product-imgs {
@@ -72,7 +73,7 @@ img {
           font-size: 0.9rem;
           display: inline-block;
           margin-bottom: 0.5rem;
-          background: #256eff;
+          background: #e10600;
           color: #fff;
           padding: 0 0.3rem;
           transition: all 0.5s ease;
@@ -102,7 +103,7 @@ img {
 
           .new-price {
             span {
-              color: #256eff;
+              color: #e10600;
             }
           }
         }
@@ -226,13 +227,13 @@ img {
     .card {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
-      grid-gap: 1.5rem;
+      grid-gap: 5rem;
 
       .product-imgs {
         display: flex;
         flex-direction: column;
         justify-content: center;
-        width: 45vw;
+        width: 40vw;
       }
 
       .product-content {

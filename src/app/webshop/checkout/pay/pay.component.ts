@@ -1,15 +1,15 @@
-import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-import { AxiosResponse } from 'axios';
-import { OrderModel } from 'src/app/_models/order.model';
-import { UserModel } from 'src/app/_models/user.model';
-import { CartDataService } from 'src/app/_service/_data/cartData.service';
-import { OrderDataService } from 'src/app/_service/_data/orderData.service';
-import { UserAddressesDataService } from 'src/app/_service/_data/userAddressesData.service';
-import { UserDataService } from 'src/app/_service/_data/userData.service';
-import { AddressEnum } from '../../../_enum/address.enum';
-import { UserAddressesModel } from '../../../_models/userAddresses.model';
-import { ApiConnectorService } from '../../../_service/_api/api-connector.service';
+import {Component, OnInit} from '@angular/core';
+import {Router} from '@angular/router';
+import {AxiosResponse} from 'axios';
+import {OrderModel} from 'src/app/_models/order.model';
+import {UserModel} from 'src/app/_models/user.model';
+import {CartDataService} from 'src/app/_service/_data/cartData.service';
+import {OrderDataService} from 'src/app/_service/_data/orderData.service';
+import {UserAddressesDataService} from 'src/app/_service/_data/userAddressesData.service';
+import {UserDataService} from 'src/app/_service/_data/userData.service';
+import {AddressEnum} from '../../../_enum/address.enum';
+import {UserAddressesModel} from '../../../_models/userAddresses.model';
+import {ApiConnectorService} from '../../../_service/_api/api-connector.service';
 import {Title} from "@angular/platform-browser";
 
 @Component({

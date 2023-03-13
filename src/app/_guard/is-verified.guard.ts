@@ -1,13 +1,7 @@
-import { Injectable } from '@angular/core';
-import {
-  ActivatedRouteSnapshot,
-  CanActivate,
-  Router,
-  RouterStateSnapshot,
-  UrlTree
-} from '@angular/router';
-import { Observable } from 'rxjs';
-import { ApiConnectorService } from '../_service/_api/api-connector.service';
+import {Injectable} from '@angular/core';
+import {ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot, UrlTree} from '@angular/router';
+import {Observable} from 'rxjs';
+import {ApiConnectorService} from '../_service/_api/api-connector.service';
 
 @Injectable({
   providedIn: 'root'
@@ -28,7 +22,7 @@ export class IsVerifiedGuard implements CanActivate {
     | UrlTree {
     return this.apiConnectorService
       .verified()
-      .then(async (isVerified: boolean) => {
+      .then((isVerified) => {
         if (!isVerified) {
           return this.router.navigate(['auth', 'verify-request']);
         }

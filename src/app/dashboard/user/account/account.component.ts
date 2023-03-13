@@ -1,11 +1,11 @@
-import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
-import { ToastrService } from 'ngx-toastr';
-import { AppComponent } from '../../../app.component';
-import { UserModel } from '../../../_models/user.model';
-import { ApiConnectorService } from '../../../_service/_api/api-connector.service';
-import { UserDataService } from '../../../_service/_data/userData.service';
+import {Component, OnInit} from '@angular/core';
+import {FormControl, FormGroup, Validators} from '@angular/forms';
+import {Router} from '@angular/router';
+import {ToastrService} from 'ngx-toastr';
+import {AppComponent} from '../../../app.component';
+import {UserModel} from '../../../_models/user.model';
+import {ApiConnectorService} from '../../../_service/_api/api-connector.service';
+import {UserDataService} from '../../../_service/_data/userData.service';
 import {Title} from "@angular/platform-browser";
 
 @Component({

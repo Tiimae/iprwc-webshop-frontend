@@ -81,7 +81,7 @@ export class ProductDataService {
       if (res.data.code === 202) {
         this.products.push(res.data.payload);
         this.products$.next(this.products);
-        this.toastr.success('Brand Has been created successfully!', 'Created');
+        this.toastr.success('Product Has been created successfully!', 'Created');
         this.router.navigate(['dashboard', 'admin', 'products']);
       } else if (res.data.code === 400) {
         this.toastr.error(res.data.message, res.data.code);

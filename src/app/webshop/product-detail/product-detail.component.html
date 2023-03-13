@@ -4,15 +4,9 @@
       <!-- card left -->
       <section class="product-imgs">
         <section class="img-display flex">
-          <button (click)="slideImage(imgId - 1)" class="relative z-10">
-            <fa-icon [icon]="faArrowLeft"></fa-icon>
-          </button>
           <section class="img-showcase">
             <img *ngFor="let img of product.productImages" src="{{ img.imagePath }}" alt="{{ product.productName }}">
           </section>
-          <button (click)="slideImage(imgId + 1)" class="relative z-10">
-            <fa-icon [icon]="faArrowRight"></fa-icon>
-          </button>
         </section>
 
         <section class="img-select">

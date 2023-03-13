@@ -1,6 +1,6 @@
-import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
-import { AllOrdersComponent } from './all-orders/all-orders.component';
+import {NgModule} from '@angular/core';
+import {RouterModule, Routes} from '@angular/router';
+import {AllOrdersComponent} from './all-orders/all-orders.component';
 
 const routes: Routes = [
   {

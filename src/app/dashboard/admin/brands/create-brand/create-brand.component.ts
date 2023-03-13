@@ -1,8 +1,8 @@
-import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { ToastrService } from 'ngx-toastr';
-import { BrandModel } from 'src/app/_models/brand.model';
-import { BrandDataService } from 'src/app/_service/_data/brandData.service';
+import {Component, OnInit} from '@angular/core';
+import {FormControl, FormGroup, Validators} from '@angular/forms';
+import {ToastrService} from 'ngx-toastr';
+import {BrandModel} from 'src/app/_models/brand.model';
+import {BrandDataService} from 'src/app/_service/_data/brandData.service';
 import {Title} from "@angular/platform-browser";
 
 @Component({

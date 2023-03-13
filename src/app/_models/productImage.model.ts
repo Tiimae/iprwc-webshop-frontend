@@ -1,4 +1,4 @@
-import { ProductModel } from './product.model';
+import {ProductModel} from './product.model';
 
 export class ProductImageModel {
   private readonly _id: string;

@@ -1,12 +1,11 @@
-import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
-import { LoginComponent } from './login/login.component';
-import { RegistrationComponent } from './registration/registration.component';
-import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
-import { ResetPasswordComponent } from './reset-password/reset-password.component';
-import { VerifyComponent } from './verify/verify.component';
-import { RequestVerifyComponent } from './request-verify/request-verify.component';
-import { IsNotVerifiedGuard } from '../_guard/is-not-verified.guard';
+import {NgModule} from '@angular/core';
+import {RouterModule, Routes} from '@angular/router';
+import {LoginComponent} from './login/login.component';
+import {RegistrationComponent} from './registration/registration.component';
+import {ForgotPasswordComponent} from './forgot-password/forgot-password.component';
+import {ResetPasswordComponent} from './reset-password/reset-password.component';
+import {RequestVerifyComponent} from './request-verify/request-verify.component';
+import {IsNotVerifiedGuard} from '../_guard/is-not-verified.guard';
 
 const routes: Routes = [
   {
@@ -40,13 +39,11 @@ const routes: Routes = [
   {
     path: 'verify-request',
     component: RequestVerifyComponent,
-    canActivate: [IsNotVerifiedGuard]
+    canActivate: [IsNotVerifiedGuard],
+    data: {
+      breadcrumb: 'Verify'
+    },
   },
-  {
-    path: 'verify',
-    component: VerifyComponent,
-    canActivate: [IsNotVerifiedGuard]
-  }
 ];
 
 @NgModule({

@@ -1,6 +1,6 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { UpdateAddressComponent } from './update-address.component';
+import {UpdateAddressComponent} from './update-address.component';
 
 describe('UpdateAddressComponent', () => {
   let component: UpdateAddressComponent;

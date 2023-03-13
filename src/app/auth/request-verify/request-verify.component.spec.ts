@@ -1,6 +1,6 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { RequestVerifyComponent } from './request-verify.component';
+import {RequestVerifyComponent} from './request-verify.component';
 
 describe('RequestVerifyComponent', () => {
   let component: RequestVerifyComponent;

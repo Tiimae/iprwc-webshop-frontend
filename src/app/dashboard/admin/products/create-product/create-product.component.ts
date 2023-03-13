@@ -1,14 +1,14 @@
-import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { ToastrService } from 'ngx-toastr';
-import { CategoryModel } from 'src/app/_models/category.model';
-import { ProductDataService } from 'src/app/_service/_data/productData.service';
-import { BrandModel } from '../../../../_models/brand.model';
-import { ProductModel } from '../../../../_models/product.model';
-import { SupplierModel } from '../../../../_models/supplier.model';
-import { BrandDataService } from '../../../../_service/_data/brandData.service';
-import { CategoryDataService } from '../../../../_service/_data/categoryData.service';
-import { SupplierDataService } from '../../../../_service/_data/supplierData.service';
+import {Component, OnInit} from '@angular/core';
+import {FormControl, FormGroup, Validators} from '@angular/forms';
+import {ToastrService} from 'ngx-toastr';
+import {CategoryModel} from 'src/app/_models/category.model';
+import {ProductDataService} from 'src/app/_service/_data/productData.service';
+import {BrandModel} from '../../../../_models/brand.model';
+import {ProductModel} from '../../../../_models/product.model';
+import {SupplierModel} from '../../../../_models/supplier.model';
+import {BrandDataService} from '../../../../_service/_data/brandData.service';
+import {CategoryDataService} from '../../../../_service/_data/categoryData.service';
+import {SupplierDataService} from '../../../../_service/_data/supplierData.service';
 import {Title} from "@angular/platform-browser";
 
 @Component({

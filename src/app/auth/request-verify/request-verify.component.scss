@@ -17,3 +17,32 @@
     }
   }
 }
+
+  .large {
+    height: 2.5rem;
+  }
+
+  .primary {
+    background-color: #e10600;
+    color: #fff;
+    text-transform: capitalize;
+    border-radius: 3px;
+    padding: 0 .9375rem;
+    margin-bottom: 1.25rem;
+    line-height: 1;
+    width: 100%;
+    transition-duration: .2s;
+    user-select: none;
+    box-shadow: 0 -2px 0 rgba(0, 0, 0, .3) inset;
+    font-weight: 400;
+    font-size: .9375rem;
+    border: 0;
+    margin-top: 10px;
+  }
+
+  .disabled {
+    cursor: auto;
+    color: #b4b4b4 !important;
+    background-color: #e7e7e7 !important;
+    border: 0;
+  }

@@ -21,7 +21,6 @@ const routes: Routes = [
       import('./admin/admin-routing.module').then((m) => m.AdminRoutingModule),
     canActivate: [IsAuthenticatedGuard, HasRoleGuard, IsVerifiedGuard],
     data: {
-      roles: ['Owner', 'Admin'],
       breadcrumb: 'Admin'
     }
   }

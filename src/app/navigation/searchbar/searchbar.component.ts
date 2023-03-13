@@ -1,18 +1,14 @@
-import {Component, OnChanges, OnInit, SimpleChanges} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {FormControl, FormGroup} from '@angular/forms';
 import {Router} from '@angular/router';
-import {
-  faSearch,
-  faShoppingCart,
-  faUser
-} from '@fortawesome/free-solid-svg-icons';
+import {faSearch, faShoppingCart, faUser} from '@fortawesome/free-solid-svg-icons';
 import {ProductModel} from 'src/app/_models/product.model';
 import {UserModel} from 'src/app/_models/user.model';
 import {CartDataService} from 'src/app/_service/_data/cartData.service';
 import {environment} from '../../../environments/environment';
 import {ApiConnectorService} from '../../_service/_api/api-connector.service';
 import {UserDataService} from '../../_service/_data/userData.service';
-import {BehaviorSubject, Observable, of, Subject} from 'rxjs';
+import {BehaviorSubject, Subject} from 'rxjs';
 
 @Component({
   selector: 'app-searchbar',

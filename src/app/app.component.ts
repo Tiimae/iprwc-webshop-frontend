@@ -1,5 +1,4 @@
-import { Component } from '@angular/core';
-import {Title} from "@angular/platform-browser";
+import {Component} from '@angular/core';
 
 @Component({
   selector: 'app-root',
@@ -8,9 +7,8 @@ import {Title} from "@angular/platform-browser";
 })
 export class AppComponent {
   public static isLoading: boolean = false;
-
-  public static decryptKey: string | null = null;
-  public static pageDecryptKey: string = "eea7c8e7-c6fc-4670-bd47-a416d7531ef3";
+  public static hasRole: boolean | null = null;
+  public static verified: boolean | null = null;
 
   getIsLoading() {
     return AppComponent.isLoading;

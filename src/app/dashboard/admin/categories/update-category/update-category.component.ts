@@ -1,12 +1,11 @@
-import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
-import { AxiosResponse } from 'axios';
-import * as CryptoJs from 'crypto-js';
-import { ToastrService } from 'ngx-toastr';
-import { CategoryModel } from '../../../../_models/category.model';
-import { ApiConnectorService } from '../../../../_service/_api/api-connector.service';
-import { CategoryDataService } from '../../../../_service/_data/categoryData.service';
+import {Component, OnInit} from '@angular/core';
+import {FormControl, FormGroup, Validators} from '@angular/forms';
+import {ActivatedRoute, Router} from '@angular/router';
+import {AxiosResponse} from 'axios';
+import {ToastrService} from 'ngx-toastr';
+import {CategoryModel} from '../../../../_models/category.model';
+import {ApiConnectorService} from '../../../../_service/_api/api-connector.service';
+import {CategoryDataService} from '../../../../_service/_data/categoryData.service';
 import {Title} from "@angular/platform-browser";
 
 @Component({

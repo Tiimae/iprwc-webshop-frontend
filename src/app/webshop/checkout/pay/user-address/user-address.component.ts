@@ -1,6 +1,6 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { UserAddressesModel } from '../../../../_models/userAddresses.model';
-import { Router } from '@angular/router';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {UserAddressesModel} from '../../../../_models/userAddresses.model';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-user-address',

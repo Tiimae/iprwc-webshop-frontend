@@ -1,10 +1,10 @@
-import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
-import { HomeComponent } from './home/home.component';
-import { ProductDetailComponent } from './product-detail/product-detail.component';
-import { CartComponent } from './cart/cart.component';
-import { IsAuthenticatedGuard } from '../_guard/is-authenticated.guard';
-import { ProductResolverService } from '../_service/_resolver/product-resolver.service';
+import {NgModule} from '@angular/core';
+import {RouterModule, Routes} from '@angular/router';
+import {HomeComponent} from './home/home.component';
+import {ProductDetailComponent} from './product-detail/product-detail.component';
+import {CartComponent} from './cart/cart.component';
+import {IsAuthenticatedGuard} from '../_guard/is-authenticated.guard';
+import {ProductResolverService} from '../_service/_resolver/product-resolver.service';
 
 const routes: Routes = [
   {

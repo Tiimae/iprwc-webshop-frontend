@@ -1,12 +1,12 @@
-import { Component, HostListener, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { AppComponent } from '../../app.component';
-import { CategoryModel } from '../../_models/category.model';
-import { ProductModel } from '../../_models/product.model';
-import { AuthService } from '../../_service/auth.service';
-import { ApiConnectorService } from '../../_service/_api/api-connector.service';
-import { CategoryDataService } from '../../_service/_data/categoryData.service';
-import { ProductDataService } from '../../_service/_data/productData.service';
+import {Component, HostListener, OnInit} from '@angular/core';
+import {ActivatedRoute} from '@angular/router';
+import {AppComponent} from '../../app.component';
+import {CategoryModel} from '../../_models/category.model';
+import {ProductModel} from '../../_models/product.model';
+import {AuthService} from '../../_service/auth.service';
+import {ApiConnectorService} from '../../_service/_api/api-connector.service';
+import {CategoryDataService} from '../../_service/_data/categoryData.service';
+import {ProductDataService} from '../../_service/_data/productData.service';
 import {Title} from "@angular/platform-browser";
 
 @Component({

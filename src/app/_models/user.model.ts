@@ -1,6 +1,6 @@
-import { RoleModel } from './role.model';
-import { UserAddressesModel } from './userAddresses.model';
-import { OrderModel } from './order.model';
+import {RoleModel} from './role.model';
+import {UserAddressesModel} from './userAddresses.model';
+import {OrderModel} from './order.model';
 
 export class UserModel {
   private readonly _id: string;

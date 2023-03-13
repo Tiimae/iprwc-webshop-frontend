@@ -1,12 +1,7 @@
-import { Injectable } from '@angular/core';
-import {
-  ActivatedRouteSnapshot,
-  Data,
-  NavigationEnd,
-  Router
-} from '@angular/router';
-import { BehaviorSubject, filter } from 'rxjs';
-import { Breadcrumb } from '../_models/breadcrumb.model';
+import {Injectable} from '@angular/core';
+import {ActivatedRouteSnapshot, Data, NavigationEnd, Router} from '@angular/router';
+import {BehaviorSubject, filter} from 'rxjs';
+import {Breadcrumb} from '../_models/breadcrumb.model';
 
 @Injectable({
   providedIn: 'root'

@@ -1,10 +1,9 @@
-import { CategoryModel } from './category.model';
-import { BrandModel } from './brand.model';
-import { SupplierModel } from './supplier.model';
-import { ProductImageModel } from './productImage.model';
-import { OrderModel } from './order.model';
-import { OrderProductModel } from './orderProduct.model';
-import { ReviewModel } from './review.model';
+import {CategoryModel} from './category.model';
+import {BrandModel} from './brand.model';
+import {SupplierModel} from './supplier.model';
+import {ProductImageModel} from './productImage.model';
+import {OrderProductModel} from './orderProduct.model';
+import {ReviewModel} from './review.model';
 
 export class ProductModel {
   private readonly _id: string;

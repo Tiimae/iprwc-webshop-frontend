@@ -1,8 +1,8 @@
-import { Injectable } from '@angular/core';
-import { AxiosResponse } from 'axios';
-import { Observable, of } from 'rxjs';
-import { RoleModel } from '../../_models/role.model';
-import { ApiMethodsService } from '../_api/api-methods.service';
+import {Injectable} from '@angular/core';
+import {AxiosResponse} from 'axios';
+import {Observable, of} from 'rxjs';
+import {RoleModel} from '../../_models/role.model';
+import {ApiMethodsService} from '../_api/api-methods.service';
 
 @Injectable({
   providedIn: 'root'

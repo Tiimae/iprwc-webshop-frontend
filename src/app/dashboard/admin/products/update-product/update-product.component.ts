@@ -1,18 +1,17 @@
-import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
-import * as CryptoJs from 'crypto-js';
-import { ToastrService } from 'ngx-toastr';
-import { ProductModel } from 'src/app/_models/product.model';
-import { BrandModel } from '../../../../_models/brand.model';
-import { CategoryModel } from '../../../../_models/category.model';
-import { ProductImageModel } from '../../../../_models/productImage.model';
-import { SupplierModel } from '../../../../_models/supplier.model';
-import { ApiConnectorService } from '../../../../_service/_api/api-connector.service';
-import { BrandDataService } from '../../../../_service/_data/brandData.service';
-import { CategoryDataService } from '../../../../_service/_data/categoryData.service';
-import { ProductDataService } from '../../../../_service/_data/productData.service';
-import { SupplierDataService } from '../../../../_service/_data/supplierData.service';
+import {Component, OnInit} from '@angular/core';
+import {FormControl, FormGroup, Validators} from '@angular/forms';
+import {ActivatedRoute, Router} from '@angular/router';
+import {ToastrService} from 'ngx-toastr';
+import {ProductModel} from 'src/app/_models/product.model';
+import {BrandModel} from '../../../../_models/brand.model';
+import {CategoryModel} from '../../../../_models/category.model';
+import {ProductImageModel} from '../../../../_models/productImage.model';
+import {SupplierModel} from '../../../../_models/supplier.model';
+import {ApiConnectorService} from '../../../../_service/_api/api-connector.service';
+import {BrandDataService} from '../../../../_service/_data/brandData.service';
+import {CategoryDataService} from '../../../../_service/_data/categoryData.service';
+import {ProductDataService} from '../../../../_service/_data/productData.service';
+import {SupplierDataService} from '../../../../_service/_data/supplierData.service';
 import {Title} from "@angular/platform-browser";
 
 @Component({
