@@ -30,7 +30,11 @@ export class ApiConnectorService {
         'Strict-Transport-Security': 'max-age=31536000',
         'X-Frame-Options': 'SAMEORIGIN',
         'X-Content-Type-Options': 'nosniff',
+        'X-XSRF-TOKEN': ApiConnectorService.xsrfToken,
       },
+      xsrfCookieName: 'XSRF-TOKEN',
+      xsrfHeaderName: 'X-XSRF-TOKEN',
+      withCredentials: true
     });
     instance.defaults.headers.common['Content-Type'] = 'application/json';
 
@@ -73,8 +77,15 @@ export class ApiConnectorService {
         Authorization: 'Bearer ' + this.jwtToken,
         'Strict-Transport-Security': 'max-age=31536000',
         'X-Frame-Options': 'SAMEORIGIN',
-        'X-Content-Type-Options': 'nosniff'
+        'X-Content-Type-Options': 'nosniff',
+        'X-XSRF-TOKEN': ApiConnectorService.xsrfToken,
+        // 'Content-Security-Policy': 'default-src https://*.timdekok.nl; script-src https://timdekok.nl;',
+        // "Referrer-Policy": "origin",
+        // "Permissions-Policy": "geolocation=(self 'https://api.timdekok.nl'), microphone=()"
       },
+      xsrfCookieName: 'XSRF-TOKEN',
+      xsrfHeaderName: 'X-XSRF-TOKEN',
+      withCredentials: true,
       params: {}
     });
 

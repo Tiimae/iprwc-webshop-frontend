@@ -64,11 +64,13 @@ export class LoginComponent implements OnInit {
 
     if (email == null || password == null) {
       this.toastr.error('Something went wrong!', 'Failed');
+      this.loginForm.reset();
       return;
     }
 
     if (!this.loginForm.value) {
       this.toastr.error('Something went wrong!', 'Failed');
+      this.loginForm.reset();
       return;
     }
 

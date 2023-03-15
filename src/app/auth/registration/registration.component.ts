@@ -1,13 +1,13 @@
 import {Component, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
 
-import {FormControl, FormGroup, Validators} from '@angular/forms';
-import {AxiosResponse} from 'axios';
+import {AbstractControl, FormControl, FormGroup, Validators} from '@angular/forms';
 import {ToastrService} from 'ngx-toastr';
 import {AppComponent} from '../../app.component';
 import {AuthService} from '../../_service/auth.service';
 import {ApiConnectorService} from '../../_service/_api/api-connector.service';
 import {Title} from "@angular/platform-browser";
+import {AxiosResponse} from "axios";
 
 @Component({
   selector: 'app-registration',
@@ -15,6 +15,27 @@ import {Title} from "@angular/platform-browser";
   styleUrls: ['./registration.component.scss']
 })
 export class RegistrationComponent implements OnInit {
+
+  private passRequirement = {
+    passwordMinLowerCase: 1,
+    passwordMinNumber: 1,
+    passwordMinSymbol: 1,
+    passwordMinUpperCase: 1,
+    passwordMinCharacters: 8
+  };
+
+  private pattern: RegExp = new RegExp([
+    `(?=([^a-z]*[a-z])\{${this.passRequirement.passwordMinLowerCase},\})`,
+    `(?=([^A-Z]*[A-Z])\{${this.passRequirement.passwordMinUpperCase},\})`,
+    `(?=([^0-9]*[0-9])\{${this.passRequirement.passwordMinNumber},\})`,
+    `(?=(\.\*[\$\@\$\!\%\*\?\&\#])\{${this.passRequirement.passwordMinSymbol},\})`,
+    `[A-Za-z\\d\$\@\$\!\%\*\?\&\#\.]{${
+      this.passRequirement.passwordMinCharacters
+    },}`
+  ]
+    .map(item => item.toString())
+    .join(""));
+
   public firstRegistrationForm: FormGroup = new FormGroup({
     firstname: new FormControl('', [Validators.required]),
     middlename: new FormControl(''),
@@ -36,7 +57,8 @@ export class RegistrationComponent implements OnInit {
     private toastr: ToastrService,
     private api: ApiConnectorService,
     private title: Title
-  ) {}
+  ) {
+  }
 
   ngOnInit() {
     AppComponent.isLoading = true;
@@ -47,10 +69,13 @@ export class RegistrationComponent implements OnInit {
         if (tokenPayload !== undefined) {
           this.router.navigate(['/']);
         }
-      } catch (err) {}
+      } catch (err) {
+      }
     }
 
     this.title.setTitle("F1 Webshop | Register")
+
+    console.log(this.pattern.source)
 
     AppComponent.isLoading = false;
   }
@@ -72,18 +97,28 @@ export class RegistrationComponent implements OnInit {
     if (firstname == null || lastname == null || email == null || password == null || passwordCheck == null) {
       this.toastr.error('Something went wrong!', 'Failed');
       AppComponent.isLoading = false;
+      this.firstRegistrationForm.reset();
       return;
     }
 
     if (password !== passwordCheck) {
       this.toastr.error("Passwords doesn't match", 'Failed');
       AppComponent.isLoading = false;
+      this.firstRegistrationForm.reset();
+      return;
+    }
+
+    if (!this.pattern.test(password)) {
+      this.toastr.error(`Password needs at least ${this.passRequirement.passwordMinCharacters} characters, ${this.passRequirement.passwordMinNumber} numbers, ${this.passRequirement.passwordMinLowerCase} lowercase letter, ${this.passRequirement.passwordMinUpperCase} uppercase characters and ${this.passRequirement.passwordMinSymbol} special characters!`)
+      AppComponent.isLoading = false;
+      this.firstRegistrationForm.reset();
       return;
     }
 
     if (!this.firstRegistrationForm.valid) {
       this.toastr.error('Something went wrong!', 'Failed');
       AppComponent.isLoading = false;
+      this.firstRegistrationForm.reset();
       return;
     }
 
@@ -121,11 +156,10 @@ export class RegistrationComponent implements OnInit {
 
   public onChange(): void {
     const element = document.querySelector("[data-submit-button]");
-    if ( element != null) {
+    if (element != null) {
       if (this.firstRegistrationForm.valid && element.classList.contains("disabled")) {
         element.classList.remove("disabled");
-      }
-      else if (!this.firstRegistrationForm.valid && !element.classList.contains("disabled")) {
+      } else if (!this.firstRegistrationForm.valid && !element.classList.contains("disabled")) {
         element.classList.add("disabled");
       }
     }

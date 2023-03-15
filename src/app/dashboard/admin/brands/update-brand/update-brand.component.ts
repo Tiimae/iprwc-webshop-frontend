@@ -1,12 +1,13 @@
 import {Component, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
-import {ActivatedRoute, Params, Router} from '@angular/router';
+import {ActivatedRoute, ParamMap, Params, Router} from '@angular/router';
 import {AxiosResponse} from 'axios';
 import {ToastrService} from 'ngx-toastr';
 import {BrandModel} from '../../../../_models/brand.model';
 import {ApiConnectorService} from '../../../../_service/_api/api-connector.service';
 import {BrandDataService} from '../../../../_service/_data/brandData.service';
 import {Title} from "@angular/platform-browser";
+import {map} from "rxjs";
 
 @Component({
   selector: 'app-update-brand',
@@ -33,8 +34,14 @@ export class UpdateBrandComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.route.params.subscribe(async (params: Params) => {
-      this.brandId =  params['brandId']
+    this.route.paramMap.subscribe((params: ParamMap): void => {
+      const id = params.get('brandId')
+
+      if (id == null) {
+        return;
+      }
+
+      this.brandId = id;
 
       (this.brandDataService.get(this.brandId)).subscribe(
         (r: BrandModel | undefined) => {

@@ -21,7 +21,13 @@ const routes: Routes = [
     path: ':categoryId',
     component: UpdateCategoryComponent,
     data: {
-      breadcrumb: (data: any) => `${data.category.categoryName}`
+      breadcrumb: (data: any): string => {
+        if (data.category == null) {
+          return ""
+        }
+
+        return data.category.categoryName
+      }
     },
     resolve: { category: CategoryResolverService }
   }

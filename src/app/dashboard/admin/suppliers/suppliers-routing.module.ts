@@ -21,7 +21,12 @@ const routes: Routes = [
     path: ':supplierId',
     component: UpdateSupplierComponent,
     data: {
-      breadcrumb: (data: any) => `${data.supplier.name}`
+      breadcrumb: (data: any): string => {
+        if (data.supplier == null) {
+          return ""
+        }
+        return data.supplier.name
+      }
     },
     resolve: { supplier: SupplierResolverService }
   }

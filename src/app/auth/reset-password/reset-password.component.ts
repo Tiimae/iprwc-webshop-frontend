@@ -13,6 +13,26 @@ import {Title} from "@angular/platform-browser";
   styleUrls: ['./reset-password.component.scss']
 })
 export class ResetPasswordComponent implements OnInit {
+  private passRequirement = {
+    passwordMinLowerCase: 1,
+    passwordMinNumber: 1,
+    passwordMinSymbol: 1,
+    passwordMinUpperCase: 1,
+    passwordMinCharacters: 8
+  };
+
+  private pattern: RegExp = new RegExp([
+    `(?=([^a-z]*[a-z])\{${this.passRequirement.passwordMinLowerCase},\})`,
+    `(?=([^A-Z]*[A-Z])\{${this.passRequirement.passwordMinUpperCase},\})`,
+    `(?=([^0-9]*[0-9])\{${this.passRequirement.passwordMinNumber},\})`,
+    `(?=(\.\*[\$\@\$\!\%\*\?\&\#])\{${this.passRequirement.passwordMinSymbol},\})`,
+    `[A-Za-z\\d\$\@\$\!\%\*\?\&\#\.]{${
+      this.passRequirement.passwordMinCharacters
+    },}`
+  ]
+    .map(item => item.toString())
+    .join(""));
+
   private token: string | null = null;
   public resetPasswordForm: FormGroup = new FormGroup({
     email: new FormControl('', [
@@ -61,18 +81,28 @@ export class ResetPasswordComponent implements OnInit {
     ) {
       this.toastr.error('Something went wrong!', 'Failed');
       AppComponent.isLoading = false;
+      this.resetPasswordForm.reset();
       return;
     }
 
     if (password !== passwordCheck) {
       this.toastr.error("Passwords doesn't match!", 'Failed');
       AppComponent.isLoading = false;
+      this.resetPasswordForm.reset();
+      return;
+    }
+
+    if (!this.pattern.test(password)) {
+      this.toastr.error(`Password needs at least ${this.passRequirement.passwordMinCharacters} characters, ${this.passRequirement.passwordMinNumber} numbers, ${this.passRequirement.passwordMinLowerCase} lowercase letter, ${this.passRequirement.passwordMinUpperCase} uppercase characters and ${this.passRequirement.passwordMinSymbol} special characters!`)
+      AppComponent.isLoading = false;
+      this.resetPasswordForm.reset();
       return;
     }
 
     if (!this.resetPasswordForm.valid) {
       this.toastr.error('Something went wrong!', 'Failed');
       AppComponent.isLoading = false;
+      this.resetPasswordForm.reset();
       return;
     }
 

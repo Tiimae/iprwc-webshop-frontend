@@ -21,8 +21,12 @@ const routes: Routes = [
     path: ':addressId',
     component: UpdateAddressComponent,
     data: {
-      breadcrumb: (data: any) =>
-        `${data.address.street} ${data.address.houseNumber}`
+      breadcrumb: (data: any): string => {
+        if (data.address == null) {
+          return ""
+        }
+        return `${data.address.street} ${data.address.houseNumber}`
+      }
     },
     resolve: { address: UserAddressResolverService }
   }

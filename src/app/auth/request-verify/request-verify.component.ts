@@ -33,6 +33,7 @@ export class RequestVerifyComponent implements OnInit {
 
     if (token == null) {
       this.toastr.error("Token can't be null", "ERROR")
+      this.verifyForm.reset();
     }
 
     this.api.post('auth/verify-email?token=' + token, null, true).then(res => {

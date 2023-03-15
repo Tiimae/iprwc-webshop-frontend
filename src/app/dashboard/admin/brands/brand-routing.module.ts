@@ -21,7 +21,13 @@ const routes: Routes = [
     path: ':brandId',
     component: UpdateBrandComponent,
     data: {
-      breadcrumb: (data: any) => `${data.brand.brandName}`
+      breadcrumb: (data: any): string => {
+        if (data.brand == undefined) {
+          return "";
+        }
+
+        return data.brand.brandName
+      }
     },
     resolve: { brand: BrandResolverService }
   }

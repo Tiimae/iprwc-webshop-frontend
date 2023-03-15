@@ -40,12 +40,14 @@ export class ForgotPasswordComponent implements OnInit {
     if (email == null) {
       this.toastr.error('Something went wrong!', 'Failed');
       AppComponent.isLoading = false;
+      this.setNewPassword.reset();
       return;
     }
 
     if (!this.setNewPassword.valid) {
       this.toastr.error('Something went wrong!', 'Failed');
       AppComponent.isLoading = false;
+      this.setNewPassword.reset();
       return;
     }
 

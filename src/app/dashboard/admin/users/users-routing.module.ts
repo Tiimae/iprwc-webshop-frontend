@@ -18,8 +18,12 @@ const routes: Routes = [
     path: ':userId',
     component: UpdateUserComponent,
     data: {
-      breadcrumb: (data: any) =>
-        `${data.user.firstName} ${data.user.middleName} ${data.user.lastName} `
+      breadcrumb: (data: any): string => {
+        if (data.user == null) {
+          return ""
+        }
+        return `${data.user.firstName} ${data.user.middleName} ${data.user.lastName}`
+      }
     },
     resolve: { user: UserResolverService }
   }
