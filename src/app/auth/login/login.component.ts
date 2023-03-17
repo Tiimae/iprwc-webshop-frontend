@@ -9,6 +9,7 @@ import {ToastrService} from 'ngx-toastr';
 import {AppComponent} from '../../app.component';
 import {Title} from "@angular/platform-browser";
 import {SearchbarComponent} from "../../navigation/searchbar/searchbar.component";
+import { CartDataService } from 'src/app/_service/_data/cartData.service';
 
 @Component({
   selector: 'app-login',
@@ -35,7 +36,8 @@ export class LoginComponent implements OnInit {
     private authService: AuthService,
     private toastr: ToastrService,
     private api: ApiConnectorService,
-    private title: Title
+    private title: Title,
+    private cartDataService: CartDataService
   ) {}
 
   ngOnInit() {
@@ -79,6 +81,7 @@ export class LoginComponent implements OnInit {
         localStorage.setItem('refresh-token', r.data.payload?.refreshToken);
         localStorage.setItem('jwt-token', r.data.payload?.jwtToken);
         SearchbarComponent.loggedIn.next(true);
+        this.cartDataService.getAllProductsInCart();
         this.router.navigate(["/"]);
         this.toastr.success('You are Logged in successfully!', r.data.message);
       } else {

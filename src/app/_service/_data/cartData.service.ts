@@ -4,104 +4,80 @@ import {ToastrService} from 'ngx-toastr';
 import {BehaviorSubject, Subject} from 'rxjs';
 import {ProductModel} from 'src/app/_models/product.model';
 import {ProductDataService} from './productData.service';
+import {ApiConnectorService} from "../_api/api-connector.service";
+import {ApiMethodsService} from "../_api/api-methods.service";
+import {Router} from "@angular/router";
+import {Cart} from "../../_models/cart.model";
 
 @Injectable({
   providedIn: 'root'
 })
 export class CartDataService {
-  private products: ProductModel[] = [];
-  public products$: Subject<ProductModel[]> = new BehaviorSubject<
-    ProductModel[]
+  private products: Cart[] = [];
+  public products$: Subject<Cart[]> = new BehaviorSubject<
+    Cart[]
   >([]);
 
   constructor(
     private productDataService: ProductDataService,
-    private toastr: ToastrService
-  ) {}
-
-  public getAllProductsInCart(): void {
-    let items = localStorage.getItem('cart');
-
-    if (items == null) {
-      return;
-    }
-    setTimeout(() => {
-      if (items != null) {
-        JSON.parse(items).forEach((item: any) => {
-          this.productDataService.get(JSON.parse(item).id).subscribe({
-            next: (product: ProductModel | undefined): void => {
-              if (product == undefined) {
-                this.productDataService
-                  .getByRequest(JSON.parse(item).id)
-                  .then((res: AxiosResponse) => {
-                    this.products.push(res.data.payload);
-                  });
-              } else {
-                this.products.push(product);
-              }
-            },
-            error(e: Error) {
-              console.log(e.message);
-            },
-            complete: () => {}
-          });
-        });
-      }
-      this.products$.next(this.products);
-    }, 500);
+    private toastr: ToastrService,
+    private api: ApiConnectorService,
+    private method: ApiMethodsService,
+    private router: Router
+  ) {
+    this.getAllProductsInCart();
   }
 
-  public createProduct(product: ProductModel, amount: number): void {
-    if (amount < 1) {
-      this.toastr.error("Amount can't be lower then 1", 'Error');
-      return;
-    }
+  public async getAllProductsInCart(): Promise<void> {
+    if (await this.api.authenticated() && this.products.length < 1) {
+      this.api.getJwtPayload().then(async res => {
+        await this.method.get(`cart/${res.userId}`, true).then(async res => {
+          for (const product of res.data.payload) {
+            const index: number = this.products.findIndex(currentProduct => currentProduct.product.id === product.productId)
 
-    let items = localStorage.getItem('cart');
-    let check = false;
-
-    if (items == null) {
-      items = JSON.stringify([]);
-    }
-
-    if (this.isJsonString(items)) {
-      items = JSON.parse(items);
-
-      if (items != null) {
-        // @ts-ignore
-        let item = items.find((item) => JSON.parse(item).id === product.id);
-        if (item != undefined) {
-          let oldAmount: number = <number>JSON.parse(item).amount;
-          oldAmount = amount;
-
-          const newItem = JSON.stringify({
-            id: product.id,
-            amount: oldAmount
-          });
-          // @ts-ignore
-          items[items.findIndex((item) => JSON.parse(item).id === product.id)] =
-            newItem;
-          check = true;
-        } else {
-          const newItem = JSON.stringify({
-            id: product.id,
-            amount: amount
-          });
-
-          // @ts-ignore
-          items.push(newItem);
-
-          this.products.push(product);
+            if (index == -1) {
+              await this.productDataService.getByRequest(product.productId).then(newProduct => {
+                this.products.push(new Cart(newProduct.data.payload, product.quantity))
+              })
+            }
+          }
           this.products$.next(this.products);
-        }
-      }
+        })
+      })
 
-      localStorage.setItem('cart', JSON.stringify(items));
-    } else {
-      this.toastr.error("Something went wrong.", "Error")
     }
+  }
 
+  public async createProduct(product: ProductModel, amount: number, details: boolean): Promise<void> {
+    if (await this.api.authenticated()) {
+      this.api.getJwtPayload().then(jwt => {
+        this.api.auth().then(res => {
+          res.post("cart", {
+            "quantity": amount,
+            "productId": product.id,
+            "userId": jwt.userId
+          }, {
+            params: {detail: details}
+          }).then(newRes => {
+            const index: number = this.products.findIndex(currentProduct => currentProduct.product.id === product.id)
 
+            if (index == -1) {
+              this.products.push(new Cart(product, String(amount)));
+            } else {
+              if (details) {
+                this.products[index].quantity = String(amount + Number(this.products[index].quantity))
+              } else {
+
+                this.products[index].quantity = String(amount)
+              }
+            }
+            this.products$.next(this.products)
+          })
+        })
+      })
+    } else {
+      this.router.navigate(['auth', 'login'])
+    }
   }
 
   public getCartItem(productId: string) {
@@ -124,48 +100,56 @@ export class CartDataService {
     }
   }
 
-  public removeProduct(product: ProductModel): void {
-    this.products.forEach((currentProduct, index) => {
-      if (currentProduct.id == product.id) {
-        this.products.splice(index, 1);
-      }
-    });
+  public async removeProduct(product: ProductModel): Promise<void> {
 
-    let items = localStorage.getItem('cart');
-    let check = false;
+    if (await this.api.authenticated()) {
+      this.api.getJwtPayload().then(res => {
+        this.method.delete(`cart/${res.userId}/${product.id}`, true).then(res => {
+          const index: number = this.products.findIndex(currentProduct => currentProduct.product.id === product.id);
+          this.products.slice(index, 1);
+        })
+      })
 
-    if (items == null) {
-      return;
+      this.products$.next(this.products);
+    } else {
+      this.router.navigate(['auth', 'login']);
     }
-
-    items = JSON.parse(items);
-
-    if (items != null) {
-      // @ts-ignore
-      items.splice(
-        // @ts-ignore
-        items.findIndex((item) => JSON.parse(item).id === product.id),
-        1
-      );
-    }
-
-    localStorage.setItem('cart', JSON.stringify(items));
-
-    this.products$.next(this.products);
   }
 
-  public clearCart(): void {
+  public async clearCart() {
+    if (await this.api.authenticated()) {
+      this.api.getJwtPayload().then(res => {
+        this.method.delete(`cart/${res.userId}`, true).then(res => {
+          this.clearCartAfterLogout();
+        })
+      })
+    } else {
+      this.router.navigate(['auth', 'login']);
+    }
+  }
+
+  public clearCartAfterLogout(): void {
     this.products = [];
-    localStorage.setItem('cart', JSON.stringify([]));
     this.products$.next(this.products);
   }
 
-  private isJsonString(str: string): boolean {
-    try {
-        JSON.parse(str);
-    } catch (e) {
-        return false;
-    }
-    return true;
-}
+//
+//   public clearCart(): void {
+//     this.products = [];
+//     localStorage.setItem('cart', JSON.stringify([]));
+//     this.products$.next(this.products);
+//   }
+//
+//   private isJsonString(str: string): boolean {
+//     try {
+//         JSON.parse(str);
+//     } catch (e) {
+//         return false;
+//     }
+//     return true;
+// }
+
+  // public addCart(productId: string, quantity: number): void {
+  //   this.
+  // }
 }

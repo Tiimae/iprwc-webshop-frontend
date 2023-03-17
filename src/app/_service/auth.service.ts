@@ -5,12 +5,13 @@ import {environment} from '../../environments/environment';
 import {ApiConnectorService} from './_api/api-connector.service';
 import {SearchbarComponent} from "../navigation/searchbar/searchbar.component";
 import {AppComponent} from "../app.component";
+import {CartDataService} from "./_data/cartData.service";
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  constructor(private api: ApiConnectorService) {}
+  constructor(private api: ApiConnectorService, private cartDataService: CartDataService) {}
 
   private static sharedDecryptKey: string = environment.sharedSecret;
   private static cipherOptions = {
@@ -38,6 +39,7 @@ export class AuthService {
     SearchbarComponent.loggedIn.next(false);
     AppComponent.verified = null;
     AppComponent.hasRole = null;
+    this.cartDataService.clearCartAfterLogout();
   }
 
   public async register(

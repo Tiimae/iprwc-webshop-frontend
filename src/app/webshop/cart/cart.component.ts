@@ -5,6 +5,7 @@ import {CartDataService} from 'src/app/_service/_data/cartData.service';
 import {AppComponent} from '../../app.component';
 import {ProductModel} from '../../_models/product.model';
 import {Title} from "@angular/platform-browser";
+import {Cart} from "../../_models/cart.model";
 
 @Component({
   selector: 'app-cart',
@@ -12,7 +13,7 @@ import {Title} from "@angular/platform-browser";
   styleUrls: ['./cart.component.scss']
 })
 export class CartComponent implements OnInit {
-  public cartProducts!: ProductModel[];
+  public cartProducts!: Cart[];
   public totalProduct: number = 0;
   public tax: number = 0;
   public grandTotal: number = 0;
@@ -31,12 +32,7 @@ export class CartComponent implements OnInit {
   ngOnInit(): void {
     AppComponent.isLoading = true;
     this.cartDataService.products$.subscribe({
-      next: (products: ProductModel[]) => {
-        if (products.length === 0 && !this.cartCheck) {
-          this.cartDataService.getAllProductsInCart();
-          this.cartCheck = true;
-        }
-
+      next: (products: Cart[]) => {
         this.cartProducts = products;
         setTimeout(() => {
           this.calculateTotalProduct();

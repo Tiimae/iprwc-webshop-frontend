@@ -39,12 +39,7 @@ export class ProductDetailComponent implements OnInit {
   ngOnInit(): void {
     AppComponent.isLoading = true;
     this.route.params.subscribe(async (params) => {
-      // const currentProductId = params['productId'].replaceAll('*', '/');
       this.productId = params['productId']
-      //   CryptoJs.Rabbit.decrypt(
-      //   currentProductId,
-      //   AppComponent.pageDecryptKey
-      // ).toString(CryptoJs.enc.Utf8);
 
       this.productDataService.get(this.productId).subscribe((res) => {
         if (res == undefined) {
@@ -115,9 +110,9 @@ export class ProductDetailComponent implements OnInit {
           Number(JSON.parse(localStorageItem).amount) + Number(input.value);
       }
 
-      this.cartDataService.createProduct(this.product, newAmount);
+      this.cartDataService.createProduct(this.product, newAmount, true);
     } else {
-      this.cartDataService.createProduct(this.product, 1);
+      this.cartDataService.createProduct(this.product, 1, true);
     }
     this.toastr.success('Item added successfully to your Cart!', 'Added!');
 

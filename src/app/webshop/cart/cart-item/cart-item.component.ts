@@ -10,7 +10,7 @@ import {ProductModel} from '../../../_models/product.model';
 export class CartItemComponent implements OnInit {
   @Input() public product!: ProductModel;
   @Input() public  overview!: boolean;
-  public amount!: number;
+  @Input() public amount!: string;
   public totalPrice!: number;
 
   @Output() public change: EventEmitter<void> = new EventEmitter();
@@ -18,11 +18,11 @@ export class CartItemComponent implements OnInit {
   constructor(private cartDataService: CartDataService) {}
 
   ngOnInit(): void {
-    const localStorageItem = JSON.parse(
-      this.cartDataService.getCartItem(this.product.id)
-    );
-    this.amount = localStorageItem.amount;
-    this.totalPrice = this.product.price * this.amount;
+    // const localStorageItem = JSON.parse(
+    //   this.cartDataService.getCartItem(this.product.id)
+    // );
+    // this.amount = localStorageItem.amount;
+    this.totalPrice = this.product.price * Number(this.amount);
   }
 
   public changePrice(event: any): void {
@@ -34,9 +34,9 @@ export class CartItemComponent implements OnInit {
 
     this.amount = newQuantity;
 
-    this.totalPrice = this.product.price * this.amount;
+    this.totalPrice = this.product.price * Number(this.amount);
 
-    this.cartDataService.createProduct(this.product, this.amount);
+    this.cartDataService.createProduct(this.product, Number(this.amount), false);
 
     this.change.emit();
   }

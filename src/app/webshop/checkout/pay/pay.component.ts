@@ -11,6 +11,7 @@ import {AddressEnum} from '../../../_enum/address.enum';
 import {UserAddressesModel} from '../../../_models/userAddresses.model';
 import {ApiConnectorService} from '../../../_service/_api/api-connector.service';
 import {Title} from "@angular/platform-browser";
+import {Cart} from "../../../_models/cart.model";
 
 @Component({
   selector: 'app-pay',
@@ -145,14 +146,15 @@ export class PayComponent implements OnInit {
     if (this.currentInvoiceAddress == null) {
       return;
     }
-    const productIds: JSON[] = [];
+    let productIds: object[] = [];
 
     this.cartDataService.products$.subscribe((res) => {
-      res.forEach((product) => {
-        productIds.push(
-          JSON.parse(this.cartDataService.getCartItem(product.id))
-        );
-      });
+      res.forEach(item => {
+        productIds.push({
+          "productId": item.product.id,
+          "amount": item.quantity
+        })
+      })
     });
 
     const fd: FormData = new FormData();
@@ -169,8 +171,9 @@ export class PayComponent implements OnInit {
             const user: UserModel = oldUser.data.payload;
             user.orders.push(res);
             this.userDataService.updateUser(user, false);
+            this.cartDataService.clearCart();
           });
-        this.cartDataService.clearCart();
+        // this.cartDataService.clearCart();
         this.router.navigate(['']);
       }
     });

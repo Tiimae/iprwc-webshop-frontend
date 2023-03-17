@@ -30,6 +30,7 @@ export class SearchbarComponent implements OnInit {
   public searchGroup = new FormGroup({
     search: new FormControl('')
   });
+  checked: boolean = false;
 
   constructor(
     private router: Router,
@@ -40,9 +41,10 @@ export class SearchbarComponent implements OnInit {
   }
 
   async ngOnInit(): Promise<void> {
-    this.cartDataService.products$.subscribe((res) => {
-      this.cartLength = res.length;
-    });
+
+    this.cartDataService.products$.subscribe(res => {
+      this.cartLength = res.length
+    })
 
     await this.ifItemIsInLocalStorage();
     this.getLoggedIn()
@@ -51,6 +53,7 @@ export class SearchbarComponent implements OnInit {
   public async ifItemIsInLocalStorage(): Promise<void> {
     SearchbarComponent.loggedIn.next(await this.api.authenticated())
   }
+
 
   public getLoggedIn(): void {
     SearchbarComponent.loggedIn.subscribe((res: boolean) => {

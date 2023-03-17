@@ -31,6 +31,7 @@ const routes: Routes = [
   {
     path: 'cart',
     component: CartComponent,
+    canActivate: [IsAuthenticatedGuard],
     data: {
       breadcrumb: 'Cart'
     }

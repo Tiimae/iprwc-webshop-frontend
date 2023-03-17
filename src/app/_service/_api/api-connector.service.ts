@@ -18,7 +18,7 @@ export class ApiConnectorService {
 
   public static xsrfToken: string | null = null;
 
-  constructor(private toastr: ToastrService, private router: Router, private http: HttpClient) {
+  constructor(private toastr: ToastrService, private router: Router) {
   }
 
   public async noAuth(): Promise<AxiosInstance> {
@@ -79,9 +79,6 @@ export class ApiConnectorService {
         'X-Frame-Options': 'SAMEORIGIN',
         'X-Content-Type-Options': 'nosniff',
         'X-XSRF-TOKEN': ApiConnectorService.xsrfToken,
-        // 'Content-Security-Policy': 'default-src https://*.timdekok.nl; script-src https://timdekok.nl;',
-        // "Referrer-Policy": "origin",
-        // "Permissions-Policy": "geolocation=(self 'https://api.timdekok.nl'), microphone=()"
       },
       xsrfCookieName: 'XSRF-TOKEN',
       xsrfHeaderName: 'X-XSRF-TOKEN',
@@ -145,10 +142,10 @@ export class ApiConnectorService {
   }
 
   public async verified() {
-    const auth = new AuthService(this);
+    // const auth = this.AuthService;
 
     if (AppComponent.verified == null) {
-      const profile = await auth.getProfile();
+      const profile = await (await this.auth()).get('auth/profile');
       AppComponent.verified = profile.data.payload.verified
     }
 
