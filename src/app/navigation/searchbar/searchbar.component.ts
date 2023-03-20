@@ -40,18 +40,17 @@ export class SearchbarComponent implements OnInit {
   ) {
   }
 
-  async ngOnInit(): Promise<void> {
-
+  ngOnInit(): void {
     this.cartDataService.products$.subscribe(res => {
       this.cartLength = res.length
     })
 
-    await this.ifItemIsInLocalStorage();
+    this.ifItemIsInLocalStorage();
     this.getLoggedIn()
   }
 
-  public async ifItemIsInLocalStorage(): Promise<void> {
-    SearchbarComponent.loggedIn.next(await this.api.authenticated())
+  public ifItemIsInLocalStorage(): void {
+    SearchbarComponent.loggedIn.next(this.api.authenticated())
   }
 
 
@@ -60,7 +59,7 @@ export class SearchbarComponent implements OnInit {
       this.loggedInTemplate = res
 
       if (res) {
-        this.api.getJwtPayload().then(async (jwt) => {
+        this.api.getJwtPayload().then((jwt) => {
           if (jwt?.userId != undefined) {
             this.userDataService.getCurrentUser(jwt.userId).subscribe((res) => {
               if (res == undefined) {

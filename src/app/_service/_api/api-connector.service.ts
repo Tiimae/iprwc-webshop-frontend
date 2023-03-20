@@ -21,7 +21,7 @@ export class ApiConnectorService {
   constructor(private toastr: ToastrService, private router: Router) {
   }
 
-  public async noAuth(): Promise<AxiosInstance> {
+  public noAuth(): AxiosInstance {
 
     const instance: AxiosInstance = axios.create({
       baseURL: ApiConnectorService.apiUrl,
@@ -60,15 +60,15 @@ export class ApiConnectorService {
 
   }
 
-  public async auth(): Promise<AxiosInstance> {
-    const loggedIn: boolean = await this.authenticated();
+  public auth(): AxiosInstance {
+    const loggedIn: boolean = this.authenticated();
 
     if (!loggedIn) {
       throw new Error('not logged in');
     }
 
     if (this.jwtToken === null || !this.jwtToken.length) {
-      this.jwtToken = await this.getTokenFromStore();
+      this.jwtToken = this.getTokenFromStore();
     }
 
     let instance: AxiosInstance = axios.create({
@@ -135,7 +135,7 @@ export class ApiConnectorService {
     return instance;
   }
 
-  public async authenticated(): Promise<boolean> {
+  public authenticated(): boolean {
     let result = this.getTokenFromStore();
 
     return result !== null && result.length > 0;

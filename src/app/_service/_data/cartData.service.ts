@@ -27,15 +27,15 @@ export class CartDataService {
     this.getAllProductsInCart();
   }
 
-  public async getAllProductsInCart(): Promise<void> {
-    if (await this.api.authenticated() && this.products.length < 1) {
+  public getAllProductsInCart(): void {
+    if (this.api.authenticated() && this.products.length < 1) {
       this.api.getJwtPayload().then(async res => {
-        await this.method.get(`cart/${res.userId}`, true).then(async res => {
+        await this.method.get(`cart/${res.userId}`, true).then(res => {
           for (const product of res.data.payload) {
             const index: number = this.products.findIndex(currentProduct => currentProduct.product.id === product.productId)
 
             if (index == -1) {
-              await this.productDataService.getByRequest(product.productId).then(newProduct => {
+              this.productDataService.getByRequest(product.productId).then(newProduct => {
                 this.products.push(new Cart(newProduct.data.payload, product.quantity))
               })
             }
@@ -47,11 +47,10 @@ export class CartDataService {
     }
   }
 
-  public async createProduct(product: ProductModel, amount: number, details: boolean): Promise<void> {
-    if (await this.api.authenticated()) {
+  public createProduct(product: ProductModel, amount: number, details: boolean): void {
+    if (this.api.authenticated()) {
       this.api.getJwtPayload().then(jwt => {
-        this.api.auth().then(res => {
-          res.post("cart", {
+        this.api.auth().post("cart", {
             "quantity": amount,
             "productId": product.id,
             "userId": jwt.userId
@@ -73,7 +72,6 @@ export class CartDataService {
             this.products$.next(this.products)
           })
         })
-      })
     } else {
       this.router.navigate(['auth', 'login'], {
         queryParams: {

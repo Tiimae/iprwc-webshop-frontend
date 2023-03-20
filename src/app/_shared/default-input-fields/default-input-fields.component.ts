@@ -26,7 +26,6 @@ export class DefaultInputFieldsComponent implements OnInit {
     if (this.value != null) {
       setTimeout(() => {
         this.onFocus(this.name);
-        this.onChange();
       }, 50)
     }
   }
@@ -56,19 +55,6 @@ export class DefaultInputFieldsComponent implements OnInit {
         }
       }
     })
-  }
-
-  public onChange(): void {
-    const element = document.querySelector("[data-submit-button]");
-    if (element != null) {
-      if (this.valueFormGroup != undefined) {
-        if (this.valueFormGroup.valid && element.classList.contains("disabled")) {
-          element.classList.remove("disabled");
-        } else if (!this.valueFormGroup.valid && !element.classList.contains("disabled")) {
-          element.classList.add("disabled");
-        }
-      }
-    }
   }
 
 }

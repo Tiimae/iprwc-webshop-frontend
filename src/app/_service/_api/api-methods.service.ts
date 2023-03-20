@@ -11,10 +11,10 @@ export class ApiMethodsService {
 
   public async get(path: string, auth: boolean): Promise<AxiosResponse> {
     if (auth) {
-      return (await this.api.auth()).get(path);
+      return await this.api.auth().get(path);
     }
 
-    return (await this.api.noAuth()).get(path);
+    return await this.api.noAuth().get(path);
   }
 
   public async post(
@@ -23,10 +23,10 @@ export class ApiMethodsService {
     auth: boolean
   ): Promise<AxiosResponse> {
     if (auth) {
-      return (await this.api.auth()).post(path, payload);
+      return await this.api.auth().post(path, payload);
     }
 
-    return (await this.api.noAuth()).post(path, payload);
+    return await this.api.noAuth().post(path, payload);
   }
 
   public async put(
@@ -35,17 +35,17 @@ export class ApiMethodsService {
     auth: boolean
   ): Promise<AxiosResponse> {
     if (auth) {
-      return (await this.api.auth()).put(path, payload);
+      return await this.api.auth().put(path, payload);
     }
 
-    return (await this.api.noAuth()).put(path, payload);
+    return await this.api.noAuth().put(path, payload);
   }
 
   public async delete(path: string, auth: boolean): Promise<AxiosResponse> {
     if (auth) {
-      return (await this.api.auth()).delete(path);
+      return await this.api.auth().delete(path);
     }
 
-    return (await this.api.noAuth()).delete(path);
+    return await this.api.noAuth().delete(path);
   }
 }

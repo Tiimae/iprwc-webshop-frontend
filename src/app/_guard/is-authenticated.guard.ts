@@ -17,13 +17,12 @@ export class IsAuthenticatedGuard implements CanActivate {
     | Promise<boolean | UrlTree>
     | boolean
     | UrlTree {
-    return this.api.authenticated().then(res => {
+    const authenticated: boolean = this.api.authenticated()
 
-      if (!res) {
+      if (!authenticated) {
         return this.router.navigate(['auth', 'login']);
       }
 
-      return res;
-    });
+      return authenticated;
   }
 }

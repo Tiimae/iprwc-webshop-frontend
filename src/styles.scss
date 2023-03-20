@@ -55,12 +55,6 @@ p {
   animation-fill-mode: backwards;
 }
 
-.scrolling-items-y {
-  height: 65vh;
-  overflow-y: scroll;
-  overflow-x: hidden;
-}
-
 body {
   $scrollbar-1-thumb-width: 8px;
   $scrollbar-1-thumb-color: #e10600;

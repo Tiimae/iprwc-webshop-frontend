@@ -27,12 +27,11 @@ export class UserDataService {
     return of(undefined);
   }
 
-  public async getUserByRequest(userId: string): Promise<AxiosResponse> {
-    return this.apiMethod.get('user/' + userId, true);
-  }
-
-  public async getUserWithRoleByRequest(userId: string): Promise<AxiosResponse> {
-    return this.apiMethod.get('user/' + userId + "/roles", true);
+  public getUserByRequest(userId: string): Promise<AxiosResponse> {
+    return this.apiMethod.get('user/' + userId, true).then(res => {
+      this.users.push(res.data.payload);
+      return res
+    });
   }
 
 
