@@ -139,15 +139,6 @@ export class UpdateAddressComponent implements OnInit {
     this.userAddressDataService
       .updateUserAddress(deliveryAddress)
       .then((res) => {
-        if (this.user != undefined) {
-          this.user.addresses[
-            this.user.addresses.findIndex(
-              (currentAddress) => currentAddress.id === this.addressId
-            )
-          ] = res;
-          this.userDataService.updateUser(this.user, false);
-        }
-
         this.toastr.success(
           'Addresses has been updated successfully',
           'Success!'
@@ -163,16 +154,6 @@ export class UpdateAddressComponent implements OnInit {
     this.userAddressDataService
       .deleteUserAddress(this.addressId)
       .then((res) => {
-        if (this.user != undefined) {
-          this.user.addresses.splice(
-            this.user.addresses.findIndex(
-              (currentAddress) => currentAddress.id === this.addressId
-            ),
-            1
-          );
-          this.userDataService.updateUser(this.user, false);
-        }
-
         this.toastr.success(
           'Addresses has been deleted successfully',
           'Success!'

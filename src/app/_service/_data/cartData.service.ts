@@ -1,5 +1,4 @@
 import {Injectable} from '@angular/core';
-import {AxiosResponse} from 'axios';
 import {ToastrService} from 'ngx-toastr';
 import {BehaviorSubject, Subject} from 'rxjs';
 import {ProductModel} from 'src/app/_models/product.model';
@@ -23,7 +22,7 @@ export class CartDataService {
     private toastr: ToastrService,
     private api: ApiConnectorService,
     private method: ApiMethodsService,
-    private router: Router
+    private router: Router,
   ) {
     this.getAllProductsInCart();
   }
@@ -76,7 +75,11 @@ export class CartDataService {
         })
       })
     } else {
-      this.router.navigate(['auth', 'login'])
+      this.router.navigate(['auth', 'login'], {
+        queryParams: {
+          redirectURI: `product/${product.id}`
+        }
+      })
     }
   }
 
@@ -112,7 +115,11 @@ export class CartDataService {
 
       this.products$.next(this.products);
     } else {
-      this.router.navigate(['auth', 'login']);
+      this.router.navigate(['auth', 'login'], {
+        queryParams: {
+          redirectURI: `product/${product.id}`
+        }
+      })
     }
   }
 
@@ -132,24 +139,4 @@ export class CartDataService {
     this.products = [];
     this.products$.next(this.products);
   }
-
-//
-//   public clearCart(): void {
-//     this.products = [];
-//     localStorage.setItem('cart', JSON.stringify([]));
-//     this.products$.next(this.products);
-//   }
-//
-//   private isJsonString(str: string): boolean {
-//     try {
-//         JSON.parse(str);
-//     } catch (e) {
-//         return false;
-//     }
-//     return true;
-// }
-
-  // public addCart(productId: string, quantity: number): void {
-  //   this.
-  // }
 }

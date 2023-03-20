@@ -165,15 +165,7 @@ export class PayComponent implements OnInit {
 
     this.orderDataService.create(fd).then((res: OrderModel | undefined) => {
       if (res != undefined) {
-        this.userDataService
-          .getUserByRequest(this.userId)
-          .then((oldUser: AxiosResponse) => {
-            const user: UserModel = oldUser.data.payload;
-            user.orders.push(res);
-            this.userDataService.updateUser(user, false);
-            this.cartDataService.clearCart();
-          });
-        // this.cartDataService.clearCart();
+        this.cartDataService.clearCart();
         this.router.navigate(['']);
       }
     });

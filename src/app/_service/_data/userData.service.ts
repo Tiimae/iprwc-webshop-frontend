@@ -113,7 +113,7 @@ export class UserDataService {
               'User has been updated successfully!',
               'Updated'
             );
-            this.router.navigate(['dashboard', 'admin', 'users']);
+            this.router.navigate(['dashboard', 'user', 'account']);
           } else if (res.data.code === 400) {
             this.toastr.error(res.data.message, res.data.code);
           }

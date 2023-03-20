@@ -23,6 +23,7 @@ export class HomeComponent implements OnInit {
   public uri: boolean = false;
 
   private productsCheck: boolean = false;
+  private categoryCheck: boolean = false;
 
   constructor(
     private productDataService: ProductDataService,
@@ -36,23 +37,6 @@ export class HomeComponent implements OnInit {
   async ngOnInit(): Promise<void> {
     AppComponent.isLoading = true;
     this.title.setTitle("F1 Webshop | Home")
-    const jwtToken = localStorage.getItem('blank-token');
-
-    try {
-      if (jwtToken !== null) {
-        const secret = await this.authService.getSecret();
-
-        setTimeout(() => {
-          localStorage.clear();
-
-          this.api.storeJwtToken(jwtToken ?? '', secret.data['message']);
-
-          location.reload();
-        }, 500);
-      }
-    } catch (error) {
-      localStorage.clear();
-    }
 
     this.productDataService.products$.subscribe({
       next: (products: ProductModel[]) => {
@@ -81,9 +65,14 @@ export class HomeComponent implements OnInit {
       }
     });
 
-    this.categoryService.getAllCategories();
+
     this.categoryService.categories$.subscribe({
       next: (category: CategoryModel[]) => {
+        if (category.length == 0 && !this.categoryCheck) {
+          this.categoryService.getAllCategories();
+          this.categoryCheck = false;
+        }
+
         this.categories = category.sort((a, b) => {
           if (a.categoryName < b.categoryName) {
             return -1;

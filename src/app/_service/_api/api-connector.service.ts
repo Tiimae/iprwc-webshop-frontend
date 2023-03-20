@@ -141,26 +141,8 @@ export class ApiConnectorService {
     return result !== null && result.length > 0;
   }
 
-  public async verified() {
-    // const auth = this.AuthService;
-
-    if (AppComponent.verified == null) {
-      const profile = await (await this.auth()).get('auth/profile');
-      AppComponent.verified = profile.data.payload.verified
-    }
-
-    return AppComponent.verified;
-  }
-
   private getTokenFromStore(): null | string {
     return localStorage.getItem('jwt-token');
-  }
-
-  public storeJwtToken(jwtToken: string, secret: string): void {
-    localStorage.setItem(
-      'jwt-token',
-      CryptoJs.Rabbit.encrypt(jwtToken, secret).toString()
-    );
   }
 
   public async getJwtPayload(): Promise<any> {

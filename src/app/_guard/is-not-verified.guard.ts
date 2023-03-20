@@ -2,6 +2,8 @@ import {Injectable} from '@angular/core';
 import {ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot, UrlTree} from '@angular/router';
 import {Observable} from 'rxjs';
 import {ApiConnectorService} from '../_service/_api/api-connector.service';
+import {AppComponent} from "../app.component";
+import {ApiMethodsService} from "../_service/_api/api-methods.service";
 
 @Injectable({
   providedIn: 'root'
@@ -9,7 +11,8 @@ import {ApiConnectorService} from '../_service/_api/api-connector.service';
 export class IsNotVerifiedGuard implements CanActivate {
   constructor(
     private router: Router,
-    private apiConnectorService: ApiConnectorService
+    private api: ApiConnectorService,
+    private auth: ApiMethodsService
   ) {}
 
   canActivate(
@@ -20,13 +23,28 @@ export class IsNotVerifiedGuard implements CanActivate {
     | Promise<boolean | UrlTree>
     | boolean
     | UrlTree {
-    return this.apiConnectorService
-      .verified()
-      .then((isVerified) => {
-        if (isVerified) {
-          return this.router.navigate(['404']);
-        }
-        return true;
-      });
+    return this.api.getJwtPayload().then(res => {
+      if (res.userId == null) {
+        return this.router.navigate(["404"]);
+      }
+
+      if (AppComponent.verified == null) {
+        return this.auth.get(`user/${res.userId}/verified`, true).then(res => {
+          AppComponent.verified = res.data.payload
+
+          if (AppComponent.verified) {
+            return this.router.navigate(['404']);
+          }
+
+          return false
+        });
+      }
+
+      if (AppComponent.verified) {
+        return this.router.navigate(['404']);
+      }
+
+      return AppComponent.verified;
+    })
   }
 }

@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {Router} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {AuthService} from '../../_service/auth.service';
 import {ApiConnectorService} from '../../_service/_api/api-connector.service';
 
@@ -37,7 +37,8 @@ export class LoginComponent implements OnInit {
     private toastr: ToastrService,
     private api: ApiConnectorService,
     private title: Title,
-    private cartDataService: CartDataService
+    private cartDataService: CartDataService,
+    private route: ActivatedRoute
   ) {}
 
   ngOnInit() {
@@ -82,7 +83,18 @@ export class LoginComponent implements OnInit {
         localStorage.setItem('jwt-token', r.data.payload?.jwtToken);
         SearchbarComponent.loggedIn.next(true);
         this.cartDataService.getAllProductsInCart();
-        this.router.navigate(["/"]);
+
+        if (this.route.snapshot.queryParamMap.has('redirectURI')) {
+          // @ts-ignore
+          const redirect!: string[] = this.route.snapshot.queryParamMap
+            .get('redirectURI')
+            .split('/');
+
+          this.router.navigate(redirect);
+        } else {
+          this.router.navigate(["/"]);
+        }
+
         this.toastr.success('You are Logged in successfully!', r.data.message);
       } else {
         this.toastr.error('Credentials doesnt match!', r.data.message);

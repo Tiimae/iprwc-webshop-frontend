@@ -98,8 +98,8 @@ export class AccountComponent implements OnInit {
       lastname,
       email,
       this.user.roles,
-      this.user.addresses,
-      this.user.orders
+      [],
+      []
     );
 
     this.userDataService.updateUser(user, false);

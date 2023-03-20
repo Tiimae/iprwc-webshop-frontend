@@ -64,20 +64,6 @@ export class AuthService {
     );
   }
 
-  public async getProfile(): Promise<AxiosResponse> {
-    return await (await this.api.auth()).get('auth/profile');
-  }
-
-  public async verifyEmail(token: string): Promise<AxiosResponse> {
-    return await (
-      await this.api.auth()
-    ).post('auth/verify-email?token=' + token);
-  }
-
-  public async sendVerifyEmail(): Promise<AxiosResponse> {
-    return (await this.api.auth()).get('auth/send-verify-email/');
-  }
-
   public async forgotPassword(email: string): Promise<AxiosResponse> {
     return (await this.api.noAuth()).post('auth/forgot-password?email=' + email);
   }

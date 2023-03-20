@@ -75,6 +75,9 @@ export class UserAddressesDataService {
         true
       )
       .then((res: AxiosResponse) => {
+        const index = this.userAddresses.findIndex(curretUAddress => curretUAddress.id === userAddress.id)
+        this.userAddresses[index] = userAddress
+        this.userAddresses$.next(this.userAddresses);
         return res.data.payload;
       });
   }
