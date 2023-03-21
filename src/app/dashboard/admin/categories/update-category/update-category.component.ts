@@ -1,11 +1,12 @@
 import {Component, OnInit} from '@angular/core';
-import {ActivatedRoute, Router} from "@angular/router";
-import {ApiConnectorService} from "../../../../_service/api-connector.service";
-import * as CryptoJs from "crypto-js";
-import {FormControl, FormGroup, Validators} from "@angular/forms";
-import {CategoryDataService} from "../../../../_service/data/categoryData.service";
-import {CategoryModel} from "../../../../_models/category.model";
-import {ToastrService} from "ngx-toastr";
+import {FormControl, FormGroup, Validators} from '@angular/forms';
+import {ActivatedRoute, Router} from '@angular/router';
+import {AxiosResponse} from 'axios';
+import {ToastrService} from 'ngx-toastr';
+import {CategoryModel} from '../../../../_models/category.model';
+import {ApiConnectorService} from '../../../../_service/_api/api-connector.service';
+import {CategoryDataService} from '../../../../_service/_data/categoryData.service';
+import {Title} from "@angular/platform-browser";
 
 @Component({
   selector: 'app-update-category',
@@ -13,52 +14,62 @@ import {ToastrService} from "ngx-toastr";
   styleUrls: ['./update-category.component.scss']
 })
 export class UpdateCategoryComponent implements OnInit {
+  private categoryId: string = '';
+  private category!: CategoryModel;
 
-  categoryId: string = "";
-  category: CategoryModel | undefined;
-
-  categoryCreateForm = new FormGroup({
-    catname: new FormControl('', [Validators.required]),
-  })
+  public categoryCreateForm: FormGroup = new FormGroup({
+    catname: new FormControl('', [Validators.required])
+  });
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     private categoryDataService: CategoryDataService,
     private toastr: ToastrService,
-    private api: ApiConnectorService
-  ) {
-  }
+    private api: ApiConnectorService,
+    private title: Title
+  ) {}
 
   ngOnInit(): void {
     this.route.params.subscribe(async (params) => {
-      const currentUserId = params['categoryId'].replaceAll("*", "/")
-
-      this.categoryId = CryptoJs.Rabbit.decrypt(currentUserId, await this.api.getDecryptKey()).toString(CryptoJs.enc.Utf8)
-
+      this.categoryId = params['categoryId']
       this.categoryDataService
         .getCurrentCategory(this.categoryId)
-        .subscribe((r) => {
+        .subscribe((r: CategoryModel | undefined) => {
           if (r == undefined) {
-            this.router.navigate(["dashboard", "admin", "categories"])
+            this.categoryDataService
+              .getCategoryByRequest(this.categoryId)
+              .then((res: AxiosResponse) => {
+                if (res.data.code === 202) {
+                  this.category = res.data.payload;
+                  this.setFormData();
+                } else if (res.data.code === 400) {
+                  this.toastr.error(res.data.message, res.data.code);
+                  this.router.navigate(['dashboard', 'admin', 'categories']);
+                }
+              });
+          } else {
+            this.category = r;
+            this.setFormData();
           }
-
-          this.category = r;
-
-          if (this.category != undefined) {
-            this.categoryCreateForm.controls.catname.setValue(this.category.categoryName);
-          }
-        })
-
-    })
+        });
+    });
   }
 
-  onSubmit(): void {
-    const catName = this.categoryCreateForm.controls.catname.value;
+  public setFormData(): void {
+    this.categoryCreateForm.controls['catname'].setValue(
+      this.category.categoryName
+    );
+
+    this.title.setTitle(`F1 Webshop | Update Category - ${this.category.categoryName}`);
+  }
+
+  public onSubmit(): void {
+    const catName = this.categoryCreateForm.controls['catname'].value;
 
     if (catName == null) {
       this.toastr.error('Something is wrong!', 'Failed');
-      return
+      return;
     }
 
     if (!this.categoryCreateForm.valid) {
@@ -66,14 +77,8 @@ export class UpdateCategoryComponent implements OnInit {
       return;
     }
 
-    const category = new CategoryModel("", catName)
+    const category = new CategoryModel(this.category.id, catName);
 
-    const request: boolean = this.categoryDataService.updateCategory(category)
-
-    if (request) {
-      this.toastr.success("Brand Has been created successfully!", "Created")
-      this.router.navigate(['dashboard', "admin", "categories"])
-    }
+    this.categoryDataService.updateCategory(category);
   }
-
 }

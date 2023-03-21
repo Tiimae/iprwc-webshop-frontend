@@ -1,7 +1,6 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {ProductModel} from "../../../../../_models/product.model";
-import * as CryptoJs from "crypto-js";
-import {ApiConnectorService} from "../../../../../_service/api-connector.service";
+import {ProductModel} from '../../../../../_models/product.model';
+import {ApiConnectorService} from '../../../../../_service/_api/api-connector.service';
 
 @Component({
   selector: 'app-product',
@@ -9,22 +8,23 @@ import {ApiConnectorService} from "../../../../../_service/api-connector.service
   styleUrls: ['./product.component.scss']
 })
 export class ProductComponent implements OnInit {
+  public productId: string = '';
+  @Input() public product!: ProductModel;
+  @Input() public deleted!: boolean;
 
-  productId: string = ""
-  @Input() product!: ProductModel
-  @Input() deleted!: boolean
+  @Output() public delete: EventEmitter<ProductModel> = new EventEmitter();
 
-  @Output() delete: EventEmitter<ProductModel> = new EventEmitter()
+  constructor(private api: ApiConnectorService) {}
 
-  constructor(private api: ApiConnectorService) { }
-
-  async ngOnInit(): Promise<void> {
-    let encryptedId: string = CryptoJs.Rabbit.encrypt(this.product.id, await this.api.getDecryptKey()).toString()
-    this.productId = encryptedId.toString().replace(new RegExp("/", "g"), "*");
+  ngOnInit(): void {
+    this.checkIfEmpty();
   }
 
-  removeProduct(): void {
+  private async checkIfEmpty() {
+    this.productId = this.product.id;
+  }
+
+  public removeProduct(): void {
     this.delete.emit(this.product);
   }
-
 }

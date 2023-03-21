@@ -1,12 +1,15 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
-import {AuthService} from "../../_service/auth.service";
-import {ApiConnectorService} from "../../_service/api-connector.service";
-import {Router} from "@angular/router";
+import {Component, OnInit} from '@angular/core';
+import {ActivatedRoute, Router} from '@angular/router';
+import {AuthService} from '../../_service/auth.service';
+import {ApiConnectorService} from '../../_service/_api/api-connector.service';
 
-import {faEnvelope, faKey} from "@fortawesome/free-solid-svg-icons";
-import {FormControl, FormGroup, NgForm, Validators} from "@angular/forms";
+import {FormControl, FormGroup, Validators} from '@angular/forms';
+import {faEnvelope, faKey, IconDefinition} from '@fortawesome/free-solid-svg-icons';
 import {ToastrService} from 'ngx-toastr';
-import {AppComponent} from "../../app.component";
+import {AppComponent} from '../../app.component';
+import {Title} from "@angular/platform-browser";
+import {SearchbarComponent} from "../../navigation/searchbar/searchbar.component";
+import { CartDataService } from 'src/app/_service/_data/cartData.service';
 
 @Component({
   selector: 'app-login',
@@ -14,77 +17,89 @@ import {AppComponent} from "../../app.component";
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit {
+  public faKey: IconDefinition = faKey;
+  public faEnvelope: IconDefinition = faEnvelope;
 
-  faKey = faKey;
-  faEnvelope = faEnvelope;
-
-  loginForm = new FormGroup({
+  public loginForm: FormGroup = new FormGroup({
     email: new FormControl('', [
       Validators.required,
       Validators.pattern(
         '^(?=.{1,64}@)[A-Za-z0-9_-]+(\\.[A-Za-z0-9_-]+)*@' +
-        '[^-][A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})$'
-      ),
+          '[^-][A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})$'
+      )
     ]),
-    password: new FormControl('', [Validators.required]),
-  })
+    password: new FormControl('', [Validators.required])
+  });
 
   constructor(
     private router: Router,
     private authService: AuthService,
     private toastr: ToastrService,
-    private api: ApiConnectorService
-  ) {
-  }
+    private api: ApiConnectorService,
+    private title: Title,
+    private cartDataService: CartDataService,
+    private route: ActivatedRoute
+  ) {}
 
-  async ngOnInit() {
+  ngOnInit() {
     AppComponent.isLoading = true;
     if (localStorage.getItem('jwt-token')) {
       try {
-        const tokenPayload = await this.api.getJwtPayload();
+        const tokenPayload: any = this.api.getJwtPayload();
 
         setTimeout(async () => {
           if (tokenPayload !== undefined) {
             await this.router.navigate(['/']);
           }
-        }, 300)
-
-      } catch (err) {
-      }
+        }, 300);
+      } catch (err) {}
     }
 
-
+    this.title.setTitle("F1 Webshop | Login")
     AppComponent.isLoading = false;
   }
 
-  public async onSubmit() {
+  public onSubmit() {
     AppComponent.isLoading = true;
 
-    const email = this.loginForm.controls.email.value
-    const password = this.loginForm.controls.password.value
+    const email: string = this.loginForm.controls['email'].value;
+    const password: string = this.loginForm.controls['password'].value;
 
     if (email == null || password == null) {
-      this.toastr.error("Something went wrong!", "Failed");
+      this.toastr.error('Something went wrong!', 'Failed');
+      this.loginForm.reset();
       return;
     }
 
     if (!this.loginForm.value) {
-      this.toastr.error("Something went wrong!", "Failed");
+      this.toastr.error('Something went wrong!', 'Failed');
+      this.loginForm.reset();
       return;
     }
 
-    await this.authService.login(
-      email,
-      password
-    ).then(r => {
-      if (r.data.code == 202) {
-        localStorage.setItem('blank-token', r.data.payload?.jwtToken);
-        window.location.href = ApiConnectorService.apiUrl + r.data['payload']['destination'];
-        this.toastr.success("You are Logged in successfully!", r.data.message);
+    this.authService.login(email, password).then((r) => {
+      if (r.data.code == 200) {
+        localStorage.setItem('refresh-token', r.data.payload?.refreshToken);
+        localStorage.setItem('jwt-token', r.data.payload?.jwtToken);
+        SearchbarComponent.loggedIn.next(true);
+        this.cartDataService.getAllProductsInCart();
+
+        if (this.route.snapshot.queryParamMap.has('redirectURI')) {
+          // @ts-ignore
+          const redirect!: string[] = this.route.snapshot.queryParamMap
+            .get('redirectURI')
+            .split('/');
+
+          this.router.navigate(redirect);
+        } else {
+          this.router.navigate(["/"]);
+        }
+
+        this.toastr.success('You are Logged in successfully!', r.data.message);
       } else {
-        this.toastr.error("Credentials doesnt match!", r.data.message);
+        this.toastr.error('Credentials doesnt match!', r.data.message);
       }
-    })
+    });
 
     AppComponent.isLoading = false;
   }

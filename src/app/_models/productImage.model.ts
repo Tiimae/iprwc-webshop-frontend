@@ -1,8 +1,8 @@
-import {ProductModel} from "./product.model";
+import {ProductModel} from './product.model';
 
 export class ProductImageModel {
   private readonly _id: string;
-  private readonly _imagePath: string
+  private readonly _imagePath: string;
   private readonly _product: ProductModel;
 
   constructor(id: string, imagePath: string, product: ProductModel) {
@@ -10,7 +10,6 @@ export class ProductImageModel {
     this._imagePath = imagePath;
     this._product = product;
   }
-
 
   get id(): string {
     return this._id;

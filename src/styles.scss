@@ -3,9 +3,26 @@
 @tailwind components;
 @tailwind utilities;
 
+@font-face {
+  font-family: "F1";
+  src: url(assets/fonts/Formula1-Italic.woff2) format("woff2");
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "F1Bold";
+  src: url("assets/fonts/Formula1-Bold.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
 h1, h2, h3, h4, h5, h6 {
   font-size: inherit;
   font-weight: inherit;
+  font-family: F1Bold;
 }
 
 
@@ -19,6 +36,7 @@ h1, h2, h3, h4, h5, h6 {
 body {
   font-size: 16px;
   height: auto;
+  margin-bottom: 15px;
 }
 
 a {
@@ -29,26 +47,29 @@ a {
 h1 {
   font-size: 210%;
   font-weight: 400;
-  text-shadow: 2px 3px 5px rgba(0, 0, 0, 0.29)
 }
 
 h2 {
   font-size: 180%;
   font-weight: 300;
-  text-shadow: 2px 3px 5px rgba(0, 0, 0, 0.29)
 }
 
 h3 {
   font-size: 150%;
   font-weight: 200;
-  text-shadow: 2px 3px 5px rgba(0, 0, 0, 0.29);
   color: black;
 }
 
 p {
   font-size: 120%;
   color: black;
+
 }
+
+span, p, a, ::placeholder, button, label, div, input, li {
+  font-family: F1;
+}
+
 
 .container {
   width: 90%;
@@ -56,12 +77,6 @@ p {
   animation-duration: 1s;
   animation-delay: 0.2s;
   animation-fill-mode: backwards;
-}
-
-.scrolling-items-y {
-  height: 65vh;
-  overflow-y: scroll;
-  overflow-x: hidden;
 }
 
 body {

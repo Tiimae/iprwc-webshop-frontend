@@ -5,11 +5,10 @@ img {
 
 .container {
   margin: 0 auto;
-  height: 80.9vh;
-  overflow: scroll;
 
   .card-wrapper {
     margin: 0 auto;
+    margin-top: 20px;
 
     .card {
       .product-imgs {
@@ -49,9 +48,7 @@ img {
         padding: 2rem 1rem;
 
         .product-title {
-          font-size: 3rem;
           text-transform: capitalize;
-          font-weight: 700;
           position: relative;
           color: #12263a;
           margin: 1rem 0;
@@ -62,7 +59,7 @@ img {
             left: 0;
             bottom: 0;
             height: 4px;
-            width: 80px;
+            width: 50px;
             background: #12263a;
           }
         }
@@ -74,7 +71,7 @@ img {
           font-size: 0.9rem;
           display: inline-block;
           margin-bottom: 0.5rem;
-          background: #256eff;
+          background: #e10600;
           color: #fff;
           padding: 0 0.3rem;
           transition: all 0.5s ease;
@@ -104,7 +101,7 @@ img {
 
           .new-price {
             span {
-              color: #256eff;
+              color: #e10600;
             }
           }
         }
@@ -228,13 +225,13 @@ img {
     .card {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
-      grid-gap: 1.5rem;
+      grid-gap: 5rem;
 
       .product-imgs {
         display: flex;
         flex-direction: column;
         justify-content: center;
-        width: 45vw;
+        width: 40vw;
       }
 
       .product-content {

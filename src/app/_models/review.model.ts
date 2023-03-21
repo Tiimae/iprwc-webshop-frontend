@@ -9,7 +9,6 @@ export class ReviewModel {
     this._stars = stars;
   }
 
-
   get id(): string {
     return this._id;
   }

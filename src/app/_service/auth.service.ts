@@ -1,84 +1,94 @@
 import {Injectable} from '@angular/core';
+import {AxiosResponse} from 'axios';
 import * as CryptoJs from 'crypto-js';
-import {ApiConnectorService} from "./api-connector.service";
-import {environment} from "../../environments/environment";
+import {environment} from '../../environments/environment';
+import {ApiConnectorService} from './_api/api-connector.service';
+import {SearchbarComponent} from "../navigation/searchbar/searchbar.component";
+import {AppComponent} from "../app.component";
+import {CartDataService} from "./_data/cartData.service";
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class AuthService {
-  constructor(private api: ApiConnectorService) {
-  }
+  constructor(private api: ApiConnectorService, private cartDataService: CartDataService) {}
 
   private static sharedDecryptKey: string = environment.sharedSecret;
   private static cipherOptions = {
     mode: CryptoJs.mode.ECB,
-    padding: CryptoJs.pad.Pkcs7,
+    padding: CryptoJs.pad.Pkcs7
   };
 
-  public login(email: string, password: string) {
+  public async login(email: string, password: string): Promise<AxiosResponse> {
     const encryptedPassword: string = AuthService.encryptText(password);
-    return this.api.noAuth().post(
+    return (await this.api.noAuth()).post(
       'auth/login',
       {
         email,
-        password: encryptedPassword,
+        password: encryptedPassword
       },
-      {params: {encrypted: true}}
+      {
+        params: {encrypted: true},
+      }
     );
   }
 
-  public logout() {
-    // Clear secret cookie aswell?
-    localStorage.clear();
+  public logout(): void {
+    localStorage.removeItem("jwt-token");
+    localStorage.removeItem("refresh-token");
+    SearchbarComponent.loggedIn.next(false);
+    AppComponent.verified = null;
+    AppComponent.hasRole = null;
+    this.cartDataService.clearCartAfterLogout();
   }
 
-  public async register(firstname: string, middlename: string, lastname: string, email: string, password: string) {
+  public async register(
+    firstname: string,
+    middlename: string,
+    lastname: string,
+    email: string,
+    password: string
+  ): Promise<AxiosResponse> {
     const encryptedPassword: string = AuthService.encryptText(password);
 
-    return await this.api.noAuth().post(
+    return await (await this.api.noAuth()).post(
       'auth/register',
       {
-        "firstName": firstname,
-        "middleName": middlename,
-        "lastName": lastname,
+        firstName: firstname,
+        middleName: middlename,
+        lastName: lastname,
         email,
-        password: encryptedPassword,
+        password: encryptedPassword
       },
-      {params: {encrypted: true}}
+      { params: { encrypted: true } }
     );
   }
 
-  public async getProfile() {
-    return await (await this.api.auth()).get('auth/profile');
+  public async forgotPassword(email: string): Promise<AxiosResponse> {
+    return (await this.api.noAuth()).post('auth/forgot-password?email=' + email);
   }
 
-  public async verifyEmail(token: string) {
-    return await (await this.api.auth()).post('auth/verify-email?token=' + token);
-  }
-
-  public async sendVerifyEmail() {
-    return (await this.api.auth()).get('auth/send-verify-email/');
-  }
-
-  public async forgotPassword(email: string) {
-    return this.api.noAuth().post('auth/forgot-password?email=' + email);
-  }
-
-  public async setNewPassword(token: string, email: string, password: string) {
+  public async setNewPassword(
+    token: string,
+    email: string,
+    password: string
+  ): Promise<AxiosResponse> {
     const encryptedPassword: string = AuthService.encryptText(password);
-    return await this.api.noAuth().post('auth/set-new-password?token=' + token, {
-        "email": email,
-        "password": encryptedPassword
+    return await (await this.api.noAuth()).post(
+      'auth/set-new-password?token=' + token,
+      {
+        email: email,
+        password: encryptedPassword
       },
-      {params: {encrypted: true}});
+      { params: { encrypted: true } }
+    );
   }
 
-  public getSecret() {
-    return this.api.noAuth().get('auth/secret', {withCredentials: true});
+  public async getSecret(): Promise<AxiosResponse> {
+    return (await this.api.noAuth()).get('auth/secret');
   }
 
-  public static encryptText(plainText: string) {
+  public static encryptText(plainText: string): string {
     const secretKey = CryptoJs.MD5(this.sharedDecryptKey).toString();
 
     return CryptoJs.AES.encrypt(
@@ -88,7 +98,7 @@ export class AuthService {
     ).toString();
   }
 
-  public static decryptText(encryptedText: string) {
+  public static decryptText(encryptedText: string): string {
     const secretKey = CryptoJs.MD5(this.sharedDecryptKey).toString();
 
     return CryptoJS.enc.Utf8.stringify(
@@ -99,4 +109,6 @@ export class AuthService {
       )
     );
   }
+
+
 }

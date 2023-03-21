@@ -1,5 +1,5 @@
-import {Component, OnInit} from '@angular/core';
-import {ApiConnectorService} from "../../_service/api-connector.service";
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import {
   faAddressCard,
   faBox,
@@ -10,10 +10,13 @@ import {
   faShippingFast,
   faSignOut,
   faUser
-} from "@fortawesome/free-solid-svg-icons";
-import {ActivatedRoute, Router} from "@angular/router";
-import {LoggedUserModel} from "../../_models/loggedUser.model";
-import {SearchbarComponent} from "../../navigation/searchbar/searchbar.component";
+} from '@fortawesome/free-solid-svg-icons';
+import { UserDataService } from 'src/app/_service/_data/userData.service';
+import { AppComponent } from '../../app.component';
+import { LoggedUserModel } from '../../_models/loggedUser.model';
+import { AuthService } from '../../_service/auth.service';
+import { ApiConnectorService } from '../../_service/_api/api-connector.service';
+import { ApiMethodsService } from '../../_service/_api/api-methods.service';
 
 @Component({
   selector: 'app-sidebar',
@@ -21,39 +24,41 @@ import {SearchbarComponent} from "../../navigation/searchbar/searchbar.component
   styleUrls: ['./sidebar.component.scss']
 })
 export class SidebarComponent implements OnInit {
-
-  faUser = faUser;
-  faAddressCard = faAddressCard
-  faShippingFast = faShippingFast
-  faFileInvoice = faFileInvoice
-  faSignOut = faSignOut
-  faBox = faBox
-  faListAlt = faListAlt
-  faIndustry = faIndustry
-  faFire = faFire
-  hasRole: boolean = false;
-
-  private jwtPayload: LoggedUserModel | undefined = undefined
+  public faUser = faUser;
+  public faAddressCard = faAddressCard;
+  public faShippingFast = faShippingFast;
+  public faFileInvoice = faFileInvoice;
+  public faSignOut = faSignOut;
+  public faBox = faBox;
+  public faListAlt = faListAlt;
+  public faIndustry = faIndustry;
+  public faFire = faFire;
+  public hasRole: boolean = false;
 
   constructor(
     private router: Router,
-    private route: ActivatedRoute,
-    private api: ApiConnectorService
-    ) {
-  }
+    private api: ApiConnectorService,
+    private methods: ApiMethodsService,
+    private auth: AuthService
+  ) {}
 
   async ngOnInit(): Promise<void> {
-    // @ts-ignore
-    this.hasRole = await this.api.getJwtPayload().then((r: LoggedUserModel): boolean => {
-      return r.roles.includes("Admin") || r.roles.includes("Owner");
-    })
+    if (AppComponent.hasRole == null) {
+      this.api
+        .getJwtPayload()
+        .then(async (res: LoggedUserModel): Promise<void> => {
+          this.methods.get(`user/${res.userId}/has-role`, true).then((res) => {
+            AppComponent.hasRole = res.data.payload;
+            this.hasRole = res.data.payload;
+          });
+        });
+    } else {
+      this.hasRole = AppComponent.hasRole;
+    }
   }
 
-  public LogOut() {
-    localStorage.removeItem("jwt-token");
-    SearchbarComponent.loggedIn = false
-
-    this.router.navigate([''])
+  public logOut(): void {
+    this.auth.logout();
+    this.router.navigate(['/']);
   }
-
 }

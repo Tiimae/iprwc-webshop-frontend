@@ -11,8 +11,8 @@
   <section>
     <section *ngIf="cartProducts.length != 0">
       <ul class="products">
-        <li class="row" *ngFor="let product of cartProducts">
-          <app-cart-item [product]="product" [overview]="overview" (change)="calculateTotalProduct()"></app-cart-item>
+        <li class="row" *ngFor="let item of cartProducts">
+          <app-cart-item [product]="item.product" [amount]="item.quantity" [overview]="overview" (change)="calculateTotalProduct()"></app-cart-item>
         </li>
       </ul>
     </section>

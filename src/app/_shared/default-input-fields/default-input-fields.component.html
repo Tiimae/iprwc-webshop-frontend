@@ -1,0 +1,19 @@
+<section class="login-row">
+  <section class="field-wrapper text-field login-input required">
+    <section class="field-wrapper-item" [attr.data-input]="name">
+      <label for="{{ name }}" class="field-wrapper-input-label">{{ name }}</label>
+      <section class="field-wrapper-children">
+        <input
+          type="{{ type }}"
+          name="{{ name }}"
+          id="{{ name }}"
+          class="text-field-input"
+          required=""
+          [value]="value != null ? value : ''"
+          (focus)="onFocus(name)"
+          (blur)="onFocus(name)"
+        >
+      </section>
+    </section>
+  </section>
+</section>

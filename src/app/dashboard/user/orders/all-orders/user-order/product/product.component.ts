@@ -1,5 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {OrderProductModel} from "../../../../../../_models/orderProduct.model";
+import {OrderProductModel} from '../../../../../../_models/orderProduct.model';
 
 @Component({
   selector: 'app-product-order',
@@ -7,12 +7,9 @@ import {OrderProductModel} from "../../../../../../_models/orderProduct.model";
   styleUrls: ['./product.component.scss']
 })
 export class ProductComponent implements OnInit {
-
   @Input() orderProduct!: OrderProductModel;
 
-  constructor() { }
+  constructor() {}
 
-  ngOnInit(): void {
-  }
-
+  ngOnInit(): void {}
 }

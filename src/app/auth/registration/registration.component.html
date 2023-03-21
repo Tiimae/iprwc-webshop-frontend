@@ -1,97 +1,60 @@
-<section class="bg-gray-50 dark:bg-gray-900">
-  <section class="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
-    <section
-      class="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
-      <section class="p-6 space-y-4 md:space-y-6 sm:p-8">
-        <h1 class="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
-          Create an account
-        </h1>
-        <form [formGroup]="firstRegistrationForm" (ngSubmit)="toNextStep()" *ngIf="step == 1">
-          <section>
-            <label for="firstname" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your first
-              name</label>
-            <input type="text" name="firstname" id="firstname"
-                   formControlName="firstname"
-                   value="{{ firstname }}"
-                   class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                   placeholder="John" required="">
-          </section>
-          <section>
-            <label for="middlename" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your middle
-              name</label>
-            <input type="text" name="middlename" id="middlename"
-                   formControlName="middlename"
-                   value="{{ middlename }}"
-                   class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                   placeholder="">
-          </section>
-          <section>
-            <label for="lastname" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your last
-              name</label>
-            <input type="text" name="lastname" id="lastname"
-                   formControlName="lastname"
-                   value="{{ lastname }}"
-                   class=" mb-4 bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                   placeholder="Doe" required="">
-          </section>
-
-          <button type="submit"
-                  class="w-full text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">
-            To next step
-          </button>
-          <p class="text-sm font-light text-gray-500 dark:text-gray-400">
-            Already have an account? <a href="/auth/login"
-                                        class="font-medium text-primary-600 hover:underline dark:text-primary-500">Login
-            here</a>
-          </p>
-        </form>
-
-        <form class="space-y-4 md:space-y-6" [formGroup]="secondRegistrationForm" (ngSubmit)="onSubmit()"
-              *ngIf="step == 2">
-          <section>
-            <label for="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your email</label>
-            <input type="email" name="email" id="email"
-                   formControlName="email"
-                   class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                   placeholder="name@company.com" required="">
-          </section>
-          <section>
-            <label for="password" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Password</label>
-            <input type="password" name="password" id="password" placeholder="••••••••"
-                   formControlName="password"
-                   class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                   required="">
-          </section>
-          <section>
-            <label for="confirm-password" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Confirm
-              password</label>
-            <input type="password" name="confirm-password" id="confirm-password" placeholder="••••••••"
-                   formControlName="passwordCheck"
-                   class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                   required="">
-          </section>
-          <section class="flex items-start">
-            <section class="flex items-center h-5">
-              <input id="terms" aria-describedby="terms" type="checkbox"
-                     formControlName="terms"
-                     class="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-primary-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-primary-600 dark:ring-offset-gray-800"
-                     required="">
-            </section>
-            <section class="ml-3 text-sm ">
-              <label for="terms" class="font-light text-gray-500 dark:text-gray-300">I accept the Terms and Conditions</label>
-            </section>
-          </section>
-          <button type="submit"
-                  class="w-full text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">
-            Create an account
-          </button>
-          <p class="text-sm font-light text-gray-500 dark:text-gray-400">
-            Already have an account? <a href="/auth/login"
-                                        class="font-medium text-primary-600 hover:underline dark:text-primary-500">Login
-            here</a>
-          </p>
-        </form>
+<section class="login-box">
+  <section class="login-modal">
+    <form class="login-form" [formGroup]="firstRegistrationForm" (ngSubmit)="onSubmit()">
+      <section class="login-title">
+        <section class="login-text">
+          <h1>Register</h1>
+          <span>Already have an account? <a class="caps" routerLink="/auth/login">Log in</a></span>
+        </section>
       </section>
-    </section>
+
+      <section class="login-input-section">
+        <app-default-input-fields
+          [name]="'firstname'"
+          [type]="'text'"
+          formControlName="firstname"
+          ngDefaultControl
+        ></app-default-input-fields>
+          <app-default-input-fields
+            [name]="'middlename'"
+            [type]="'text'"
+            formControlName="middlename"
+            ngDefaultControl
+          ></app-default-input-fields>
+          <app-default-input-fields
+            [name]="'lastname'"
+            [type]="'text'"
+            formControlName="lastname"
+            ngDefaultControl
+          ></app-default-input-fields>
+          <app-default-input-fields
+            [name]="'email'"
+            [type]="'email'"
+            formControlName="email"
+            ngDefaultControl
+          ></app-default-input-fields>
+          <app-default-input-fields
+            [name]="'password'"
+            [type]="'password'"
+            formControlName="password"
+            ngDefaultControl
+          ></app-default-input-fields>
+
+          <app-default-input-fields
+            [name]="'passwordCheck'"
+            [type]="'password'"
+            formControlName="passwordCheck"
+            ngDefaultControl
+          ></app-default-input-fields>
+        </section>
+
+      <section class="login-form-button">
+        <button type="submit" class="button large primary" [disabled]="!firstRegistrationForm.valid"
+                data-submit-button>
+          Register
+        </button>
+      </section>
+    </form>
   </section>
 </section>
+

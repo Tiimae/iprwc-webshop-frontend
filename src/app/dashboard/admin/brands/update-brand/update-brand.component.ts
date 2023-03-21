@@ -1,11 +1,13 @@
 import {Component, OnInit} from '@angular/core';
-import {BrandDataService} from "../../../../_service/data/brandData.service";
-import * as CryptoJs from "crypto-js";
-import {ApiConnectorService} from "../../../../_service/api-connector.service";
-import {ActivatedRoute, Router} from "@angular/router";
-import {BrandModel} from "../../../../_models/brand.model";
-import {FormControl, FormGroup, Validators} from "@angular/forms";
-import {ToastrService} from "ngx-toastr";
+import {FormControl, FormGroup, Validators} from '@angular/forms';
+import {ActivatedRoute, ParamMap, Params, Router} from '@angular/router';
+import {AxiosResponse} from 'axios';
+import {ToastrService} from 'ngx-toastr';
+import {BrandModel} from '../../../../_models/brand.model';
+import {ApiConnectorService} from '../../../../_service/_api/api-connector.service';
+import {BrandDataService} from '../../../../_service/_data/brandData.service';
+import {Title} from "@angular/platform-browser";
+import {map} from "rxjs";
 
 @Component({
   selector: 'app-update-brand',
@@ -13,48 +15,68 @@ import {ToastrService} from "ngx-toastr";
   styleUrls: ['./update-brand.component.scss']
 })
 export class UpdateBrandComponent implements OnInit {
-
-  brandCreateForm = new FormGroup({
+  public brandCreateForm: FormGroup = new FormGroup({
     brandName: new FormControl('', [Validators.required]),
     url: new FormControl('', [Validators.required]),
-    logo: new FormControl(''),
-  })
-  uploadedImage!: File;
-  brandId: string = "";
-  brand!: BrandModel;
+    logo: new FormControl('')
+  });
+  private uploadedImage!: File;
+  private brandId: string = '';
+  public brand!: BrandModel;
 
   constructor(
     private router: Router,
     private route: ActivatedRoute,
     private brandDataService: BrandDataService,
     private toastr: ToastrService,
-    private api: ApiConnectorService
-  ) { }
+    private api: ApiConnectorService,
+    private title: Title
+  ) {}
 
   ngOnInit(): void {
+    this.route.paramMap.subscribe((params: ParamMap): void => {
+      const id = params.get('brandId')
 
-    this.route.params.subscribe(async (params) => {
-      const currentBrandId = params['brandId'].replaceAll("*", "/");
-      this.brandId = CryptoJs.Rabbit.decrypt(currentBrandId, await this.api.getDecryptKey()).toString(CryptoJs.enc.Utf8);
+      if (id == null) {
+        return;
+      }
 
-      (await this.brandDataService
-        .get(this.brandId))
-        .subscribe((r: BrandModel) => {
-          this.brand = r;
-        })
+      this.brandId = id;
 
-      this.brandCreateForm.controls.brandName.setValue(this.brand.brandName)
-      this.brandCreateForm.controls.url.setValue(this.brand.webPage)
-    })
+      (this.brandDataService.get(this.brandId)).subscribe(
+        (r: BrandModel | undefined) => {
+          if (r == undefined) {
+            this.brandDataService.getByRequest(this.brandId).then((res: AxiosResponse) => {
+              if (res.data.code === 202) {
+                this.brand = res.data.payload;
+                this.setFormData();
+              } else if (res.data.code === 400) {
+                this.toastr.error(res.data.message, res.data.code);
+                this.router.navigate(['dashboard', 'admin', 'brands']);
+              }
+            });
+          } else {
+            this.brand = r;
+            this.setFormData();
+          }
+        }
+      );
+    });
   }
 
-  public onImageUpload(event: any) {
+  private setFormData(): void {
+    this.brandCreateForm.controls['brandName'].setValue(this.brand.brandName);
+    this.brandCreateForm.controls['url'].setValue(this.brand.webPage);
+    this.title.setTitle(`F1 Webshop | Update Brand - ${this.brand.brandName}`)
+  }
+
+  public onImageUpload(event: any): void {
     this.uploadedImage = event.target.files[0];
   }
 
   onSubmit(): void {
-    const brandName = this.brandCreateForm.controls.brandName.value
-    const webPage = this.brandCreateForm.controls.url.value
+    const brandName = this.brandCreateForm.controls['brandName'].value;
+    const webPage = this.brandCreateForm.controls['url'].value;
 
     if (brandName == null || webPage == null) {
       this.toastr.error('Something is wrong!', 'Failed');
@@ -66,15 +88,14 @@ export class UpdateBrandComponent implements OnInit {
       return;
     }
 
-    const brand = new BrandModel(this.brandId, brandName, webPage, this.brand.logoUrl)
-    brand.image = this.uploadedImage
+    const brand = new BrandModel(
+      this.brandId,
+      brandName,
+      webPage,
+      this.brand.logoUrl
+    );
 
-    const request: boolean = this.brandDataService.update(brand);
-
-    if (request) {
-      this.toastr.success("Brand Has been updated successfully!", "Updated!")
-      this.router.navigate(["dashboard", "admin", "brands"])
-    }
+    brand.image = this.uploadedImage;
+    this.brandDataService.update(brand);
   }
-
 }

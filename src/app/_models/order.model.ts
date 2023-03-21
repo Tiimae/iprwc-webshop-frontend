@@ -1,6 +1,6 @@
-import {UserModel} from "./user.model";
-import {OrderProductModel} from "./orderProduct.model";
-import {UserAddressesModel} from "./userAddresses.model";
+import {UserModel} from './user.model';
+import {OrderProductModel} from './orderProduct.model';
+import {UserAddressesModel} from './userAddresses.model';
 
 export class OrderModel {
   private readonly _id: string;
@@ -10,7 +10,14 @@ export class OrderModel {
   private readonly _orderProducts: OrderProductModel[];
   private readonly _userAddresses: UserAddressesModel[];
 
-  constructor(id: string, orderId: string, orderDate: Date, user: UserModel, orderProducts: OrderProductModel[], userAddresses: UserAddressesModel[]) {
+  constructor(
+    id: string,
+    orderId: string,
+    orderDate: Date,
+    user: UserModel,
+    orderProducts: OrderProductModel[],
+    userAddresses: UserAddressesModel[]
+  ) {
     this._id = id;
     this._orderId = orderId;
     this._orderDate = orderDate;
@@ -18,7 +25,6 @@ export class OrderModel {
     this._orderProducts = orderProducts;
     this._userAddresses = userAddresses;
   }
-
 
   get id(): string {
     return this._id;

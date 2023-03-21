@@ -33,15 +33,15 @@
     </a>
     <span class="block mt-4 lg:inline-block text-white lg:mt-0 pr-4">|</span>
     <a routerLink="/auth/login" class="block mt-4 lg:inline-block lg:mt-0 text-white mr-4"
-       *ngIf="!getLoggedIn()">Login</a>
-    <span class="block mt-4 lg:inline-block lg:mt-0 text-white pr-4" *ngIf="!getLoggedIn()">|</span>
-    <a routerLink="/auth/register" class="block mt-4 lg:inline-block lg:mt-0 text-white mr-4" *ngIf="!getLoggedIn()">Register</a>
+       *ngIf="!loggedInTemplate">Login</a>
+    <span class="block mt-4 lg:inline-block lg:mt-0 text-white pr-4" *ngIf="!loggedInTemplate">|</span>
+    <a routerLink="/auth/register" class="block mt-4 lg:inline-block lg:mt-0 text-white mr-4" *ngIf="!loggedInTemplate">Register</a>
     <a routerLink="/dashboard/user/account" class="block mt-4 lg:inline-block lg:mt-0 text-white mr-4 hidden lg:block"
-       *ngIf="getLoggedIn()">
+       *ngIf="loggedInTemplate">
       <fa-icon [icon]="faUser"></fa-icon> &nbsp; {{ username }}
     </a>
     <a routerLink="/dashboard/user/account"
-       class="block mt-4 lg:inline-block lg:mt-0 text-white mr-4 block lg:hidden w-1/2" *ngIf="getLoggedIn()">
+       class="block mt-4 lg:inline-block lg:mt-0 text-white mr-4 block lg:hidden w-1/2" *ngIf="loggedInTemplate">
       <fa-icon [icon]="faUser"></fa-icon>
     </a>
   </section>

@@ -1,14 +1,14 @@
 import {Component, OnInit} from '@angular/core';
-import {faSearch, faShoppingCart, faUser} from "@fortawesome/free-solid-svg-icons";
-import {ApiConnectorService} from "../../_service/api-connector.service";
-import {AuthService} from "../../_service/auth.service";
-import {Router} from "@angular/router";
+import {FormControl, FormGroup} from '@angular/forms';
+import {Router} from '@angular/router';
+import {faSearch, faShoppingCart, faUser} from '@fortawesome/free-solid-svg-icons';
 import {ProductModel} from 'src/app/_models/product.model';
-import {CartDataService} from 'src/app/_service/data/cartData.service';
-import {environment} from "../../../environments/environment";
-import {UserDataService} from "../../_service/data/userData.service";
-import {UserModel} from "../../_models/user.model";
-import {FormControl, FormGroup} from "@angular/forms";
+import {UserModel} from 'src/app/_models/user.model';
+import {CartDataService} from 'src/app/_service/_data/cartData.service';
+import {environment} from '../../../environments/environment';
+import {ApiConnectorService} from '../../_service/_api/api-connector.service';
+import {UserDataService} from '../../_service/_data/userData.service';
+import {BehaviorSubject, Subject} from 'rxjs';
 
 @Component({
   selector: 'app-searchbar',
@@ -16,78 +16,82 @@ import {FormControl, FormGroup} from "@angular/forms";
   styleUrls: ['./searchbar.component.scss']
 })
 export class SearchbarComponent implements OnInit {
+
+  public static loggedIn: Subject<boolean> = new BehaviorSubject<boolean>(false);
+
+  public loggedInTemplate!: boolean;
   public apiUrl = environment.url;
-  faSearch = faSearch;
-  faShoppingCart = faShoppingCart;
-  faUser = faUser;
-  products!: ProductModel[];
-  static loggedIn: boolean;
-
-  username: string = ''
-
-  cartLength: number = 0;
-
-  searchGroup = new FormGroup({
+  public faSearch = faSearch;
+  public faShoppingCart = faShoppingCart;
+  public faUser = faUser;
+  public products!: ProductModel[];
+  public username: string = '';
+  public cartLength: number = 0;
+  public searchGroup = new FormGroup({
     search: new FormControl('')
-  })
+  });
+  checked: boolean = false;
 
   constructor(
     private router: Router,
-    private authService: AuthService,
     private cartDataService: CartDataService,
     private api: ApiConnectorService,
-    private userDataService: UserDataService,
+    private userDataService: UserDataService
   ) {
   }
 
-  async ngOnInit(): Promise<void> {
+  ngOnInit(): void {
+    this.cartDataService.getAllProductsInCart()
 
-    this.cartDataService
-      .products$
-      .subscribe(res => {
-        this.cartLength = res.length;
+    this.cartDataService.products$.subscribe(res => {
+      this.cartLength = res.length
+    })
 
-      })
+    this.ifItemIsInLocalStorage();
+    this.getLoggedIn()
+  }
 
-    await this.ifItemIsInLocalStorage();
+  public ifItemIsInLocalStorage(): void {
+    SearchbarComponent.loggedIn.next(this.api.authenticated())
+  }
 
-    if (this.getLoggedIn()) {
-      setTimeout(() => {
-        this.api.getJwtPayload().then(async jwt => {
+
+  public getLoggedIn(): void {
+    SearchbarComponent.loggedIn.subscribe((res: boolean) => {
+      this.loggedInTemplate = res
+
+      if (res) {
+        this.api.getJwtPayload().then((jwt) => {
           if (jwt?.userId != undefined) {
-            this.userDataService.users$.subscribe(res => {
-              const user: UserModel | undefined = res.find(currentUser => currentUser.id === jwt.userId)
-              if (user == undefined) {
-                return;
-              }
-
-              if (user.middleName == '') {
-                this.username = user.firstName + ' ' + user.lastName
+            this.userDataService.getCurrentUser(jwt.userId).subscribe((res) => {
+              if (res == undefined) {
+                this.userDataService.getUserByRequest(jwt.userId).then((res) => {
+                  this.setUserName(res.data.payload);
+                });
               } else {
-                this.username = user.firstName + ' ' + user.middleName + ' ' + user.lastName
+                this.setUserName(res);
               }
-            })
+            });
           }
         });
-      }, 200)
-    }
+      }
+    });
   }
 
-  public async ifItemIsInLocalStorage(): Promise<void> {
-    SearchbarComponent.loggedIn = await this.api.authenticated();
-  }
-
-  getLoggedIn(): boolean {
-    return SearchbarComponent.loggedIn;
-  }
-
-
-  search(): void {
+  public search(): void {
     this.router.navigate(['search'], {
       queryParams: {
         search: this.searchGroup.controls.search.value
       }
-    })
+    });
   }
 
+  private setUserName(user: UserModel): void {
+    if (user.middleName == '') {
+      this.username = user.firstName + ' ' + user.lastName;
+    } else {
+      this.username =
+        user.firstName + ' ' + user.middleName + ' ' + user.lastName;
+    }
+  }
 }

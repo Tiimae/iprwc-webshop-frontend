@@ -1,4 +1,4 @@
-import {UserModel} from "./user.model";
+import {UserModel} from './user.model';
 
 export class UserAddressesModel {
   private readonly _id: string;
@@ -11,8 +11,17 @@ export class UserAddressesModel {
   private readonly _type: string;
   private readonly _user: UserModel;
 
-
-  constructor(id: string, street: string, houseNumber: number, addition: string, zipcode: string, city: string, country: string, type: string, user: UserModel) {
+  constructor(
+    id: string,
+    street: string,
+    houseNumber: number,
+    addition: string,
+    zipcode: string,
+    city: string,
+    country: string,
+    type: string,
+    user: UserModel
+  ) {
     this._id = id;
     this._street = street;
     this._houseNumber = houseNumber;

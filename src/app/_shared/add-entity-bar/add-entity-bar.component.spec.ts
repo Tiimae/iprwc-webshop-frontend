@@ -8,9 +8,8 @@ describe('AddEntityBarComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ AddEntityBarComponent ]
-    })
-    .compileComponents();
+      declarations: [AddEntityBarComponent]
+    }).compileComponents();
 
     fixture = TestBed.createComponent(AddEntityBarComponent);
     component = fixture.componentInstance;

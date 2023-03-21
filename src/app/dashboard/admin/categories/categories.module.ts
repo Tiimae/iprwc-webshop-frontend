@@ -8,7 +8,6 @@ import {UpdateCategoryComponent} from './update-category/update-category.compone
 import {CategoryComponent} from './all-categories/category/category.component';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 
-
 @NgModule({
   declarations: [
     AllCategoriesComponent,
@@ -23,5 +22,4 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
     ReactiveFormsModule
   ]
 })
-export class CategoriesModule {
-}
+export class CategoriesModule {}

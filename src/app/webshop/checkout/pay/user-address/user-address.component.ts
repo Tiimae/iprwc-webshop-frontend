@@ -1,6 +1,6 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {UserAddressesModel} from "../../../../_models/userAddresses.model";
-import {Router} from "@angular/router";
+import {UserAddressesModel} from '../../../../_models/userAddresses.model';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-user-address',
@@ -8,33 +8,25 @@ import {Router} from "@angular/router";
   styleUrls: ['./user-address.component.scss']
 })
 export class UserAddressComponent implements OnInit {
+  @Input() public address: UserAddressesModel | undefined = undefined;
+  @Input() public type: string | null = null;
+  @Input() public redirectUrl: string | null = null;
+  @Output() public select: EventEmitter<UserAddressesModel> = new EventEmitter();
 
-  @Input() address: UserAddressesModel | undefined = undefined;
-  @Input() type: string | null = null;
-  @Input() redirectUrl: string | null = null;
-  @Output() select: EventEmitter<UserAddressesModel> = new EventEmitter;
+  constructor(private router: Router) {}
 
-  constructor(
-    private router: Router
-  ) {
-  }
+  ngOnInit(): void {}
 
-  ngOnInit(): void {
-
-  }
-
-  selectAddress() {
+  public selectAddress(): void {
     this.select.emit(this.address);
   }
 
-  createAddress(): void {
-    this.router.navigate(["dashboard", "user", "addresses", "create"], {
+  public createAddress(): void {
+    this.router.navigate(['dashboard', 'user', 'addresses', 'create'], {
       queryParams: {
         redirectURI: this.redirectUrl,
-        type: this.type,
+        type: this.type
       }
-    })
+    });
   }
-
-
 }

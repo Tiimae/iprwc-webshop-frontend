@@ -8,9 +8,8 @@ describe('BubbleTextComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ BubbleTextComponent ]
-    })
-    .compileComponents();
+      declarations: [BubbleTextComponent]
+    }).compileComponents();
 
     fixture = TestBed.createComponent(BubbleTextComponent);
     component = fixture.componentInstance;

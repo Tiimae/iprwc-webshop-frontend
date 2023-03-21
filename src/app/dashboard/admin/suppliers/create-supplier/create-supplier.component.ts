@@ -1,9 +1,9 @@
 import {Component, OnInit} from '@angular/core';
-import {FormControl, FormGroup, Validators} from "@angular/forms";
+import {FormControl, FormGroup, Validators} from '@angular/forms';
+import {ToastrService} from 'ngx-toastr';
 import {SupplierModel} from 'src/app/_models/supplier.model';
-import {SupplierDataService} from "../../../../_service/data/supplierData.service";
-import {Router} from "@angular/router";
-import {ToastrService} from "ngx-toastr";
+import {SupplierDataService} from '../../../../_service/_data/supplierData.service';
+import {Title} from "@angular/platform-browser";
 
 @Component({
   selector: 'app-create-supplier',
@@ -11,34 +11,40 @@ import {ToastrService} from "ngx-toastr";
   styleUrls: ['./create-supplier.component.scss']
 })
 export class CreateSupplierComponent implements OnInit {
-
-  supplierCreateForm = new FormGroup({
+  public supplierCreateForm: FormGroup = new FormGroup({
     name: new FormControl('', [Validators.required]),
     address: new FormControl('', [Validators.required]),
     zipcode: new FormControl('', [Validators.required]),
     city: new FormControl('', [Validators.required]),
-    country: new FormControl('', [Validators.required]),
-  })
+    country: new FormControl('', [Validators.required])
+  });
 
   constructor(
     private supplierDataService: SupplierDataService,
-    private router: Router,
     private toastr: ToastrService,
-  ) { }
+    private title: Title
+  ) {}
 
   ngOnInit(): void {
+    this.title.setTitle("F1 Webshop | Create Supplier");
   }
 
-  public onSubmit() {
-    const name = this.supplierCreateForm.controls.name.value;
-    const address = this.supplierCreateForm.controls.address.value;
-    const zipcode = this.supplierCreateForm.controls.zipcode.value;
-    const city = this.supplierCreateForm.controls.city.value;
-    const country = this.supplierCreateForm.controls.country.value;
+  public onSubmit(): void {
+    const name = this.supplierCreateForm.controls['name'].value;
+    const address = this.supplierCreateForm.controls['address'].value;
+    const zipcode = this.supplierCreateForm.controls['zipcode'].value;
+    const city = this.supplierCreateForm.controls['city'].value;
+    const country = this.supplierCreateForm.controls['country'].value;
 
-    if (name == null || address == null || zipcode == null || city == null || country == null) {
+    if (
+      name == null ||
+      address == null ||
+      zipcode == null ||
+      city == null ||
+      country == null
+    ) {
       this.toastr.error('Something is wrong!', 'Failed');
-      return
+      return;
     }
 
     if (!this.supplierCreateForm.valid) {
@@ -47,7 +53,7 @@ export class CreateSupplierComponent implements OnInit {
     }
 
     const supplier = new SupplierModel(
-      "",
+      '',
       name,
       address,
       zipcode,
@@ -55,12 +61,6 @@ export class CreateSupplierComponent implements OnInit {
       country
     );
 
-    const request: boolean = this.supplierDataService.post(supplier);
-
-    if (request) {
-      this.toastr.success("Supplier has been created successfully!", "Created")
-      this.router.navigate(['dashboard', 'admin', 'suppliers'])
-    }
+    this.supplierDataService.post(supplier);
   }
-
 }

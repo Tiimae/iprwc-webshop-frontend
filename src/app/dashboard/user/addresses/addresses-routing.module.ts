@@ -1,29 +1,34 @@
-import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
-import {CreateAddresComponent} from "./create-addres/create-addres.component";
-import {AllAddressesComponent} from "./all-addresses/all-addresses.component";
-import {UpdateAddressComponent} from "./update-address/update-address.component";
-import {UserAddressResolverService} from "../../../_service/_resolver/userAddress-resolver.service";
+import {NgModule} from '@angular/core';
+import {RouterModule, Routes} from '@angular/router';
+import {CreateAddresComponent} from './create-addres/create-addres.component';
+import {AllAddressesComponent} from './all-addresses/all-addresses.component';
+import {UpdateAddressComponent} from './update-address/update-address.component';
+import {UserAddressResolverService} from '../../../_service/_resolver/userAddress-resolver.service';
 
 const routes: Routes = [
   {
-    path: "",
+    path: '',
     component: AllAddressesComponent
   },
   {
-    path: "create",
+    path: 'create',
     component: CreateAddresComponent,
     data: {
       breadcrumb: 'Create'
     }
   },
   {
-    path: ":addressId",
+    path: ':addressId',
     component: UpdateAddressComponent,
     data: {
-      breadcrumb: (data: any) => `${data.address.street} ${data.address.houseNumber}`
+      breadcrumb: (data: any): string => {
+        if (data.address == null) {
+          return ""
+        }
+        return `${data.address.street} ${data.address.houseNumber}`
+      }
     },
-    resolve: {address: UserAddressResolverService}
+    resolve: { address: UserAddressResolverService }
   }
 ];
 
@@ -31,4 +36,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class AddressesRoutingModule { }
+export class AddressesRoutingModule {}

@@ -1,7 +1,133 @@
-input.ng-invalid.ng-touched {
-  border-bottom: 2px solid red;
-}
+.login-box {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 
-input.ng-valid.ng-touched {
-  border-bottom: 2px solid lightgreen;
+  .login-modal {
+    max-width: 30rem;
+    width: 30rem;
+
+    .login-form {
+      padding: 2.5rem;
+      border: 4px solid #242424;
+      font-size: .875rem;
+      margin: 2.5rem;
+      color: #686868;
+
+      .login-title {
+        margin: 0 0 .625rem;
+
+        .login-text {
+          h1 {
+            margin: 0;
+            font-size: 1rem;
+            text-transform: uppercase;
+            color: #242424;
+          }
+
+          span {
+            a {
+              display: inline;
+              color: #242424;
+            }
+
+            .caps {
+              text-transform: uppercase;
+            }
+          }
+        }
+      }
+
+    }
+
+    .login-input-section {
+      .ng-invalid.ng-touched {
+        input {
+          background-color: red;
+        }
+      }
+
+      .ng-valid.ng-touched {
+        input {
+          border-bottom: 1px solid lightgreen;
+        }
+      }
+
+        .text-field {
+          input {
+            height: 2.375rem;
+          }
+        }
+
+        &::before {
+          content: " ";
+          display: table;
+        }
+
+        &::after {
+          content: " ";
+          display: table;
+          clear: both;
+        }
+      }
+
+
+
+    .login-form-button {
+      margin: 1.5625rem 0 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+
+      .large {
+        height: 2.5rem;
+      }
+
+      .primary {
+        background-color: #e10600;
+        color: #fff;
+        text-transform: capitalize;
+        border-radius: 3px;
+        padding: 0 .9375rem;
+        margin-bottom: 1.25rem;
+        line-height: 1;
+        width: 100%;
+        transition-duration: .2s;
+        user-select: none;
+        box-shadow: 0 -2px 0 rgba(0,0,0,.3) inset;
+        font-weight: 400;
+        font-size: .9375rem;
+        border: 0;
+      }
+
+      .disabled {
+        cursor: auto;
+        color: #b4b4b4 !important;
+        background-color: #e7e7e7 !important;
+        border: 0;
+      }
+
+      .login-form-other-buttons {
+        .login-form-forgot-password-button {
+          display: block;
+          text-align: center;
+          font-size: .8125rem;
+          text-decoration: underline;
+          color: #686868;
+          text-transform: uppercase;
+        }
+      }
+    }
+
+    &::before {
+      display: table;
+      content: ' ';
+    }
+
+    &::after {
+      display: table;
+      content: ' ';
+      clear: both;
+    }
+  }
 }

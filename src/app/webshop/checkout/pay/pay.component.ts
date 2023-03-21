@@ -1,14 +1,17 @@
-import { Component, OnInit } from '@angular/core';
-import {UserDataService} from "../../../_service/data/userData.service";
-import {ApiConnectorService} from "../../../_service/api-connector.service";
-import {UserModel} from "../../../_models/user.model";
-import {UserAddressesModel} from "../../../_models/userAddresses.model";
-import {AddressEnum} from "../../../_enum/address.enum";
-import {UserAddressComponent} from "./user-address/user-address.component";
-import { CartDataService } from 'src/app/_service/data/cartData.service';
-import {of} from "rxjs";
-import { OrderDataService } from 'src/app/_service/data/orderData.service';
-import {Router} from "@angular/router";
+import {Component, OnInit} from '@angular/core';
+import {Router} from '@angular/router';
+import {AxiosResponse} from 'axios';
+import {OrderModel} from 'src/app/_models/order.model';
+import {UserModel} from 'src/app/_models/user.model';
+import {CartDataService} from 'src/app/_service/_data/cartData.service';
+import {OrderDataService} from 'src/app/_service/_data/orderData.service';
+import {UserAddressesDataService} from 'src/app/_service/_data/userAddressesData.service';
+import {UserDataService} from 'src/app/_service/_data/userData.service';
+import {AddressEnum} from '../../../_enum/address.enum';
+import {UserAddressesModel} from '../../../_models/userAddresses.model';
+import {ApiConnectorService} from '../../../_service/_api/api-connector.service';
+import {Title} from "@angular/platform-browser";
+import {Cart} from "../../../_models/cart.model";
 
 @Component({
   selector: 'app-pay',
@@ -16,135 +19,155 @@ import {Router} from "@angular/router";
   styleUrls: ['./pay.component.scss']
 })
 export class PayComponent implements OnInit {
+  public isLoading: boolean = false;
+  public userAddresses: UserAddressesModel[] = [];
+  public userId!: string;
+  public deliveryAddresses: UserAddressesModel[] = [];
+  public invoiceAddresses: UserAddressesModel[] = [];
+  public currentDeliveryAddress: UserAddressesModel | null = null;
+  public currentInvoiceAddress: UserAddressesModel | null = null;
 
-  isLoading: boolean = false;
-  user!: UserModel;
-  deliveryAddresses: UserAddressesModel[] = [];
-  invoiceAddresses: UserAddressesModel[] = [];
-  currentDeliveryAddress: UserAddressesModel | null = null;
-  currentInvoiceAddress: UserAddressesModel | null = null;
+  private check: boolean = false;
 
   constructor(
-    private userDataService: UserDataService,
+    private userAddressDataService: UserAddressesDataService,
     private api: ApiConnectorService,
     private cartDataService: CartDataService,
     private orderDataService: OrderDataService,
-    private router: Router
-  ) { }
+    private router: Router,
+    private userDataService: UserDataService,
+    private title: Title
+  ) {}
 
   ngOnInit(): void {
     this.isLoading = true;
 
-    this.api.getJwtPayload().then(payload => {
+    this.api.getJwtPayload().then((payload) => {
+      this.userId = payload.userId;
 
-      setTimeout(() => {
-        this.userDataService.getCurrentUser(payload.userId).subscribe(res => {
-          if (res == undefined) {
-            return;
-          }
+      this.userAddressDataService.userAddresses$.subscribe((res) => {
+        if (res.length == 0 && this.check == false) {
+          this.userAddressDataService.getByUserId(payload.userId);
+          this.check = true;
+        }
 
-          this.user = res;
-
-          this.user.addresses.forEach(address => {
-            if (address.type === AddressEnum.DELIVERY.toString()) {
-              this.deliveryAddresses.push(address);
-            } else if (address.type === AddressEnum.INVOICE.toString()) {
-              this.invoiceAddresses.push(address)
-            }
-          })
-        })
-      }, 200)
+        this.userAddresses = res;
+        this.setAddresses();
+        this.title.setTitle("F1 Webshop | Checkout")
+      });
     });
 
     this.isLoading = false;
   }
 
-  changeSeclectedDeliveryAddress(address: UserAddressesModel) {
+  private setAddresses(): void {
+    this.userAddresses.forEach((address) => {
+      if (address.type === AddressEnum.DELIVERY.toString()) {
+        this.deliveryAddresses.push(address);
+      } else if (address.type === AddressEnum.INVOICE.toString()) {
+        this.invoiceAddresses.push(address);
+      }
+    });
+  }
+
+  public changeSeclectedDeliveryAddress(address: UserAddressesModel): void {
     if (this.currentDeliveryAddress == null) {
-      const streetName = address.street.replace(" ", "") + address.houseNumber + 'delivery'
-      const elementToAdd = document.getElementById(streetName)
+      const streetName =
+        address.street.replace(' ', '') + address.houseNumber + 'delivery';
+      const elementToAdd = document.getElementById(streetName);
       if (elementToAdd == null) {
         return;
       }
-      elementToAdd.style.border = "1px solid blue";
-      elementToAdd.style.borderRadius = "5px"
+      elementToAdd.style.border = '1px solid blue';
+      elementToAdd.style.borderRadius = '5px';
     } else {
-      const streetNameDelete = this.currentDeliveryAddress.street.replace(" ", "") + this.currentDeliveryAddress.houseNumber + 'delivery'
-      const elementToDelete = document.getElementById(streetNameDelete)
+      const streetNameDelete =
+        this.currentDeliveryAddress.street.replace(' ', '') +
+        this.currentDeliveryAddress.houseNumber +
+        'delivery';
+      const elementToDelete = document.getElementById(streetNameDelete);
       if (elementToDelete == null) {
         return;
       }
-      elementToDelete.style.border = "0px solid blue";
+      elementToDelete.style.border = '0px solid blue';
 
-      const streetName = address.street.replace(" ", "") + address.houseNumber + 'delivery'
-      const elementToAdd = document.getElementById(streetName)
+      const streetName =
+        address.street.replace(' ', '') + address.houseNumber + 'delivery';
+      const elementToAdd = document.getElementById(streetName);
       if (elementToAdd == null) {
         return;
       }
-      elementToAdd.style.border = "1px solid blue";
-      elementToAdd.style.borderRadius = "5px"
+      elementToAdd.style.border = '1px solid blue';
+      elementToAdd.style.borderRadius = '5px';
     }
 
     this.currentDeliveryAddress = address;
   }
 
-  changeSeclectedInvoiceAddress(address: UserAddressesModel) {
+  public changeSeclectedInvoiceAddress(address: UserAddressesModel): void {
     if (this.currentInvoiceAddress == null) {
-      const streetName = address.street.replace(" ", "") + address.houseNumber + 'invoice'
-      const elementToAdd = document.getElementById(streetName)
+      const streetName =
+        address.street.replace(' ', '') + address.houseNumber + 'invoice';
+      const elementToAdd = document.getElementById(streetName);
       if (elementToAdd == null) {
         return;
       }
-      elementToAdd.style.border = "1px solid blue";
-      elementToAdd.style.borderRadius = "5px"
+      elementToAdd.style.border = '1px solid blue';
+      elementToAdd.style.borderRadius = '5px';
     } else {
-      const streetNameDelete = this.currentInvoiceAddress.street.replace(" ", "") + this.currentInvoiceAddress.houseNumber + 'invoice'
-      const elementToDelete = document.getElementById(streetNameDelete)
+      const streetNameDelete =
+        this.currentInvoiceAddress.street.replace(' ', '') +
+        this.currentInvoiceAddress.houseNumber +
+        'invoice';
+      const elementToDelete = document.getElementById(streetNameDelete);
       if (elementToDelete == null) {
         return;
       }
-      elementToDelete.style.border = "0px solid blue";
+      elementToDelete.style.border = '0px solid blue';
 
-      const streetName = address.street.replace(" ", "") + address.houseNumber + 'invoice'
-      const elementToAdd = document.getElementById(streetName)
+      const streetName =
+        address.street.replace(' ', '') + address.houseNumber + 'invoice';
+      const elementToAdd = document.getElementById(streetName);
       if (elementToAdd == null) {
         return;
       }
-      elementToAdd.style.border = "1px solid blue";
-      elementToAdd.style.borderRadius = "5px"
+      elementToAdd.style.border = '1px solid blue';
+      elementToAdd.style.borderRadius = '5px';
     }
 
     this.currentInvoiceAddress = address;
   }
 
-  createOrder(): void {
-
+  public createOrder(): void {
     if (this.currentDeliveryAddress == null) {
-      return
+      return;
     }
 
     if (this.currentInvoiceAddress == null) {
-      return
+      return;
     }
-    const productIds: JSON[] = []
+    let productIds: object[] = [];
 
-    this.cartDataService.products$.subscribe(res => {
-      res.forEach(product => {
-        productIds.push(JSON.parse(this.cartDataService.getCartItem(product.id)));
+    this.cartDataService.products$.subscribe((res) => {
+      res.forEach(item => {
+        productIds.push({
+          "productId": item.product.id,
+          "amount": item.quantity
+        })
       })
-    })
+    });
 
-    const fd = new FormData();
-    fd.append("invoice", this.currentInvoiceAddress.id)
-    fd.append("delivery", this.currentDeliveryAddress.id)
-    fd.append("userId", this.user.id)
-    fd.append("products", JSON.stringify(productIds))
+    const fd: FormData = new FormData();
+    fd.append('invoice', this.currentInvoiceAddress.id);
+    fd.append('delivery', this.currentDeliveryAddress.id);
+    fd.append('userId', this.userId);
+    fd.append('products', JSON.stringify(productIds));
 
-    this.orderDataService.create(fd).then(res => {
-      this.user.orders.push(res);
-      this.cartDataService.clearCart();
-      this.router.navigate([''])
-    })
+    this.orderDataService.create(fd).then((res: OrderModel | undefined) => {
+      if (res != undefined) {
+        this.cartDataService.clearCart();
+        this.router.navigate(['']);
+      }
+    });
   }
-
 }

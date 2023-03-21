@@ -1,21 +1,16 @@
-import {NgModule} from '@angular/core';
-import {CommonModule} from '@angular/common';
+import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
 
-import {DashboardRoutingModule} from './dashboard-routing.module';
-import {SidebarComponent} from './sidebar/sidebar.component';
-import {FontAwesomeModule} from "@fortawesome/angular-fontawesome";
-import {FormsModule} from "@angular/forms";
-import {UserModule} from "./user/user.module";
-import {AdminModule} from "./admin/admin.module";
-
+import { FormsModule } from '@angular/forms';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { AdminModule } from './admin/admin.module';
+import { DashboardRoutingModule } from './dashboard-routing.module';
+import { SidebarComponent } from './sidebar/sidebar.component';
+import { UserModule } from './user/user.module';
 
 @NgModule({
-  declarations: [
-    SidebarComponent,
-  ],
-  exports: [
-    SidebarComponent
-  ],
+  declarations: [SidebarComponent],
+  exports: [SidebarComponent],
   imports: [
     CommonModule,
     DashboardRoutingModule,
@@ -25,6 +20,4 @@ import {AdminModule} from "./admin/admin.module";
     AdminModule
   ]
 })
-
-export class DashboardModule {
-}
+export class DashboardModule {}

@@ -1,7 +1,6 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {UserModel} from "../../../../../_models/user.model";
-import {ApiConnectorService} from "../../../../../_service/api-connector.service";
-import * as CryptoJs from 'crypto-js';
+import {UserModel} from '../../../../../_models/user.model';
+import {ApiConnectorService} from '../../../../../_service/_api/api-connector.service';
 
 @Component({
   selector: 'app-user',
@@ -9,58 +8,58 @@ import * as CryptoJs from 'crypto-js';
   styleUrls: ['./user.component.scss']
 })
 export class UserComponent implements OnInit {
+  @Input() public  user!: UserModel;
 
-  @Input() user!: UserModel;
+  public userId: string | undefined;
 
-  userId: string | undefined;
+  @Output() public  delete: EventEmitter<UserModel> = new EventEmitter();
 
-  @Output() delete: EventEmitter<UserModel> = new EventEmitter();
-
-  constructor(
-    private api: ApiConnectorService
-  ) { }
+  constructor(private api: ApiConnectorService) {}
   ngOnInit(): void {
     this.checkIfIdIsUndefined();
   }
 
   public createUserName(): string {
-    let fullName = "";
+    let fullName = '';
 
     if (this.user?.middleName == '') {
-      fullName = this.user?.firstName + ' ' + this.user?.lastName
+      fullName = this.user?.firstName + ' ' + this.user?.lastName;
     } else {
-      fullName = this.user?.firstName + ' ' + this.user?.middleName + ' ' + this.user?.lastName
+      fullName =
+        this.user?.firstName +
+        ' ' +
+        this.user?.middleName +
+        ' ' +
+        this.user?.lastName;
     }
 
     return fullName;
   }
 
   public removeUser(): void {
-      this.delete.emit(this.user);
+    this.delete.emit(this.user);
   }
 
   public async checkIfIdIsUndefined(): Promise<void> {
-    let encryptedId: string = CryptoJs.Rabbit.encrypt(this.user.id, await this.api.getDecryptKey()).toString()
-    this.userId = encryptedId.replace(new RegExp("/", "g"), "*");
+    this.userId = this.user.id;
   }
 
   public getRolesRow(): string {
-    let roleString = "";
+    let roleString = '';
     let count = 0;
 
     // @ts-ignore
-    this.user.roles.forEach(role => {
+    this.user.roles.forEach((role) => {
       // @ts-ignore
       if (this.user.roles.length - 1 == count) {
-        roleString += role.name
+        roleString += role.name;
       } else {
-        roleString += role.name + ", "
+        roleString += role.name + ', ';
       }
 
-      count++
-    })
+      count++;
+    });
 
     return roleString;
   }
-
 }

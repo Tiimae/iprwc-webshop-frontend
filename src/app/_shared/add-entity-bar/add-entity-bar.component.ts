@@ -6,17 +6,14 @@ import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
   styleUrls: ['./add-entity-bar.component.scss']
 })
 export class AddEntityBarComponent implements OnInit {
+  @Input() public name!: string;
+  @Output() private delete: EventEmitter<string> = new EventEmitter();
 
-  @Input() name!: string;
-  @Output() delete: EventEmitter<string> = new EventEmitter()
+  constructor() {}
 
-  constructor() { }
+  ngOnInit(): void {}
 
-  ngOnInit(): void {
+  public remove() {
+    this.delete.emit(this.name);
   }
-
-  remove() {
-    this.delete.emit(this.name)
-  }
-
 }
