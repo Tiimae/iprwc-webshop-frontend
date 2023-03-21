@@ -9,7 +9,8 @@ import {AppComponent} from "../app.component";
   providedIn: 'root'
 })
 export class HasRoleGuard implements CanActivate {
-  constructor(private api: ApiConnectorService, private auth: ApiMethodsService, private router: Router) {}
+  constructor(private api: ApiConnectorService, private auth: ApiMethodsService, private router: Router) {
+  }
 
   canActivate(
     route: ActivatedRouteSnapshot,
@@ -19,12 +20,13 @@ export class HasRoleGuard implements CanActivate {
     | Promise<boolean | UrlTree>
     | boolean
     | UrlTree {
-    return this.api.getJwtPayload().then(res => {
-      if (res.userId == null) {
-        return this.router.navigate(["404"]);
-      }
 
-      if (AppComponent.hasRole == null) {
+
+    if (AppComponent.hasRole == null) {
+      return this.api.getJwtPayload().then(res => {
+        if (res.userId == null) {
+          return this.router.navigate(["404"]);
+        }
         return this.auth.get(`user/${res.userId}/has-role`, true).then(res => {
           AppComponent.hasRole = res.data.payload
 
@@ -34,13 +36,15 @@ export class HasRoleGuard implements CanActivate {
 
           return AppComponent.hasRole;
         });
-      }
+      })
 
+
+    } else {
       if (!AppComponent.hasRole) {
         return this.router.navigate(["404"])
       }
 
       return AppComponent.hasRole;
-    })
+    }
   }
 }

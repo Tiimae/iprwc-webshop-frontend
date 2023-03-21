@@ -23,28 +23,29 @@ export class IsNotVerifiedGuard implements CanActivate {
     | Promise<boolean | UrlTree>
     | boolean
     | UrlTree {
-    return this.api.getJwtPayload().then(res => {
-      if (res.userId == null) {
-        return this.router.navigate(["404"]);
-      }
+    if (AppComponent.verified == null) {
+      return this.api.getJwtPayload().then(res => {
+        if (res.userId == null) {
+          return this.router.navigate(["404"]);
+        }
 
-      if (AppComponent.verified == null) {
-        return this.auth.get(`user/${res.userId}/verified`, true).then(res => {
-          AppComponent.verified = res.data.payload
+        return this.auth.get(`user/${res.userId}/verified`, true).then(verified => {
+          AppComponent.verified = verified.data.payload
 
-          if (AppComponent.verified) {
-            return this.router.navigate(['404']);
+          if (verified.data.payload) {
+            return this.router.navigateByUrl('/404');
           }
 
-          return false
+          return true;
         });
-      }
-
+      })
+    } else {
       if (AppComponent.verified) {
-        return this.router.navigate(['404']);
+        return this.router.navigateByUrl('/404');
       }
 
-      return AppComponent.verified;
-    })
+      return true;
+    }
+
   }
 }

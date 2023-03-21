@@ -18,10 +18,6 @@ export class CartItemComponent implements OnInit {
   constructor(private cartDataService: CartDataService) {}
 
   ngOnInit(): void {
-    // const localStorageItem = JSON.parse(
-    //   this.cartDataService.getCartItem(this.product.id)
-    // );
-    // this.amount = localStorageItem.amount;
     this.totalPrice = this.product.price * Number(this.amount);
   }
 

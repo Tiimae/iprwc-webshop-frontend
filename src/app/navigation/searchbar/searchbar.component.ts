@@ -41,6 +41,8 @@ export class SearchbarComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.cartDataService.getAllProductsInCart()
+
     this.cartDataService.products$.subscribe(res => {
       this.cartLength = res.length
     })

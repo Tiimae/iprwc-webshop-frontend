@@ -7,6 +7,7 @@ import {ApiConnectorService} from "../_api/api-connector.service";
 import {ApiMethodsService} from "../_api/api-methods.service";
 import {Router} from "@angular/router";
 import {Cart} from "../../_models/cart.model";
+import {SearchbarComponent} from "../../navigation/searchbar/searchbar.component";
 
 @Injectable({
   providedIn: 'root'
@@ -24,7 +25,6 @@ export class CartDataService {
     private method: ApiMethodsService,
     private router: Router,
   ) {
-    this.getAllProductsInCart();
   }
 
   public getAllProductsInCart(): void {
@@ -40,8 +40,11 @@ export class CartDataService {
               })
             }
           }
-          this.products$.next(this.products);
-        })
+
+          setTimeout(() => {
+            this.products$.next(this.products);
+          }, 100)
+        });
       })
 
     }
@@ -81,37 +84,22 @@ export class CartDataService {
     }
   }
 
-  public getCartItem(productId: string) {
-    let items = localStorage.getItem('cart');
-    let check = false;
-
-    if (items == null) {
-      return;
-    }
-
-    items = JSON.parse(items);
-
-    if (items != null) {
-      // @ts-ignore
-      let item = items.find((item) => JSON.parse(item).id === productId);
-
-      if (item != undefined) {
-        return item;
-      }
-    }
-  }
-
-  public async removeProduct(product: ProductModel): Promise<void> {
-
-    if (await this.api.authenticated()) {
+  public removeProduct(product: ProductModel): void {
+    if (this.api.authenticated()) {
       this.api.getJwtPayload().then(res => {
         this.method.delete(`cart/${res.userId}/${product.id}`, true).then(res => {
           const index: number = this.products.findIndex(currentProduct => currentProduct.product.id === product.id);
-          this.products.slice(index, 1);
+          if (index != -1) {
+            this.products.splice(index, 1);
+            this.products$.next(this.products);
+          } else {
+            this.products = []
+            this.getAllProductsInCart();
+          }
+
+
         })
       })
-
-      this.products$.next(this.products);
     } else {
       this.router.navigate(['auth', 'login'], {
         queryParams: {
@@ -121,8 +109,8 @@ export class CartDataService {
     }
   }
 
-  public async clearCart() {
-    if (await this.api.authenticated()) {
+  public clearCart() {
+    if (this.api.authenticated()) {
       this.api.getJwtPayload().then(res => {
         this.method.delete(`cart/${res.userId}`, true).then(res => {
           this.clearCartAfterLogout();

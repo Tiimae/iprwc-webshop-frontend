@@ -6,6 +6,7 @@ import {Router} from "@angular/router";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {ToastrService} from "ngx-toastr";
 import {AuthService} from "../../_service/auth.service";
+import {AppComponent} from "../../app.component";
 
 @Component({
   selector: 'app-request-verify',
@@ -39,6 +40,7 @@ export class RequestVerifyComponent implements OnInit {
     this.api.post('auth/verify-email?token=' + token, null, true).then(res => {
       if (res.data.code === 200) {
         this.toastr.success("Email has been verified", "Success");
+        AppComponent.verified = true
         this.router.navigate(["/"]);
       } else {
         this.toastr.error(res.data.message, "ERROR")

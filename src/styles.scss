@@ -3,9 +3,26 @@
 @tailwind components;
 @tailwind utilities;
 
+@font-face {
+  font-family: "F1";
+  src: url(assets/fonts/Formula1-Italic.woff2) format("woff2");
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "F1Bold";
+  src: url("assets/fonts/Formula1-Bold.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
 h1, h2, h3, h4, h5, h6 {
   font-size: inherit;
   font-weight: inherit;
+  font-family: F1Bold;
 }
 
 
@@ -19,6 +36,7 @@ h1, h2, h3, h4, h5, h6 {
 body {
   font-size: 16px;
   height: auto;
+  margin-bottom: 15px;
 }
 
 a {
@@ -45,7 +63,13 @@ h3 {
 p {
   font-size: 120%;
   color: black;
+
 }
+
+span, p, a, ::placeholder, button, label, div, input, li {
+  font-family: F1;
+}
+
 
 .container {
   width: 90%;

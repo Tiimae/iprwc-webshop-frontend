@@ -99,20 +99,8 @@ export class ProductDetailComponent implements OnInit {
     AppComponent.isLoading = true;
     const input = <HTMLInputElement>document.getElementById('amount');
 
-    if (input != null && Number(input.value) > 1) {
-      let newAmount = Number(input.value);
-
-      const localStorageItem = this.cartDataService.getCartItem(
-        this.product.id
-      );
-      if (localStorageItem != undefined) {
-        newAmount =
-          Number(JSON.parse(localStorageItem).amount) + Number(input.value);
-      }
-
-      this.cartDataService.createProduct(this.product, newAmount, true);
-    } else {
-      this.cartDataService.createProduct(this.product, 1, true);
+    if (input != null && Number(input.value) > 0) {
+      this.cartDataService.createProduct(this.product, Number(input.value), true);
     }
     this.toastr.success('Item added successfully to your Cart!', 'Added!');
 

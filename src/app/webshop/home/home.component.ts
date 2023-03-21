@@ -32,7 +32,8 @@ export class HomeComponent implements OnInit {
     private api: ApiConnectorService,
     private route: ActivatedRoute,
     private title: Title
-  ) {}
+  ) {
+  }
 
   async ngOnInit(): Promise<void> {
     AppComponent.isLoading = true;
@@ -69,7 +70,9 @@ export class HomeComponent implements OnInit {
     this.categoryService.categories$.subscribe({
       next: (category: CategoryModel[]) => {
         if (category.length == 0 && !this.categoryCheck) {
-          this.categoryService.getAllCategories();
+          this.categoryService.getAllCategories().then(res => {
+            this.reveal(null);
+          });
           this.categoryCheck = false;
         }
 
@@ -120,7 +123,7 @@ export class HomeComponent implements OnInit {
     setTimeout(() => {
       this.reveal(null);
       AppComponent.isLoading = false;
-    }, 1000);
+    }, 500)
   }
 
   public showProducts(category: string): void {
