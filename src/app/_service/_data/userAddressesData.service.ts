@@ -29,8 +29,8 @@ export class UserAddressesDataService {
       });
   }
 
-  public async getByAddressId(addressId: string): Promise<AxiosResponse> {
-    return await this.api.get('user-address/' + addressId, true);
+  public getByAddressId(addressId: string): Promise<AxiosResponse> {
+    return this.api.get('user-address/' + addressId, true);
   }
 
   public async createUserAddress(
@@ -86,6 +86,9 @@ export class UserAddressesDataService {
     return await this.api
       .delete('user-address/' + id, true)
       .then((res: AxiosResponse) => {
+        const index = this.userAddresses.findIndex(currentAddress => currentAddress.id === id);
+        this.userAddresses.splice(index, 1);
+        this.userAddresses$.next(this.userAddresses);
         return res;
       });
   }

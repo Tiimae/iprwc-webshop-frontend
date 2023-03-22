@@ -4,6 +4,7 @@ import {UserModel} from '../../_models/user.model';
 import {UserAddressesModel} from '../../_models/userAddresses.model';
 import {ApiConnectorService} from '../_api/api-connector.service';
 import {UserDataService} from '../_data/userData.service';
+import {UserAddressesDataService} from "../_data/userAddressesData.service";
 
 @Injectable({
   providedIn: 'root'
@@ -13,6 +14,7 @@ export class UserAddressResolverService
 {
   constructor(
     private userDataService: UserDataService,
+    private userAddressesServeice: UserAddressesDataService,
     private api: ApiConnectorService
   ) {}
 
@@ -22,22 +24,8 @@ export class UserAddressResolverService
   ): Promise<UserAddressesModel | undefined> {
     const id = route.params['addressId']
 
-    let currentUserAddress: UserAddressesModel | undefined;
-    return this.api
-      .getJwtPayload()
-      .then((payload): UserAddressesModel | undefined => {
-        this.userDataService
-          .getCurrentUser(payload.userId)
-          .subscribe((res: UserModel | undefined) => {
-            if (res != undefined) {
-              currentUserAddress = res.addresses.find(
-                (address) => address.id === id
-              );
-              return;
-            }
-          });
-
-        return currentUserAddress;
-      });
+    return this.userAddressesServeice.getByAddressId(id).then(res => {
+      return res.data.payload
+    })
   }
 }

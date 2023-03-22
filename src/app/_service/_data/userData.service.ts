@@ -39,6 +39,7 @@ export class UserDataService {
     return await this.apiMethod
       .get('user/roles', true)
       .then((r: AxiosResponse) => {
+
         this.users = r.data.payload;
         this.users$.next(this.users);
       });

@@ -54,7 +54,7 @@ export class UpdateAddressComponent implements OnInit {
         }
       });
 
-      this.route.params.subscribe(async (params) => {
+      this.route.params.subscribe((params) => {
         this.addressId = params['addressId']
         setTimeout(() => {
           this.userAddressDataService
@@ -141,21 +141,6 @@ export class UpdateAddressComponent implements OnInit {
       .then((res) => {
         this.toastr.success(
           'Addresses has been updated successfully',
-          'Success!'
-        );
-        this.router.navigate(['dashboard', 'user', 'addresses']);
-      });
-
-    AppComponent.isLoading = false;
-  }
-
-  public removeAddress(): void {
-    AppComponent.isLoading = true;
-    this.userAddressDataService
-      .deleteUserAddress(this.addressId)
-      .then((res) => {
-        this.toastr.success(
-          'Addresses has been deleted successfully',
           'Success!'
         );
         this.router.navigate(['dashboard', 'user', 'addresses']);
