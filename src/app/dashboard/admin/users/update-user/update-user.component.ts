@@ -120,7 +120,7 @@ export class UpdateUserComponent implements OnInit {
         lastname,
         email,
         this.userRoles,
-        this.user.addresses,
+        [],
         []
       );
 

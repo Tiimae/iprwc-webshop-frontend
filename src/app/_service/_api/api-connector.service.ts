@@ -1,12 +1,8 @@
 import {Injectable} from '@angular/core';
 import {Router} from '@angular/router';
 import axios, {AxiosInstance} from 'axios';
-import * as CryptoJs from 'crypto-js';
 import {ToastrService} from 'ngx-toastr';
 import {environment} from '../../../environments/environment';
-import {AppComponent} from '../../app.component';
-import {AuthService} from '../auth.service';
-import {HttpClient} from "@angular/common/http";
 import {SearchbarComponent} from "../../navigation/searchbar/searchbar.component";
 
 @Injectable({
@@ -124,8 +120,6 @@ export class ApiConnectorService {
           this.toastr.error(error.response.data.message, "400")
           return Promise.reject("Something went wrong!")
         } else if (error.response.status === 404) {
-          this.router.navigate(["404"]);
-
           return Promise.reject("Not Found")
         }
 

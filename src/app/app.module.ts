@@ -46,7 +46,10 @@ export function initializeApp() :Promise<any> {
     WebshopModule,
     BrowserAnimationsModule,
     SharedModule,
-    ToastrModule.forRoot()
+    ToastrModule.forRoot({
+      positionClass: 'toast-bottom-right',
+      preventDuplicates: true,
+    })
   ],
   providers: [
     {
